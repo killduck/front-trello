@@ -1,11 +1,12 @@
 import logo from './logo.svg';
+import './ResetStyle.css';
 import './App.css';
 import Dashboard from './pages/Dashboard/Dashboard';
 
 function App() {
   return (
     <div>
-      <Dashboard/>
+      <Dashboard />
 
 
       {/* <header className="App-header">

@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+$fonts-roboto: "Roboto", sans-serif;
+$surface: #1D2125;
+$text: #B6C2CF;
+$button: #9FADBC;
+$border: hsla(211, 18%, 68%, 0.16);
+$hover_icon: #A6C5E229;
+
+
+.Header {
+    min-height: 48px;
+    max-height: 48px;
+    overflow: hidden;
+
+    font-family: $fonts-roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: $text;
+
+    border-bottom: 1px solid $border;
+}
+
+.Navigation {
+    display: flex;
+    max-height: 48px;
+    padding: 8px;
+
+    border-bottom: 1px solid $border;
+    backdrop-filter: blur(6px);
+
+    .ButtonKebabMenu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        white-space: nowrap;
+        color: $button;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: $hover_icon;
+        }
+    }
+
+    .LogoWrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 32px;
+        border-radius: 3px;
+        padding: 0 8px;
+
+        &:hover {
+            background-color: $hover_icon;
+        }
+
+        .Logo {
+            width: 75px;
+            height: 16px;
+
+            .LogoStatic {
+                display: block;
+                width: 100%;
+                height: 100%;
+                opacity: 0.6;
+            }
+
+            .LogoAnimation {
+                display: none;
+                width: 100%;
+                height: 100%;
+            }
+
+        }
+    }
+
+    .CenterMenu {
+        display: flex;
+        flex-basis: 100%;
+
+        .CenterMenuWrap {
+            display: flex;
+            align-items: stretch;
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: 0;
+            height: 100%;
+            position: relative;
+
+
+            .DropDownMenu {
+                max-width: 573px;
+                height: 32px;
+
+                flex-shrink: 0;
+                margin: 0 4px;
+
+                display: flex;
+
+                .MenuWorkspace {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 32px;
+                    line-height: 32px;
+                    margin-right: 4px;
+                    // padding: 6px 10px 6px 12px;
+                    white-space: nowrap;
+                    border-radius: 3px;
+                }
+            }
+        }
+    }
+
+
+
+}

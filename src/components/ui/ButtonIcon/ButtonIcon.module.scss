@@ -1,0 +1,25 @@
+.ButtonIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ArrowDown {
+        margin-left: 6px;
+    }
+
+    // &:hover svg,
+    // &:hover span {
+    //     color: red;
+    //     transition: all 0.3s ease;
+    // }
+
+    // & svg {
+    //     cursor: pointer;
+    // }
+
+    // & span {
+    //     cursor: pointer;
+    //     text-align: left;
+    //     line-height: 1.5;
+    // }
+}
