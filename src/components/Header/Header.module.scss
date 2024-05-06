@@ -1,160 +1,192 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-$fonts-roboto: "Roboto", sans-serif;
-$surface: #1D2125;
+$background_primary: #1D2125;
+$background: #282E33;
 $text: #B6C2CF;
 $button: #9FADBC;
 $border: hsla(211, 18%, 68%, 0.16);
 $hover_icon: #A6C5E229;
+$hover_li: #A1BDD914;
+$shadow_1: #39424a;
+$shadow_2: #0304045C;
+$shadow_3: #03040480;
 
 
 .Header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
 
-    min-height: 48px;
-    max-height: 48px;
+  min-height: 48px;
+  max-height: 48px;
 
-    font-family: $fonts-roboto;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    color: $text;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: $text;
 
-    border-bottom: 1px solid $border;
+  background-color: $background_primary;
+
+  border-bottom: 1px solid $border;
 }
 
 .Navigation {
+  display: flex;
+  max-height: 48px;
+  padding: 8px;
+
+  border-bottom: 1px solid $border;
+  backdrop-filter: blur(6px);
+
+  .ButtonKebabMenu {
     display: flex;
-    max-height: 48px;
-    padding: 8px;
+    justify-content: center;
+    align-items: center;
 
-    border-bottom: 1px solid $border;
-    backdrop-filter: blur(6px);
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    white-space: nowrap;
+    color: $button;
+    border-radius: 3px;
 
-    .ButtonKebabMenu {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    &:hover {
+      background-color: $hover_icon;
+      transition: all 0.3s ease;
+    }
+  }
 
-        width: 32px;
-        height: 32px;
-        line-height: 32px;
-        white-space: nowrap;
-        color: $button;
-        border-radius: 3px;
+  .LogoWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        &:hover {
-            background-color: $hover_icon;
-            transition: all 0.3s ease;
-        }
+    height: 32px;
+    border-radius: 3px;
+    padding: 0 8px;
+
+    &:hover {
+      background-color: $hover_icon;
+      transition: all 0.3s ease;
     }
 
-    .LogoWrap {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .Logo {
+      width: 75px;
+      height: 16px;
 
-        height: 32px;
-        border-radius: 3px;
-        padding: 0 8px;
+      .LogoStatic {
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: 0.6;
+      }
 
-        &:hover {
-            background-color: $hover_icon;
-            transition: all 0.3s ease;
-        }
+      .LogoAnimation {
+        display: none;
+        width: 100%;
+        height: 100%;
+      }
 
-        .Logo {
-            width: 75px;
-            height: 16px;
-
-            .LogoStatic {
-                display: block;
-                width: 100%;
-                height: 100%;
-                opacity: 0.6;
-            }
-
-            .LogoAnimation {
-                display: none;
-                width: 100%;
-                height: 100%;
-            }
-
-        }
     }
+  }
 
-    .CenterMenu {
+  .CenterMenu {
+    display: flex;
+    flex-basis: 100%;
+
+    .CenterMenuWrap {
+      display: flex;
+      align-items: stretch;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: 0;
+      height: 100%;
+      position: relative;
+
+
+      .DropDownMenu {
+        max-width: 573px;
+        height: 32px;
+
+        flex-shrink: 0;
+        margin: 0 4px;
+
         display: flex;
-        flex-basis: 100%;
 
-        .CenterMenuWrap {
+        .MenuWorkspace {
+
+          .ButtonIcon {
             display: flex;
-            align-items: stretch;
-            flex-grow: 1;
-            flex-shrink: 0;
-            flex-basis: 0;
-            height: 100%;
+            justify-content: center;
+            align-items: center;
+            height: 32px;
+            line-height: 32px;
+            margin-right: 4px;
+            padding: 0 10px;
+            white-space: nowrap;
+            border-radius: 3px;
+
             position: relative;
+            font-style: 14px;
+            font-weight: 500;
+            line-height: 32px;
 
 
-            .DropDownMenu {
-                max-width: 573px;
-                height: 32px;
-
-                flex-shrink: 0;
-                margin: 0 4px;
-
-                display: flex;
-
-                .MenuWorkspace {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-
-                    height: 32px;
-                    line-height: 32px;
-                    margin-right: 4px;
-                    // padding: 6px 10px 6px 12px;
-                    padding: 0 10px;
-                    white-space: nowrap;
-                    border-radius: 3px;
-
-                    position: relative;
-
-                    &:hover {
-                        background-color: $hover_icon;
-                    }
-
-                    .WorkspaceDropDownMenu {
-                        display: block;
-                        position: absolute;
-                        top: 48px;
-                        right: auto;
-                        left: 0;
-                        bottom: auto;
-
-                        width: 304px;
-                        border-radius: 8px;
-                        z-index: 999;
-                        background-color: #fff;
-
-                        padding: 0 12px;
-                    }
-                }
+            &:hover {
+              background-color: $hover_icon;
             }
+          }
+
+
+          .WorkspaceDropDownMenu {
+            display: block;
+            position: absolute;
+            top: 41px;
+            right: auto;
+            left: 4px;
+            bottom: auto;
+
+            width: 280px;
+            max-height: 358px;
+            border-radius: 8px;
+            z-index: 999;
+            background-color: $background;
+            box-shadow: 0px 0px 0px 1px $shadow_1, 0px 8px 12px $shadow_2, 0px 0px 1px 1px $shadow_3;
+
+            padding: 0 12px;
+
+            .TitleText {
+              font-size: 12px;
+              font-weight: 600;
+              color: $text;
+              margin: 16px 8px 8px 8px;
+              line-height: 16px;
+            }
+
+            ul {
+              margin: 0;
+
+              li {
+                border-radius: 8px;
+
+                &:hover {
+                  background-color: $hover_li;
+                }
+              }
+
+            }
+          }
         }
+      }
     }
+  }
 
 
 }
 
 .Display {
-    display: block;
+  display: block;
 }
 
 .NoneDisplay {
-    display: none;
+  display: none;
 }

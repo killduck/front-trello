@@ -1,4 +1,5 @@
 $text: #172B4D;
+$text_2: #B6C2CF;
 $background: #091E420F;
 $background_1: #cc4223;
 $background_2: #FEA362;
@@ -14,8 +15,8 @@ $background_2: #FEA362;
   overflow: hidden;
   border-radius: 8px;
   padding: 8px;
-  margin: 0 12px 4px;
-  color: $text;
+  margin: 0 0 4px;
+  color: $text_2;
   cursor: pointer;
 
   &:hover {
@@ -53,7 +54,7 @@ $background_2: #FEA362;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 0;
-    margin: 12px;
+    margin: 0 0 0 12px;
     flex: 1;
     white-space: nowrap;
     overflow: hidden;

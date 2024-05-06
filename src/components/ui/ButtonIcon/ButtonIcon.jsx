@@ -49,6 +49,7 @@ export default function ButtonIcon(props) {
     actionFunction: props.actionFunction,
   }
 
+
   return (
     <div
       className={style.ButtonIcon}
@@ -87,9 +88,8 @@ export default function ButtonIcon(props) {
         className={option.iconName}
         sizeWidth={option.iconSize ? option.iconSize.width : '16px'}
         sizeHeight={option.iconSize ? option.iconSize.height : 'auto'}
-
       />
-
     </div>
+
   )
 };

@@ -75,31 +75,37 @@ export default function Header(props) {
           <div className={styles.CenterMenuWrap}>
             <div className={styles.DropDownMenu}>
               <div className={styles.MenuWorkspace}>
-                <ButtonIcon
-                  iconName={'ArrowDown'}
-                  iconSize={
-                    {
-                      width: '16',
-                      height: '16',
+                <div className={styles.ButtonIcon}>
+                  <ButtonIcon
+                    iconName={'ArrowDown'}
+                    iconSize={
+                      {
+                        width: '16',
+                        height: '16',
+                      }
                     }
-                  }
-                  iconCaption={true}
-                  iconCaptionText={
-                    {
-                      initial:
-                        'Рабочее пространство'
+                    iconCaption={true}
+                    iconCaptionText={
+                      {
+                        initial: 'Рабочие пространства',
+                        reverse: 'Рабочие пространства'
+                      }
                     }
-                  }
-                  textSize={'14px'}
-                  actionFunction={MenuWorkspace}
-                />
+                    textSize={'14px'}
+                    state={stateDisplayWorkspaceDropMenu}
+                    colorState={'#579DFF'}
+                    actionFunction={MenuWorkspace}
+                  />
+                </div>
                 <div
                   className={
                     stateDisplayWorkspaceDropMenu ? styles.WorkspaceDropDownMenu : styles.NoneDisplay
                   }
                 >
                   <div>
-                    <div>Ваши рабочие пространства</div>
+                    <div className={styles.TitleText}>
+                      Текущее рабочее пространство
+                    </div>
                     <ul>
                       <li>
                         <CardDropdownMenu
@@ -107,7 +113,20 @@ export default function Header(props) {
                         />
                       </li>
                     </ul>
-                    <div>Гостевые рабочие пространства</div>
+                    <div style={{ borderTop: '1px solid #A6C5E229', marginTop: '12px' }}></div>
+                    <div className={styles.TitleText}>
+                      Ваши рабочие пространства
+                    </div>
+                    <ul>
+                      <li>
+                        <CardDropdownMenu
+                          cardName={"Ilya Poletuev's workspace"}
+                        />
+                      </li>
+                    </ul>
+                    <div className={styles.TitleText}>
+                      Гостевые рабочие пространства
+                    </div>
                     <ul>
                       <li>
                         <CardDropdownMenu
