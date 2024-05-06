@@ -9,9 +9,13 @@ $hover_icon: #A6C5E229;
 
 
 .Header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+
     min-height: 48px;
     max-height: 48px;
-    overflow: hidden;
 
     font-family: $fonts-roboto;
     font-size: 14px;
@@ -44,6 +48,7 @@ $hover_icon: #A6C5E229;
 
         &:hover {
             background-color: $hover_icon;
+            transition: all 0.3s ease;
         }
     }
 
@@ -58,6 +63,7 @@ $hover_icon: #A6C5E229;
 
         &:hover {
             background-color: $hover_icon;
+            transition: all 0.3s ease;
         }
 
         .Logo {
@@ -107,17 +113,48 @@ $hover_icon: #A6C5E229;
                     display: flex;
                     justify-content: center;
                     align-items: center;
+
                     height: 32px;
                     line-height: 32px;
                     margin-right: 4px;
                     // padding: 6px 10px 6px 12px;
+                    padding: 0 10px;
                     white-space: nowrap;
                     border-radius: 3px;
+
+                    position: relative;
+
+                    &:hover {
+                        background-color: $hover_icon;
+                    }
+
+                    .WorkspaceDropDownMenu {
+                        display: block;
+                        position: absolute;
+                        top: 48px;
+                        right: auto;
+                        left: 0;
+                        bottom: auto;
+
+                        width: 304px;
+                        border-radius: 8px;
+                        z-index: 999;
+                        background-color: #fff;
+
+                        padding: 0 12px;
+                    }
                 }
             }
         }
     }
 
 
+}
 
+.Display {
+    display: block;
+}
+
+.NoneDisplay {
+    display: none;
 }

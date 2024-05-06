@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 
 import ButtonIcon from '../ui/ButtonIcon/ButtonIcon'
-import Icons from '../ui/Icons/Icons'
+import CardDropdownMenu from '../CardDropdownMenu/CardDropdownMenu';
+
 import styles from './Header.module.scss'
 
 
 export default function Header(props) {
 
   let [stateKebabMenu, setStateKebabMenu] = useState(false);
+
+  let [stateDisplayWorkspaceDropMenu, setDisplayWorkspaceDownMenu] = useState(false);
+
 
   const textIconKebabMenu = {
     initial: '',
@@ -28,6 +32,15 @@ export default function Header(props) {
       setStateKebabMenu(true)
   }
 
+  function MenuWorkspace() {
+    console.log('Проверка выполения функции =>', MenuWorkspace.name);
+
+    stateDisplayWorkspaceDropMenu ?
+      setDisplayWorkspaceDownMenu(false)
+      :
+      setDisplayWorkspaceDownMenu(true)
+  }
+
 
   return (
     <div className={styles.Header}>
@@ -35,8 +48,8 @@ export default function Header(props) {
 
         <div className={styles.ButtonKebabMenu}>
           <ButtonIcon
-            iconName={'KebabMenu'} // Имя кнопки-иконки подставляем из ui/Icons/Icons/icons.svg из id
-            iconSize={ // Размер кнопки-иконки
+            iconName={'KebabMenu'} // props - Имя кнопки-иконки подставляем из ui/Icons/Icons/icons.svg из id
+            iconSize={ // props - Размер кнопки-иконки
               {
                 width: '20',
                 height: '20',
@@ -46,6 +59,7 @@ export default function Header(props) {
             iconCaptionText={textIconKebabMenu} // Подпись на кнопке-иконке
             textSize={'16px'} // Размер текста подписи
             state={stateKebabMenu}
+            colorState={'#fff'}
             actionFunction={onKebabMenu}  // Проброска callback function
           />
         </div>
@@ -77,9 +91,36 @@ export default function Header(props) {
                     }
                   }
                   textSize={'14px'}
+                  actionFunction={MenuWorkspace}
                 />
-              </div>
+                <div
+                  className={
+                    stateDisplayWorkspaceDropMenu ? styles.WorkspaceDropDownMenu : styles.NoneDisplay
+                  }
+                >
+                  <div>
+                    <div>Ваши рабочие пространства</div>
+                    <ul>
+                      <li>
+                        <CardDropdownMenu
+                          cardName={"Ilya Poletuev's workspace"}
+                        />
+                      </li>
+                    </ul>
+                    <div>Гостевые рабочие пространства</div>
+                    <ul>
+                      <li>
+                        <CardDropdownMenu
+                          cardName={"Иван Кузьмин: рабочее пространство"}
+                        />
+                      </li>
+                    </ul>
 
+                  </div>
+
+                </div>
+
+              </div>
 
 
               <ButtonIcon />

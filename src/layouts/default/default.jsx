@@ -1,11 +1,14 @@
 import Header from "../../components/Header/Header";
 import Search from "../../components/Search/Search";
 
+import styles from './Default.module.scss'
+
 export default function Default(props) {
   return (
     <div>
       <Header/>
-      <header>
+
+      <main className={styles.Content}>
 
         <nav></nav>
 
@@ -17,7 +20,7 @@ export default function Default(props) {
           аккаунт
         </div>
 
-      </header>
+      </main>
     </div>
   )
 };

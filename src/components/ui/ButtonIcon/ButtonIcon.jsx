@@ -1,8 +1,6 @@
 import Icons from '../Icons/Icons';
 import style from './ButtonIcon.module.scss';
 
-// import Icons from '../Icons/Icons';
-
 
 /* Может принимать следцющие props-ы
 
@@ -30,6 +28,9 @@ textSize={ '16px'}
 Параметры состояния, используется для установки или снятия цвета
 state= true и false
 
+Каким цветом окрашивать иконку если меняется статус/состояние
+colorState = true и false
+
 Проброска callback function
 actionFunction= name function
 
@@ -44,6 +45,7 @@ export default function ButtonIcon(props) {
     iconSize: props.iconSize,
     textSize: props.textSize,
     state: props.state,
+    colorState: props.colorState,
     actionFunction: props.actionFunction,
   }
 
@@ -52,9 +54,9 @@ export default function ButtonIcon(props) {
       className={style.ButtonIcon}
       style={
         option.state ?
-          { color: 'red' }
+          { color: option.colorState }
           :
-          { color: option.color }
+          { color: '' }
       }
 
 
@@ -64,8 +66,8 @@ export default function ButtonIcon(props) {
           :
           () => { }
       }
-
     >
+
       {
         option.iconCaption ?
           <span style={option.textSize ? { fontSize: option.textSize } : { fontSize: '' }}>
