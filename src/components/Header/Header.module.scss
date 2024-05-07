@@ -75,10 +75,14 @@ $shadow_3: #03040480;
       height: 16px;
 
       -webkit-touch-callout: none;
-      -webkit-user-select: none; /* Safari */
-      -moz-user-select: none; /* Mozila */
-      -ms-user-select: none; /* IE 10 and IE 11 */
-      user-select: none; /* Standard syntax */
+      -webkit-user-select: none;
+      /* Safari */
+      -moz-user-select: none;
+      /* Mozila */
+      -ms-user-select: none;
+      /* IE 10 and IE 11 */
+      user-select: none;
+      /* Standard syntax */
 
       .LogoStatic {
         display: block;
@@ -121,36 +125,36 @@ $shadow_3: #03040480;
 
         .MenuWorkspace {
 
-          .ButtonIcon {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 32px;
-            line-height: 32px;
-            margin-right: 4px;
-            padding: 0 10px;
-            white-space: nowrap;
-            border-radius: 3px;
+          // .ButtonIcon {
+          //   display: flex;
+          //   justify-content: center;
+          //   align-items: center;
+          //   height: 32px;
+          //   line-height: 32px;
+          //   margin-right: 4px;
+          //   padding: 0 10px;
+          //   white-space: nowrap;
+          //   border-radius: 3px;
 
-            position: relative;
-            font-style: 14px;
-            font-weight: 500;
-            line-height: 32px;
+          //   position: relative;
+          //   font-style: 14px;
+          //   font-weight: 500;
+          //   line-height: 32px;
 
-            -webkit-touch-callout: none;
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Mozila */
-            -ms-user-select: none; /* IE 10 and IE 11 */
-            user-select: none; /* Standard syntax */
+          //   -webkit-touch-callout: none;
+          //   -webkit-user-select: none; /* Safari */
+          //   -moz-user-select: none; /* Mozila */
+          //   -ms-user-select: none; /* IE 10 and IE 11 */
+          //   user-select: none; /* Standard syntax */
 
-            &.ButtonIconActive {
-              background-color: $background_hover;
-            }
+          //   &.ButtonIconActive {
+          //     background-color: $background_hover;
+          //   }
 
-            &:hover {
-              background-color: $hover_icon;
-            }
-          }
+          //   &:hover {
+          //     background-color: $hover_icon;
+          //   }
+          // }
 
           .WorkspaceDropDownMenu {
             display: block;
@@ -175,7 +179,7 @@ $shadow_3: #03040480;
             -ms-user-select: none; // IE 10 and IE 11
             user-select: none; // Standard syntax
 
-            overflow-y: auto;  // скрол
+            overflow-y: auto; // скрол
 
             .TitleText {
               font-size: 12px;
@@ -217,11 +221,48 @@ $shadow_3: #03040480;
 .WorkspaceDropDownMenu::-webkit-scrollbar {
   width: 8px;
 }
+
 .WorkspaceDropDownMenu::-webkit-scrollbar-track {
   background-color: #323940;
+  border-radius: 8px;
 }
 
 .WorkspaceDropDownMenu::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 8px #455159;
   border-radius: 8px;
+}
+
+.ButtonIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  line-height: 32px;
+  margin-right: 4px;
+  padding: 0 10px;
+  white-space: nowrap;
+  border-radius: 3px;
+
+  position: relative;
+  font-style: 14px;
+  font-weight: 500;
+  line-height: 32px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Mozila */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+
+  &.ButtonIconActive {
+    background-color: $background_hover;
+  }
+
+  &:hover {
+    background-color: $hover_icon;
+  }
 }
