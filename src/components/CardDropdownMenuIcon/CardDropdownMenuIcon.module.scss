@@ -1,0 +1,102 @@
+$text: #172B4D;
+$text_2: #B6C2CF;
+$background: #091E420F;
+$background_1: #cc4223;
+$background_2: #FEA362;
+$background_2: #FEA362;
+
+
+
+.CardDropdownMenu {
+  display: flex;
+  border-radius: 8px;
+  font-weight: 700;
+  height: 32px;
+  padding: 4px 8px 4px 4px;
+  position: relative;
+  text-decoration: none;
+
+  color: $text_2;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--ds-background-neutral-subtle-hovered, #091e420f);
+    color: currentColor;
+    text-decoration: none;
+  }
+
+  .Image {
+    display: inline-block;
+    flex: 0 0 auto;
+    background-size: cover;
+    height: 32px;
+    width: 40px;
+    position: relative;
+    opacity: 1;
+
+    .ImageBackground {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+
+    }
+  }
+
+  .CardText {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    flex: 1;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    .CardTheme {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      font-size: 14px;
+      color: #B6C2CF;
+      line-height: 18px;
+      font-weight: 500;
+
+    }
+
+    .CardTitle {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      color: #8C9BAB;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+    }
+
+  }
+
+  .CardIcon {
+    padding: 0;
+    margin-bottom: 0;
+
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff00;
+  }
+
+
+
+}

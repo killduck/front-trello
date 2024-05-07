@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import ButtonIcon from '../ui/ButtonIcon/ButtonIcon'
 import CardDropdownMenu from '../CardDropdownMenu/CardDropdownMenu';
+import CardDropdownMenuIcon from '../CardDropdownMenuIcon/CardDropdownMenuIcon';
 
 import styles from './Header.module.scss'
 
@@ -20,16 +21,16 @@ export default function Header(props) {
 
 
   function onKebabMenu() {
-    console.log(
-      'Проверка выполения функции =>', onKebabMenu.name,
-      '/',
-      'Состояние stateKebabMenu =>', stateKebabMenu
-    );
+    console.log('Проверка выполения функции =>', onKebabMenu.name);
 
     stateKebabMenu ?
       setStateKebabMenu(false)
       :
       setStateKebabMenu(true)
+
+    let reset_state_other_menus = [
+      setDisplayWorkspaceDownMenu(false),
+    ];
   }
 
   function MenuWorkspace() {
@@ -39,6 +40,10 @@ export default function Header(props) {
       setDisplayWorkspaceDownMenu(false)
       :
       setDisplayWorkspaceDownMenu(true)
+
+    let reset_state_other_menus = [
+      setStateKebabMenu(false),
+    ];
   }
 
 
@@ -59,7 +64,11 @@ export default function Header(props) {
             iconCaptionText={textIconKebabMenu} // Подпись на кнопке-иконке
             textSize={'16px'} // Размер текста подписи
             state={stateKebabMenu}
-            colorState={'#fff'}
+            stylesState={
+              {
+                color: '#fff',
+              }
+            }
             actionFunction={onKebabMenu}  // Проброска callback function
           />
         </div>
@@ -74,8 +83,17 @@ export default function Header(props) {
         <div className={styles.CenterMenu}>
           <div className={styles.CenterMenuWrap}>
             <div className={styles.DropDownMenu}>
+
               <div className={styles.MenuWorkspace}>
-                <div className={styles.ButtonIcon}>
+                <div
+                  className={
+                    stateDisplayWorkspaceDropMenu ?
+                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                      :
+                      styles.ButtonIcon
+
+                  }
+                >
                   <ButtonIcon
                     iconName={'ArrowDown'}
                     iconSize={
@@ -93,13 +111,21 @@ export default function Header(props) {
                     }
                     textSize={'14px'}
                     state={stateDisplayWorkspaceDropMenu}
-                    colorState={'#579DFF'}
+                    stylesState={
+                      {
+                        color: '#579DFF',
+                      }
+                    }
+
                     actionFunction={MenuWorkspace}
                   />
                 </div>
                 <div
                   className={
-                    stateDisplayWorkspaceDropMenu ? styles.WorkspaceDropDownMenu : styles.NoneDisplay
+                    stateDisplayWorkspaceDropMenu ?
+                      styles.WorkspaceDropDownMenu
+                      :
+                      styles.NoneDisplay
                   }
                 >
                   <div>
@@ -132,14 +158,26 @@ export default function Header(props) {
                         <CardDropdownMenu
                           cardName={"Иван Кузьмин: рабочее пространство"}
                         />
+                        <li>
+                          <CardDropdownMenuIcon
+                            cardTheme={"Тест 31"}
+                            cardName={"Тестовое рабочее пространство"}
+                            cardIcon={'Star'}
+                            cardIconSize={
+                              {
+                                width: '16',
+                                height: '16',
+                              }
+                            }
+                          />
+                        </li>
                       </li>
                     </ul>
-
                   </div>
-
                 </div>
-
               </div>
+
+
 
 
               <ButtonIcon />

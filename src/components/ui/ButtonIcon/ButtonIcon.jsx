@@ -1,5 +1,5 @@
 import Icons from '../Icons/Icons';
-import style from './ButtonIcon.module.scss';
+import styles from './ButtonIcon.module.scss';
 
 
 /* Может принимать следцющие props-ы
@@ -29,7 +29,7 @@ textSize={ '16px'}
 state= true и false
 
 Каким цветом окрашивать иконку если меняется статус/состояние
-colorState = true и false
+stylesState = true и false
 
 Проброска callback function
 actionFunction= name function
@@ -46,18 +46,20 @@ export default function ButtonIcon(props) {
     textSize: props.textSize,
     state: props.state,
     colorState: props.colorState,
+    colorFill: props.colorFill,
+    stylesState: props.stylesState,
     actionFunction: props.actionFunction,
   }
 
 
   return (
     <div
-      className={style.ButtonIcon}
+      className={styles.ButtonIcon}
       style={
         option.state ?
-          { color: option.colorState }
+          option.stylesState
           :
-          { color: '' }
+          {}
       }
 
 
@@ -71,7 +73,7 @@ export default function ButtonIcon(props) {
 
       {
         option.iconCaption ?
-          <span style={option.textSize ? { fontSize: option.textSize } : { fontSize: '' }}>
+          <span style={{ fontSize: option.textSize }}>
             {
               !option.state ?
                 option.iconCaptionText.initial
@@ -83,13 +85,15 @@ export default function ButtonIcon(props) {
           ''
       }
 
-      <Icons
-        name={option.iconName}
-        className={option.iconName}
-        sizeWidth={option.iconSize ? option.iconSize.width : '16px'}
-        sizeHeight={option.iconSize ? option.iconSize.height : 'auto'}
-      />
-    </div>
+      <div className={`${styles.Icon} ${styles[option.iconName]}`}>
+        <Icons
+          name={option.iconName}
+          color={option.colorFill}
+          sizeWidth={option.iconSize ? option.iconSize.width : '16px'}
+          sizeHeight={option.iconSize ? option.iconSize.height : '16px'}
+        />
+      </div>
 
+    </div>
   )
 };

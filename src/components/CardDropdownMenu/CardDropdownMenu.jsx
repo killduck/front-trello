@@ -2,12 +2,6 @@ import styles from './CardDropdownMenu.module.scss'
 
 export default function CardDropdownMenu(props) {
 
-  // const string = 'some string';
-  // console.log(string.substring(0, 1));
-  // string.charAt(0);
-
-
-
   return (
 
     <a className={styles.CardDropdownMenu} href="#">
@@ -16,7 +10,7 @@ export default function CardDropdownMenu(props) {
           {props.cardName.substring(0, 1).toUpperCase()}
         </div>
       </div>
-      <p className={styles.Text}>
+      <p className={styles.CardTitle}>
         {props.cardName}
       </p>
     </a>

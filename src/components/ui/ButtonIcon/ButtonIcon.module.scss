@@ -1,15 +1,27 @@
 .ButtonIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    cursor: pointer;
+  }
+
+  span {
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  .Icon {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    svg {
-        cursor: pointer;
+    &.ArrowDown {
+      margin-left: 6px;
+      padding-top: 4px;
     }
+  }
 
-    span {
-        cursor: pointer;
-        text-align: left;
-        line-height: 1.5;
-    }
 }
