@@ -1,0 +1,17 @@
+$color: #579dff;
+$colorhvr: #85b8ff;
+
+.Btn {
+    background-color: #579dff;
+    border: 0px;
+    border-radius: 5%;
+    height: 32px;
+    width: 77px;
+    margin-top: -57px;
+    margin-left: 600px;
+    display: block;
+}
+.Btn:hover {
+    background-color: $colorhvr;
+    cursor: pointer;
+};

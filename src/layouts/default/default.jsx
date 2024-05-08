@@ -1,21 +1,8 @@
-import Search from "../../components/Search/Search";
-
+import Header from "../../components/header/header.jsx";
 export default function Default(props) {
   return (
     <div>
-      <header>
-
-        <nav></nav>
-
-        <Search />
-
-        <div>
-          уведомления
-          информация
-          аккаунт
-        </div>
-
-      </header>
+      <Header/>
     </div>
   )
 };
