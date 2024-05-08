@@ -1,12 +1,21 @@
 
+import styles from "./InputTeg.module.scss";
+import { useState } from "react";
+
 export default function InputTeg(props){
-  return (
+    
+    const [inputSearch, setInput] = useState('');
+
+    return (
         <input 
-            className={props.className} 
+            name={props.name}
+            value={console.log(inputSearch)}
+            className={props.className ? props.className : styles.inputTeg} 
             type={props.type} 
             placeholder={props.placeholder} 
-            maxLength={props.maxlength} 
+            maxLength={props.maxlength}
+            onChange={(evt) => setInput(evt.target.value)}
         />
-  )
+    )
 };
 

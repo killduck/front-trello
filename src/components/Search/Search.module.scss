@@ -3,3 +3,56 @@ $color: #d8c1c1;
 .Search {
     background-color: $color;
 }
+// стили для поиска
+.blockSearch{
+    position: relative;
+    max-width: 100%;
+    width: 200px;
+}
+.iconLupa{
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    color: #8c9bab;
+    // line-height: 0;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.iconLupa:focus {
+    box-shadow: 0 0 0 2px #85B8FF;
+    border-radius: 100%;
+    outline: none;
+}
+.inputSearch input{
+    margin-bottom: revert;
+    transition: revert;
+    border-width: 1px;
+    box-shadow: none;
+    border-color: #dfe1e6;
+}
+.inputSearch{
+    height: 32px;
+    width: 200px;
+    padding: 0px 12px 0px 30px;
+    box-sizing: border-box;
+    outline: none;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 2px solid #a6c5e229;
+    box-shadow: none;
+    background-color: #22272b;
+    color: #8c9bab;
+    
+}
+.inputSearch:hover {
+    background-color: #282e33;
+}
+.inputSearch:focus {
+    border: 2px solid #85b8ff;
+    box-shadow: inset 0 0 0 1px #dfe1e6;
+}
+// стили для поиска
+
