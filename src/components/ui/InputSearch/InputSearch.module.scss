@@ -1,9 +1,9 @@
 
-.wrap{
-    padding: 20px;
-    /* margin: 0 20px; */
-    width: 200px;
-}
+// .wrap{
+//     padding: 20px;
+//     /* margin: 0 20px; */
+//     width: 200px;
+// }
 .blockSearch{
     position: relative;
     max-width: 100%;
@@ -17,21 +17,16 @@
     top: 8px;
     left: 8px;
     color: #8c9bab;
+    // line-height: 0;
+    display: inline-block;
+    flex-shrink: 0;
 }
+
+
 .iconLupa:focus {
     box-shadow: 0 0 0 2px #85B8FF;
     border-radius: 100%;
     outline: none;
-}
-.iconLupa > span {
-    line-height: 0;
-}
-.iconLupaSpan{
-    display: inline-block;
-    flex-shrink: 0;
-    line-height: 1;
-    width: 16px;
-    height: 16px;
 }
 .inputSearch input{
     margin-bottom: revert;
@@ -53,6 +48,7 @@
     box-shadow: none;
     background-color: #22272b;
     color: #8c9bab;
+    
 }
 .inputSearch:hover {
     background-color: #282e33;
