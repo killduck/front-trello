@@ -66,30 +66,32 @@ export default function Header(props) {
       <nav className={styles.Navigation}>
 
         <div className={styles.ButtonKebabMenu}>
-          <ButtonIcon
-            iconName={'KebabMenu'} // props - Имя кнопки-иконки подставляем из ui/Icons/Icons/icons.svg из id
-            iconSize={ // props - Размер кнопки-иконки
-              {
-                width: '20',
-                height: '20',
+          <div className={styles.KebabMenuWrap}>
+            <ButtonIcon
+              iconName={'KebabMenu'} // props - Имя кнопки-иконки подставляем из ui/Icons/Icons/icons.svg из id
+              iconSize={ // props - Размер кнопки-иконки
+                {
+                  width: '20',
+                  height: '20',
+                }
               }
-            }
-            iconCaption={true}  // Отображение подписи - есть(true) или нет(false)
-            iconCaptionText={  // Подпись на кнопке-иконке при (true) или (false) либо только иконка
-              {
-                initial: '',
-                reverse: ''
+              iconCaption={true}  // Отображение подписи - есть(true) или нет(false)
+              iconCaptionText={  // Подпись на кнопке-иконке при (true) или (false) либо только иконка
+                {
+                  initial: '',
+                  reverse: ''
+                }
               }
-            }
-            textSize={'16px'} // Размер текста подписи
-            state={stateKebabMenu}
-            stylesState={
-              {
-                color: '#fff',
+              textSize={'16px'} // Размер текста подписи
+              state={stateKebabMenu}
+              stylesState={
+                {
+                  color: '#fff',
+                }
               }
-            }
-            actionFunction={onKebabMenu}  // Проброска callback function
-          />
+              actionFunction={onKebabMenu}  // Проброска callback function
+            />
+          </div>
         </div>
 
         <a href='/' className={styles.LogoWrap}>
@@ -121,7 +123,6 @@ export default function Header(props) {
                         height: '16',
                       }
                     }
-                    iconCaption={true}
                     iconCaptionText={
                       {
                         initial: 'Рабочие пространства',
@@ -130,9 +131,15 @@ export default function Header(props) {
                     }
                     textSize={'14px'}
                     state={stateDisplayWorkspaceDropMenu}
+                    stylesBasic={
+                      {
+                        padding: '6px 10px 6px 10px',
+                      }
+                    }
                     stylesState={
                       {
                         color: '#579DFF',
+                        padding: '6px 10px',
                       }
                     }
 
@@ -214,7 +221,6 @@ export default function Header(props) {
                         height: '16',
                       }
                     }
-                    iconCaption={true}
                     iconCaptionText={
                       {
                         initial: 'Недавние',
@@ -223,9 +229,15 @@ export default function Header(props) {
                     }
                     textSize={'14px'}
                     state={stateDisplayRecentDropMenu}
+                    stylesBasic={
+                      {
+                        padding: '6px 10px',
+                      }
+                    }
                     stylesState={
                       {
                         color: '#579DFF',
+                        padding: '6px 10px',
                       }
                     }
 

@@ -8,8 +8,6 @@ import styles from './ButtonIcon.module.scss';
 Имя берем из UI/Icons/Icons/icons.svg из id
 iconName = iconName,
 
-Отображение подписи - есть(true) или нет(false)
-iconCaption={true}
 
 Подпись к иконке
 iconCaptionText = {'Избранное'}
@@ -40,16 +38,17 @@ export default function ButtonIcon(props) {
 
   let option = {
     iconName: props.iconName,
-    iconCaption: props.iconCaption,
     iconCaptionText: props.iconCaptionText,
     iconSize: props.iconSize,
     textSize: props.textSize,
+    stylesBasic: props.stylesBasic,
     state: props.state,
     colorState: props.colorState,
     colorFill: props.colorFill,
     stylesState: props.stylesState,
     actionFunction: props.actionFunction,
   }
+  console.log('stylesBasic=>', option.stylesBasic, 'stylesState=>', option.stylesState)
 
 
   return (
@@ -59,7 +58,7 @@ export default function ButtonIcon(props) {
         option.state ?
           option.stylesState
           :
-          {}
+          option.stylesBasic
       }
 
 
@@ -72,7 +71,7 @@ export default function ButtonIcon(props) {
     >
 
       {
-        option.iconCaption ?
+        option.iconCaptionText ?
           <span style={{ fontSize: option.textSize }}>
             {
               !option.state ?
