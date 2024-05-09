@@ -6,18 +6,13 @@ ESLint
 1. Если используете версию React старше 17, и не импортируете React from 'react' установите данный плагин, тогда ESLint не будет ругаться, что 'React' must be in scope when using JSX
 - команда для установки плагина - npm install eslint-plugin-react --save-dev
 - в файл package.json в раздел  "eslintConfig": > "extends": добавить строчку
-	"eject": "react-scripts eject"
+	"plugin:react/jsx-runtime"
  
 2. Правила для поддержки хуков React
 - команда для установки плагина - npm install eslint-plugin-react-hooks --save-dev
 - в файл package.json в раздел  "eslintConfig": > "extends": добавить строчку
 	"plugin:react-hooks/recommended"
 	
-3. Правила, которые будут отвечать за синтаксис импортов и экспортов
-- команда для установки плагина - nnpm install eslint-plugin-import --save-dev
-- в файл package.json в раздел  "eslintConfig": > "extends": добавить строчку
-	"plugin:import/recommended"
-
 
 ***********************
 Prettier
@@ -39,6 +34,7 @@ Prettier
 - в файл package.json в раздел  "eslintConfig": > "extends": добавить строчку
 	"prettier"
 
+
 ***********************
 Интеграция Prettier в VS Code
 
@@ -53,7 +49,12 @@ Prettier
 
 ***********************
 Настройка Prettier, настройка файла prettierrc.json созданного в проекте
-
+{
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": true
+}
 
 "trailingComma" - отвечает за висящие, (или "последние") запятые. Можно разрешить Prettier ставить их там, где это возможно, или отключить эту функцию
 "tabWidth" - ширина отступа, в пробелах
