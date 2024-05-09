@@ -1,9 +1,12 @@
-.ButtonIcon {
+@mixin flex-jfc-ai-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
 
 
+.ButtonIcon {
+  @include flex-jfc-ai-center;
 
   span {
     text-align: left;
@@ -11,13 +14,12 @@
   }
 
   .Icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-jfc-ai-center;
+
 
     &.ArrowDown {
       margin-left: 6px;
-      padding-top: 4px;
+      padding-top: 3px;
     }
   }
 

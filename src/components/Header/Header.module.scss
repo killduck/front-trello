@@ -10,6 +10,20 @@ $shadow_1: #39424a;
 $shadow_2: #0304045C;
 $shadow_3: #03040480;
 
+@mixin flex-jfc-ai-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin no-touch-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; // Safari
+  -moz-user-select: none; // Mozila
+  -ms-user-select: none; // IE 10 and IE 11
+  user-select: none; // Standard syntax
+}
+
 
 .Header {
   position: fixed;
@@ -39,9 +53,7 @@ $shadow_3: #03040480;
   backdrop-filter: blur(6px);
 
   .ButtonKebabMenu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-jfc-ai-center;
 
     width: 32px;
     height: 32px;
@@ -65,9 +77,7 @@ $shadow_3: #03040480;
   }
 
   .LogoWrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-jfc-ai-center;
 
     height: 32px;
     border-radius: 3px;
@@ -79,18 +89,10 @@ $shadow_3: #03040480;
     }
 
     .Logo {
+      @include no-touch-select;
+
       width: 75px;
       height: 16px;
-
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      /* Safari */
-      -moz-user-select: none;
-      /* Mozila */
-      -ms-user-select: none;
-      /* IE 10 and IE 11 */
-      user-select: none;
-      /* Standard syntax */
 
       .LogoStatic {
         display: block;
@@ -132,50 +134,20 @@ $shadow_3: #03040480;
         display: flex;
 
         .MenuWorkspace {
-          margin: 0 4px;
 
-          // .ButtonIcon {
-          //   display: flex;
-          //   justify-content: center;
-          //   align-items: center;
-          //   height: 32px;
-          //   line-height: 32px;
-          //   margin-right: 4px;
-          //   padding: 0 10px;
-          //   white-space: nowrap;
-          //   border-radius: 3px;
-
-          //   position: relative;
-          //   font-style: 14px;
-          //   font-weight: 500;
-          //   line-height: 32px;
-
-          //   -webkit-touch-callout: none;
-          //   -webkit-user-select: none; /* Safari */
-          //   -moz-user-select: none; /* Mozila */
-          //   -ms-user-select: none; /* IE 10 and IE 11 */
-          //   user-select: none; /* Standard syntax */
-
-          //   &.ButtonIconActive {
-          //     background-color: $background_hover;
-          //   }
-
-          //   &:hover {
-          //     background-color: $hover_icon;
-          //   }
-          // }
 
           .WorkspaceDropDownMenu {
+            @include no-touch-select;
+
             display: block;
             position: absolute;
-            margin: 0 4px;
             top: 41px;
             right: auto;
             left: 4px;
             bottom: auto;
 
             width: 280px;
-            max-height: 300px;
+            max-height: 305px;
             border-radius: 8px;
             z-index: 999;
             background-color: $background;
@@ -183,13 +155,13 @@ $shadow_3: #03040480;
 
             padding: 0 12px;
 
-            -webkit-touch-callout: none;
-            -webkit-user-select: none; // Safari
-            -moz-user-select: none; // Mozila
-            -ms-user-select: none; // IE 10 and IE 11
-            user-select: none; // Standard syntax
 
             overflow-y: auto; // скрол
+
+            .LineSeparator {
+              border-top: 1px solid #A6C5E229;
+              margin: 12px -12px 0 -12px;
+            }
 
             .TitleText {
               font-size: 12px;
@@ -204,10 +176,10 @@ $shadow_3: #03040480;
 
               li {
                 border-radius: 8px;
+              }
 
-                &:hover {
-                  background-color: $hover_li;
-                }
+              li.UseHover:hover {
+                background-color: $hover_li;
               }
 
             }
@@ -217,9 +189,7 @@ $shadow_3: #03040480;
         .MenuRecent {
           margin: 0 4px;
 
-          .RecentDropDownMenu {
-
-          }
+          .RecentDropDownMenu {}
         }
       }
     }
@@ -251,12 +221,12 @@ $shadow_3: #03040480;
 }
 
 .ButtonIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include no-touch-select;
+  @include flex-jfc-ai-center;
+
   height: 32px;
   line-height: 32px;
-  margin-right: 4px;  // ??? проврить нужен или нет
+  margin-right: 4px;
 
   white-space: nowrap;
   border-radius: 3px;
@@ -266,15 +236,6 @@ $shadow_3: #03040480;
   font-weight: 500;
   line-height: 32px;
 
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  /* Safari */
-  -moz-user-select: none;
-  /* Mozila */
-  -ms-user-select: none;
-  /* IE 10 and IE 11 */
-  user-select: none;
-  /* Standard syntax */
 
   &.ButtonIconActive {
     background-color: $background_hover;
@@ -284,4 +245,5 @@ $shadow_3: #03040480;
     background-color: $hover_icon;
     cursor: pointer;
   }
+
 }

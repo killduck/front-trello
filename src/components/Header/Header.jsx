@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-import ButtonIcon from '../ui/ButtonIcon/ButtonIcon'
 import CardDropdownMenu from '../CardDropdownMenu/CardDropdownMenu';
 import CardDropdownMenuIcon from '../CardDropdownMenuIcon/CardDropdownMenuIcon';
+import ButtonIcon from '../ui/ButtonIcon/ButtonIcon';
 
-import styles from './Header.module.scss'
+import styles from './Header.module.scss';
 
 
 export default function Header(props) {
@@ -154,7 +154,7 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  <div>
+                  <div style={{ marginTop: '-3px' }}>
                     <div className={styles.TitleText}>
                       Текущее рабочее пространство
                     </div>
@@ -165,12 +165,12 @@ export default function Header(props) {
                         />
                       </li>
                     </ul>
-                    <div style={{ borderTop: '1px solid #A6C5E229', marginTop: '12px' }}></div>
+                    <div className={styles.LineSeparator}></div>
                     <div className={styles.TitleText}>
                       Ваши рабочие пространства
                     </div>
                     <ul>
-                      <li>
+                      <li className={styles.UseHover}>
                         <CardDropdownMenu
                           cardName={"Ilya Poletuev's workspace"}
                         />
@@ -180,11 +180,11 @@ export default function Header(props) {
                       Гостевые рабочие пространства
                     </div>
                     <ul>
-                      <li>
+                      <li className={styles.UseHover}>
                         <CardDropdownMenu
                           cardName={"Иван Кузьмин: рабочее пространство"}
                         />
-                        <li>
+                        <li className={styles.UseHover}>
                           <CardDropdownMenuIcon
                             cardTheme={"Тест 31"}
                             cardName={"Тестовое рабочее пространство"}

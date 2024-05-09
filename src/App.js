@@ -1,13 +1,11 @@
-import logo from './logo.svg';
-import './ResetStyle.css';
-import './App.css';
-import Dashboard from './pages/Dashboard/Dashboard';
+import './ResetStyle.css'
+import './App.css'
+import Dashboard from './pages/Dashboard/Dashboard'
 
 function App() {
   return (
     <div>
       <Dashboard />
-
 
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -24,7 +22,7 @@ function App() {
         </a>
       </header> */}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
