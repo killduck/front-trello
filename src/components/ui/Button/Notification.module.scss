@@ -1,0 +1,20 @@
+$color:#161A1D;
+$color1: #9fadbc;
+$color2: #a6c5e229;
+
+.Notificate{
+    display: block;
+    flex-shrink: 0;
+    border-style: none;
+    line-height: 1;
+    border-radius: 50%;
+    margin-top: -35px;
+    margin-left: 1475px;
+    width: 24px;
+    height: 24px;
+    color: $color1;
+    background-color: $color;
+}
+.Notificate:hover{
+    background-color: $color2;
+}

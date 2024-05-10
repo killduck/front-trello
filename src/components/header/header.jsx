@@ -1,6 +1,7 @@
 import Button from '../ui/Button/Button';
 import styles from './header.module.scss';
 import Logo from "../../components/logo/logo.jsx";
+import Notification from "../ui/Button/Notification.jsx";
 export default function Header(props) {
     return (
         <div className={styles.Header}>
@@ -9,7 +10,7 @@ export default function Header(props) {
 
 
         <div>
-          уведомления
+          <Notification/>
           информация
           аккаунт
         </div>
