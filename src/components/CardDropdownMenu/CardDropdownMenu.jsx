@@ -4,7 +4,7 @@ export default function CardDropdownMenu(props) {
 
   return (
 
-    <a className={styles.CardDropdownMenu} href="#">
+    <a className={styles.CardDropdownMenu}>
       <div className={styles.Icon}>
         <div className={styles.IconLetter}>
           {props.cardName.substring(0, 1).toUpperCase()}

@@ -1,3 +1,4 @@
+
 import Header from "../../components/Header/Header";
 import styles from './Default.module.scss'
 
@@ -15,5 +16,6 @@ export default function Default(props) {
 
       </main>
     </div >
+
   )
 };

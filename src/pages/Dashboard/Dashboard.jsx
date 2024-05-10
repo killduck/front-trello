@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import Column from "../../components/Column/Column";
 import Default from "../../layouts/default/Default";
 import styles from './Dashboard.module.scss'
+=======
+import Default from "../../layouts/default/Default";
+>>>>>>> a5a98b711064f527acf057901c649ea175681a85
 
 export default function Dashboard(props) {
 
