@@ -1,9 +1,9 @@
 
 
 import Button from '../ui/Button/Button';
-import InputTeg from '../ui/InputTeg/InputTeg';
-import Loupe from '../ui/Loupe/Loupe';
+import Loupe from '../Loupe/Loupe';
 import styles from './Search.module.scss';
+import Input from '../ui/Input/Input';
 
 export default function Search(props) {
     // console.log(props);
@@ -12,7 +12,7 @@ export default function Search(props) {
 
             <div className={props.className ? props.className : styles.blockSearch}> 
                 <Loupe className={props.className ? props.className : styles.iconLupa} viewBox="" />
-                <InputTeg className={props.className ? props.className : styles.inputSearch} type="text" placeholder="Поиск" maxLength="500"/>
+                <Input className={props.className ? props.className : styles.inputSearch} type="text" placeholder="Поиск" maxLength="500"/>
             </div>
 
             <Button>Поиск</Button>

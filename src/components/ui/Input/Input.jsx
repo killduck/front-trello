@@ -1,16 +1,16 @@
 
-import styles from "./InputTeg.module.scss";
+import styles from "./Input.module.scss";
 import { useState } from "react";
 
-export default function InputTeg(props){
+export default function Input(props){
     
-    const [inputSearch, setInput] = useState('');
+    const [input_text, setInput] = useState('');
 
     return (
         <input 
             name={props.name}
-            value={console.log(inputSearch)}
-            className={props.className ? props.className : styles.inputTeg} 
+            value={console.log(input_text)}
+            className={props.className ? props.className : styles.input} 
             type={props.type} 
             placeholder={props.placeholder} 
             maxLength={props.maxlength}

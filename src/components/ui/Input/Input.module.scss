@@ -1,13 +1,13 @@
 
 // стили для input
-.InputTeg input{
+.Input input{
     margin-bottom: revert;
     transition: revert;
     border-width: 1px;
     box-shadow: none;
     border-color: #dfe1e6;
 }
-.InputTeg{
+.Input{
     height: 32px;
     width: 200px;
     padding: 0px 12px 0px 30px;
@@ -22,10 +22,10 @@
     color: #8c9bab;
     
 }
-.InputTeg:hover {
+.Input:hover {
     background-color: #282e33;
 }
-.InputTeg:focus {
+.Input:focus {
     border: 2px solid #85b8ff;
     box-shadow: inset 0 0 0 1px #dfe1e6;
 }
