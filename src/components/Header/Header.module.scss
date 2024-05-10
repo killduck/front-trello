@@ -1,13 +1,13 @@
-$background_primary: #1D2125;
-$background: #282E33;
-$background_hover: #1C2B41;
-$text: #B6C2CF;
-$button: #9FADBC;
+$background_primary: #1d2125;
+$background: #282e33;
+$background_hover: #1c2b41;
+$text: #b6c2cf;
+$button: #9fadbc;
 $border: hsla(211, 18%, 68%, 0.16);
-$hover_icon: #A6C5E229;
-$hover_li: #A1BDD914;
+$hover_icon: #a6c5e229;
+$hover_li: #a1bdd914;
 $shadow_1: #39424a;
-$shadow_2: #0304045C;
+$shadow_2: #0304045c;
 $shadow_3: #03040480;
 
 @mixin flex-jfc-ai-center {
@@ -23,7 +23,6 @@ $shadow_3: #03040480;
   -ms-user-select: none; // IE 10 and IE 11
   user-select: none; // Standard syntax
 }
-
 
 .Header {
   position: fixed;
@@ -106,7 +105,6 @@ $shadow_3: #03040480;
         width: 100%;
         height: 100%;
       }
-
     }
   }
 
@@ -123,7 +121,6 @@ $shadow_3: #03040480;
       height: 100%;
       position: relative;
 
-
       .DropDownMenu {
         max-width: 573px;
         height: 32px;
@@ -134,7 +131,7 @@ $shadow_3: #03040480;
         display: flex;
 
         .MenuWorkspace {
-
+          position: relative;
 
           .WorkspaceDropDownMenu {
             @include no-touch-select;
@@ -143,7 +140,7 @@ $shadow_3: #03040480;
             position: absolute;
             top: 41px;
             right: auto;
-            left: 4px;
+            left: 0;
             bottom: auto;
 
             width: 280px;
@@ -151,15 +148,17 @@ $shadow_3: #03040480;
             border-radius: 8px;
             z-index: 999;
             background-color: $background;
-            box-shadow: 0px 0px 0px 1px $shadow_1, 0px 8px 12px $shadow_2, 0px 0px 1px 1px $shadow_3;
+            box-shadow:
+              0px 0px 0px 1px $shadow_1,
+              0px 8px 12px $shadow_2,
+              0px 0px 1px 1px $shadow_3;
 
             padding: 0 12px;
-
 
             overflow-y: auto; // скрол
 
             .LineSeparator {
-              border-top: 1px solid #A6C5E229;
+              border-top: 1px solid #a6c5e229;
               margin: 12px -12px 0 -12px;
             }
 
@@ -181,21 +180,72 @@ $shadow_3: #03040480;
               li.UseHover:hover {
                 background-color: $hover_li;
               }
-
             }
           }
         }
 
         .MenuRecent {
           margin: 0 4px;
+          position: relative;
 
-          .RecentDropDownMenu {}
+          .RecentDropDownMenu {
+            @include no-touch-select;
+
+            display: block;
+            position: absolute;
+            top: 41px;
+            right: auto;
+            left: 0;
+            bottom: auto;
+
+            width: 280px;
+            max-height: 305px;
+            border-radius: 8px;
+            z-index: 999;
+            background-color: $background;
+            box-shadow:
+              0px 0px 0px 1px $shadow_1,
+              0px 8px 12px $shadow_2,
+              0px 0px 1px 1px $shadow_3;
+
+            padding: 0 12px;
+
+            overflow-y: auto; // скрол
+          }
+        }
+
+        .MenuFavourites {
+          margin: 0 4px;
+          position: relative;
+
+          .FavouritesDropDownMenu {
+            @include no-touch-select;
+
+            display: block;
+            position: absolute;
+            top: 41px;
+            right: auto;
+            left: 0;
+            bottom: auto;
+
+            width: 280px;
+            max-height: 305px;
+            border-radius: 8px;
+            z-index: 999;
+            background-color: $background;
+            box-shadow:
+              0px 0px 0px 1px $shadow_1,
+              0px 8px 12px $shadow_2,
+              0px 0px 1px 1px $shadow_3;
+
+            padding: 0 12px;
+
+            overflow-y: auto; // скрол
+          }
         }
       }
     }
   }
-
-
 }
 
 .Display {
@@ -206,16 +256,22 @@ $shadow_3: #03040480;
   display: none;
 }
 
-.WorkspaceDropDownMenu::-webkit-scrollbar {
+.WorkspaceDropDownMenu::-webkit-scrollbar,
+.RecentDropDownMenu::-webkit-scrollbar,
+.FavouritesDropDownMenu::-webkit-scrollbar {
   width: 8px;
 }
 
-.WorkspaceDropDownMenu::-webkit-scrollbar-track {
+.WorkspaceDropDownMenu::-webkit-scrollbar-track,
+.RecentDropDownMenu::-webkit-scrollbar-track,
+.FavouritesDropDownMenu::-webkit-scrollbar-track {
   background-color: #323940;
   border-radius: 8px;
 }
 
-.WorkspaceDropDownMenu::-webkit-scrollbar-thumb {
+.WorkspaceDropDownMenu::-webkit-scrollbar-thumb,
+.RecentDropDownMenu::-webkit-scrollbar-thumb,
+.FavouritesDropDownMenu::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 8px #455159;
   border-radius: 8px;
 }
@@ -236,7 +292,6 @@ $shadow_3: #03040480;
   font-weight: 500;
   line-height: 32px;
 
-
   &.ButtonIconActive {
     background-color: $background_hover;
   }
@@ -245,5 +300,4 @@ $shadow_3: #03040480;
     background-color: $hover_icon;
     cursor: pointer;
   }
-
 }

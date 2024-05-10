@@ -44,11 +44,12 @@ export default function ButtonIcon(props) {
     stylesBasic: props.stylesBasic,
     state: props.state,
     colorState: props.colorState,
-    colorFill: props.colorFill,
+    colorFill: props.colorFillIcon,
+    sizeLineIcon: props.sizeLineIcon,
     stylesState: props.stylesState,
     actionFunction: props.actionFunction,
   }
-  console.log('stylesBasic=>', option.stylesBasic, 'stylesState=>', option.stylesState)
+  // console.log('stylesBasic=>', option.stylesBasic, 'stylesState=>', option.stylesState)
 
 
   return (
@@ -88,6 +89,7 @@ export default function ButtonIcon(props) {
         <Icons
           name={option.iconName}
           color={option.colorFill}
+          sizeLine={option.sizeLineIcon}
           sizeWidth={option.iconSize ? option.iconSize.width : '16px'}
           sizeHeight={option.iconSize ? option.iconSize.height : '16px'}
         />

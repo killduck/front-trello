@@ -7,7 +7,7 @@ export default function CardDropdownMenu(props) {
 
     <a className={styles.CardDropdownMenu} href="#">
       <div className={styles.Image}>
-        <img className={styles.ImageBackground} src={'img/background_desert.webp'} alt="" />
+        <img className={styles.ImageBackground} src={`img/${props.cardImg}`} alt="" />
       </div>
       <div className={styles.CardText}>
         <div className={styles.CardTheme}>
@@ -21,9 +21,9 @@ export default function CardDropdownMenu(props) {
         <ButtonIcon
           iconName={props.cardIcon}
           iconSize={props.cardIconSize}
-          colorFill={'#e2b203'}
+          colorFillIcon={props.colorFillIcon}
+          sizeLineIcon={props.sizeLineIcon}
         />
-
       </div>
     </a >
 

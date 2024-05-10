@@ -15,10 +15,13 @@ export default function Header(props) {
 
   let [stateDisplayRecentDropMenu, setDisplayRecentDownMenu] = useState(false);
 
+  let [stateDisplayFavouritesDropMenu, setDisplayFavouritesDownMenu] = useState(false);
+
   let state_all_menu = [
     setKebabMenu,
     setDisplayWorkspaceDownMenu,
-    setDisplayRecentDownMenu
+    setDisplayRecentDownMenu,
+    setDisplayFavouritesDownMenu
   ]
 
 
@@ -58,6 +61,16 @@ export default function Header(props) {
       setDisplayRecentDownMenu(false)
       :
       setDisplayRecentDownMenu(true)
+  }
+
+  function MenuFavourites() {
+    console.log('Проверка выполения функции =>', MenuFavourites.name);
+    removing_active_menu();
+
+    stateDisplayFavouritesDropMenu ?
+      setDisplayFavouritesDownMenu(false)
+      :
+      setDisplayFavouritesDownMenu(true)
   }
 
 
@@ -184,19 +197,11 @@ export default function Header(props) {
                         <CardDropdownMenu
                           cardName={"Иван Кузьмин: рабочее пространство"}
                         />
-                        <li className={styles.UseHover}>
-                          <CardDropdownMenuIcon
-                            cardTheme={"Тест 31"}
-                            cardName={"Тестовое рабочее пространство"}
-                            cardIcon={'Star'}
-                            cardIconSize={
-                              {
-                                width: '16',
-                                height: '16',
-                              }
-                            }
-                          />
-                        </li>
+                      </li>
+                      <li className={styles.UseHover}>
+                        <CardDropdownMenu
+                          cardName={"No Name: Test workspace"}
+                        />
                       </li>
                     </ul>
                   </div>
@@ -244,69 +249,127 @@ export default function Header(props) {
                     actionFunction={MenuRecent}
                   />
                 </div>
-                {/* <div
+                <div
                   className={
-                    stateDisplayWorkspaceDropMenu ?
-                      styles.WorkspaceDropDownMenu
+                    stateDisplayRecentDropMenu ?
+                      styles.RecentDropDownMenu
                       :
                       styles.NoneDisplay
                   }
                 >
                   <div>
-                    <div className={styles.TitleText}>
-                      Текущее рабочее пространство
-                    </div>
                     <ul>
                       <li>
-                        <CardDropdownMenu
+                        <CardDropdownMenuIcon
+                          cardTheme={"Диплом 31"}
                           cardName={"Ilya Poletuev's workspace"}
-                        />
-                      </li>
-                    </ul>
-                    <div style={{ borderTop: '1px solid #A6C5E229', marginTop: '12px' }}></div>
-                    <div className={styles.TitleText}>
-                      Ваши рабочие пространства
-                    </div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenu
-                          cardName={"Ilya Poletuev's workspace"}
-                        />
-                      </li>
-                    </ul>
-                    <div className={styles.TitleText}>
-                      Гостевые рабочие пространства
-                    </div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenu
-                          cardName={"Иван Кузьмин: рабочее пространство"}
-                        />
-                        <li>
-                          <CardDropdownMenuIcon
-                            cardTheme={"Тест 31"}
-                            cardName={"Тестовое рабочее пространство"}
-                            cardIcon={'Star'}
-                            cardIconSize={
-                              {
-                                width: '16',
-                                height: '16',
-                              }
+                          cardImg={'background_desert.webp'}
+                          cardIcon={'Star'}
+                          cardIconSize={
+                            {
+                              width: '16',
+                              height: '16',
                             }
-                          />
-                        </li>
+                          }
+                          colorFillIcon={'#e2b203'}
+                          sizeLineIcon={'3'}
+                        />
+                      </li>
+                      <li>
+                        <CardDropdownMenuIcon
+                          cardTheme={"Single Page (Laravel + React)"}
+                          cardName={"Иван Кузьмин: рабочее пространство"}
+                          cardImg={'Background_blue.svg'}
+                          cardIcon={'Star'}
+                          cardIconSize={
+                            {
+                              width: '16',
+                              height: '16',
+                            }
+                          }
+                          colorFillIcon={'#e2b203'}
+                          sizeLineIcon={'3'}
+                        />
                       </li>
                     </ul>
                   </div>
-                </div> */}
+                </div>
               </div>
 
+              <div className={styles.MenuFavourites}>
+                <div
+                  className={
+                    stateDisplayFavouritesDropMenu ?
+                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                      :
+                      styles.ButtonIcon
 
+                  }
+                >
+                  <ButtonIcon
+                    iconName={'ArrowDown'}
+                    iconSize={
+                      {
+                        width: '16',
+                        height: '16',
+                      }
+                    }
+                    iconCaptionText={
+                      {
+                        initial: 'В избранном',
+                        reverse: 'В избранном'
+                      }
+                    }
+                    textSize={'14px'}
+                    state={stateDisplayFavouritesDropMenu}
+                    stylesBasic={
+                      {
+                        padding: '6px 10px',
+                      }
+                    }
+                    stylesState={
+                      {
+                        color: '#579DFF',
+                        padding: '6px 10px',
+                      }
+                    }
 
+                    actionFunction={MenuFavourites}
+                  />
+                </div>
+                <div
+                  className={
+                    stateDisplayFavouritesDropMenu ?
+                      styles.FavouritesDropDownMenu
+                      :
+                      styles.NoneDisplay
+                  }
+                >
+                  <div>
+                    <ul>
+                      <li>
+                        <CardDropdownMenuIcon
+                          cardTheme={"Диплом 31"}
+                          cardName={"Ilya Poletuev's workspace"}
+                          cardImg={'background_desert.webp'}
+                          cardIcon={'Star'}
+                          cardIconSize={
+                            {
+                              width: '16',
+                              height: '16',
+                            }
+                          }
+                          colorFillIcon={'#e2b203'}
+                          sizeLineIcon={'3'}
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
               <ButtonIcon />
-              <ButtonIcon />
-              <ButtonIcon />
+
             </div>
             <div></div>
             <div></div>
