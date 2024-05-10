@@ -1,0 +1,62 @@
+***********************
+ESLint
+
+Установить в VSC модуль ESLint и проведите следующие настройки:
+
+1. Если используете версию React старше 17, и не импортируете React from 'react' установите данный плагин, тогда ESLint не будет ругаться, что 'React' must be in scope when using JSX
+- команда для установки плагина - npm install eslint-plugin-react --save-dev
+- в файл package.json в раздел  "eslintConfig": > "extends": добавить строчку
+	"plugin:react/jsx-runtime"
+ 
+2. Правила для поддержки хуков React
+- команда для установки плагина - npm install eslint-plugin-react-hooks --save-dev
+- в файл package.json в раздел  "eslintConfig": > "extends": добавить строчку
+	"plugin:react-hooks/recommended"
+	
+
+***********************
+Prettier
+
+Установка Prettier в проект:
+
+1. Устанавливаем Prettier в наш Create React App проект, локально
+- команда для установки плагина - npm install --save-dev --save-exact prettier
+
+2. Создаем пустой конфигурационный файл, .prettierrc.json в корне проекта
+- команда для установки плагина - echo {}> .prettierrc.json
+
+
+***********************
+Отключаем конфликтующие правила ESLint
+Когда ESLint ищет ошибки в коде, он руководствуется определенными правилами, которые хранятся в его конфиге. Эти правила отвечают как за качество кода, так и за стиль кода. 
+Чобы Prettier не конфликтовал с линтером устанавливаем пакет
+- команда для установки плагина - npm install --save-dev eslint-config-prettier
+- в файл package.json в раздел  "eslintConfig": > "extends": добавить строчку
+	"prettier"
+
+
+***********************
+Интеграция Prettier в VS Code
+
+1. Установить в VSC модуль Prettier.
+2. Чтобы Prettier автоматически форматировал код, в конфиг VS Code(файл settings.json) нужно установить:
+	"editor.defaultFormatter": "esbenp.prettier-vscode",   устанавливает Prettier как инструмент форматирования кода по-умолчанию
+	"editor.formatOnSave": true  включает форматирование кода при сохранении файла
+	
+Чтобы открыть settings.json нужно, находясь в VS Code, нажать Shift+Ctrl+P (Shift+Command+P  для mac), ввести в поиск "settings.json" и выбрать пункт Open Settings (JSON). Откроется файл settings.json.
+Если ("editor.formatOnSave": true) будет подчеркиваться, провреить нет ли уже данного парметра выше в файде settings.json
+
+
+***********************
+Настройка Prettier, настройка файла prettierrc.json созданного в проекте
+{
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": true
+}
+
+"trailingComma" - отвечает за висящие, (или "последние") запятые. Можно разрешить Prettier ставить их там, где это возможно, или отключить эту функцию
+"tabWidth" - ширина отступа, в пробелах
+"semi" - отвечает за добавление точек с запятыми в конце инструкций. Можно добавлять, можно не добавлять
+"singleQuote" - отвечает за использование одинарных или двойные кавычек

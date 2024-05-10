@@ -1,11 +1,16 @@
+import Header from "../../components/Header/Header";
 import Search from "../../components/Search/Search";
+
+import styles from './Default.module.scss'
 
 export default function Default(props) {
   return (
     <div>
-      <header>
+      <Header />
 
-        <nav></nav>
+      <main className={styles.Content}>
+
+        {/* <nav></nav>
 
         <Search />
 
@@ -13,9 +18,39 @@ export default function Default(props) {
           уведомления
           информация
           аккаунт
-        </div>
+        </div> */}
+        <p>start</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>end</p>
 
-      </header>
-    </div>
+
+
+      </main>
+    </div >
   )
 };
