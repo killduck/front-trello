@@ -1,7 +1,7 @@
 import Default from "../../layouts/default/default";
 
-export default function Dashboard(props){
-    
+export default function Dashboard(props) {
+
   return (
     <div>
       <Default>
