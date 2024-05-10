@@ -1,0 +1,45 @@
+.Column{
+    background-color: var(--accent-background, var(--tr-background-list, #ebecf0));
+    border-radius: 12px;
+    box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
+    color: var(--accent-text, var(--ds-text-subtle, #44546f));
+    display: flex;
+    justify-content: space-between;
+    max-height: 100%;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 272px;
+    align-self: start;
+    padding-bottom: 8px;
+    position: relative;
+    scroll-margin: 8px;
+    white-space: normal;
+    width: 272px;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+.wrapColumn{
+    padding: 0 6px;
+    align-self: flex-start;
+    flex-shrink: 0;
+    display: block;
+    height: 100%;
+    white-space: nowrap;
+}
+.titleColumn{
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    margin: 0;
+    padding: 6px 8px 6px 12px;
+    background-color: transparent;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    cursor: pointer;
+}
+.cardList{
+    
+}
