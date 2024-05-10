@@ -90,8 +90,8 @@ export default function ButtonIcon(props) {
           name={option.iconName}
           color={option.colorFill}
           sizeLine={option.sizeLineIcon}
-          sizeWidth={option.iconSize ? option.iconSize.width : '16px'}
-          sizeHeight={option.iconSize ? option.iconSize.height : '16px'}
+          sizeWidth={option.iconSize ? option.iconSize.width : '0'}
+          sizeHeight={option.iconSize ? option.iconSize.height : '0'}
         />
       </div>
 

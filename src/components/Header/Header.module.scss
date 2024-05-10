@@ -10,6 +10,7 @@ $shadow_1: #39424a;
 $shadow_2: #0304045c;
 $shadow_3: #03040480;
 
+// Mixins
 @mixin flex-jfc-ai-center {
   display: flex;
   justify-content: center;
@@ -24,6 +25,40 @@ $shadow_3: #03040480;
   user-select: none; // Standard syntax
 }
 
+@mixin drop_down_menu {
+  display: block;
+  position: absolute;
+  top: 41px;
+  right: auto;
+  left: 0;
+  bottom: auto;
+
+  width: 280px;
+  max-height: 305px;
+  border-radius: 8px;
+  z-index: 999;
+  background-color: $background;
+  box-shadow:
+    0px 0px 0px 1px $shadow_1,
+    0px 8px 12px $shadow_2,
+    0px 0px 1px 1px $shadow_3;
+
+  padding: 0 12px;
+
+  overflow-y: auto; // скрол
+}
+
+@mixin li-hover {
+  li {
+    border-radius: 8px;
+
+    &:hover {
+      background-color: $hover_li;
+    }
+  }
+}
+
+// Styles
 .Header {
   position: fixed;
   top: 0;
@@ -61,17 +96,86 @@ $shadow_3: #03040480;
     color: $button;
     border-radius: 3px;
 
-    .KebabMenuWrap {
+    position: relative;
+
+    .KebabMenu {
       width: '32px';
     }
 
-    &:hover {
-      background-color: $hover_icon;
-      transition: all 0.3s ease;
+    .KebabDropDownMenu {
+      @include no-touch-select;
+      @include drop_down_menu;
+      width: 384px;
+      padding: 18px 8px;
+
+      .TitleText {
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 16px;
+        padding: 16px 0 4px 8px;
+      }
+      ul {
+        padding: 6px 0;
+        margin: 0;
+
+        li {
+          padding: 8px;
+          border-radius: 8px;
+
+          .KebabMenu_Card {
+            display: flex;
+            text-decoration: none;
+            overflow: hidden;
+            border-radius: 8px;
+            color: $text;
+
+            .Card_Icon {
+              @include flex-jfc-ai-center;
+
+              width: 32px;
+              height: 32px;
+              border-radius: 8px;
+              background-color: #579dff;
+              margin-right: 4px;
+            }
+            .Card_Text {
+              font-size: 14px;
+              font-weight: 500;
+              margin-left: 3px;
+            }
+
+            .Card_Text_Serch {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              overflow: hidden;
+
+              div:first-child {
+                display: flex;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 14px;
+              }
+
+              div:last-child {
+                display: flex;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 12px;
+              }
+            }
+          }
+          &:hover {
+            background-color: $hover_li;
+          }
+        }
+      }
     }
 
-    .KebabMenuWrap {
-      width: 32px;
+    &:hover {
+      cursor: pointer;
+      background-color: $hover_icon;
+      transition: all 0.3s ease;
     }
   }
 
@@ -132,6 +236,7 @@ $shadow_3: #03040480;
 
         .MenuWorkspace {
           position: relative;
+          margin-right: 4px;
 
           .WorkspaceDropDownMenu {
             @include no-touch-select;
@@ -185,63 +290,69 @@ $shadow_3: #03040480;
         }
 
         .MenuRecent {
-          margin: 0 4px;
+          margin-right: 4px;
           position: relative;
 
           .RecentDropDownMenu {
             @include no-touch-select;
+            @include drop_down_menu;
 
-            display: block;
-            position: absolute;
-            top: 41px;
-            right: auto;
-            left: 0;
-            bottom: auto;
-
-            width: 280px;
-            max-height: 305px;
-            border-radius: 8px;
-            z-index: 999;
-            background-color: $background;
-            box-shadow:
-              0px 0px 0px 1px $shadow_1,
-              0px 8px 12px $shadow_2,
-              0px 0px 1px 1px $shadow_3;
-
-            padding: 0 12px;
-
-            overflow-y: auto; // скрол
+            @include li-hover;
           }
         }
 
         .MenuFavourites {
-          margin: 0 4px;
+          margin-right: 4px;
           position: relative;
 
           .FavouritesDropDownMenu {
             @include no-touch-select;
+            @include drop_down_menu;
 
-            display: block;
-            position: absolute;
-            top: 41px;
-            right: auto;
-            left: 0;
-            bottom: auto;
-
-            width: 280px;
-            max-height: 305px;
-            border-radius: 8px;
-            z-index: 999;
-            background-color: $background;
-            box-shadow:
-              0px 0px 0px 1px $shadow_1,
-              0px 8px 12px $shadow_2,
-              0px 0px 1px 1px $shadow_3;
-
-            padding: 0 12px;
-
-            overflow-y: auto; // скрол
+            @include li-hover;
           }
+        }
+
+        .MenuTemplates {
+          margin-right: 4px;
+          position: relative;
+
+          .TemplatesDropDownMenu {
+            @include no-touch-select;
+            @include drop_down_menu;
+
+            padding: 12px;
+
+            .TitleText {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 16px;
+              margin-left: -5px;
+            }
+
+            li {
+              margin-top: 4px;
+              margin-left: -5px;
+            }
+
+            @include li-hover;
+          }
+        }
+      }
+
+      .ButtonCreate {
+        @include flex-jfc-ai-center;
+        margin: 0 4px;
+        width: 56px;
+        height: 32px;
+        background-color: #579dff;
+        border-radius: 3px;
+        color: #1d2125;
+        font-size: 14px;
+        font-weight: 500;
+
+        &:hover {
+          cursor: pointer;
         }
       }
     }
