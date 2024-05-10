@@ -1,4 +1,4 @@
-import Default from "../../layouts/default/default";
+import Default from "../../layouts/default/Default";
 
 export default function Dashboard(props) {
 

@@ -19,34 +19,7 @@ export default function Default(props) {
           информация
           аккаунт
         </div> */}
-        <p>start</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>end</p>
+        <Search />
 
 
 
