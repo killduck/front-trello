@@ -6,6 +6,8 @@ import ButtonIcon from '../ui/ButtonIcon/ButtonIcon';
 
 import styles from './Header.module.scss';
 import Icons from '../ui/Icons/Icons';
+import Loupe from '../Loupe/Loupe';
+import Input from '../ui/Input/Input';
 
 
 export default function Header(props) {
@@ -556,7 +558,14 @@ export default function Header(props) {
 
         </div>
 
+        <div className={styles.blockSearch}>
+          <Loupe viewBox=""/>
+          <Input type="text" placeholder="Поиск" maxLength="500"/>
+        </div>
+        
       </nav >
+      
+
     </div >
   )
 };

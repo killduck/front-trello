@@ -1,4 +1,5 @@
 import Column from "../../components/Column/Column";
+import AddNewBoardItem from "../../components/ui/AddNewBoardItem/AddNewBoardItem";
 import Default from "../../layouts/default/Default";
 import styles from "./Dashboard.module.scss";
 
@@ -50,9 +51,10 @@ export default function Dashboard(props) {
               <Column key={column.id} dataColumn={column}/>
             )
           }
-        </div>
-        
 
+          <AddNewBoardItem />
+
+        </div>
 
       </Default>
     </div>
