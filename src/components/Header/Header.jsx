@@ -8,6 +8,8 @@ import styles from './Header.module.scss';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import Search from '../Search/Search';
+import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
+
 
 
 export default function Header(props) {
@@ -97,33 +99,28 @@ export default function Header(props) {
     <div className={styles.Header}>
       <nav className={styles.Navigation}>
 
-        <div className={styles.ButtonKebabMenu}>
-          <div className={styles.KebabMenu}>
-            <ButtonIcon
-              iconName={'KebabMenu'} // props - Имя кнопки-иконки подставляем из ui/Icons/Icons/icons.svg из id
-              iconSize={ // props - Размер кнопки-иконки
-                {
-                  width: '20',
-                  height: '20',
-                }
-              }
-              iconCaption={true}  // Отображение подписи - есть(true) или нет(false)
-              iconCaptionText={  // Подпись на кнопке-иконке при (true) или (false) либо только иконка
-                {
-                  initial: '',
-                  reverse: ''
-                }
-              }
-              textSize={'16px'} // Размер текста подписи
-              state={stateKebabMenu}
-              stylesState={
-                {
-                  color: '#fff',
-                }
-              }
-              actionFunction={onKebabMenu}  // Проброска callback function
-            />
+        <div className={styles.KebabMenu}>
+          <div
+            className={
+              stateKebabMenu ?
+                `${styles.MenuButton} ${styles.MenuButtonActive}`
+                :
+                styles.MenuButton
+            }
+          >
+            <div className={styles.MenuTextIconActive}>
+              <ButtonDropMenu
+                class_name={'BtnKebabMenu'}
+                actionFunction={onKebabMenu}
+              >
+                <Icons
+                  name={'KebabMenu'}
+                  class_name={'KebabMenuIcon'}
+                />
+              </ButtonDropMenu>
+            </div>
           </div>
+
           <div
             className={
               stateKebabMenu ?
@@ -211,42 +208,23 @@ export default function Header(props) {
                 <div
                   className={
                     stateDisplayWorkspaceDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
-
+                      styles.MenuButton
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'Рабочие пространства',
-                        reverse: 'Рабочие пространства'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayWorkspaceDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px 6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuWorkspace}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnDropMenu'}
+                      actionFunction={onMenuWorkspace}
+                    >
+                      <span>Рабочие пространства</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
@@ -301,42 +279,23 @@ export default function Header(props) {
                 <div
                   className={
                     stateDisplayRecentDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
-
+                      styles.MenuButton
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'Недавние',
-                        reverse: 'Недавние'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayRecentDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuRecent}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnDropMenu'}
+                      actionFunction={onMenuRecent}
+                    >
+                      <span>Недавние</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
@@ -389,42 +348,24 @@ export default function Header(props) {
                 <div
                   className={
                     stateDisplayFavouritesDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
+                      styles.MenuButton
 
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'В избранном',
-                        reverse: 'В избранном'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayFavouritesDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuFavourites}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnDropMenu'}
+                      actionFunction={onMenuFavourites}
+                    >
+                      <span>В избранном</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
@@ -461,42 +402,23 @@ export default function Header(props) {
                 <div
                   className={
                     stateDisplayTemplatesDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
-
+                      styles.MenuButton
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'Шаблоны',
-                        reverse: 'Шаблоны'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayTemplatesDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuTemplates}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnDropMenu'}
+                      actionFunction={onMenuTemplates}
+                    >
+                      <span>Шаблоны</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
@@ -536,32 +458,15 @@ export default function Header(props) {
             </div>
 
             <div className={styles.ButtonCreate}>
-              <ButtonIcon
-                iconCaptionText={
-                  {
-                    initial: 'Создать',
-                    reverse: 'Создать'
-                  }
-                }
-                stylesBasic={
-                  {
-                    height: '100%',
-                    padding: '0px 12px',
-                  }
-                }
-                stylesState={
-                  {
-                    padding: '0px 12px',
-                  }
-                }
-                textSize={'14px'}
+              <ButtonDropMenu
+                class_name={'BtnCreate'}
                 actionFunction={onButtonCreate}
-              />
-
+              >
+                <span>Создать</span>
+              </ButtonDropMenu>
             </div>
-            <div></div>
-          </div>
 
+          </div>
         </div>
 
         <div className={styles.RightMenu}>

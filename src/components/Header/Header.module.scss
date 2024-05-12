@@ -1,3 +1,4 @@
+$active: #579dff;
 $background_primary: #1d2125;
 $background: #282e33;
 $background_hover: #1c2b41;
@@ -86,7 +87,7 @@ $shadow_3: #03040480;
   border-bottom: 1px solid $border;
   backdrop-filter: blur(6px);
 
-  .ButtonKebabMenu {
+  .KebabMenu {
     @include flex-jfc-ai-center;
 
     width: 32px;
@@ -98,15 +99,12 @@ $shadow_3: #03040480;
 
     position: relative;
 
-    .KebabMenu {
-      width: '32px';
-    }
-
     .KebabDropDownMenu {
       @include no-touch-select;
       @include drop_down_menu;
       width: 384px;
       padding: 18px 8px;
+      @include li-hover;
 
       .TitleText {
         font-size: 11px;
@@ -165,17 +163,8 @@ $shadow_3: #03040480;
               }
             }
           }
-          &:hover {
-            background-color: $hover_li;
-          }
         }
       }
-    }
-
-    &:hover {
-      cursor: pointer;
-      background-color: $hover_icon;
-      transition: all 0.3s ease;
     }
   }
 
@@ -240,27 +229,7 @@ $shadow_3: #03040480;
 
           .WorkspaceDropDownMenu {
             @include no-touch-select;
-
-            display: block;
-            position: absolute;
-            top: 41px;
-            right: auto;
-            left: 0;
-            bottom: auto;
-
-            width: 280px;
-            max-height: 305px;
-            border-radius: 8px;
-            z-index: 999;
-            background-color: $background;
-            box-shadow:
-              0px 0px 0px 1px $shadow_1,
-              0px 8px 12px $shadow_2,
-              0px 0px 1px 1px $shadow_3;
-
-            padding: 0 12px;
-
-            overflow-y: auto; // скрол
+            @include drop_down_menu;
 
             .LineSeparator {
               border-top: 1px solid #a6c5e229;
@@ -290,7 +259,7 @@ $shadow_3: #03040480;
         }
 
         .MenuRecent {
-          margin-right: 4px;
+          // margin-right: 4px;
           position: relative;
 
           .RecentDropDownMenu {
@@ -346,7 +315,7 @@ $shadow_3: #03040480;
         margin: 0 4px;
         width: 80px;
         height: 32px;
-        background-color: #579dff;
+        background-color: $active;
         border-radius: 3px;
         color: #1d2125;
         font-size: 14px;
@@ -423,6 +392,36 @@ $shadow_3: #03040480;
 
   &.ButtonIconActive {
     background-color: $background_hover;
+  }
+
+  &:hover {
+    background-color: $hover_icon;
+    cursor: pointer;
+  }
+}
+
+.MenuButton {
+  @include no-touch-select;
+  @include flex-jfc-ai-center;
+
+  height: 32px;
+  line-height: 32px;
+  margin-right: 4px;
+
+  white-space: nowrap;
+  border-radius: 3px;
+
+  position: relative;
+  font-style: 14px;
+  font-weight: 500;
+  line-height: 32px;
+
+  &.MenuButtonActive {
+    background-color: $background_hover;
+
+    .MenuTextIconActive {
+      color: $active;
+    }
   }
 
   &:hover {
