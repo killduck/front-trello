@@ -1,5 +1,6 @@
-
 import Header from "../../components/Header/Header";
+import Search from "../../components/Search/Search";
+
 import styles from './Default.module.scss'
 
 export default function Default(props) {
@@ -10,12 +11,10 @@ export default function Default(props) {
 
       <main className={styles.Content}>
 
-
         {props.children}
 
-
       </main>
-    </div >
 
+    </div >
   )
 };
