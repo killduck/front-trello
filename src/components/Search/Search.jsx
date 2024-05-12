@@ -14,7 +14,7 @@ export default function Search(props) {
                 <Loupe className={props.className ? props.className : styles.iconLupa} viewBox="" />
                 <Input className={props.className ? props.className : styles.inputSearch} type="text" placeholder="Поиск" maxLength="500"/>
             </div>
-
+        
             <Button>Поиск</Button>
 
             {/* <Loupe className="s"></Loupe> */}

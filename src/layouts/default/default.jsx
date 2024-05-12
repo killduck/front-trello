@@ -8,48 +8,9 @@ export default function Default(props) {
     <div>
       <Header />
 
-      <main className={styles.Content}>
+        <main className={styles.Content}>
 
-        {/* <nav></nav>
-
-        <Search />
-
-        <div>
-          уведомления
-          информация
-          аккаунт
-        </div> */}
-        <p>start</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>1</p>
-        <p>end</p>
-
-
-
+          {props.children}
       </main>
     </div >
   )
