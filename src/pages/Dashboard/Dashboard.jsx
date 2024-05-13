@@ -1,7 +1,11 @@
 import Column from "../../components/Column/Column";
-import AddNewBoardItem from "../../components/ui/AddNewBoardItem/AddNewBoardItem";
+import AddOneMoreCol from "../../components/ui/AddOneMoreCol/AddOneMoreCol";
+import CreateNewBoardItem from "../../components/ui/CreateNewBoardItem/CreateNewBoardItem";
 import Default from "../../layouts/default/Default";
 import styles from "./Dashboard.module.scss";
+
+import { useState } from "react";
+
 
 export default function Dashboard(props) {
 
@@ -40,6 +44,10 @@ export default function Dashboard(props) {
     },
   ]
 
+  const [show , showElement] = useState(false);
+  const [hide, hideElement] = useState(false);
+  // const formRef = useRef(null);
+
   return (
     <div>
       
@@ -51,8 +59,25 @@ export default function Dashboard(props) {
               <Column key={column.id} dataColumn={column}/>
             )
           }
-
-          <AddNewBoardItem />
+          <CreateNewBoardItem 
+            className={!show ? styles.none : ''}
+            buttonText={'Добавить список'} 
+            spellCheck="false"
+            dir="auto" 
+            maxLength="512" 
+            autoComplete="off" 
+            name="Ввести заголовок списка" 
+            placeholder="Ввести заголовок списка" 
+            aria-label="Ввести заголовок списка" 
+            data-testid="list-name-textarea" 
+            action={hideElement}
+          />
+          <AddOneMoreCol 
+            className={show ? styles.none : ''}
+            // hidden={show? 'hidden' : ''}
+            buttonText={'Добавьте еще одну колонку'} 
+            clickAction={showElement}
+          />
 
         </div>
 

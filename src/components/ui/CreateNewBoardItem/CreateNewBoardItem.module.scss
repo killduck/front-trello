@@ -4,6 +4,12 @@
     flex-shrink: 0;
     display: block;
 }
+.hidden{
+    // padding: 0 6px;
+    // align-self: flex-start;
+    // flex-shrink: 0;
+    display: none;
+}
 .form{
     border-radius: 12px;
     padding: 8px;
@@ -59,30 +65,6 @@
     gap: 4px;
     border-radius: 4px;
 }
-.buttonStyle{
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    // font-weight: 400;
-    // font-display: swap;
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    // justify-content: center;
-    border-radius: 3px;
-    cursor: pointer;
-    padding: 6px 12px;
-    text-decoration: none;
-    white-space: normal;
-    // background-color: var(--ds-background-neutral, #091e420f);
-    box-shadow: none;
-    border: none;
-    // color: var(--ds-text, #172b4d);
-    font-weight: 500;
-    transition-property: background-color, border-color, box-shadow;
-    transition-duration: 85ms;
-    transition-timing-function: ease;
-}
 .buttonAdd{
     background-color: #579dff;
     box-shadow: none;
@@ -97,45 +79,6 @@
     padding: 6px;
     position: relative;
     color: #dee4ea;
-}
-
-.AddNewBoardItem{
-    padding: 0 6px;
-    align-self: flex-start;
-    flex-shrink: 0;
-    display: block;
-    flex-grow: 1;
-    height: 100%;
-}
-.AddNewBoardItem[hidden]{
-    display: none;
-}
-.Button{
-    justify-content: flex-start;
-    width: 272px;
-    background-color: #ffffff3d;
-    border-radius: 12px;
-    padding: 12px;
-    color: #ffffff;
-    // -------
-    // -webkit-appearance: none;
-    // border: none;
-    // border-radius: 3px;
-    // box-sizing: border-box;
-    // display: inline-block;
-    // line-height: 20px;
-    // padding: 6px 12px;
-    position: relative;
-    // text-decoration: none;
-    text-transform: none;
-    overflow: visible;
-}
-.Button:hover{
-    background-color: #a6c5e229;
-    color: #ffffff;
-    box-shadow: none;
-    border: none;
-    text-decoration: none;
 }
 .Icons{
     height: 16px;
