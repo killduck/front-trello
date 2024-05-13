@@ -9,6 +9,8 @@ import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import Search from '../Search/Search';
 import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
+import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
+import DropDownMenuWorkspace from '../DropDownMenuWorkspace/DropDownMenuWorkspace';
 
 
 
@@ -129,67 +131,7 @@ export default function Header(props) {
                 styles.NoneDisplay
             }
           >
-            <div>
-              <div className={styles.TitleText}>
-                {'Ваши приложения'.toUpperCase()}
-              </div>
-              <ul>
-                <li>
-                  <a className={styles.KebabMenu_Card} href="#">
-                    <div className={styles.Card_Icon}>
-                      <Icons
-                        name={'Atlassian'}
-                        sizeWidth={'24px'}
-                        sizeHeight={'24px'}
-                        color={'#fff'}
-                        sizeLine={'#fff'}
-                      />
-                    </div>
-                    <div className={styles.Card_Text}>Atlassian Home</div>
-                  </a>
-                </li>
-                <li>
-                  <a className={styles.KebabMenu_Card} href="#">
-                    <div className={styles.Card_Icon}>
-                      <Icons
-                        name={'Trello'}
-                        sizeWidth={'24px'}
-                        sizeHeight={'24px'}
-                        color={'#fff'}
-                        sizeLine={'#fff'}
-                      />
-                    </div>
-                    <div className={styles.Card_Text}>Trello</div>
-                  </a>
-                </li>
-              </ul>
-              <div className={styles.TitleText}>
-                {'Поиск'.toUpperCase()}
-              </div>
-              <ul>
-                <li>
-                  <a className={styles.KebabMenu_Card} href="#">
-                    <div className={styles.Card_Icon}>
-                      <Icons
-                        name={'Atlassian'}
-                        sizeWidth={'24px'}
-                        sizeHeight={'24px'}
-                        color={'#fff'}
-                        sizeLine={'#fff'}
-                      />
-                    </div>
-                    <div className={styles.Card_Text_Serch}>
-                      <div>
-                        <span>Confluence</span>
-                      </div>
-                      <div>
-                        <span>Совместная работа над документами</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <DropDownMenuKebab />
           </div>
         </div>
 
@@ -234,7 +176,7 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  <div style={{ marginTop: '-3px' }}>
+                  {/* <div style={{ marginTop: '-3px' }}>
                     <div className={styles.TitleText}>
                       Текущее рабочее пространство
                     </div>
@@ -271,7 +213,8 @@ export default function Header(props) {
                         />
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
+                  <DropDownMenuWorkspace />
                 </div>
               </div>
 

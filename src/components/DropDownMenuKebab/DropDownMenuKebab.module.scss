@@ -1,0 +1,67 @@
+$text: #b6c2cf;
+
+// Mixins
+@mixin flex-jfc-ai-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Styles
+.TitleText {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 16px 0 4px 8px;
+}
+ul {
+  padding: 6px 0;
+  margin: 0;
+
+  li {
+    padding: 8px;
+    border-radius: 8px;
+
+    .KebabMenu_Card {
+      display: flex;
+      text-decoration: none;
+      overflow: hidden;
+      border-radius: 8px;
+      color: $text;
+
+      .Card_Icon {
+        @include flex-jfc-ai-center;
+
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background-color: #579dff;
+        margin-right: 4px;
+      }
+      .Card_Text {
+        font-size: 14px;
+        font-weight: 500;
+        margin-left: 3px;
+      }
+
+      .Card_Text_Serch {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+
+        div:first-child {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 14px;
+        }
+
+        div:last-child {
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 12px;
+        }
+      }
+    }
+  }
+}
