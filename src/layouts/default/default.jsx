@@ -8,9 +8,10 @@ export default function Default(props) {
     <div>
       <Header />
 
-        <main className={styles.Content}>
+      <main className={styles.Content}>
 
-          {props.children}
+        {props.children}
+        
       </main>
     </div >
   )

@@ -559,7 +559,15 @@ export default function Header(props) {
         </div>
 
         <div className={styles.blockSearch}>
-          <Loupe viewBox=""/>
+          {/* <Loupe viewBox=""/> */}
+          <Icons 
+            className={styles.Loupe}
+            name={'Loupe'}
+            // sizeWidth={''}
+            // sizeHeight={''}
+            // color={''}
+            // sizeLine={''}
+          ></Icons>
           <Input type="text" placeholder="Поиск" maxLength="500"/>
         </div>
         
