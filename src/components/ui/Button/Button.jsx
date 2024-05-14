@@ -3,7 +3,7 @@
 import styles from "./Button.module.scss";
 
 export default function Button(props) {
-    // console.log(props.actionVariable);
+    console.log(props.actionVariable);
     
     return (
         <button 
@@ -14,7 +14,6 @@ export default function Button(props) {
             onClick={ 
                 () => props.clickAction(props.actionVariable)
             }
-            
         >
             {props.children}
         </button>

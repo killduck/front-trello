@@ -8,6 +8,7 @@ import { useState } from "react";
 
 
 export default function Dashboard(props) {
+// console.log(props);
 
   let columns = [
     {
@@ -46,37 +47,29 @@ export default function Dashboard(props) {
 
   const [_show , showElement] = useState(true);
   const [_newName, takeNewName] = useState('');
+  // console.log(_newName);
+  const [_newCol, addColumn] = useState(columns);
+  
+  const onClickAdd = ()=>{
+    console.log(_newName);
+    addColumn([ ..._newCol, {
+        id: 3,
+        name: _newName,
+        order: 3,
+        cards:[],
+      }
+    ]);
+    showElement(true);
+  }
 
-  // const [_newColName, addColumn] = useState(check_newName(_newName));
-
-
-  // function addColumn(_newName, columns){
-  //   if(_newName !== ''){
-  //     console.log(_newName);
-  //     let newCol = {
-  //       id: 3,
-  //       name: _newName,
-  //       order: 3,
-  //       cards:[],
-  //     };
-  //     columns = [columns, newCol];
-  //     return columns;
-  //   }
-  //   else{
-  //     console.log('net');
-  //     return false;
-  //   }
-  // }
-
+  console.log(columns);
 
   return (
     <div>
-      
       <Default>
-        
         <div className={styles.Columns}>
           {
-            columns.map((column) => 
+            _newCol.map((column) => 
               <Column key={column.id} dataColumn={column}/>
             )
           }
@@ -96,8 +89,8 @@ export default function Dashboard(props) {
             boolian={true}
             changeAction={takeNewName}
             newText={_newName}
-            // addColumnAction={addColumn}
-            // newColName={_newColName}
+            addColumnAction={onClickAdd}
+            newColName={_newCol}
           />
           <AddOneMoreCol 
             className={_show ? '' : styles.none}

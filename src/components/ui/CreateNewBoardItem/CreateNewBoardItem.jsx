@@ -6,6 +6,7 @@ import styles from "./CreateNewBoardItem.module.scss";
 
 
 export default function CreateNewBoardItem(props){
+    // console.log(props);
 
     return (
         
@@ -23,12 +24,13 @@ export default function CreateNewBoardItem(props){
                     data-testid={props.dataTestid}
                     autoFocus={props.autoFocus} //не работает???
                     onChange={(evt) => props.changeAction(evt.target.value)}
-                    value={props.newText}
+                    // value={props.newText}
                 />
                 <div className={styles.buttons}>
                     <Button 
                         className={`${styles.buttonAdd}`}
-                        type="submit" 
+                        // type="submit" 
+                        type="button" 
                         dataTestid="list-composer-add-list-button"
                         clickAction={props.addColumnAction}
                         actionVariable={props.newColName}
