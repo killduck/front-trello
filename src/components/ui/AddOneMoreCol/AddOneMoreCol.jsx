@@ -10,7 +10,8 @@ export default function AddOneMoreCol(props){
             className={props.className? `${props.className} ${styles.wrapForm}` : styles.wrapForm} >
             <Button 
                 className={styles.AddOneMoreColButton}
-                clickAction={props.clickAction}
+                clickAction={props.showElAction}
+                actionVariable={props.boolian}
             >
                 <Icons 
                     className={styles.Icons}

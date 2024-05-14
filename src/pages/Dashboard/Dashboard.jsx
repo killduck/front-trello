@@ -44,9 +44,30 @@ export default function Dashboard(props) {
     },
   ]
 
-  const [show , showElement] = useState(false);
-  const [hide, hideElement] = useState(false);
-  // const formRef = useRef(null);
+  const [_show , showElement] = useState(true);
+  const [_newName, takeNewName] = useState('');
+
+  // const [_newColName, addColumn] = useState(check_newName(_newName));
+
+
+  // function addColumn(_newName, columns){
+  //   if(_newName !== ''){
+  //     console.log(_newName);
+  //     let newCol = {
+  //       id: 3,
+  //       name: _newName,
+  //       order: 3,
+  //       cards:[],
+  //     };
+  //     columns = [columns, newCol];
+  //     return columns;
+  //   }
+  //   else{
+  //     console.log('net');
+  //     return false;
+  //   }
+  // }
+
 
   return (
     <div>
@@ -60,7 +81,7 @@ export default function Dashboard(props) {
             )
           }
           <CreateNewBoardItem 
-            className={!show ? styles.none : ''}
+            className={_show ? styles.none : ''}
             buttonText={'Добавить список'} 
             spellCheck="false"
             dir="auto" 
@@ -70,13 +91,20 @@ export default function Dashboard(props) {
             placeholder="Ввести заголовок списка" 
             aria-label="Ввести заголовок списка" 
             data-testid="list-name-textarea" 
-            action={hideElement}
+            autoFocus={_show ? false : true}
+            hideElAction={showElement}
+            boolian={true}
+            changeAction={takeNewName}
+            newText={_newName}
+            // addColumnAction={addColumn}
+            // newColName={_newColName}
           />
           <AddOneMoreCol 
-            className={show ? styles.none : ''}
+            className={_show ? '' : styles.none}
             // hidden={show? 'hidden' : ''}
             buttonText={'Добавьте еще одну колонку'} 
-            clickAction={showElement}
+            showElAction={showElement}
+            boolian={false}
           />
 
         </div>

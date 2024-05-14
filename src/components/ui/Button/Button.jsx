@@ -3,7 +3,8 @@
 import styles from "./Button.module.scss";
 
 export default function Button(props) {
-    // console.log(props);
+    // console.log(props.actionVariable);
+    
     return (
         <button 
             className={`${props.className} ${styles.buttonStyle}`}
@@ -11,7 +12,7 @@ export default function Button(props) {
             data-testid={props.dataTestid} 
             aria-label={props.ariaLabel} 
             onClick={ 
-                () => props.clickAction(true)
+                () => props.clickAction(props.actionVariable)
             }
             
         >

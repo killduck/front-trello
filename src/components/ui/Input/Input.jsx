@@ -9,7 +9,7 @@ export default function Input(props){
     return (
         <input 
             name={props.name}
-            value={console.log(input_text)}
+            value={input_text}
             className={props.className ? props.className : styles.Input} 
             type={props.type} 
             placeholder={props.placeholder} 

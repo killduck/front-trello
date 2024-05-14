@@ -72,6 +72,20 @@
     color: #1d2125;
     font-weight: 500;
 }
+.buttonAdd:hover {
+    background-color: #85b8ff;
+    box-shadow: none;
+    border: none;
+    color: #1d2125;
+    text-decoration: none;
+}
+.buttonAdd:active {
+    background-color: var(--ds-background-brand-bold-pressed, #09326c);
+    box-shadow: none;
+    border: none;
+    color: var(--ds-text-inverse, #ffffff);
+    outline: 0;
+}
 .buttonEsc{
     background-color: transparent;
     border: none;
@@ -80,11 +94,18 @@
     position: relative;
     color: #dee4ea;
 }
+.buttonEsc:hover {
+    background-color: #a6c5e229;
+    box-shadow: none;
+    border: none;
+    color: #b6c2cf;
+    text-decoration: none;
+}
 .Icons{
-    height: 16px;
-    width: 16px;
-    line-height: 16px;
-    margin-right: 8px;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    // margin-right: 8px;
     color: #ffffff;
     font-weight: 500;
 }
