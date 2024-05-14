@@ -6,6 +6,8 @@ import ButtonIcon from '../ui/ButtonIcon/ButtonIcon';
 
 import styles from './Header.module.scss';
 import Icons from '../ui/Icons/Icons';
+import Notification from '../ui/NotificateBTN/Notification';
+import Search from '../Search/Search';
 
 
 export default function Header(props) {
@@ -543,6 +545,12 @@ export default function Header(props) {
                 }
                 stylesBasic={
                   {
+                    height: '100%',
+                    padding: '0px 12px',
+                  }
+                }
+                stylesState={
+                  {
                     padding: '0px 12px',
                   }
                 }
@@ -556,7 +564,21 @@ export default function Header(props) {
 
         </div>
 
+        <div className={styles.RightMenu}>
+          <div className={styles.blockSearch}>
+            <Search />
+          </div>
+
+          <div className={styles.blockNotification}>
+            <Notification>
+              <img src={'img/no_name.png'} alt="" />
+            </Notification>
+          </div>
+        </div>
+
       </nav >
+
+
     </div >
   )
 };
