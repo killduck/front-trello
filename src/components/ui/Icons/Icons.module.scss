@@ -1,3 +1,8 @@
+.Icons {
+  width: 0;
+  height: 0;
+}
+
 .BtnDropMenuIcon {
   width: 16px;
   height: 16px;
@@ -16,4 +21,17 @@
   height: 24px;
   fill: #fff;
   stroke: #fff;
+}
+
+.BtnCardDropdownStar {
+  width: 16px;
+  height: 16px;
+  fill: #9FADBC;
+  stroke:#9FADBC;
+  // stroke-width: 1;
+
+  &:hover {
+    fill: #e2b203;
+    stroke: #e2b203;
+  }
 }

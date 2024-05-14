@@ -2,28 +2,37 @@ $hover_li: #a1bdd914;
 $text: #b6c2cf;
 $transition_hover: all 0.3s ease;
 
-.LineSeparator {
-  border-top: 1px solid #a6c5e229;
-  margin: 12px -12px 0 -12px;
-}
-
-.TitleText {
-  font-size: 12px;
-  font-weight: 600;
-  color: $text;
-  margin: 16px 8px 8px 8px;
-  line-height: 16px;
-}
-
-ul {
-  margin: 0;
-
-  li {
-    border-radius: 8px;
+// Styles
+.WorkspaceDropDownMenu_Wrap {
+  .CurrentWorkspaceCard {
+    padding: 4px 8px;
   }
 
-  li.UseHover:hover {
-    background-color: $hover_li;
-    transition: $transition_hover;
+  .LineSeparator {
+    border-top: 1px solid #a6c5e229;
+    margin: 12px -12px 0 -12px;
+  }
+
+  .TitleText {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text;
+    margin: 16px 8px 8px 8px;
+    line-height: 16px;
+  }
+
+  ul {
+    margin: 0;
+
+    li {
+      border-radius: 8px;
+      padding: 8px 8px;
+      margin-bottom: 4px;
+    }
+
+    li.UseHover:hover {
+      background-color: $hover_li;
+      transition: $transition_hover;
+    }
   }
 }

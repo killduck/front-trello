@@ -5,17 +5,20 @@ import styles from './DropDownMenuWorkspace.module.scss';
 
 export default function DropDownMenuWorkspace(props) {
   return (
-    <div style={{ marginTop: '-3px' }}>
+    <div className={styles.WorkspaceDropDownMenu_Wrap}>
       <div className={styles.TitleText}>
         Текущее рабочее пространство
       </div>
-      <ul>
-        <li>
+      {/* <ul>
+        <li> */}
+        <div className={styles.CurrentWorkspaceCard}>
           <CardDropdownMenu
             cardName={"Ilya Poletuev's workspace"}
+            class_name={'WorkspaceCardDropdown'}
           />
-        </li>
-      </ul>
+          </div>
+        {/* </li>
+      </ul> */}
       <div className={styles.LineSeparator}></div>
       <div className={styles.TitleText}>
         Ваши рабочие пространства

@@ -1,0 +1,14 @@
+@mixin flex-jfc-ai-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.QuickLabelledButtonIcon {
+  @include flex-jfc-ai-center;
+
+  .Icon {
+    @include flex-jfc-ai-center;
+  }
+
+}

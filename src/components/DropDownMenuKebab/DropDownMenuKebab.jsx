@@ -5,7 +5,7 @@ import styles from './DropDownMenuKebab.module.scss';
 
 export default function DropDownMenuKebab(props) {
   return (
-    <div>
+    <div className={styles.KebabDropDownMenu_Wrap}>
       <div className={styles.TitleText}>
         {'ваши приложения'.toUpperCase()}
       </div>

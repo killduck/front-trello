@@ -1,17 +1,17 @@
 import { useState } from 'react'
 
-import CardDropdownMenu from '../CardDropdownMenu/CardDropdownMenu';
-import CardDropdownMenuIcon from '../CardDropdownMenuIcon/CardDropdownMenuIcon';
-import ButtonIcon from '../ui/ButtonIcon/ButtonIcon';
+import * as api from '../../api/api';
 
-import styles from './Header.module.scss';
+import CardDropdownMenuIcon from '../CardDropdownMenuIcon/CardDropdownMenuIcon';
+import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
+import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
+import DropDownMenuRecentFavourite from '../DropDownMenuRecentFavourite/DropDownMenuRecentFavourite';
+import DropDownMenuWorkspace from '../DropDownMenuWorkspace/DropDownMenuWorkspace';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import Search from '../Search/Search';
-import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
-import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
-import DropDownMenuWorkspace from '../DropDownMenuWorkspace/DropDownMenuWorkspace';
 
+import styles from './Header.module.scss';
 
 
 export default function Header(props) {
@@ -146,6 +146,7 @@ export default function Header(props) {
           <div className={styles.CenterMenuWrap}>
 
             <div className={styles.DropDownMenu}>
+
               <div className={styles.MenuWorkspace}>
                 <div
                   className={
@@ -176,44 +177,6 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  {/* <div style={{ marginTop: '-3px' }}>
-                    <div className={styles.TitleText}>
-                      Текущее рабочее пространство
-                    </div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenu
-                          cardName={"Ilya Poletuev's workspace"}
-                        />
-                      </li>
-                    </ul>
-                    <div className={styles.LineSeparator}></div>
-                    <div className={styles.TitleText}>
-                      Ваши рабочие пространства
-                    </div>
-                    <ul>
-                      <li className={styles.UseHover}>
-                        <CardDropdownMenu
-                          cardName={"Ilya Poletuev's workspace"}
-                        />
-                      </li>
-                    </ul>
-                    <div className={styles.TitleText}>
-                      Гостевые рабочие пространства
-                    </div>
-                    <ul>
-                      <li className={styles.UseHover}>
-                        <CardDropdownMenu
-                          cardName={"Иван Кузьмин: рабочее пространство"}
-                        />
-                      </li>
-                      <li className={styles.UseHover}>
-                        <CardDropdownMenu
-                          cardName={"No Name: Test workspace"}
-                        />
-                      </li>
-                    </ul>
-                  </div> */}
                   <DropDownMenuWorkspace />
                 </div>
               </div>
@@ -248,7 +211,7 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  <div>
+                  {/* <div>
                     <ul>
                       <li>
                         <CardDropdownMenuIcon
@@ -256,14 +219,6 @@ export default function Header(props) {
                           cardName={"Ilya Poletuev's workspace"}
                           cardImg={'background_desert.webp'}
                           cardIcon={'Star'}
-                          cardIconSize={
-                            {
-                              width: '16',
-                              height: '16',
-                            }
-                          }
-                          colorFillIcon={'#e2b203'}
-                          sizeLineIcon={'3'}
                         />
                       </li>
                       <li>
@@ -272,18 +227,13 @@ export default function Header(props) {
                           cardName={"Иван Кузьмин: рабочее пространство"}
                           cardImg={'Background_blue.svg'}
                           cardIcon={'Star'}
-                          cardIconSize={
-                            {
-                              width: '16',
-                              height: '16',
-                            }
-                          }
-                          colorFillIcon={'#e2b203'}
-                          sizeLineIcon={'3'}
                         />
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
+                  <DropDownMenuRecentFavourite
+                    data = {api.boards}
+                  />
                 </div>
               </div>
 
@@ -326,14 +276,6 @@ export default function Header(props) {
                           cardName={"Ilya Poletuev's workspace"}
                           cardImg={'background_desert.webp'}
                           cardIcon={'Star'}
-                          cardIconSize={
-                            {
-                              width: '16',
-                              height: '16',
-                            }
-                          }
-                          colorFillIcon={'#e2b203'}
-                          sizeLineIcon={'3'}
                         />
                       </li>
                     </ul>
@@ -425,7 +367,6 @@ export default function Header(props) {
         </div>
 
       </nav >
-
 
     </div >
   )

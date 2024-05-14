@@ -1,29 +1,34 @@
-import ButtonIcon from '../ui/ButtonIcon/ButtonIcon'
+import QuickLabelled from '../ui/QuickLabelled/QuickLabelled'
 
 import styles from './CardDropdownMenuIcon.module.scss'
 
 
-export default function CardDropdownMenu(props) {
-  return (
+export default function CardDropdownMenuIcon(props) {
 
-    <a className={styles.CardDropdownMenu} href="#">
+  let option = {
+    cardTheme: props.cardTheme,
+    cardName: props.cardName,
+    cardImg: props.cardImg,
+    cardIcon: props.cardIcon
+  }
+
+  return (
+    <a className={styles.CardDropdownMenuIcon} href="#">
       <div className={styles.Image}>
-        <img className={styles.ImageBackground} src={`img/${props.cardImg}`} alt="" />
+        <img className={styles.ImageBackground} src={`img/${option.cardImg}`} alt="" />
       </div>
       <div className={styles.CardText}>
         <div className={styles.CardTheme}>
-          {props.cardTheme}
+          {option.cardTheme}
         </div>
         <div className={styles.CardTitle}>
-          {props.cardName}
+          {option.cardName}
         </div>
       </div>
       <div className={styles.CardIcon}>
-        <ButtonIcon
-          iconName={props.cardIcon}
-          iconSize={props.cardIconSize}
-          colorFillIcon={props.colorFillIcon}
-          sizeLineIcon={props.sizeLineIcon}
+        <QuickLabelled
+          iconName={option.cardIcon}
+          class_name={`BtnCardDropdown${option.cardIcon}`}
         />
       </div>
     </a >

@@ -5,7 +5,7 @@ $background_1: #cc4223;
 $background_2: #fea362;
 $background_2: #fea362;
 
-.CardDropdownMenu {
+.CardDropdownMenuIcon {
   display: flex;
   border-radius: 8px;
   font-weight: 700;
@@ -19,7 +19,7 @@ $background_2: #fea362;
 
   &:hover .CardIcon {
     visibility: visible;
-    transform: scale(0.7);
+    transform: scale(0.8);
   }
 
   .Image {
@@ -89,11 +89,10 @@ $background_2: #fea362;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff00;
+    transform: scale(1);
 
     &:hover {
       transform: scale(1);
-      color: #e2b203;
     }
   }
 }

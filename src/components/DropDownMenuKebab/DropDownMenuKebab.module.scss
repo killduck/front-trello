@@ -1,4 +1,6 @@
 $text: #b6c2cf;
+$background-icon: #579dff;
+
 
 // Mixins
 @mixin flex-jfc-ai-center {
@@ -8,58 +10,61 @@ $text: #b6c2cf;
 }
 
 // Styles
-.TitleText {
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 16px;
-  padding: 16px 0 4px 8px;
-}
-ul {
-  padding: 6px 0;
-  margin: 0;
+.KebabDropDownMenu_Wrap {
+  .TitleText {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    padding: 16px 0 4px 8px;
+  }
 
-  li {
-    padding: 8px;
-    border-radius: 8px;
+  ul {
+    padding: 6px 0;
+    margin: 0;
 
-    .KebabMenu_Card {
-      display: flex;
-      text-decoration: none;
-      overflow: hidden;
+    li {
+      padding: 8px;
       border-radius: 8px;
-      color: $text;
 
-      .Card_Icon {
-        @include flex-jfc-ai-center;
-
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background-color: #579dff;
-        margin-right: 4px;
-      }
-      .Card_Text {
-        font-size: 14px;
-        font-weight: 500;
-        margin-left: 3px;
-      }
-
-      .Card_Text_Serch {
+      .KebabMenu_Card {
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        text-decoration: none;
         overflow: hidden;
+        border-radius: 8px;
+        color: $text;
 
-        div:first-child {
+        .Card_Icon {
+          @include flex-jfc-ai-center;
+
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          background-color: $background-icon;
+          margin-right: 4px;
+        }
+        .Card_Text {
           font-size: 14px;
           font-weight: 500;
-          line-height: 14px;
+          margin-left: 3px;
         }
 
-        div:last-child {
-          font-size: 12px;
-          font-weight: 400;
-          line-height: 12px;
+        .Card_Text_Serch {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          overflow: hidden;
+
+          div:first-child {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 14px;
+          }
+
+          div:last-child {
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 12px;
+          }
         }
       }
     }
