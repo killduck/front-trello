@@ -12,6 +12,7 @@ import Notification from '../ui/NotificateBTN/Notification';
 import Search from '../Search/Search';
 
 import styles from './Header.module.scss';
+import DropDownMenuTemplates from '../DropDownMenuTemplates/DropDownMenuTemplates';
 
 
 export default function Header(props) {
@@ -211,28 +212,8 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  {/* <div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Диплом 31"}
-                          cardName={"Ilya Poletuev's workspace"}
-                          cardImg={'background_desert.webp'}
-                          cardIcon={'Star'}
-                        />
-                      </li>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Single Page (Laravel + React)"}
-                          cardName={"Иван Кузьмин: рабочее пространство"}
-                          cardImg={'Background_blue.svg'}
-                          cardIcon={'Star'}
-                        />
-                      </li>
-                    </ul>
-                  </div> */}
                   <DropDownMenuRecentFavourite
-                    data = {api.boards}
+                    data={api.boards_recent}
                   />
                 </div>
               </div>
@@ -268,18 +249,9 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  <div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Диплом 31"}
-                          cardName={"Ilya Poletuev's workspace"}
-                          cardImg={'background_desert.webp'}
-                          cardIcon={'Star'}
-                        />
-                      </li>
-                    </ul>
-                  </div>
+                  <DropDownMenuRecentFavourite
+                    data={api.boards_favorites}
+                  />
                 </div>
               </div>
 
@@ -313,31 +285,9 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  <div>
-                    <div className={styles.TitleText}>
-                      Популярные шаблоны
-                    </div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"1-on-1 Meeting Agenda"}
-                          cardImg={'photo_templates_1.jpg'}
-                        />
-                      </li>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Agile Board Template | Trello"}
-                          cardImg={'photo_templates_2.jpeg'}
-                        />
-                      </li>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Company Overview"}
-                          cardImg={'photo_templates_3.jpeg'}
-                        />
-                      </li>
-                    </ul>
-                  </div>
+                  <DropDownMenuTemplates
+                    data={api.templates}
+                  />
                 </div>
               </div>
             </div>

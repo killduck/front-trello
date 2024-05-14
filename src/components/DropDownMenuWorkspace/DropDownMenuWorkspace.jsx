@@ -9,16 +9,12 @@ export default function DropDownMenuWorkspace(props) {
       <div className={styles.TitleText}>
         Текущее рабочее пространство
       </div>
-      {/* <ul>
-        <li> */}
-        <div className={styles.CurrentWorkspaceCard}>
-          <CardDropdownMenu
-            cardName={"Ilya Poletuev's workspace"}
-            class_name={'WorkspaceCardDropdown'}
-          />
-          </div>
-        {/* </li>
-      </ul> */}
+      <div className={styles.CurrentWorkspaceCard}>
+        <CardDropdownMenu
+          cardName={"Ilya Poletuev's workspace"}
+          class_name={'WorkspaceCardDropdown'}
+        />
+      </div>
       <div className={styles.LineSeparator}></div>
       <div className={styles.TitleText}>
         Ваши рабочие пространства

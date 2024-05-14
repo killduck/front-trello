@@ -1,15 +1,29 @@
+import { useState } from "react";
+
 import QuickLabelled from '../ui/QuickLabelled/QuickLabelled'
 
 import styles from './CardDropdownMenuIcon.module.scss'
 
 
 export default function CardDropdownMenuIcon(props) {
+  let [stateFavouriteStar, setStateFavouriteStar] = useState(false);
 
   let option = {
     cardTheme: props.cardTheme,
     cardName: props.cardName,
     cardImg: props.cardImg,
-    cardIcon: props.cardIcon
+    cardIcon: props.cardIcon,
+    action: props.actionFunction,
+    stateFavouriteStar: props.stateFavouriteStar
+  }
+
+  function onAddFavoriteStar() {
+    console.log('Проверка выполения функции =>', onAddFavoriteStar.name);
+
+    stateFavouriteStar ?
+      setStateFavouriteStar(false)
+      :
+      setStateFavouriteStar(true)
   }
 
   return (
@@ -29,6 +43,8 @@ export default function CardDropdownMenuIcon(props) {
         <QuickLabelled
           iconName={option.cardIcon}
           class_name={`BtnCardDropdown${option.cardIcon}`}
+          stateFavouriteStar={stateFavouriteStar}
+          actionFunction={onAddFavoriteStar}
         />
       </div>
     </a >

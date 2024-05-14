@@ -209,7 +209,6 @@ $transition_hover: all 0.3s ease;
           .RecentDropDownMenu {
             @include no-touch-select;
             @include drop_down_menu;
-
             @include li-hover;
           }
         }
@@ -221,7 +220,6 @@ $transition_hover: all 0.3s ease;
           .FavouritesDropDownMenu {
             @include no-touch-select;
             @include drop_down_menu;
-
             @include li-hover;
           }
         }
@@ -233,22 +231,9 @@ $transition_hover: all 0.3s ease;
           .TemplatesDropDownMenu {
             @include no-touch-select;
             @include drop_down_menu;
+            @include li-hover;
 
             padding: 12px;
-
-            .TitleText {
-              font-size: 12px;
-              font-weight: 500;
-              line-height: 16px;
-              margin-left: -5px;
-            }
-
-            li {
-              margin-top: 4px;
-              margin-left: -5px;
-            }
-
-            @include li-hover;
           }
         }
       }
@@ -256,7 +241,7 @@ $transition_hover: all 0.3s ease;
       .ButtonCreate {
         @include flex-jfc-ai-center;
         @include no-touch-select;
-        // margin-right: 4px;
+        margin: 0 4px;
         width: 80px;
         height: 32px;
         background-color: $active;
@@ -300,20 +285,23 @@ $transition_hover: all 0.3s ease;
 
 .WorkspaceDropDownMenu::-webkit-scrollbar,
 .RecentDropDownMenu::-webkit-scrollbar,
-.FavouritesDropDownMenu::-webkit-scrollbar {
+.FavouritesDropDownMenu::-webkit-scrollbar,
+.TemplatesDropDownMenu::-webkit-scrollbar {
   width: 8px;
 }
 
 .WorkspaceDropDownMenu::-webkit-scrollbar-track,
 .RecentDropDownMenu::-webkit-scrollbar-track,
-.FavouritesDropDownMenu::-webkit-scrollbar-track {
+.FavouritesDropDownMenu::-webkit-scrollbar-track,
+.TemplatesDropDownMenu::-webkit-scrollbar-track {
   background-color: #323940;
   border-radius: 8px;
 }
 
 .WorkspaceDropDownMenu::-webkit-scrollbar-thumb,
 .RecentDropDownMenu::-webkit-scrollbar-thumb,
-.FavouritesDropDownMenu::-webkit-scrollbar-thumb {
+.FavouritesDropDownMenu::-webkit-scrollbar-thumb,
+.TemplatesDropDownMenu::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 8px #455159;
   border-radius: 8px;
 }
