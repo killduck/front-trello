@@ -3,7 +3,7 @@
 import styles from "./Button.module.scss";
 
 export default function Button(props) {
-    console.log(props.actionVariable);
+    // console.log(props.actionVariable);
     
     return (
         <button 

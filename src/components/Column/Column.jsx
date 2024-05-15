@@ -10,7 +10,7 @@ export default function Column(props){
 
     let columnCards = dataColumn.cards;
     // console.log(dataColumn);
-    console.log(props.children);
+    // console.log(props.children);
 
 
   return (
