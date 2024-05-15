@@ -15,33 +15,33 @@ export default function Dashboard(props) {
       id: 1,
       name: "backlog",
       order: 1,
-      cards:[
+      cards: [
         {
           id: 1,
-          name: "Лёня",
+          name: "Максим es lint",
           author_id: 3,
           order: 1,
         },
         {
           id: 2,
-          name: "Андрей",
+          name: "Лёня хреначит реакт компоненты",
           author_id: 2,
           order: 2,
-        },
-      ],
+        }
+      ]
     },
     {
       id: 2,
       name: "in progress",
       order: 2,
-      cards:[
+      cards: [
         {
-          id: 1,
-          name: "Лёня",
+          id: 3,
+          name: "Кнопки меню",
           author_id: 4,
           order: 1,
-        },
-      ],
+        }
+      ]
     },
   ]
 
@@ -141,6 +141,7 @@ export default function Dashboard(props) {
         </div>
 
       </Default>
+
     </div>
   )
 };

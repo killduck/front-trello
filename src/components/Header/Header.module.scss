@@ -342,8 +342,9 @@ $shadow_3: #03040480;
 
       .ButtonCreate {
         @include flex-jfc-ai-center;
+        @include no-touch-select;
         margin: 0 4px;
-        width: 56px;
+        width: 80px;
         height: 32px;
         background-color: #579dff;
         border-radius: 3px;
@@ -355,6 +356,23 @@ $shadow_3: #03040480;
           cursor: pointer;
         }
       }
+    }
+  }
+
+  .RightMenu {
+    display: flex;
+    justify-content: flex-end;
+
+    .blockSearch {
+      position: relative;
+      max-width: 100%;
+      width: 200px;
+      margin-right: 4px;
+    }
+    .blockNotification {
+      @include flex-jfc-ai-center;
+      width: 32px;
+      height: 32px;
     }
   }
 }

@@ -1,5 +1,3 @@
-
-
 import Button from '../ui/Button/Button';
 import styles from './Search.module.scss';
 import Input from '../ui/Input/Input';
