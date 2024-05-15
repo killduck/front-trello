@@ -2,14 +2,16 @@ $active: #579dff;
 $background_primary: #1d2125;
 $background: #282e33;
 $background_hover: #1c2b41;
-$text: #b6c2cf;
-$button: #9fadbc;
 $border: hsla(211, 18%, 68%, 0.16);
+$border_line: #a6c5e229;
+$button: #9fadbc;
+$button_color: #1d2125;
 $hover_icon: #2a2f3529;
 $hover_li: #a1bdd914;
 $shadow_1: #39424a;
 $shadow_2: #0304045c;
 $shadow_3: #03040480;
+$text: #b6c2cf;
 $transition_hover: all 0.3s ease;
 
 // Mixins
@@ -176,7 +178,7 @@ $transition_hover: all 0.3s ease;
             @include drop_down_menu;
 
             .LineSeparator {
-              border-top: 1px solid #a6c5e229;
+              border-top: 1px solid $border_line;
               margin: 12px -12px 0 -12px;
             }
 
@@ -246,7 +248,7 @@ $transition_hover: all 0.3s ease;
         height: 32px;
         background-color: $active;
         border-radius: 3px;
-        color: #1d2125;
+        color: $button_color;
         font-size: 14px;
         font-weight: 500;
 

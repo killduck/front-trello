@@ -17,7 +17,6 @@ export default function QuickLabelled(props) {
   return (
     <div
       className={styles.QuickLabelledButtonIcon}
-      // style={option.stateFavouriteStar ? { backgroundColor: 'red' } : {}}
 
       onClick={
         option.action ?
@@ -30,6 +29,7 @@ export default function QuickLabelled(props) {
       <Icons
         name={option.iconName}
         class_name={option.iconClass}
+        active_icon={option.stateFavouriteStar ? 'IconActive' : ''}
       />
     </div>
   )

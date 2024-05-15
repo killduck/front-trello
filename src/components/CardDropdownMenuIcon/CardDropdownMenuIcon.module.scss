@@ -19,7 +19,7 @@ $background_2: #fea362;
 
   &:hover .CardIcon {
     visibility: visible;
-    transform: scale(0.8);
+    transform: scale(1.1);
   }
 
   .Image {
@@ -90,6 +90,10 @@ $background_2: #fea362;
     align-items: center;
     justify-content: center;
     transform: scale(1);
+    &.IconActive {
+      visibility: visible;
+    }
+
 
     &:hover {
       transform: scale(1);

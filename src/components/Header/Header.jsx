@@ -2,110 +2,111 @@ import { useState } from 'react'
 
 import * as api from '../../api/api';
 
-import CardDropdownMenuIcon from '../CardDropdownMenuIcon/CardDropdownMenuIcon';
 import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
 import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
 import DropDownMenuRecentFavourite from '../DropDownMenuRecentFavourite/DropDownMenuRecentFavourite';
 import DropDownMenuWorkspace from '../DropDownMenuWorkspace/DropDownMenuWorkspace';
+import DropDownMenuTemplates from '../DropDownMenuTemplates/DropDownMenuTemplates';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import Search from '../Search/Search';
 
 import styles from './Header.module.scss';
-import DropDownMenuTemplates from '../DropDownMenuTemplates/DropDownMenuTemplates';
 
 
 export default function Header(props) {
 
-  let [stateKebabMenu, setKebabMenu] = useState(false);
-
-  let [stateDisplayWorkspaceDropMenu, setDisplayWorkspaceDownMenu] = useState(false);
-
-  let [stateDisplayRecentDropMenu, setDisplayRecentDownMenu] = useState(false);
-
-  let [stateDisplayFavouritesDropMenu, setDisplayFavouritesDownMenu] = useState(false);
-
-  let [stateDisplayTemplatesDropMenu, setDisplayTemplatesDownMenu] = useState(false);
-
-  let state_all_menu = [
-    setKebabMenu,
-    setDisplayWorkspaceDownMenu,
-    setDisplayRecentDownMenu,
-    setDisplayFavouritesDownMenu,
-    setDisplayTemplatesDownMenu
-  ]
-
-
-  function removing_active_menu() {
-    state_all_menu.forEach(state => {
-      state(false);
-    })
-  }
-
-
-  function change_of_state(state_value, set_value) {
-    state_value ?
-      set_value(false)
-      :
-      set_value(true)
-  }
-
+  // состояние для открытия/закрытия выпадающих меню в header
+  let [stateActiveDropMenu, setActiveDropMenu] = useState(
+    {
+      'KebabDownMenu': false,
+      'WorkspaceDownMenu': false,
+      'RecentDownMenu': false,
+      'FavouritesDownMenu': false,
+      'TemplatesDownMenu': false,
+    }
+  );
 
   function onKebabMenu() {
-    console.log('Проверка выполения функции =>', onKebabMenu.name);
+    console.log('Выполняется функция =>', onKebabMenu.name);
 
-    removing_active_menu();
-
-    change_of_state(stateKebabMenu, setKebabMenu);
+    removing_active_menu('KebabDownMenu');
   }
 
   function onMenuWorkspace() {
-    console.log('Проверка выполения функции =>', onMenuWorkspace.name);
+    console.log('Выполняется функция =>', onMenuWorkspace.name);
 
-    removing_active_menu();
-
-    change_of_state(stateDisplayWorkspaceDropMenu, setDisplayWorkspaceDownMenu);
+    removing_active_menu('WorkspaceDownMenu');
   }
 
   function onMenuRecent() {
-    console.log('Проверка выполения функции =>', onMenuRecent.name);
+    console.log('Выполняется функция =>', onMenuRecent.name);
 
-    removing_active_menu();
-
-    change_of_state(stateDisplayRecentDropMenu, setDisplayRecentDownMenu);
+    removing_active_menu('RecentDownMenu');
   }
 
   function onMenuFavourites() {
-    console.log('Проверка выполения функции =>', onMenuFavourites.name);
+    console.log('Выполняется функция =>', onMenuFavourites.name);
 
-    removing_active_menu();
-
-    change_of_state(stateDisplayFavouritesDropMenu, setDisplayFavouritesDownMenu);
+    removing_active_menu('FavouritesDownMenu');
   }
 
   function onMenuTemplates() {
-    console.log('Проверка выполения функции =>', onMenuTemplates.name);
+    console.log('Выполняется функция =>', onMenuTemplates.name);
 
-    removing_active_menu();
-
-    change_of_state(stateDisplayTemplatesDropMenu, setDisplayTemplatesDownMenu);
+    removing_active_menu('TemplatesDownMenu');
   }
 
   function onButtonCreate() {
-    console.log('Проверка выполения функции =>', onButtonCreate.name);
+    console.log('Выполняется функция =>', onButtonCreate.name);
 
     removing_active_menu();
+  }
+
+  function removing_active_menu(name_state=null) {
+
+    let state_switch = {};
+
+    for (let key in stateActiveDropMenu) {
+
+      if ( name_state === key && name_state !== null) {
+
+        stateActiveDropMenu[key] ?
+          state_switch[key] = false
+          :
+          state_switch[key] = true
+
+      }
+      else {
+        state_switch[key] = false;
+      }
+    }
+
+    setActiveDropMenu(state_switch);
+  }
+
+  function removing_all_menu(event) {
+    console.log('Выполняется функция =>', removing_all_menu.name);
+    // console.log(event.clientX);
+    console.log(event);
+
+    if( event.clientX > 785) {
+      removing_active_menu();
+    }
   }
 
 
   return (
-    <div className={styles.Header}>
+    <div
+    className={styles.Header}
+    onClick={(event) => removing_all_menu(event)}
+    >
       <nav className={styles.Navigation}>
 
         <div className={styles.KebabMenu}>
           <div
             className={
-              stateKebabMenu ?
+              stateActiveDropMenu['KebabDownMenu'] ?
                 `${styles.MenuButton} ${styles.MenuButtonActive}`
                 :
                 styles.MenuButton
@@ -126,7 +127,7 @@ export default function Header(props) {
 
           <div
             className={
-              stateKebabMenu ?
+              stateActiveDropMenu['KebabDownMenu'] ?
                 styles.KebabDropDownMenu
                 :
                 styles.NoneDisplay
@@ -151,7 +152,7 @@ export default function Header(props) {
               <div className={styles.MenuWorkspace}>
                 <div
                   className={
-                    stateDisplayWorkspaceDropMenu ?
+                    stateActiveDropMenu['WorkspaceDownMenu'] ?
                       `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
                       styles.MenuButton
@@ -172,7 +173,7 @@ export default function Header(props) {
                 </div>
                 <div
                   className={
-                    stateDisplayWorkspaceDropMenu ?
+                    stateActiveDropMenu['WorkspaceDownMenu'] ?
                       styles.WorkspaceDropDownMenu
                       :
                       styles.NoneDisplay
@@ -185,7 +186,7 @@ export default function Header(props) {
               <div className={styles.MenuRecent}>
                 <div
                   className={
-                    stateDisplayRecentDropMenu ?
+                    stateActiveDropMenu['RecentDownMenu'] ?
                       `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
                       styles.MenuButton
@@ -206,7 +207,7 @@ export default function Header(props) {
                 </div>
                 <div
                   className={
-                    stateDisplayRecentDropMenu ?
+                    stateActiveDropMenu['RecentDownMenu'] ?
                       styles.RecentDropDownMenu
                       :
                       styles.NoneDisplay
@@ -221,7 +222,7 @@ export default function Header(props) {
               <div className={styles.MenuFavourites}>
                 <div
                   className={
-                    stateDisplayFavouritesDropMenu ?
+                    stateActiveDropMenu['FavouritesDownMenu'] ?
                       `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
                       styles.MenuButton
@@ -243,7 +244,7 @@ export default function Header(props) {
                 </div>
                 <div
                   className={
-                    stateDisplayFavouritesDropMenu ?
+                    stateActiveDropMenu['FavouritesDownMenu'] ?
                       styles.FavouritesDropDownMenu
                       :
                       styles.NoneDisplay
@@ -258,7 +259,7 @@ export default function Header(props) {
               <div className={styles.MenuTemplates}>
                 <div
                   className={
-                    stateDisplayTemplatesDropMenu ?
+                    stateActiveDropMenu['TemplatesDownMenu'] ?
                       `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
                       styles.MenuButton
@@ -279,7 +280,7 @@ export default function Header(props) {
                 </div>
                 <div
                   className={
-                    stateDisplayTemplatesDropMenu ?
+                    stateActiveDropMenu['TemplatesDownMenu'] ?
                       styles.TemplatesDropDownMenu
                       :
                       styles.NoneDisplay

@@ -6,6 +6,7 @@ import styles from './CardDropdownMenuIcon.module.scss'
 
 
 export default function CardDropdownMenuIcon(props) {
+
   let [stateFavouriteStar, setStateFavouriteStar] = useState(false);
 
   let option = {
@@ -14,7 +15,6 @@ export default function CardDropdownMenuIcon(props) {
     cardImg: props.cardImg,
     cardIcon: props.cardIcon,
     action: props.actionFunction,
-    stateFavouriteStar: props.stateFavouriteStar
   }
 
   function onAddFavoriteStar() {
@@ -39,7 +39,12 @@ export default function CardDropdownMenuIcon(props) {
           {option.cardName}
         </div>
       </div>
-      <div className={styles.CardIcon}>
+      <div className={
+        stateFavouriteStar ?
+        `${styles.CardIcon} ${styles.IconActive}`
+          :
+          styles.CardIcon
+      }>
         <QuickLabelled
           iconName={option.cardIcon}
           class_name={`BtnCardDropdown${option.cardIcon}`}
