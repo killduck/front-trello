@@ -18,6 +18,7 @@ export default function DropDownMenuTemplates(props) {
             <li>
               <CardDropdownMenuIcon
                 key={template.id}
+                card={template}
                 cardTheme={template.cardTheme}
                 cardImg={template.cardImg}
               />

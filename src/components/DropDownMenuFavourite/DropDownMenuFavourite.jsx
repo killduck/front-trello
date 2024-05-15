@@ -6,6 +6,7 @@ import styles from './DropDownMenuFavourite.module.scss';
 export default function DropDownMenuFavourite(props) {
 
   let list_boards_favourite = props.data;
+  let actionFunction = props.actionFunction;
 
   return (
     <div className={styles.DropDownMenuFavourite_Wrap}>
@@ -19,10 +20,13 @@ export default function DropDownMenuFavourite(props) {
                 <li>
                   <CardDropdownMenuIcon
                     key={board.id}
+                    card={board}
                     cardTheme={board.cardTheme}
                     cardName={board.cardName}
                     cardImg={board.cardImg}
                     cardIcon={'Star'}
+                    favoriteStar={board.favorites}
+                    actionFunction={actionFunction}
                   />
                 </li>
               )

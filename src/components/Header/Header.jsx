@@ -17,8 +17,10 @@ import styles from './Header.module.scss';
 
 export default function Header(props) {
 
+  // let [stateFavouriteStar, setStateFavouriteStar] = useState(false);
+
   // состояние для Favorites рабочиз пространств
-  let [stateFavorites, setFavorites] = useState(api.boards_recent);
+  let [stateBoardsRecent, setBoardsRecent] = useState(api.boards_recent);
 
   // состояние для открытия/закрытия выпадающих меню в header
   let [stateActiveDropMenu, setActiveDropMenu] = useState(
@@ -65,6 +67,30 @@ export default function Header(props) {
     console.log('Выполняется функция =>', onButtonCreate.name);
 
     removing_active_menu();
+  }
+
+  function onAddFavoriteStar(id) {
+    console.log('Проверка выполения функции =>', onAddFavoriteStar.name);
+    console.log('приходит id =>', id);
+
+    let new_boards_recent = [];
+
+    stateBoardsRecent.forEach((card) => {
+      console.log(card)
+
+      if (card.id === id) {
+
+        card.favorites ? card.favorites = false : card.favorites = true;
+
+        new_boards_recent.push(card);
+      }
+      else {
+        new_boards_recent.push(card);
+      }
+    })
+
+    setBoardsRecent(new_boards_recent);
+
   }
 
 
@@ -216,7 +242,8 @@ export default function Header(props) {
                   }
                 >
                   <DropDownMenuRecent
-                    data={stateFavorites}
+                    data={stateBoardsRecent}
+                    actionFunction={onAddFavoriteStar}
                   />
                 </div>
               </div>
@@ -253,7 +280,8 @@ export default function Header(props) {
                   }
                 >
                   <DropDownMenuFavourite
-                    data={stateFavorites}
+                    data={stateBoardsRecent}
+                    actionFunction={onAddFavoriteStar}
                   />
                 </div>
               </div>

@@ -9,8 +9,9 @@ export default function QuickLabelled(props) {
   let option = {
     iconName: props.iconName,
     iconClass: props.class_name,
-    stateFavouriteStar: props.stateFavouriteStar,
-    action: props.actionFunction,
+    favoriteStar: props.favoriteStar,
+    actionFunction: props.actionFunction,
+    id_card: props.id_card,
   }
 
 
@@ -19,8 +20,8 @@ export default function QuickLabelled(props) {
       className={styles.QuickLabelledButtonIcon}
 
       onClick={
-        option.action ?
-          () => { option.action() }
+        option.actionFunction ?
+          () => { option.actionFunction(option.id_card) }
           :
           () => { }
       }
@@ -29,7 +30,7 @@ export default function QuickLabelled(props) {
       <Icons
         name={option.iconName}
         class_name={option.iconClass}
-        active_icon={option.stateFavouriteStar ? 'IconActive' : ''}
+        active_icon={option.favoriteStar ? 'IconActive' : ''}
       />
     </div>
   )

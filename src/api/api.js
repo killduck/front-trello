@@ -18,7 +18,7 @@ export let boards_recent = [
     cardTheme: 'Тест для Диплома',
     cardName: 'No Name: Test workspace',
     cardImg: 'Background_purple.svg',
-    favorites: true,
+    favorites: false,
   },
 ]
 
