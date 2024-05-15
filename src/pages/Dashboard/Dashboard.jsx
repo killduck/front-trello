@@ -82,7 +82,7 @@ export default function Dashboard(props) {
                 dataColumn={column}
               >
 
-              <CreateNewBoardItem 
+              {/* <CreateNewBoardItem 
                 className={_show ? styles.none : ''}
                 buttonText={'Добавить карточку'} 
                 spellCheck="false"
@@ -106,7 +106,7 @@ export default function Dashboard(props) {
                 buttonText={'Добавить карточку_'} 
                 showElAction={showElement}
                 boolian={false}
-              />
+              /> */}
 
               </Column>
             )
