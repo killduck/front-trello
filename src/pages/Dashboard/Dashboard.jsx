@@ -51,18 +51,25 @@ export default function Dashboard(props) {
   const [_newCol, addColumn] = useState(columns);
   
   const onClickAdd = ()=>{
-    console.log(_newName);
-    addColumn([ ..._newCol, {
-        id: 3,
-        name: _newName,
-        order: 3,
-        cards:[],
-      }
-    ]);
-    showElement(true);
+    // console.log(_newName);
+    if(_newName !== ''){
+      // console.log('56__ da');
+      addColumn([ ..._newCol, {
+          id: 3,
+          name: _newName,
+          order: 3,
+          cards:[],
+        }
+      ]);
+      showElement(true);
+    }
+    else{
+      // console.log('56__ net');
+      return false;
+    }
   }
 
-  console.log(columns);
+  // console.log(columns);
 
   return (
     <div>
@@ -70,7 +77,38 @@ export default function Dashboard(props) {
         <div className={styles.Columns}>
           {
             _newCol.map((column) => 
-              <Column key={column.id} dataColumn={column}/>
+              <Column 
+                key={column.id} 
+                dataColumn={column}
+              >
+
+              <CreateNewBoardItem 
+                className={_show ? styles.none : ''}
+                buttonText={'Добавить карточку'} 
+                spellCheck="false"
+                dir="auto" 
+                maxLength="512" 
+                autoComplete="off" 
+                name="Ввести заголовок списка" 
+                placeholder="Ввести заголовок списка" 
+                aria-label="Ввести заголовок списка" 
+                data-testid="list-name-textarea" 
+                autoFocus={_show ? false : true}
+                hideElAction={showElement}
+                boolian={true}
+                changeAction={takeNewName}
+                newText={_newName}
+                addColumnAction={onClickAdd}
+                newColName={_newCol}
+              />
+              <AddOneMoreCol 
+                className={_show ? '' : styles.none}
+                buttonText={'Добавить карточку_'} 
+                showElAction={showElement}
+                boolian={false}
+              />
+
+              </Column>
             )
           }
           <CreateNewBoardItem 

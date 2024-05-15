@@ -80,10 +80,10 @@
     text-decoration: none;
 }
 .buttonAdd:active {
-    background-color: var(--ds-background-brand-bold-pressed, #09326c);
+    background-color:#cce0ff; //#09326c;
     box-shadow: none;
     border: none;
-    color: var(--ds-text-inverse, #ffffff);
+    color: #1d2125; //#ffffff;
     outline: 0;
 }
 .buttonEsc{

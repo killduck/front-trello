@@ -29,8 +29,7 @@ export default function CreateNewBoardItem(props){
                 <div className={styles.buttons}>
                     <Button 
                         className={`${styles.buttonAdd}`}
-                        // type="submit" 
-                        type="button" 
+                        type="button" // нужно заменить на: type="submit"
                         dataTestid="list-composer-add-list-button"
                         clickAction={props.addColumnAction}
                         actionVariable={props.newColName}
