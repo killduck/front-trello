@@ -1,14 +1,14 @@
 import CardDropdownMenuIcon from "../CardDropdownMenuIcon/CardDropdownMenuIcon";
 
-import styles from './DropDownMenuRecentFavourite.module.scss';
+import styles from './DropDownMenuRecent.module.scss';
 
 
-export default function DropDownMenuRecentFavourite(props) {
+export default function DropDownMenuRecent(props) {
 
   let list_boards = props.data;
 
   return (
-    <div className={styles.DropDownMenuRecentFavourite_Wrap}>
+    <div className={styles.DropDownMenuRecent_Wrap}>
       <ul>
         {
           list_boards.map((board, index) =>

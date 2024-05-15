@@ -41,7 +41,7 @@ export default function CardDropdownMenuIcon(props) {
       </div>
       <div className={
         stateFavouriteStar ?
-        `${styles.CardIcon} ${styles.IconActive}`
+          `${styles.CardIcon} ${styles.IconActive}`
           :
           styles.CardIcon
       }>

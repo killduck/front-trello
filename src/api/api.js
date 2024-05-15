@@ -4,21 +4,21 @@ export let boards_recent = [
     cardTheme: 'Диплом 31',
     cardName: "Ilya Poletuev's workspace",
     cardImg: 'background_desert.webp',
+    favorites: false,
   },
   {
     id: 2,
     cardTheme: 'Single Page (Laravel + React)',
     cardName: 'Иван Кузьмин: рабочее пространство',
     cardImg: 'Background_blue.svg',
+    favorites: false,
   },
-]
-
-export let boards_favorites = [
   {
-    id: 1,
-    cardTheme: 'Диплом 31',
-    cardName: "Ilya Poletuev's workspace",
-    cardImg: 'background_desert.webp',
+    id: 3,
+    cardTheme: 'Тест для Диплома',
+    cardName: 'No Name: Test workspace',
+    cardImg: 'Background_purple.svg',
+    favorites: true,
   },
 ]
 

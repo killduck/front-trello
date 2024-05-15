@@ -4,7 +4,8 @@ import * as api from '../../api/api';
 
 import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
 import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
-import DropDownMenuRecentFavourite from '../DropDownMenuRecentFavourite/DropDownMenuRecentFavourite';
+import DropDownMenuFavourite from '../DropDownMenuFavourite/DropDownMenuFavourite';
+import DropDownMenuRecent from '../DropDownMenuRecent/DropDownMenuRecent';
 import DropDownMenuWorkspace from '../DropDownMenuWorkspace/DropDownMenuWorkspace';
 import DropDownMenuTemplates from '../DropDownMenuTemplates/DropDownMenuTemplates';
 import Icons from '../ui/Icons/Icons';
@@ -15,6 +16,9 @@ import styles from './Header.module.scss';
 
 
 export default function Header(props) {
+
+  // состояние для Favorites рабочиз пространств
+  let [stateFavorites, setFavorites] = useState(api.boards_recent);
 
   // состояние для открытия/закрытия выпадающих меню в header
   let [stateActiveDropMenu, setActiveDropMenu] = useState(
@@ -63,13 +67,14 @@ export default function Header(props) {
     removing_active_menu();
   }
 
-  function removing_active_menu(name_state=null) {
+
+  function removing_active_menu(name_state = null) {
 
     let state_switch = {};
 
     for (let key in stateActiveDropMenu) {
 
-      if ( name_state === key && name_state !== null) {
+      if (name_state === key) {
 
         stateActiveDropMenu[key] ?
           state_switch[key] = false
@@ -85,12 +90,11 @@ export default function Header(props) {
     setActiveDropMenu(state_switch);
   }
 
-  function removing_all_menu(event) {
-    console.log('Выполняется функция =>', removing_all_menu.name);
-    // console.log(event.clientX);
-    console.log(event);
+  function onRemoving_all_menu(event) {
+    console.log('Выполняется функция =>', onRemoving_all_menu.name);
+    // console.log(event);
 
-    if( event.clientX > 785) {
+    if (event.clientX > 785) {
       removing_active_menu();
     }
   }
@@ -98,8 +102,8 @@ export default function Header(props) {
 
   return (
     <div
-    className={styles.Header}
-    onClick={(event) => removing_all_menu(event)}
+      className={styles.Header}
+      onClick={(event) => onRemoving_all_menu(event)}
     >
       <nav className={styles.Navigation}>
 
@@ -124,7 +128,6 @@ export default function Header(props) {
               </ButtonDropMenu>
             </div>
           </div>
-
           <div
             className={
               stateActiveDropMenu['KebabDownMenu'] ?
@@ -146,7 +149,6 @@ export default function Header(props) {
 
         <div className={styles.CenterMenu}>
           <div className={styles.CenterMenuWrap}>
-
             <div className={styles.DropDownMenu}>
 
               <div className={styles.MenuWorkspace}>
@@ -213,8 +215,8 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  <DropDownMenuRecentFavourite
-                    data={api.boards_recent}
+                  <DropDownMenuRecent
+                    data={stateFavorites}
                   />
                 </div>
               </div>
@@ -250,8 +252,8 @@ export default function Header(props) {
                       styles.NoneDisplay
                   }
                 >
-                  <DropDownMenuRecentFavourite
-                    data={api.boards_favorites}
+                  <DropDownMenuFavourite
+                    data={stateFavorites}
                   />
                 </div>
               </div>
