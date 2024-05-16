@@ -14,7 +14,7 @@ export default function ButtonDropMenu(props) {
 
       onClick={
         option.action ?
-          () => { option.action() }
+          () => { option.action(option.class_name) }
           :
           () => { }
       }

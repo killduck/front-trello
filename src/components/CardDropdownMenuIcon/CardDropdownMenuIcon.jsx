@@ -5,31 +5,28 @@ import styles from './CardDropdownMenuIcon.module.scss'
 
 export default function CardDropdownMenuIcon(props) {
 
+  let card = props.card;
+
   let option = {
-    card: props.card,
-    cardTheme: props.cardTheme,
-    cardName: props.cardName,
-    cardImg: props.cardImg,
     cardIcon: props.cardIcon,
-    favoriteStar: props.favoriteStar,
     actionFunction: props.actionFunction,
   }
 
   return (
     <a className={styles.CardDropdownMenuIcon} href="#">
       <div className={styles.Image}>
-        <img className={styles.ImageBackground} src={`img/${option.cardImg}`} alt="" />
+        <img className={styles.ImageBackground} src={`img/${card.cardImg}`} alt="" />
       </div>
       <div className={styles.CardText}>
         <div className={styles.CardTheme}>
-          {option.cardTheme}
+          {card.cardTheme}
         </div>
         <div className={styles.CardTitle}>
-          {option.cardName}
+          {card.cardName}
         </div>
       </div>
       <div className={
-        option.favoriteStar ?
+        card.favorites ?
           `${styles.CardIcon} ${styles.IconActive}`
           :
           styles.CardIcon
@@ -37,9 +34,9 @@ export default function CardDropdownMenuIcon(props) {
         <QuickLabelled
           iconName={option.cardIcon}
           class_name={`BtnCardDropdown${option.cardIcon}`}
-          favoriteStar={option.favoriteStar}
+          favoriteStar={card.favorites}
           actionFunction={option.actionFunction}
-          id_card={option.card.id}
+          id_card={card.id}
         />
       </div>
     </a >

@@ -13,12 +13,16 @@
   }
 }
 
-.BtnKebabMenu {
+.BtnActiveKebabDropMenu {
   width: 32px;
   height: 32px;
 }
 
-.BtnDropMenu {
+.BtnDropMenu,
+.BtnActiveWorkspaceDropMenu,
+.BtnActiveRecentDropMenu,
+.BtnActiveFavouritesDropMenu,
+.BtnActiveTemplatesDropMenu {
   padding: 6px 10px;
 }
 

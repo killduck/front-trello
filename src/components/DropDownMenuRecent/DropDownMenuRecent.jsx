@@ -17,11 +17,7 @@ export default function DropDownMenuRecent(props) {
               <CardDropdownMenuIcon
                 key={board.id}
                 card={board}
-                cardTheme={board.cardTheme}
-                cardName={board.cardName}
-                cardImg={board.cardImg}
                 cardIcon={'Star'}
-                favoriteStar={board.favorites}
                 actionFunction={actionFunction}
               />
             </li>

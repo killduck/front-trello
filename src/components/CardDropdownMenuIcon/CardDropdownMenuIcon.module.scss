@@ -1,9 +1,11 @@
 $text: #172b4d;
 $text_2: #b6c2cf;
+$text_title: #8c9bab;
 $background: #091e420f;
 $background_1: #cc4223;
 $background_2: #fea362;
 $background_2: #fea362;
+
 
 .CardDropdownMenuIcon {
   display: flex;
@@ -62,7 +64,7 @@ $background_2: #fea362;
       white-space: nowrap;
 
       font-size: 14px;
-      color: #b6c2cf;
+      color: $text_2;
       line-height: 18px;
       font-weight: 500;
     }
@@ -73,7 +75,7 @@ $background_2: #fea362;
       text-overflow: ellipsis;
       white-space: nowrap;
 
-      color: #8c9bab;
+      color: $text_title;
       font-size: 12px;
       font-weight: 400;
       line-height: 16px;
@@ -90,10 +92,10 @@ $background_2: #fea362;
     align-items: center;
     justify-content: center;
     transform: scale(1);
+
     &.IconActive {
       visibility: visible;
     }
-
 
     &:hover {
       transform: scale(1);
