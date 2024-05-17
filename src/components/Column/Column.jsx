@@ -10,6 +10,8 @@ export default function Column(props){
 
     let columnCards = dataColumn.cards;
     // console.log(dataColumn);
+    // console.log(props.children);
+
 
   return (
     
@@ -27,7 +29,8 @@ export default function Column(props){
                         <Card key={card.id}/>
                     )
                 }
-
+                тут нужен код из Dashboard
+                {props.children}
             </div>
             
         </div>

@@ -7,7 +7,7 @@ import ButtonIcon from '../ui/ButtonIcon/ButtonIcon';
 import styles from './Header.module.scss';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
-import Search from '../Search/Search';
+import Input from '../ui/Input/Input';
 
 
 export default function Header(props) {
@@ -564,9 +564,11 @@ export default function Header(props) {
 
         </div>
 
+        
         <div className={styles.RightMenu}>
           <div className={styles.blockSearch}>
-            <Search />
+            <Icons className={styles.Loupe} name={'Loupe'} />
+            <Input type="text" placeholder="Поиск" maxLength="500"/>
           </div>
 
           <div className={styles.blockNotification}>
@@ -576,8 +578,9 @@ export default function Header(props) {
           </div>
         </div>
 
+        
       </nav >
-
+      
 
     </div >
   )
