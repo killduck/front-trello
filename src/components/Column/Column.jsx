@@ -1,42 +1,42 @@
+
+
 import Card from '../Card/Card';
 import styles from './Column.module.scss';
-import { useState } from 'react';
 
 
-
-export default function Column(props) {
+export default function Column(props){
 
     let dataColumn = props.dataColumn;
 
-    let сolumnCards = dataColumn.cards;
+    let columnCards = dataColumn.cards;
+    // console.log(dataColumn);
+    // console.log(props.children);
 
 
+  return (
+    
+    <div className={styles.wrapColumn}>
+        <div className={styles.Column}>
 
-    return (
-        <div className={styles.wrapColumn}>
-            <div className={styles.Column}>
-                <h2 className={styles.titleColumn}>
-                    {dataColumn.name}
-                </h2>
+            <h2 className={styles.titleColumn}>
+                {dataColumn.name}
+            </h2>
 
-                <div className={styles.cardList}>
-                    {
+            <div className={styles.cardList}>
 
-                        сolumnCards.map((card, index) =>
-
-                            <Card key={card.id} />
-
-                        )
-
-                    }
-
-
-
-                </div>
+                {
+                    columnCards.map((card) => 
+                        <Card key={card.id}/>
+                    )
+                }
+                тут нужен код из Dashboard
+                {props.children}
             </div>
+            
         </div>
+    </div>
 
-    )
+  )
 };
 
 

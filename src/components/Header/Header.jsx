@@ -9,8 +9,8 @@ import DropDownMenuRecent from '../DropDownMenuRecent/DropDownMenuRecent';
 import DropDownMenuTemplates from '../DropDownMenuTemplates/DropDownMenuTemplates';
 import DropDownMenuWorkspace from '../DropDownMenuWorkspace/DropDownMenuWorkspace';
 import Icons from '../ui/Icons/Icons';
+import Input from '../ui/Input/Input';
 import Notification from '../ui/NotificateBTN/Notification';
-import Search from '../Search/Search';
 
 import styles from './Header.module.scss';
 
@@ -28,7 +28,6 @@ export default function Header(props) {
       'BtnActiveRecentDropMenu': false,
       'BtnActiveFavouritesDropMenu': false,
       'BtnActiveTemplatesDropMenu': false,
-      'TemplatesDownMenu': false,
     }
   );
 
@@ -292,7 +291,8 @@ export default function Header(props) {
 
         <div className={styles.RightMenu}>
           <div className={styles.blockSearch}>
-            <Search />
+            <Icons className={styles.Loupe} name={'Loupe'} />
+            <Input type="text" placeholder="Поиск" maxLength="500" />
           </div>
 
           <div className={styles.blockNotification}>

@@ -1,8 +1,12 @@
+
+.cardList{
+    
+}
 .Column{
-    background-color: var(--accent-background, var(--tr-background-list, #ebecf0));
+    background-color: #101204;
     border-radius: 12px;
     box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
-    color: var(--accent-text, var(--ds-text-subtle, #44546f));
+    color: #9fadbc;
     display: flex;
     justify-content: space-between;
     max-height: 100%;
@@ -39,7 +43,4 @@
     overflow-wrap: anywhere;
     white-space: normal;
     cursor: pointer;
-}
-.cardList{
-    
 }
