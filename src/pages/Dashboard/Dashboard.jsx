@@ -49,7 +49,7 @@ export default function Dashboard(props) {
   const [_newName, takeNewName] = useState('');
   // console.log(_newName);
   const [_newCol, addColumn] = useState(columns);
-  
+
   const onClickAdd = ()=>{
     // console.log(_newName);
     if(_newName !== ''){
@@ -76,23 +76,23 @@ export default function Dashboard(props) {
       <Default>
         <div className={styles.Columns}>
           {
-            _newCol.map((column) => 
-              <Column 
-                key={column.id} 
+            _newCol.map((column) =>
+              <Column
+                key={column.id}
                 dataColumn={column}
               >
 
-              {/* <CreateNewBoardItem 
+              {/* <CreateNewBoardItem
                 className={_show ? styles.none : ''}
-                buttonText={'Добавить карточку'} 
+                buttonText={'Добавить карточку'}
                 spellCheck="false"
-                dir="auto" 
-                maxLength="512" 
-                autoComplete="off" 
-                name="Ввести заголовок списка" 
-                placeholder="Ввести заголовок списка" 
-                aria-label="Ввести заголовок списка" 
-                data-testid="list-name-textarea" 
+                dir="auto"
+                maxLength="512"
+                autoComplete="off"
+                name="Ввести заголовок списка"
+                placeholder="Ввести заголовок списка"
+                aria-label="Ввести заголовок списка"
+                data-testid="list-name-textarea"
                 autoFocus={_show ? false : true}
                 hideElAction={showElement}
                 boolian={true}
@@ -101,9 +101,9 @@ export default function Dashboard(props) {
                 addColumnAction={onClickAdd}
                 newColName={_newCol}
               />
-              <AddOneMoreCol 
+              <AddOneMoreCol
                 className={_show ? '' : styles.none}
-                buttonText={'Добавить карточку_'} 
+                buttonText={'Добавить карточку_'}
                 showElAction={showElement}
                 boolian={false}
               /> */}
@@ -111,17 +111,17 @@ export default function Dashboard(props) {
               </Column>
             )
           }
-          <CreateNewBoardItem 
+          <CreateNewBoardItem
             className={_show ? styles.none : ''}
-            buttonText={'Добавить список'} 
+            buttonText={'Добавить список'}
             spellCheck="false"
-            dir="auto" 
-            maxLength="512" 
-            autoComplete="off" 
-            name="Ввести заголовок списка" 
-            placeholder="Ввести заголовок списка" 
-            aria-label="Ввести заголовок списка" 
-            data-testid="list-name-textarea" 
+            dir="auto"
+            maxLength="512"
+            autoComplete="off"
+            name="Ввести заголовок списка"
+            placeholder="Ввести заголовок списка"
+            aria-label="Ввести заголовок списка"
+            data-testid="list-name-textarea"
             autoFocus={_show ? false : true}
             hideElAction={showElement}
             boolian={true}
@@ -130,10 +130,10 @@ export default function Dashboard(props) {
             addColumnAction={onClickAdd}
             newColName={_newCol}
           />
-          <AddOneMoreCol 
+          <AddOneMoreCol
             className={_show ? '' : styles.none}
             // hidden={show? 'hidden' : ''}
-            buttonText={'Добавьте еще одну колонку'} 
+            buttonText={'Добавьте еще одну колонку'}
             showElAction={showElement}
             boolian={false}
           />

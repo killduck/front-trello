@@ -1,0 +1,147 @@
+.wrapForm{
+    padding: 0 6px;
+    align-self: flex-start;
+    flex-shrink: 0;
+    display: block;
+}
+.form{
+    border-radius: 12px;
+    padding: 8px;
+    width: 272px;
+    background-color: #101204;
+    box-shadow: var(--ds-shadow-raised, 0px 1px 1px #091e4240, 0px 0px 1px #091e424f);
+    box-sizing: border-box;
+}
+.textarea{
+    height: 32px;
+    border-radius: 4px;
+    color: #b6c2cf;
+    font-weight: 600;
+    // height: 28px;
+    margin: 0;
+    max-height: 256px;
+    min-height: 20px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding: 6px 12px;
+    resize: none;
+    width: 100%;
+    // -webkit-appearance: none;
+    background-color: #22272b;
+    border: none;
+    // border-radius: 3px;
+    box-shadow: inset 0 0 0 1px var(--ds-border-input, #091e4224);
+    box-sizing: border-box;
+    display: block;
+    line-height: 20px;
+    // margin-bottom: 12px;
+    outline: none;
+    // padding: 8px 12px;
+    transition-duration: 85ms;
+    transition-property: background-color, border-color, box-shadow;
+    transition-timing-function: ease;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+    font-size: 14px;
+}
+.textarea:hover {
+    background-color: #282e33;
+    box-shadow: inset 0 0 0 1px #738496;
+}
+.textarea:focus{
+    background-color: #22272b;
+    box-shadow: inset 0 0 0 2px #85b8ff;
+}
+.buttons{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    border-radius: 4px;
+}
+.buttonStyle{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    // font-weight: 400;
+    // font-display: swap;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    // justify-content: center;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 12px;
+    text-decoration: none;
+    white-space: normal;
+    // background-color: var(--ds-background-neutral, #091e420f);
+    box-shadow: none;
+    border: none;
+    // color: var(--ds-text, #172b4d);
+    font-weight: 500;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 85ms;
+    transition-timing-function: ease;
+}
+.buttonAdd{
+    background-color: #579dff;
+    box-shadow: none;
+    border: none;
+    color: #1d2125;
+    font-weight: 500;
+}
+.buttonEsc{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 6px;
+    position: relative;
+    color: #dee4ea;
+}
+
+.AddNewBoardItem{
+    padding: 0 6px;
+    align-self: flex-start;
+    flex-shrink: 0;
+    display: block;
+    flex-grow: 1;
+    height: 100%;
+}
+.AddNewBoardItem[hidden]{
+    display: none;
+}
+.Button{
+    justify-content: flex-start;
+    width: 272px;
+    background-color: #ffffff3d;
+    border-radius: 12px;
+    padding: 12px;
+    color: #ffffff;
+    // -------
+    // -webkit-appearance: none;
+    // border: none;
+    // border-radius: 3px;
+    // box-sizing: border-box;
+    // display: inline-block;
+    // line-height: 20px;
+    // padding: 6px 12px;
+    position: relative;
+    // text-decoration: none;
+    text-transform: none;
+    overflow: visible;
+}
+.Button:hover{
+    background-color: #a6c5e229;
+    color: #ffffff;
+    box-shadow: none;
+    border: none;
+    text-decoration: none;
+}
+.Icons{
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    margin-right: 8px;
+    color: #ffffff;
+    font-weight: 500;
+}

@@ -14,7 +14,7 @@ export default function Column(props){
 
 
   return (
-    
+
     <div className={styles.wrapColumn}>
         <div className={styles.Column}>
 
@@ -25,18 +25,16 @@ export default function Column(props){
             <div className={styles.cardList}>
 
                 {
-                    columnCards.map((card) => 
+                    columnCards.map((card) =>
                         <Card key={card.id}/>
                     )
                 }
                 тут нужен код из Dashboard
                 {props.children}
             </div>
-            
+
         </div>
     </div>
 
   )
 };
-
-
