@@ -1,0 +1,41 @@
+.Icons {
+  width: 0;
+  height: 0;
+}
+
+.BtnDropMenuIcon {
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  padding-top: 3px;
+}
+
+.KebabMenuIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.AtlassianIcon,
+.Trello {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  stroke: #fff;
+}
+
+.BtnCardDropdownStar {
+  width: 16px;
+  height: 16px;
+  fill:#a1bdd914;
+  stroke:#9FADBC;
+  stroke-width: 3;
+  &.IconActive{
+    fill: #e2b203;
+    stroke:#e2b203;
+  }
+
+  &:hover {
+    fill: #e2b203;
+    stroke: #e2b203;
+  }
+}

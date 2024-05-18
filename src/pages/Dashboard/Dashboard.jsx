@@ -61,17 +61,17 @@ export default function Dashboard(props) {
                 dataColumn={column}
               >
 
-                {/* <CreateNewBoardItem 
+                {/* <CreateNewBoardItem
                 className={_show ? styles.none : ''}
-                buttonText={'Добавить карточку'} 
+                buttonText={'Добавить карточку'}
                 spellCheck="false"
-                dir="auto" 
-                maxLength="512" 
-                autoComplete="off" 
-                name="Ввести заголовок списка" 
-                placeholder="Ввести заголовок списка" 
-                aria-label="Ввести заголовок списка" 
-                data-testid="list-name-textarea" 
+                dir="auto"
+                maxLength="512"
+                autoComplete="off"
+                name="Ввести заголовок списка"
+                placeholder="Ввести заголовок списка"
+                aria-label="Ввести заголовок списка"
+                data-testid="list-name-textarea"
                 autoFocus={_show ? false : true}
                 hideElAction={showElement}
                 boolian={true}
@@ -80,14 +80,14 @@ export default function Dashboard(props) {
                 addColumnAction={onClickAdd}
                 newColName={_newCol}
               />
-              <AddOneMoreCol 
+              <AddOneMoreCol
                 className={_show ? '' : styles.none}
-                buttonText={'Добавить карточку_'} 
+                buttonText={'Добавить карточку_'}
                 showElAction={showElement}
                 boolian={false}
               /> */}
 
-              </Column>
+              </Column >
             )
           }
           <CreateNewBoardItem
@@ -117,10 +117,10 @@ export default function Dashboard(props) {
             boolian={false}
           />
 
-        </div>
+        </div >
 
-      </Default>
+      </Default >
 
-    </div>
+    </div >
   )
 };
