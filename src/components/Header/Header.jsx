@@ -289,6 +289,7 @@ export default function Header(props) {
           </div>
         </div>
 
+
         <div className={styles.RightMenu}>
           <div className={styles.blockSearch}>
             <Icons className={styles.Loupe} name={'Loupe'} />
@@ -302,7 +303,9 @@ export default function Header(props) {
           </div>
         </div>
 
+
       </nav >
+
 
     </div >
   )

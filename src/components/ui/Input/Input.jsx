@@ -2,7 +2,7 @@
 import styles from "./Input.module.scss";
 import { useState } from "react";
 
-export default function Input(props){
+export default function Input(props) {
 
     const [input_text, setInput] = useState('');
 

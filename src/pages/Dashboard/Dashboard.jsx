@@ -3,67 +3,46 @@ import AddOneMoreCol from "../../components/ui/AddOneMoreCol/AddOneMoreCol";
 import CreateNewBoardItem from "../../components/ui/CreateNewBoardItem/CreateNewBoardItem";
 import Default from "../../layouts/default/Default";
 import styles from "./Dashboard.module.scss";
+import axios from "axios";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function Dashboard(props) {
-// console.log(props);
 
-  let columns = [
-    {
-      id: 1,
-      name: "backlog",
-      order: 1,
-      cards: [
-        {
-          id: 1,
-          name: "Максим es lint",
-          author_id: 3,
-          order: 1,
-        },
-        {
-          id: 2,
-          name: "Лёня хреначит реакт компоненты",
-          author_id: 2,
-          order: 2,
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: "in progress",
-      order: 2,
-      cards: [
-        {
-          id: 3,
-          name: "Кнопки меню",
-          author_id: 4,
-          order: 1,
-        }
-      ]
-    },
-  ]
+  const [columns, setColumns] = useState([]);
 
-  const [_show , showElement] = useState(true);
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/test')
+      .then(function (response) {
+        setColumns(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
+
+
+
+  const [_show, showElement] = useState(true);
   const [_newName, takeNewName] = useState('');
   // console.log(_newName);
   const [_newCol, addColumn] = useState(columns);
 
-  const onClickAdd = ()=>{
+  const onClickAdd = () => {
     // console.log(_newName);
-    if(_newName !== ''){
+    if (_newName !== '') {
       // console.log('56__ da');
-      addColumn([ ..._newCol, {
-          id: 3,
-          name: _newName,
-          order: 3,
-          cards:[],
-        }
+      addColumn([..._newCol, {
+        id: 3,
+        name: _newName,
+        order: 3,
+        cards: [],
+      }
       ]);
       showElement(true);
     }
-    else{
+    else {
       // console.log('56__ net');
       return false;
     }
@@ -76,13 +55,13 @@ export default function Dashboard(props) {
       <Default>
         <div className={styles.Columns}>
           {
-            _newCol.map((column) =>
+            columns.map((column) =>
               <Column
                 key={column.id}
                 dataColumn={column}
               >
 
-              {/* <CreateNewBoardItem
+                {/* <CreateNewBoardItem
                 className={_show ? styles.none : ''}
                 buttonText={'Добавить карточку'}
                 spellCheck="false"
@@ -108,7 +87,7 @@ export default function Dashboard(props) {
                 boolian={false}
               /> */}
 
-              </Column>
+              </Column >
             )
           }
           <CreateNewBoardItem
@@ -138,10 +117,10 @@ export default function Dashboard(props) {
             boolian={false}
           />
 
-        </div>
+        </div >
 
-      </Default>
+      </Default >
 
-    </div>
+    </div >
   )
 };
