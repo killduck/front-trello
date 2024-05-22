@@ -1,7 +1,7 @@
 
-.cardList{
+// .cardList{
     
-}
+// }
 .Column{
     background-color: #101204;
     border-radius: 12px;
@@ -22,6 +22,7 @@
     width: 272px;
     box-sizing: border-box;
     vertical-align: top;
+    font-size: 14px;
 }
 .wrapColumn{
     padding: 0 6px;
@@ -33,7 +34,7 @@
 }
 .titleColumn{
     display: block;
-    font-size: 14px;
+    // font-size: 14px;
     font-weight: 600;
     line-height: 20px;
     margin: 0;
@@ -43,4 +44,8 @@
     overflow-wrap: anywhere;
     white-space: normal;
     cursor: pointer;
+}
+.tittleCard{
+    color: #b6c2cf;
+    text-decoration: none;
 }

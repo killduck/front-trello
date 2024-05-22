@@ -9,7 +9,7 @@ export default function Column(props){
     let dataColumn = props.dataColumn;
 
     let columnCards = dataColumn.cards;
-    // console.log(dataColumn);
+    console.log(dataColumn.cards[0]);
     // console.log(props.children);
 
 
@@ -26,10 +26,12 @@ export default function Column(props){
 
                 {
                     columnCards.map((card) => 
-                        <Card key={card.id}/>
+                        <Card className={styles.tittleCard} key={card.id}>
+                            {card.name}
+                        </Card>
                     )
                 }
-                тут нужен код из Dashboard
+                
                 {props.children}
             </div>
             

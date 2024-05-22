@@ -42,7 +42,7 @@ export default function CreateNewBoardItem(props){
                         dataTestid="list-composer-cancel-button" 
                         ariaLabel="Отменить редактирование"
                         clickAction={props.hideElAction}
-                        actionVariable={props.boolian}
+                        actionVariable={props.showFlag}
                     >
                         <Icons 
                             className={styles.Icons}
