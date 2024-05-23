@@ -1,198 +1,123 @@
 import { useState } from 'react'
 
-import CardDropdownMenu from '../CardDropdownMenu/CardDropdownMenu';
-import CardDropdownMenuIcon from '../CardDropdownMenuIcon/CardDropdownMenuIcon';
-import ButtonIcon from '../ui/ButtonIcon/ButtonIcon';
+import * as api from '../../api/api';
+
+import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
+import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
+import DropDownMenuFavourite from '../DropDownMenuFavourite/DropDownMenuFavourite';
+import DropDownMenuRecent from '../DropDownMenuRecent/DropDownMenuRecent';
+import DropDownMenuTemplates from '../DropDownMenuTemplates/DropDownMenuTemplates';
+import DropDownMenuWorkspace from '../DropDownMenuWorkspace/DropDownMenuWorkspace';
+import Icons from '../ui/Icons/Icons';
+import Input from '../ui/Input/Input';
+import Notification from '../ui/NotificateBTN/Notification';
 
 import styles from './Header.module.scss';
-import Icons from '../ui/Icons/Icons';
-import Notification from '../ui/NotificateBTN/Notification';
-import Input from '../ui/Input/Input';
 
 
 export default function Header(props) {
 
-  let [stateKebabMenu, setKebabMenu] = useState(false);
+  // состояние для Favorites в карточках Workspace
+  let [stateBoardsList, setBoardsList] = useState(api.boards_recent);
 
-  let [stateDisplayWorkspaceDropMenu, setDisplayWorkspaceDownMenu] = useState(false);
+  // состояние для открытия/закрытия выпадающих меню в header
+  let [stateActiveDropMenu, setActiveDropMenu] = useState(
+    {
+      'BtnActiveKebabDropMenu': false,
+      'BtnActiveWorkspaceDropMenu': false,
+      'BtnActiveRecentDropMenu': false,
+      'BtnActiveFavouritesDropMenu': false,
+      'BtnActiveTemplatesDropMenu': false,
+    }
+  );
 
-  let [stateDisplayRecentDropMenu, setDisplayRecentDownMenu] = useState(false);
+  function onRemoving_active_menu(name_state = null) {
 
-  let [stateDisplayFavouritesDropMenu, setDisplayFavouritesDownMenu] = useState(false);
+    let state_switch = {};
 
-  let [stateDisplayTemplatesDropMenu, setDisplayTemplatesDownMenu] = useState(false);
+    for (let key in stateActiveDropMenu) {
 
-  let state_all_menu = [
-    setKebabMenu,
-    setDisplayWorkspaceDownMenu,
-    setDisplayRecentDownMenu,
-    setDisplayFavouritesDownMenu,
-    setDisplayTemplatesDownMenu
-  ]
+      if (name_state === key) {
+        stateActiveDropMenu[key] ?
+          state_switch[key] = false
+          :
+          state_switch[key] = true
+      }
+      else {
+        state_switch[key] = false;
+      }
 
+    }
 
-  function removing_active_menu() {
-    state_all_menu.forEach(state => {
-      state(false);
+    setActiveDropMenu(state_switch);
+  }
+
+  function onRemoving_all_menu(event) {
+    // console.log(event);
+
+    // Временное решение и конечно мне за этот костыль стыдно )))
+    if (event.clientX > 785) {
+      onRemoving_active_menu();
+    }
+  }
+
+  function onAddFavoriteStar(id) {
+
+    let new_boards_list = [];
+
+    stateBoardsList.forEach((card) => {
+
+      if (card.id === id) {
+        card.favorites ? card.favorites = false : card.favorites = true;
+        new_boards_list.push(card);
+      }
+      else {
+        new_boards_list.push(card);
+      }
+
     })
-  }
 
-
-  function change_of_state(state_value, set_value) {
-    state_value ?
-      set_value(false)
-      :
-      set_value(true)
-  }
-
-
-  function onKebabMenu() {
-    console.log('Проверка выполения функции =>', onKebabMenu.name);
-
-    removing_active_menu();
-
-    change_of_state(stateKebabMenu, setKebabMenu);
-  }
-
-  function onMenuWorkspace() {
-    console.log('Проверка выполения функции =>', onMenuWorkspace.name);
-
-    removing_active_menu();
-
-    change_of_state(stateDisplayWorkspaceDropMenu, setDisplayWorkspaceDownMenu);
-  }
-
-  function onMenuRecent() {
-    console.log('Проверка выполения функции =>', onMenuRecent.name);
-
-    removing_active_menu();
-
-    change_of_state(stateDisplayRecentDropMenu, setDisplayRecentDownMenu);
-  }
-
-  function onMenuFavourites() {
-    console.log('Проверка выполения функции =>', onMenuFavourites.name);
-
-    removing_active_menu();
-
-    change_of_state(stateDisplayFavouritesDropMenu, setDisplayFavouritesDownMenu);
-  }
-
-  function onMenuTemplates() {
-    console.log('Проверка выполения функции =>', onMenuTemplates.name);
-
-    removing_active_menu();
-
-    change_of_state(stateDisplayTemplatesDropMenu, setDisplayTemplatesDownMenu);
-  }
-
-  function onButtonCreate() {
-    console.log('Проверка выполения функции =>', onButtonCreate.name);
-
-    removing_active_menu();
+    setBoardsList(new_boards_list);
   }
 
 
   return (
-    <div className={styles.Header}>
+    <div
+      className={styles.Header}
+      onClick={(event) => onRemoving_all_menu(event)}
+    >
       <nav className={styles.Navigation}>
 
-        <div className={styles.ButtonKebabMenu}>
-          <div className={styles.KebabMenu}>
-            <ButtonIcon
-              iconName={'KebabMenu'} // props - Имя кнопки-иконки подставляем из ui/Icons/Icons/icons.svg из id
-              iconSize={ // props - Размер кнопки-иконки
-                {
-                  width: '20',
-                  height: '20',
-                }
-              }
-              iconCaption={true}  // Отображение подписи - есть(true) или нет(false)
-              iconCaptionText={  // Подпись на кнопке-иконке при (true) или (false) либо только иконка
-                {
-                  initial: '',
-                  reverse: ''
-                }
-              }
-              textSize={'16px'} // Размер текста подписи
-              state={stateKebabMenu}
-              stylesState={
-                {
-                  color: '#fff',
-                }
-              }
-              actionFunction={onKebabMenu}  // Проброска callback function
-            />
+        <div className={styles.KebabMenu}>
+          <div
+            className={
+              stateActiveDropMenu['BtnActiveKebabDropMenu'] ?
+                `${styles.MenuButton} ${styles.MenuButtonActive}`
+                :
+                styles.MenuButton
+            }
+          >
+            <div className={styles.MenuTextIconActive}>
+              <ButtonDropMenu
+                class_name={'BtnActiveKebabDropMenu'}
+                actionFunction={onRemoving_active_menu}
+              >
+                <Icons
+                  name={'KebabMenu'}
+                  class_name={'KebabMenuIcon'}
+                />
+              </ButtonDropMenu>
+            </div>
           </div>
           <div
             className={
-              stateKebabMenu ?
+              stateActiveDropMenu['BtnActiveKebabDropMenu'] ?
                 styles.KebabDropDownMenu
                 :
                 styles.NoneDisplay
             }
           >
-            <div>
-              <div className={styles.TitleText}>
-                {'Ваши приложения'.toUpperCase()}
-              </div>
-              <ul>
-                <li>
-                  <a className={styles.KebabMenu_Card} href="#">
-                    <div className={styles.Card_Icon}>
-                      <Icons
-                        name={'Atlassian'}
-                        sizeWidth={'24px'}
-                        sizeHeight={'24px'}
-                        color={'#fff'}
-                        sizeLine={'#fff'}
-                      />
-                    </div>
-                    <div className={styles.Card_Text}>Atlassian Home</div>
-                  </a>
-                </li>
-                <li>
-                  <a className={styles.KebabMenu_Card} href="#">
-                    <div className={styles.Card_Icon}>
-                      <Icons
-                        name={'Trello'}
-                        sizeWidth={'24px'}
-                        sizeHeight={'24px'}
-                        color={'#fff'}
-                        sizeLine={'#fff'}
-                      />
-                    </div>
-                    <div className={styles.Card_Text}>Trello</div>
-                  </a>
-                </li>
-              </ul>
-              <div className={styles.TitleText}>
-                {'Поиск'.toUpperCase()}
-              </div>
-              <ul>
-                <li>
-                  <a className={styles.KebabMenu_Card} href="#">
-                    <div className={styles.Card_Icon}>
-                      <Icons
-                        name={'Atlassian'}
-                        sizeWidth={'24px'}
-                        sizeHeight={'24px'}
-                        color={'#fff'}
-                        sizeLine={'#fff'}
-                      />
-                    </div>
-                    <div className={styles.Card_Text_Serch}>
-                      <div>
-                        <span>Confluence</span>
-                      </div>
-                      <div>
-                        <span>Совместная работа над документами</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <DropDownMenuKebab />
           </div>
         </div>
 
@@ -205,370 +130,170 @@ export default function Header(props) {
 
         <div className={styles.CenterMenu}>
           <div className={styles.CenterMenuWrap}>
-
             <div className={styles.DropDownMenu}>
+
               <div className={styles.MenuWorkspace}>
                 <div
                   className={
-                    stateDisplayWorkspaceDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                    stateActiveDropMenu['BtnActiveWorkspaceDropMenu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
-
+                      styles.MenuButton
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'Рабочие пространства',
-                        reverse: 'Рабочие пространства'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayWorkspaceDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px 6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuWorkspace}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveWorkspaceDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>Рабочие пространства</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
-                    stateDisplayWorkspaceDropMenu ?
+                    stateActiveDropMenu['BtnActiveWorkspaceDropMenu'] ?
                       styles.WorkspaceDropDownMenu
                       :
                       styles.NoneDisplay
                   }
                 >
-                  <div style={{ marginTop: '-3px' }}>
-                    <div className={styles.TitleText}>
-                      Текущее рабочее пространство
-                    </div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenu
-                          cardName={"Ilya Poletuev's workspace"}
-                        />
-                      </li>
-                    </ul>
-                    <div className={styles.LineSeparator}></div>
-                    <div className={styles.TitleText}>
-                      Ваши рабочие пространства
-                    </div>
-                    <ul>
-                      <li className={styles.UseHover}>
-                        <CardDropdownMenu
-                          cardName={"Ilya Poletuev's workspace"}
-                        />
-                      </li>
-                    </ul>
-                    <div className={styles.TitleText}>
-                      Гостевые рабочие пространства
-                    </div>
-                    <ul>
-                      <li className={styles.UseHover}>
-                        <CardDropdownMenu
-                          cardName={"Иван Кузьмин: рабочее пространство"}
-                        />
-                      </li>
-                      <li className={styles.UseHover}>
-                        <CardDropdownMenu
-                          cardName={"No Name: Test workspace"}
-                        />
-                      </li>
-                    </ul>
-                  </div>
+                  <DropDownMenuWorkspace />
                 </div>
               </div>
 
               <div className={styles.MenuRecent}>
                 <div
                   className={
-                    stateDisplayRecentDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                    stateActiveDropMenu['BtnActiveRecentDropMenu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
-
+                      styles.MenuButton
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'Недавние',
-                        reverse: 'Недавние'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayRecentDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuRecent}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveRecentDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>Недавние</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
-                    stateDisplayRecentDropMenu ?
+                    stateActiveDropMenu['BtnActiveRecentDropMenu'] ?
                       styles.RecentDropDownMenu
                       :
                       styles.NoneDisplay
                   }
                 >
-                  <div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Диплом 31"}
-                          cardName={"Ilya Poletuev's workspace"}
-                          cardImg={'background_desert.webp'}
-                          cardIcon={'Star'}
-                          cardIconSize={
-                            {
-                              width: '16',
-                              height: '16',
-                            }
-                          }
-                          colorFillIcon={'#e2b203'}
-                          sizeLineIcon={'3'}
-                        />
-                      </li>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Single Page (Laravel + React)"}
-                          cardName={"Иван Кузьмин: рабочее пространство"}
-                          cardImg={'Background_blue.svg'}
-                          cardIcon={'Star'}
-                          cardIconSize={
-                            {
-                              width: '16',
-                              height: '16',
-                            }
-                          }
-                          colorFillIcon={'#e2b203'}
-                          sizeLineIcon={'3'}
-                        />
-                      </li>
-                    </ul>
-                  </div>
+                  <DropDownMenuRecent
+                    data={stateBoardsList}
+                    actionFunction={onAddFavoriteStar}
+                  />
                 </div>
               </div>
 
               <div className={styles.MenuFavourites}>
                 <div
                   className={
-                    stateDisplayFavouritesDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                    stateActiveDropMenu['BtnActiveFavouritesDropMenu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
-
+                      styles.MenuButton
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'В избранном',
-                        reverse: 'В избранном'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayFavouritesDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuFavourites}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveFavouritesDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>В избранном</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
-                    stateDisplayFavouritesDropMenu ?
+                    stateActiveDropMenu['BtnActiveFavouritesDropMenu'] ?
                       styles.FavouritesDropDownMenu
                       :
                       styles.NoneDisplay
                   }
                 >
-                  <div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Диплом 31"}
-                          cardName={"Ilya Poletuev's workspace"}
-                          cardImg={'background_desert.webp'}
-                          cardIcon={'Star'}
-                          cardIconSize={
-                            {
-                              width: '16',
-                              height: '16',
-                            }
-                          }
-                          colorFillIcon={'#e2b203'}
-                          sizeLineIcon={'3'}
-                        />
-                      </li>
-                    </ul>
-                  </div>
+                  <DropDownMenuFavourite
+                    data={stateBoardsList}
+                    actionFunction={onAddFavoriteStar}
+                  />
                 </div>
               </div>
 
               <div className={styles.MenuTemplates}>
                 <div
                   className={
-                    stateDisplayTemplatesDropMenu ?
-                      `${styles.ButtonIcon} ${styles.ButtonIconActive}`
+                    stateActiveDropMenu['onRemoving_active_menu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
                       :
-                      styles.ButtonIcon
-
+                      styles.MenuButton
                   }
                 >
-                  <ButtonIcon
-                    iconName={'ArrowDown'}
-                    iconSize={
-                      {
-                        width: '16',
-                        height: '16',
-                      }
-                    }
-                    iconCaptionText={
-                      {
-                        initial: 'Шаблоны',
-                        reverse: 'Шаблоны'
-                      }
-                    }
-                    textSize={'14px'}
-                    state={stateDisplayTemplatesDropMenu}
-                    stylesBasic={
-                      {
-                        padding: '6px 10px',
-                      }
-                    }
-                    stylesState={
-                      {
-                        color: '#579DFF',
-                        padding: '6px 10px',
-                      }
-                    }
-
-                    actionFunction={onMenuTemplates}
-                  />
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveTemplatesDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>Шаблоны</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
+                  </div>
                 </div>
                 <div
                   className={
-                    stateDisplayTemplatesDropMenu ?
+                    stateActiveDropMenu['BtnActiveTemplatesDropMenu'] ?
                       styles.TemplatesDropDownMenu
                       :
                       styles.NoneDisplay
                   }
                 >
-                  <div>
-                    <div className={styles.TitleText}>
-                      Популярные шаблоны
-                    </div>
-                    <ul>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"1-on-1 Meeting Agenda"}
-                          cardImg={'photo_templates_1.jpg'}
-                        />
-                      </li>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Agile Board Template | Trello"}
-                          cardImg={'photo_templates_2.jpeg'}
-                        />
-                      </li>
-                      <li>
-                        <CardDropdownMenuIcon
-                          cardTheme={"Company Overview"}
-                          cardImg={'photo_templates_3.jpeg'}
-                        />
-                      </li>
-                    </ul>
-                  </div>
+                  <DropDownMenuTemplates
+                    data={api.templates}
+                  />
                 </div>
               </div>
             </div>
 
             <div className={styles.ButtonCreate}>
-              <ButtonIcon
-                iconCaptionText={
-                  {
-                    initial: 'Создать',
-                    reverse: 'Создать'
-                  }
-                }
-                stylesBasic={
-                  {
-                    height: '100%',
-                    padding: '0px 12px',
-                  }
-                }
-                stylesState={
-                  {
-                    padding: '0px 12px',
-                  }
-                }
-                textSize={'14px'}
-                actionFunction={onButtonCreate}
-              />
-
+              <ButtonDropMenu
+                class_name={'BtnCreate'}
+                actionFunction={onRemoving_active_menu}
+              >
+                <span>Создать</span>
+              </ButtonDropMenu>
             </div>
-            <div></div>
-          </div>
 
+          </div>
         </div>
 
-        
+
         <div className={styles.RightMenu}>
           <div className={styles.blockSearch}>
             <Icons className={styles.Loupe} name={'Loupe'} />
-            <Input type="text" placeholder="Поиск" maxLength="500"/>
+            <Input type="text" placeholder="Поиск" maxLength="500" />
           </div>
 
           <div className={styles.blockNotification}>
@@ -578,9 +303,9 @@ export default function Header(props) {
           </div>
         </div>
 
-        
+
       </nav >
-      
+
 
     </div >
   )

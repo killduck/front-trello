@@ -1,28 +1,42 @@
-import ButtonIcon from '../ui/ButtonIcon/ButtonIcon'
+import QuickLabelled from '../ui/QuickLabelled/QuickLabelled'
+
 import styles from './CardDropdownMenuIcon.module.scss'
 
-export default function CardDropdownMenu(props) {
+
+export default function CardDropdownMenuIcon(props) {
+
+  let card = props.card;
+
+  let option = {
+    cardIcon: props.cardIcon,
+    actionFunction: props.actionFunction,
+  }
 
   return (
-
-    <a className={styles.CardDropdownMenu} href="#">
+    <a className={styles.CardDropdownMenuIcon} href="#">
       <div className={styles.Image}>
-        <img className={styles.ImageBackground} src={`img/${props.cardImg}`} alt="" />
+        <img className={styles.ImageBackground} src={`img/${card.cardImg}`} alt="" />
       </div>
       <div className={styles.CardText}>
         <div className={styles.CardTheme}>
-          {props.cardTheme}
+          {card.cardTheme}
         </div>
         <div className={styles.CardTitle}>
-          {props.cardName}
+          {card.cardName}
         </div>
       </div>
-      <div className={styles.CardIcon}>
-        <ButtonIcon
-          iconName={props.cardIcon}
-          iconSize={props.cardIconSize}
-          colorFillIcon={props.colorFillIcon}
-          sizeLineIcon={props.sizeLineIcon}
+      <div className={
+        card.favorites ?
+          `${styles.CardIcon} ${styles.IconActive}`
+          :
+          styles.CardIcon
+      }>
+        <QuickLabelled
+          iconName={option.cardIcon}
+          class_name={`BtnCardDropdown${option.cardIcon}`}
+          favoriteStar={card.favorites}
+          actionFunction={option.actionFunction}
+          id_card={card.id}
         />
       </div>
     </a >

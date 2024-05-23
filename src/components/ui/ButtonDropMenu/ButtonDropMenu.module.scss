@@ -1,0 +1,33 @@
+@mixin flex-jfc-ai-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ButtonMenu {
+  @include flex-jfc-ai-center;
+
+  span {
+    text-align: left;
+    line-height: 1.5;
+  }
+}
+
+.BtnActiveKebabDropMenu {
+  width: 32px;
+  height: 32px;
+}
+
+.BtnDropMenu,
+.BtnActiveWorkspaceDropMenu,
+.BtnActiveRecentDropMenu,
+.BtnActiveFavouritesDropMenu,
+.BtnActiveTemplatesDropMenu {
+  padding: 6px 10px;
+}
+
+.BtnCreate {
+  width: 100%;
+  height: 100%;
+  padding: 0px 12px;
+}
