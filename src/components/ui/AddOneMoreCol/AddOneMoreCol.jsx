@@ -11,7 +11,7 @@ export default function AddOneMoreCol(props){
             <Button 
                 className={styles.AddOneMoreColButton}
                 clickAction={props.showElAction}
-                actionVariable={props.boolian}
+                actionVariable={props.showFlag}
             >
                 <Icons 
                     className={styles.Icons}

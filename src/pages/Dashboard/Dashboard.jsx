@@ -11,44 +11,35 @@ import { useState, useEffect } from "react";
 export default function Dashboard(props) {
 
   const [columns, setColumns] = useState([]);
+  const [show, setShowElement] = useState(true);
+  const [newName, setText] = useState('');
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/test')
       .then(function (response) {
         setColumns(response.data);
+        // console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, []);
 
-
-
-  const [_show, showElement] = useState(true);
-  const [_newName, takeNewName] = useState('');
-  // console.log(_newName);
-  const [_newCol, addColumn] = useState(columns);
-
   const onClickAdd = () => {
-    // console.log(_newName);
-    if (_newName !== '') {
-      // console.log('56__ da');
-      addColumn([..._newCol, {
+    if (newName !== '') {
+      setColumns([...columns, {
         id: 3,
-        name: _newName,
+        name: newName,
         order: 3,
         cards: [],
       }
       ]);
-      showElement(true);
+      setShowElement(true);
     }
     else {
-      // console.log('56__ net');
       return false;
     }
   }
-
-  // console.log(columns);
 
   return (
     <div>
@@ -61,37 +52,16 @@ export default function Dashboard(props) {
                 dataColumn={column}
               >
 
-                {/* <CreateNewBoardItem
-                className={_show ? styles.none : ''}
-                buttonText={'Добавить карточку'}
-                spellCheck="false"
-                dir="auto"
-                maxLength="512"
-                autoComplete="off"
-                name="Ввести заголовок списка"
-                placeholder="Ввести заголовок списка"
-                aria-label="Ввести заголовок списка"
-                data-testid="list-name-textarea"
-                autoFocus={_show ? false : true}
-                hideElAction={showElement}
-                boolian={true}
-                changeAction={takeNewName}
-                newText={_newName}
-                addColumnAction={onClickAdd}
-                newColName={_newCol}
-              />
-              <AddOneMoreCol
-                className={_show ? '' : styles.none}
-                buttonText={'Добавить карточку_'}
-                showElAction={showElement}
-                boolian={false}
-              /> */}
-
-              </Column >
+                <span>
+                  тут нужен код добавления карточек
+                  {/* можно использовать компоненты: CreateNewBoardItem и AddOneMoreCol. */}
+                </span>
+               
+              </Column>
             )
           }
           <CreateNewBoardItem
-            className={_show ? styles.none : ''}
+            className={show ? styles.none : ''}
             buttonText={'Добавить список'}
             spellCheck="false"
             dir="auto"
@@ -101,26 +71,26 @@ export default function Dashboard(props) {
             placeholder="Ввести заголовок списка"
             aria-label="Ввести заголовок списка"
             data-testid="list-name-textarea"
-            autoFocus={_show ? false : true}
-            hideElAction={showElement}
-            boolian={true}
-            changeAction={takeNewName}
-            newText={_newName}
+            autoFocus={show ? false : true}
+            hideElAction={setShowElement}
+            showFlag={true}
+            changeAction={setText}
+            newText={newName}
             addColumnAction={onClickAdd}
-            newColName={_newCol}
+            newColName={columns}
           />
           <AddOneMoreCol
-            className={_show ? '' : styles.none}
+            className={show ? '' : styles.none}
             // hidden={show? 'hidden' : ''}
             buttonText={'Добавьте еще одну колонку'}
-            showElAction={showElement}
-            boolian={false}
+            showElAction={setShowElement}
+            showFlag={false}
           />
 
-        </div >
+        </div>
 
-      </Default >
+      </Default>
 
-    </div >
+    </div>
   )
 };
