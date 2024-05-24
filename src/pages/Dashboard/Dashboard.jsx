@@ -15,7 +15,7 @@ export default function Dashboard(props) {
   const [newName, setText] = useState('');
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/test')
+    axios.get('http://127.0.0.1:8000/columns')
       .then(function (response) {
         setColumns(response.data);
         // console.log(response.data);
@@ -56,7 +56,7 @@ export default function Dashboard(props) {
                   тут нужен код добавления карточек
                   {/* можно использовать компоненты: CreateNewBoardItem и AddOneMoreCol. */}
                 </span>
-               
+
               </Column>
             )
           }

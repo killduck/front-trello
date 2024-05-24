@@ -7,17 +7,18 @@ export default function DropDownMenuTemplates(props) {
 
   let templates = props.data;
 
+
   return (
     <div className={styles.TemplatesDropDownMenu_Wrap}>
       <div className={styles.TitleText}>
         Популярные шаблоны
       </div>
+
       <ul>
         {
           templates.map((template, index) =>
-            <li>
+            <li key={template.id}>
               <CardDropdownMenuIcon
-                key={template.id}
                 card={template}
               />
             </li>

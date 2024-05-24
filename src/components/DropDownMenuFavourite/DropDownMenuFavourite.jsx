@@ -17,9 +17,8 @@ export default function DropDownMenuFavourite(props) {
 
             if (board.favorites) {
               return (
-                <li>
+                <li key={board.id}>
                   <CardDropdownMenuIcon
-                    key={board.id}
                     card={board}
                     cardIcon={'Star'}
                     actionFunction={actionFunction}

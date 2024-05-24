@@ -24,14 +24,17 @@ export let boards_recent = [
 
 export let templates = [
   {
+    id: 1,
     cardTheme: '1-on-1 Meeting Agenda',
     cardImg: 'photo_templates_1.jpg',
   },
   {
+    id: 2,
     cardTheme: 'Agile Board Template | Trello',
     cardImg: 'photo_templates_2.jpeg',
   },
   {
+    id: 3,
     cardTheme: 'Company Overview',
     cardImg: 'photo_templates_3.jpeg',
   },

@@ -13,9 +13,8 @@ export default function DropDownMenuRecent(props) {
       <ul>
         {
           list_boards.map((board, index) =>
-            <li>
+            <li key={board.id}>
               <CardDropdownMenuIcon
-                key={board.id}
                 card={board}
                 cardIcon={'Star'}
                 actionFunction={actionFunction}

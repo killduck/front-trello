@@ -4,41 +4,39 @@ import Card from '../Card/Card';
 import styles from './Column.module.scss';
 
 
-export default function Column(props){
+export default function Column(props) {
 
     let dataColumn = props.dataColumn;
 
     let columnCards = dataColumn.cards;
-    console.log(dataColumn.cards[0]);
-    // console.log(props.children);
 
 
-  return (
-    
-    <div className={styles.wrapColumn}>
-        <div className={styles.Column}>
+    return (
 
-            <h2 className={styles.titleColumn}>
-                {dataColumn.name}
-            </h2>
+        <div className={styles.wrapColumn}>
+            <div className={styles.Column}>
 
-            <div className={styles.cardList}>
+                <h2 className={styles.titleColumn}>
+                    {dataColumn.name}
+                </h2>
 
-                {
-                    columnCards.map((card) => 
-                        <Card className={styles.tittleCard} key={card.id}>
-                            {card.name}
-                        </Card>
-                    )
-                }
-                
-                {props.children}
+                <div className={styles.cardList}>
+
+                    {
+                        columnCards.map((card) =>
+                            <Card className={styles.tittleCard} key={card.id}>
+                                {card.name}
+                            </Card>
+                        )
+                    }
+
+                    {props.children}
+                </div>
+
             </div>
-            
         </div>
-    </div>
 
-  )
+    )
 };
 
 
