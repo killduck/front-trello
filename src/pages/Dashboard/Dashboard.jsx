@@ -5,9 +5,6 @@ import Default from "../../layouts/default/Default";
 import styles from "./Dashboard.module.scss";
 import axios from "axios";
 
-// import { Droppable } from './Droppable';
-// import { Draggable } from './Draggable';
-
 import { useState, useEffect } from "react";
 
 
@@ -19,7 +16,7 @@ import {
   arrayMove,
   SortableContext,
   useSortable,
-  verticalListSortingStrategy,
+  horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
 const data = [
@@ -66,28 +63,27 @@ const data = [
 ];
 
 
-const SortableUser = ({ user }) => {
+const SortableColumns = ({ column }) => {
+
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition,
-  } = useSortable({ id: user.id });
+  } = useSortable({ id: column.id });
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
   };
 
   return (
-    <div
-      ref={setNodeRef}
+    <div ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
-      className="user"
-    >
-      {user.name}
+      {...listeners}>
+      <Column
+        dataColumn={column}></Column>
     </div>
   );
 };
@@ -97,26 +93,19 @@ const SortableUser = ({ user }) => {
 
 export default function Dashboard(props) {
 
-  const [users, setUsers] = useState(data);
-  const [inputValue, setInputValue] = useState("");
-  const addUser = () => {
-    let newUser = {
-      id: "1",
-      name: inputValue,
-    };
-    setInputValue("");
-    setUsers((users) => [...users, newUser]);
-  };
+
 
   const onDragEnd = (event) => {
+
+
     const { active, over } = event;
     if (active.id === over.id) {
       return;
     }
-    setUsers((users) => {
-      const oldIndex = users.findIndex((user) => user.id === active.id);
-      const newIndex = users.findIndex((user) => user.id === over.id);
-      return arrayMove(users, oldIndex, newIndex);
+    setColumns((column) => {
+      const oldIndex = columns.findIndex((column) => column.id === active.id);
+      const newIndex = columns.findIndex((column) => column.id === over.id);
+      return arrayMove(columns, oldIndex, newIndex);
     });
   };
 
@@ -129,7 +118,6 @@ export default function Dashboard(props) {
     axios.get('http://127.0.0.1:8000/columns')
       .then(function (response) {
         setColumns(response.data);
-        // console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -157,32 +145,28 @@ export default function Dashboard(props) {
       <Default>
 
         <div>
-          <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+          {/* <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
             <SortableContext items={users} strategy={verticalListSortingStrategy}>
               {users.map((user) => (
                 <SortableUser key={user.id} user={user} />
               ))}
             </SortableContext>
-          </DndContext>
+          </DndContext> */}
         </div>
 
 
         <div className={styles.Columns}>
-          {
-            columns.map((column) =>
-              <Column
-                key={column.id}
-                dataColumn={column}
-              >
 
-                <span>
-                  тут нужен код добавления карточек
-                  {/* можно использовать компоненты: CreateNewBoardItem и AddOneMoreCol. */}
-                </span>
 
-              </Column>
-            )
-          }
+          <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+            <SortableContext items={columns} strategy={horizontalListSortingStrategy}>
+              {columns.map((column) => (
+                <SortableColumns key={column.id} column={column} />
+              ))}
+            </SortableContext>
+          </DndContext>
+
+
           <CreateNewBoardItem
             className={show ? styles.none : ''}
             buttonText={'Добавить список'}
