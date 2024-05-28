@@ -19,50 +19,6 @@ import {
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-const data = [
-  {
-    id: 1,
-    name: "Samaria",
-  },
-  {
-    id: 2,
-    name: "Gauthier",
-  },
-  {
-    id: 3,
-    name: "Mellisa",
-  },
-  {
-    id: 4,
-    name: "Arabela",
-  },
-  {
-    id: 5,
-    name: "Devon",
-  },
-  {
-    id: 6,
-    name: "Stacee",
-  },
-  {
-    id: 7,
-    name: "Federica",
-  },
-  {
-    id: 8,
-    name: "Jecho",
-  },
-  {
-    id: 9,
-    name: "Alasteir",
-  },
-  {
-    id: 10,
-    name: "Elston",
-  },
-];
-
-
 const SortableColumns = ({ column }) => {
 
   const {
@@ -88,16 +44,9 @@ const SortableColumns = ({ column }) => {
   );
 };
 
-
-
-
 export default function Dashboard(props) {
 
-
-
   const onDragEnd = (event) => {
-
-
     const { active, over } = event;
     if (active.id === over.id) {
       return;
@@ -109,10 +58,19 @@ export default function Dashboard(props) {
     });
   };
 
-
   const [columns, setColumns] = useState([]);
-  const [show, setShowElement] = useState(true);
+  const [showForm, setShowElement] = useState(true);
   const [newName, setText] = useState('');
+  
+  useEffect(() => {
+    axios.post('http://127.0.0.1:8000/columns/', columns)
+    .then((response) => {
+      console.log(response.status);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  });
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/columns')
@@ -124,22 +82,40 @@ export default function Dashboard(props) {
       });
   }, []);
 
+  function new_column_data(columns){
+    // let col_id = [];
+    let col_order = [];
+
+    columns.forEach(column => {
+      console.log(typeof(column.order));
+      // col_id.push(column.id);
+      col_order.push(column.order);
+    });
+
+    console.log(col_order.length);
+    let new_order = Math.max(col_order);
+    console.log(typeof(new_order));
+
+    return new_order;
+  }
+
   const onClickAdd = () => {
     if (newName !== '') {
       setColumns([...columns, {
         id: 3,
         name: newName,
-        order: 3,
+        order: new_column_data(columns),
         cards: [],
       }
       ]);
+      console.log('test set=>', columns);
       setShowElement(true);
     }
     else {
       return false;
     }
   }
-
+  console.log(columns)
   return (
     <div>
       <Default>
@@ -168,7 +144,7 @@ export default function Dashboard(props) {
 
 
           <CreateNewBoardItem
-            className={show ? styles.none : ''}
+            className={showForm ? styles.none : ''}
             buttonText={'Добавить список'}
             spellCheck="false"
             dir="auto"
@@ -178,7 +154,7 @@ export default function Dashboard(props) {
             placeholder="Ввести заголовок списка"
             aria-label="Ввести заголовок списка"
             data-testid="list-name-textarea"
-            autoFocus={show ? false : true}
+            autoFocus={showForm ? false : true}
             hideElAction={setShowElement}
             showFlag={true}
             changeAction={setText}
@@ -187,7 +163,7 @@ export default function Dashboard(props) {
             newColName={columns}
           />
           <AddOneMoreCol
-            className={show ? '' : styles.none}
+            className={showForm ? '' : styles.none}
             // hidden={show? 'hidden' : ''}
             buttonText={'Добавьте еще одну колонку'}
             showElAction={setShowElement}
