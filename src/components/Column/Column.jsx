@@ -7,9 +7,7 @@ import styles from './Column.module.scss';
 export default function Column(props) {
 
     let dataColumn = props.dataColumn;
-
     let columnCards = dataColumn.cards;
-
 
     return (
 

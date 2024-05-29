@@ -59,9 +59,21 @@ export default function Dashboard(props) {
   };
 
   const [columns, setColumns] = useState([]);
-  const [showForm, setShowElement] = useState(true);
+  const [showForm, setShowForm] = useState(true);
   const [newName, setText] = useState('');
-  
+
+  // function new_order(){
+  //   axios.post('http://127.0.0.1:8000/columns/', columns)
+  //   .then((response) => {
+  //     console.log(response.status);
+  //     // console.log(response.data);
+  //     // setColumns(response.data);
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   })
+  // }
+
   useEffect(() => {
     axios.post('http://127.0.0.1:8000/columns/', columns)
     .then((response) => {
@@ -81,41 +93,42 @@ export default function Dashboard(props) {
         console.log(error);
       });
   }, []);
+  
+  // # тут будем добавлять новую колонку
+  function new_column_data(columns, new_name)
+  { 
+    let new_column = {
+      'id': 1,
+      'name': new_name,
+      'order': 1,
+      'cards': [],
+    };
 
-  function new_column_data(columns){
-    // let col_id = [];
-    let col_order = [];
-
-    columns.forEach(column => {
-      console.log(typeof(column.order));
-      // col_id.push(column.id);
-      col_order.push(column.order);
-    });
-
-    console.log(col_order.length);
-    let new_order = Math.max(col_order);
-    console.log(typeof(new_order));
-
-    return new_order;
+    if(columns.length > 0){
+      let id_arr = [];
+      let order_arr = [];
+      columns.forEach((column) => {
+        id_arr.push(column.id);
+        order_arr.push(column.order);
+      });
+      new_column.id = Math.max.apply(null, id_arr) +1;
+      new_column.order = Math.max.apply(null, order_arr) +1;
+    }
+    return new_column;
   }
-
   const onClickAdd = () => {
     if (newName !== '') {
-      setColumns([...columns, {
-        id: 3,
-        name: newName,
-        order: new_column_data(columns),
-        cards: [],
-      }
-      ]);
-      console.log('test set=>', columns);
-      setShowElement(true);
+      setColumns([...columns, new_column_data(columns, newName),]); // добавляем новую колонку
+      setShowForm(true); // снова показываем кнопку AddOneMoreCol
     }
     else {
       return false;
     }
   }
-  console.log(columns)
+  // # тут будем добавлять новую колонку
+
+  // console.log(columns);
+
   return (
     <div>
       <Default>
@@ -155,7 +168,7 @@ export default function Dashboard(props) {
             aria-label="Ввести заголовок списка"
             data-testid="list-name-textarea"
             autoFocus={showForm ? false : true}
-            hideElAction={setShowElement}
+            hideElAction={setShowForm}
             showFlag={true}
             changeAction={setText}
             newText={newName}
@@ -164,9 +177,8 @@ export default function Dashboard(props) {
           />
           <AddOneMoreCol
             className={showForm ? '' : styles.none}
-            // hidden={show? 'hidden' : ''}
             buttonText={'Добавьте еще одну колонку'}
-            showElAction={setShowElement}
+            showElAction={setShowForm}
             showFlag={false}
           />
 

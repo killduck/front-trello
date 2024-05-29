@@ -3,17 +3,21 @@
 import styles from "./Button.module.scss";
 
 export default function Button(props) {
-    // console.log(props.actionVariable);
+
+    let class_name = props.className;
+    let type = props.type;
+    let dataTestid = props.dataTestid;
+    let ariaLabel = props.ariaLabel;
+    let clickAction = props.clickAction;
+    let actionVariable = props.actionVariable;
 
     return (
         <button
-            className={`${props.className} ${styles.buttonStyle}`}
-            type={props.type}
-            data-testid={props.dataTestid}
-            aria-label={props.ariaLabel}
-            onClick={
-                () => props.clickAction(props.actionVariable)
-            }
+            className={`${class_name} ${styles.buttonStyle}`}
+            type={type}
+            data-testid={dataTestid}
+            aria-label={ariaLabel}
+            onClick={() => clickAction(actionVariable)}
         >
             {props.children}
         </button>

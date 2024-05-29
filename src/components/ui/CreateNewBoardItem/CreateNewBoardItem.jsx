@@ -29,10 +29,10 @@ export default function CreateNewBoardItem(props){
                 <div className={styles.buttons}>
                     <Button 
                         className={`${styles.buttonAdd}`}
-                        type="button" // нужно заменить на: type="submit"
+                        type="button" // нужно заменить на: type="submit" ???
                         dataTestid="list-composer-add-list-button"
                         clickAction={props.addColumnAction}
-                        actionVariable={props.newColName}
+                        actionVariable={props.newColName.value}
                     >
                         {props.buttonText}
                     </Button>
@@ -47,11 +47,6 @@ export default function CreateNewBoardItem(props){
                         <Icons 
                             className={styles.Icons}
                             name={'CloseIcon'}
-                            // sizeWidth={'20'}
-                            // sizeHeight={'20'}
-                            // color={'#fff'}
-                            // sizeLine={'#fff'}
-                            // viewBox={'0 0 24 24'}
                         ></Icons>
                     </Button>
                 </div>
