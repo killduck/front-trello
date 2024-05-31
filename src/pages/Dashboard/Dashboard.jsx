@@ -62,31 +62,31 @@ export default function Dashboard(props) {
   const [showForm, setShowForm] = useState(true);
   const [newName, setText] = useState('');
 
-  function new_order(){
-    console.log('asd');
-    axios.post('http://127.0.0.1:8000/columns/', columns)
-    .then((response) => {
-      console.log(response.status);
-      console.log(response.data);
-      // if(response.status === 200){
-      //   setColumns(response.data);
-      // }
-      // setColumns(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  }
-
-  // useEffect(() => {
+  // function new_order(){
+  //   console.log('asd');
   //   axios.post('http://127.0.0.1:8000/columns/', columns)
   //   .then((response) => {
   //     console.log(response.status);
+  //     console.log(response.data);
+  //     // if(response.status === 200){
+  //     //   setColumns(response.data);
+  //     // }
+  //     // setColumns(response.data);
   //   })
   //   .catch((error) => {
   //     console.error(error);
-  //   });
-  // });
+  //   })
+  // }
+
+  useEffect(() => {
+    axios.post('http://127.0.0.1:8000/columns/', columns)
+    .then((response) => {
+      console.log(response.status);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  });
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/columns')
