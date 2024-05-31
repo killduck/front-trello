@@ -18,6 +18,7 @@ import {
   useSortable,
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import request from "../../api/request";
 
 const SortableColumns = ({ column }) => {
   const {
@@ -45,62 +46,67 @@ const SortableColumns = ({ column }) => {
 
 export default function Dashboard(props) {
 
+  const [columns, setColumns] = useState([]);
+
   const onDragEnd = (event) => {
     const { active, over } = event;
     if (active.id === over.id) {
       return;
     }
-    setColumns((column) => {
-      const oldIndex = columns.findIndex((column) => column.id === active.id);
-      const newIndex = columns.findIndex((column) => column.id === over.id);
-      return arrayMove(columns, oldIndex, newIndex);
-    });
-    // new_order();
+
+    console.log(columns);
+
+    editOrderColumns(active, over);
+    // setColumns((column) => {
+    //   const oldIndex = columns.findIndex((column) => column.id === active.id);
+    //   const newIndex = columns.findIndex((column) => column.id === over.id);
+    //   return arrayMove(columns, oldIndex, newIndex);
+    // });
+    new_order();
   };
 
-  const [columns, setColumns] = useState([]);
+
+  function editOrderColumns(active, over) {
+
+    const oldIndex = columns.findIndex((column) => column.id === active.id);
+    const newIndex = columns.findIndex((column) => column.id === over.id);
+
+    let copy = arrayMove(columns, oldIndex, newIndex);
+
+    copy.map((column, index) => {
+      column.order = index;
+    })
+
+    setColumns(copy);
+    return arrayMove(copy, oldIndex, newIndex);
+
+  }
+
   const [showForm, setShowForm] = useState(true);
   const [newName, setText] = useState('');
 
-  function new_order(){
-    console.log('asd');
-    axios.post('http://127.0.0.1:8000/columns/', columns)
-    .then((response) => {
-      console.log(response.status);
-      console.log(response.data);
-      // if(response.status === 200){
-      //   setColumns(response.data);
-      // }
-      // setColumns(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+  function new_order() {
+
+    axios.post('http://127.0.0.1:8000/edite-columns/', columns)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.error(error);
+      })
   }
 
-  // useEffect(() => {
-  //   axios.post('http://127.0.0.1:8000/columns/', columns)
-  //   .then((response) => {
-  //     console.log(response.status);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
-  // });
+
+
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/columns')
-      .then(function (response) {
-        setColumns(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+    request("GET", 'columns/', (response) => { setColumns(response); })
+
   }, []);
-  
+
   // # тут будем добавлять новую колонку
-  function new_column_data(columns, new_name)
-  { 
+  function new_column_data(columns, new_name) {
     let new_column = {
       'id': 1,
       'name': new_name,
@@ -108,15 +114,15 @@ export default function Dashboard(props) {
       'cards': [],
     };
 
-    if(columns.length > 0){
+    if (columns.length > 0) {
       let id_arr = [];
       let order_arr = [];
       columns.forEach((column) => {
         id_arr.push(column.id);
         order_arr.push(column.order);
       });
-      new_column.id = Math.max.apply(null, id_arr) +1;
-      new_column.order = Math.max.apply(null, order_arr) +1;
+      new_column.id = Math.max.apply(null, id_arr) + 1;
+      new_column.order = Math.max.apply(null, order_arr) + 1;
     }
     return new_column;
   }
@@ -131,21 +137,10 @@ export default function Dashboard(props) {
   }
   // # тут будем добавлять новую колонку
 
-  // console.log(columns);
-
   return (
     <div>
       <Default>
 
-        <div>
-          {/* <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-            <SortableContext items={users} strategy={verticalListSortingStrategy}>
-              {users.map((user) => (
-                <SortableUser key={user.id} user={user} />
-              ))}
-            </SortableContext>
-          </DndContext> */}
-        </div>
 
 
         <div className={styles.Columns}>
