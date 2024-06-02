@@ -6,7 +6,7 @@ import KanbanBoard from './pages/KanbanBoard/KanbanBoard'
 function App() {
   return (
     <div>
-      <Dashboard />
+      {/* <Dashboard /> */}
 
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
