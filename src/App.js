@@ -1,6 +1,7 @@
 import './ResetStyle.css'
 import './App.css'
 import Dashboard from './pages/Dashboard/Dashboard'
+import KanbanBoard from './pages/KanbanBoard/KanbanBoard'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           Learn React
         </a>
       </header> */}
+      <KanbanBoard />
     </div>
   )
 }
