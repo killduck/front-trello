@@ -97,7 +97,7 @@ export default function KanbanBoard() {
   function createTask(columnId) {
     const newTask = {
       id: generateId(),
-      columnId,
+      columnId: columnId,
       name: `Task ${tasks.length + 1}`,
     };
 
