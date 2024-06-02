@@ -1,16 +1,13 @@
+import axios from "axios";
 import {
   DndContext,
-  DragEndEvent,
-  DragOverEvent,
   DragOverlay,
-  DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 
@@ -18,97 +15,45 @@ import Default from "../../layouts/default/Default";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import PlusIcon from "../../components/ui/Icons/PlusIcon";
+import request from "../../api/request";
 
 import styles from "./KanbanBoard.module.scss";
 
 
-const defaultCols = [
-  {
-    id: "todo",
-    title: "Todo",
-  },
-  {
-    id: "doing",
-    title: "Work in progress",
-  },
-  {
-    id: "done",
-    title: "Done",
-  },
-];
+// const defaultCols = [
+//   {
+//     id: 1,
+//     name: "backlog",
+//     order: 0,
+//   },
+//   {
+//     id: 2,
+//     name: "in progress",
+//     order: 1,
+//   },
+// ];
 
 const defaultTasks = [
   {
     id: "1",
-    columnId: "todo",
-    content: "List admin APIs for dashboard",
+    columnId: 1,
+    name: "Лёня хреначит реакт компоненты",
   },
   {
     id: "2",
-    columnId: "todo",
-    content:
-      "Develop user registration functionality with OTP delivered on SMS after email confirmation and phone number confirmation",
+    columnId: 1,
+    name: "Максим es lint",
   },
   {
     id: "3",
-    columnId: "doing",
-    content: "Conduct security testing",
-  },
-  {
-    id: "4",
-    columnId: "doing",
-    content: "Analyze competitors",
-  },
-  {
-    id: "5",
-    columnId: "done",
-    content: "Create UI kit documentation",
-  },
-  {
-    id: "6",
-    columnId: "done",
-    content: "Dev meeting",
-  },
-  {
-    id: "7",
-    columnId: "done",
-    content: "Deliver dashboard prototype",
-  },
-  {
-    id: "8",
-    columnId: "todo",
-    content: "Optimize application performance",
-  },
-  {
-    id: "9",
-    columnId: "todo",
-    content: "Implement data validation",
-  },
-  {
-    id: "10",
-    columnId: "todo",
-    content: "Design database schema",
-  },
-  {
-    id: "11",
-    columnId: "todo",
-    content: "Integrate SSL web certificates into workflow",
-  },
-  {
-    id: "12",
-    columnId: "doing",
-    content: "Implement error logging and monitoring",
-  },
-  {
-    id: "13",
-    columnId: "doing",
-    content: "Design and implement responsive UI",
+    columnId: 2,
+    name: "Кнопки меню",
   },
 ];
 
 
 export default function KanbanBoard() {
-  const [columns, setColumns] = useState(defaultCols);
+  const [columns, setColumns] = useState([]);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState(defaultTasks);
@@ -116,6 +61,20 @@ export default function KanbanBoard() {
   const [activeColumn, setActiveColumn] = useState(null);
 
   const [activeTask, setActiveTask] = useState(null);
+
+
+  useEffect(() => {
+    request("GET", 'columns/', (response) => {
+      setColumns(response);
+
+      // let data_card = [];
+      // response.map((column) => (
+      //   data_card = [...data_card, ...column.cards]
+      // ))
+      // setTasks(data_card);
+    })
+  }, []);
+
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -125,31 +84,38 @@ export default function KanbanBoard() {
     })
   );
 
+  function createNewColumn() {
+    const columnToAdd = {
+      id: generateId(),
+      name: `Column ${columns.length + 1}`,
+      order: columns.length,
+    };
+
+    setColumns([...columns, columnToAdd]);
+  }
+
+  function createTask(columnId) {
+    const newTask = {
+      id: generateId(),
+      columnId,
+      name: `Task ${tasks.length + 1}`,
+    };
+
+    setTasks([...tasks, newTask]);
+  }
+
   return (
     <>
       <Default>
-        <div
-          //   className="
-          //     text-white
-          //     m-auto
-          //     flex
-          //     min-h-screen
-          //     w-full
-          //     items-center
-          //     overflow-x-auto
-          //     overflow-y-hidden
-          //     px-[40px]
-          // "
-          className={styles.KanbanBoard}
-        >
+        <div className={styles.KanbanBoard}>
           <DndContext
             sensors={sensors}
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
             onDragOver={onDragOver}
           >
-            <div className="m-auto flex gap-4">
-              <div className="flex gap-4">
+            <div className="flex gap-3">
+              <div className="flex gap-3">
                 <SortableContext items={columnsId}>
                   {columns.map((col) => (
                     <ColumnContainer
@@ -170,20 +136,17 @@ export default function KanbanBoard() {
                   createNewColumn();
                 }}
                 className="
-      h-[60px]
-      w-[350px]
-      min-w-[350px]
-      cursor-pointer
-      rounded-lg
-      bg-mainBackgroundColor
-      border-2
-      border-columnBackgroundColor
-      p-4
-      ring-rose-500
-      hover:ring-2
-      flex
-      gap-2
-      "
+                  h-[48px]
+                  w-[272px]
+                  cursor-pointer
+                  bg-mainBackgroundColor
+                  border-2
+                  border-columnBackgroundColor
+                  p-3
+                  hover:ring-2
+                  flex
+                  gap-2
+                "
               >
                 <PlusIcon />
                 Add Column
@@ -221,38 +184,23 @@ export default function KanbanBoard() {
     </>
   );
 
-  function createTask(columnId) {
-    const newTask = {
-      id: generateId(),
-      columnId,
-      content: `Task ${tasks.length + 1}`,
-    };
 
-    setTasks([...tasks, newTask]);
-  }
 
   function deleteTask(id) {
     const newTasks = tasks.filter((task) => task.id !== id);
     setTasks(newTasks);
   }
 
-  function updateTask(id, content) {
+  function updateTask(id, name) {
     const newTasks = tasks.map((task) => {
       if (task.id !== id) return task;
-      return { ...task, content };
+      return { ...task, name };
     });
 
     setTasks(newTasks);
   }
 
-  function createNewColumn() {
-    const columnToAdd = {
-      id: generateId(),
-      title: `Column ${columns.length + 1}`,
-    };
 
-    setColumns([...columns, columnToAdd]);
-  }
 
   function deleteColumn(id) {
     const filteredColumns = columns.filter((col) => col.id !== id);
@@ -262,10 +210,10 @@ export default function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  function updateColumn(id, title) {
+  function updateColumn(id, name) {
     const newColumns = columns.map((col) => {
       if (col.id !== id) return col;
-      return { ...col, title };
+      return { ...col, name };
     });
 
     setColumns(newColumns);

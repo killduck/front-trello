@@ -55,9 +55,7 @@ export default function ColumnContainer(props) {
       opacity-40
       border-2
       border-pink-500
-      w-[350px]
-      h-[500px]
-      max-h-[500px]
+      w-[272px]
       rounded-md
       flex
       flex-col
@@ -72,9 +70,7 @@ export default function ColumnContainer(props) {
       style={style}
       className="
   bg-columnBackgroundColor
-  w-[350px]
-  h-[500px]
-  max-h-[500px]
+  w-[272px]
   rounded-md
   flex
   flex-col
@@ -104,11 +100,11 @@ export default function ColumnContainer(props) {
       "
       >
         <div className="flex gap-2">
-          {!editMode && column.title}
+          {!editMode && column.name}
           {editMode && (
             <input
               className="bg-black focus:border-rose-500 border rounded outline-none px-2"
-              value={column.title}
+              value={column.name}
               onChange={(e) => updateColumn(column.id, e.target.value)}
               autoFocus
               onBlur={() => {

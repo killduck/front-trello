@@ -41,6 +41,14 @@
 @tailwind utilities;
 
 
+html,
+body,
+#root {
+  color: #9fadbc;
+}
+
+
+
 
 .App {
   text-align: center;
