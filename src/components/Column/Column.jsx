@@ -20,6 +20,10 @@ export default function Column(props) {
 
                 <div className={styles.cardList}>
 
+                    <button onClick={() => {
+                        console.log(1);
+                    }}>кнопка</button>
+
                     {
                         columnCards.map((card) =>
                             <Card className={styles.tittleCard} key={card.id}>
