@@ -37,21 +37,21 @@ import styles from "./KanbanBoard.module.scss";
 const defaultTasks = [
   {
     id: "1",
-    columnId: 1,
+    column: 1,
     name: "Лёня хреначит реакт компоненты",
     author: 1,
     order: 2,
   },
   {
     id: "2",
-    columnId: 1,
+    column: 1,
     name: "Максим es lint",
     author: 3,
     order: 3,
   },
   {
     id: "3",
-    columnId: 2,
+    column: 2,
     name: "Кнопки меню",
     author: 2,
     order: 1,
@@ -141,9 +141,9 @@ export default function KanbanBoard() {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
         const overIndex = tasks.findIndex((task) => task.id === over.id);
 
-        if (tasks[activeIndex].columnId != tasks[overIndex].columnId) {
+        if (tasks[activeIndex].column !== tasks[overIndex].column) {
           // Fix introduced after video recording
-          tasks[activeIndex].columnId = tasks[overIndex].columnId;
+          tasks[activeIndex].column = tasks[overIndex].column;
           return arrayMove(tasks, activeIndex, overIndex - 1);
         }
 
@@ -158,7 +158,7 @@ export default function KanbanBoard() {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
 
-        tasks[activeIndex].columnId = over.id;
+        tasks[activeIndex].column = over.id;
         return arrayMove(tasks, activeIndex, activeIndex);
       });
     }
@@ -179,7 +179,7 @@ export default function KanbanBoard() {
   function createTask(columnId) {
     const newTask = {
       id: generateId(),
-      columnId: columnId,
+      column: columnId,
       name: `Task ${tasks.length + 1}`,
     };
 
@@ -208,7 +208,7 @@ export default function KanbanBoard() {
     const filteredColumns = columns.filter((column) => column.id !== id);
     setColumns(filteredColumns);
 
-    const newTasks = tasks.filter((task) => task.columnId !== id);
+    const newTasks = tasks.filter((task) => task.column !== id);
     setTasks(newTasks);
   }
 
@@ -225,18 +225,7 @@ export default function KanbanBoard() {
   return (
     <>
       <Default>
-        <div
-          className="
-
-            flex
-            min-h-screen
-            w-full
-            items-center
-            overflow-x-auto
-            overflow-y-hidden
-            px-[20px]
-          "
-        >
+        <div className={styles.KanbanBoard}>
           <DndContext
             sensors={sensors}
             onDragStart={onDragStart}
@@ -255,7 +244,7 @@ export default function KanbanBoard() {
                       createTask={createTask}
                       deleteTask={deleteTask}
                       updateTask={updateTask}
-                      tasks={tasks.filter((task) => task.columnId === column.id)}
+                      tasks={tasks.filter((task) => task.column === column.id)}
                     />
                   ))}
                 </SortableContext>
@@ -296,7 +285,7 @@ export default function KanbanBoard() {
                     deleteTask={deleteTask}
                     updateTask={updateTask}
                     tasks={tasks.filter(
-                      (task) => task.columnId === activeColumn.id
+                      (task) => task.column === activeColumn.id
                     )}
                   />
                 )}
