@@ -94,12 +94,12 @@ export default function KanbanBoard() {
   );
 
   function onDragStart(event) {
-    if (event.active.data.current.type === "Column") {
+    if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
     }
 
-    if (event.active.data.current.type === "Task") {
+    if (event.active.data.current?.type === "Task") {
       setActiveTask(event.active.data.current.task);
       return;
     }
@@ -117,7 +117,7 @@ export default function KanbanBoard() {
 
     if (activeId === overId) return;
 
-    const isActiveAColumn = active.data.current.type === "Column";
+    const isActiveAColumn = active.data.current?.type === "Column";
     if (!isActiveAColumn) return;
 
     console.log("DRAG END");
@@ -140,8 +140,8 @@ export default function KanbanBoard() {
 
     if (activeId === overId) return;
 
-    const isActiveATask = active.data.current.type === "Task";
-    const isOverATask = over.data.current.type === "Task";
+    const isActiveATask = active.data.current?.type === "Task";
+    const isOverATask = over.data.current?.type === "Task";
 
     if (!isActiveATask) return;
 
@@ -161,7 +161,7 @@ export default function KanbanBoard() {
       });
     }
 
-    const isOverAColumn = over.data.current.type === "Column";
+    const isOverAColumn = over.data.current?.type === "Column";
 
     // Im dropping a Task over a column
     if (isActiveATask && isOverAColumn) {
