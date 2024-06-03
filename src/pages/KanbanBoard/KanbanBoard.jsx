@@ -64,7 +64,7 @@ export default function KanbanBoard() {
 
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
-  const [tasks, setTasks] = useState(defaultTasks);
+  const [tasks, setTasks] = useState([]);
 
   const [activeColumn, setActiveColumn] = useState(null);
 
@@ -80,8 +80,24 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     request("GET", 'columns/', (response) => {
-      // console.log("GET columns =>", response);
       setColumns(response);
+
+      /* Эта гр....я библиотека @dnd kit начинает катастрофически глючить если мы пытаемся перетаскивать объекты с одинаковыми id.
+        Т.е. если на дашборде встречается хотя бы одна пара -  колонка и карточка с одинаковым id, то работа DnD полностью падает.
+       <<Из оф. документации - Аргумент id представляет собой string или number и должен быть уникальным идентификатором.
+        Это означает, что в пределах DndContext не должно быть других перетаскиваемых элементов, имеющих тот же идентификатор.>>
+        Поэтому я придумал только такой костыль - на фронте подменить у карточек id с типа number на string.
+      */
+      let data_card = [];
+      response.map((column) => (
+        data_card = [...data_card, ...column.cards]
+      ))
+
+      data_card.map(card =>
+        card.id = card.id.toString()
+      );
+
+      setTasks(data_card);
     })
   }, []);
 
