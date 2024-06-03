@@ -3,9 +3,11 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { useMemo, useState } from "react";
 
+
 import TrashIcon from "../ui/Icons/TrashIcon";
 import PlusIcon from "../ui/Icons/PlusIcon";
 import TaskCard from "../TaskCard/TaskCard";
+
 
 
 export default function ColumnContainer(props) {
@@ -51,15 +53,17 @@ export default function ColumnContainer(props) {
         ref={setNodeRef}
         style={style}
         className="
-      bg-columnBackgroundColor
-      opacity-40
-      border-2
-      border-pink-500
-      w-[272px]
-      rounded-md
-      flex
-      flex-col
-      "
+          bg-columnBackgroundColor
+          opacity-40
+          border-2
+          border-pink-500
+          w-[350px]
+          h-[500px]
+          max-h-[500px]
+          rounded-md
+          flex
+          flex-col
+        "
       ></div>
     );
   }
@@ -69,12 +73,14 @@ export default function ColumnContainer(props) {
       ref={setNodeRef}
       style={style}
       className="
-  bg-columnBackgroundColor
-  w-[272px]
-  rounded-md
-  flex
-  flex-col
-  "
+        bg-columnBackgroundColor
+        w-[350px]
+        h-[500px]
+        max-h-[500px]
+        rounded-md
+        flex
+        flex-col
+      "
     >
       {/* Column title */}
       <div
@@ -84,20 +90,20 @@ export default function ColumnContainer(props) {
           setEditMode(true);
         }}
         className="
-      bg-mainBackgroundColor
-      text-md
-      h-[60px]
-      cursor-grab
-      rounded-md
-      rounded-b-none
-      p-3
-      font-bold
-      border-columnBackgroundColor
-      border-4
-      flex
-      items-center
-      justify-between
-      "
+          bg-mainBackgroundColor
+          text-md
+          h-[60px]
+          cursor-grab
+          rounded-md
+          rounded-b-none
+          p-3
+          font-bold
+          border-columnBackgroundColor
+          border-4
+          flex
+          items-center
+          justify-between
+        "
       >
         <div className="flex gap-2">
           {!editMode && column.name}
@@ -122,13 +128,13 @@ export default function ColumnContainer(props) {
             deleteColumn(column.id);
           }}
           className="
-        stroke-gray-500
-        hover:stroke-white
-        hover:bg-columnBackgroundColor
-        rounded
-        px-1
-        py-2
-        "
+            stroke-gray-500
+            hover:stroke-white
+            hover:bg-columnBackgroundColor
+            rounded
+            px-1
+            py-2
+          "
         >
           <TrashIcon />
         </button>

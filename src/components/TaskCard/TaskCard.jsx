@@ -7,6 +7,7 @@ import TrashIcon from "../ui/Icons/TrashIcon";
 
 
 export default function TaskCard(props) {
+
   let task = props.task;
   let deleteTask = props.deleteTask;
   let updateTask = props.updateTask;
