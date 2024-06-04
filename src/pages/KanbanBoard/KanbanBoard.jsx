@@ -13,6 +13,8 @@ import { createPortal } from "react-dom";
 
 import Default from "../../layouts/default/Default";
 
+
+import Icons from "../../components/ui/Icons/Icons";
 import PlusIcon from "../../components/ui/Icons/PlusIcon";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
 import TaskCard from "../../components/TaskCard/TaskCard";
@@ -20,43 +22,6 @@ import request from "../../api/request";
 
 import styles from "./KanbanBoard.module.scss";
 
-
-// const defaultCols = [
-//   {
-//     id: 1,
-//     name: "backlog",
-//     order: 0,
-//   },
-//   {
-//     id: 2,
-//     name: "in progress",
-//     order: 1,
-//   },
-// ];
-
-// const defaultTasks = [
-//   {
-//     id: "1",
-//     column: 1,
-//     name: "Лёня хреначит реакт компоненты",
-//     author: 1,
-//     order: 2,
-//   },
-//   {
-//     id: "2",
-//     column: 1,
-//     name: "Максим es lint",
-//     author: 3,
-//     order: 3,
-//   },
-//   {
-//     id: "3",
-//     column: 2,
-//     name: "Кнопки меню",
-//     author: 2,
-//     order: 1,
-//   }
-// ];
 
 export default function KanbanBoard() {
 
@@ -100,7 +65,6 @@ export default function KanbanBoard() {
       setTasks(data_card);
     })
   }, []);
-
 
 
   // Библиотека @dnd kit
@@ -248,8 +212,8 @@ export default function KanbanBoard() {
             onDragEnd={onDragEnd}
             onDragOver={onDragOver}
           >
-            <div className="flex gap-4">
-              <div className="flex gap-4">
+            <div className={styles.Wrap}>
+              <div className={styles.Container}>
                 <SortableContext items={columnsId}>
                   {columns.map((column) => (
                     <ColumnContainer
@@ -265,29 +229,20 @@ export default function KanbanBoard() {
                   ))}
                 </SortableContext>
               </div>
-              <button
-                onClick={() => {
-                  createNewColumn();
-                }}
-                className="
-                  h-[60px]
-                  w-[350px]
-                  min-w-[350px]
-                  cursor-pointer
-                  rounded-lg
-                  bg-mainBackgroundColor
-                  border-2
-                  border-columnBackgroundColor
-                  p-4
-                  ring-rose-500
-                  hover:ring-2
-                  flex
-                  gap-2
-                "
-              >
-                <PlusIcon />
-                Add Column
-              </button>
+              <div className={styles.BtnCreateNewColumn__Wrap}>
+                <button
+                  className={styles.BtnCreateNewColumn}
+                  onClick={() => {
+                    createNewColumn();
+                  }}
+                >
+                  <Icons
+                    name={'AddIcon'}
+                    class_name={'IconCreateNewColumn'}
+                  />
+                  Добавьте еще одну колонку
+                </button>
+              </div>
             </div>
 
             {createPortal(

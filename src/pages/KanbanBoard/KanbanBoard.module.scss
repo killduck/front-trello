@@ -1,5 +1,44 @@
 .KanbanBoard {
-  margin-top: 12px;
-  padding: 0 6px;
+  margin-top: 15px;
+  margin-top: 65px; // временный стиль
+  margin-left: 20px;  // временный стиль
   color: #9fadbc;
+
+  .Wrap {
+    display: flex;
+    padding: 2px 6px 8px 6px;
+
+    .Container {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .BtnCreateNewColumn__Wrap {
+      display: flex;
+      padding: 0 6px;
+
+      font-size: 14px;
+      font-weight: 500;
+      color: #ffffff;
+
+      .BtnCreateNewColumn {
+        display: flex;
+        align-items: center;
+        width: 272px;
+        height: 44px;
+
+        display: flex;
+        cursor: pointer;
+        padding: 12px;
+
+        border-radius: 12px;
+        background-color: #ffffff3d;
+
+        &:hover {
+          background-color: #A6C5E229;
+        }
+      }
+
+    }
+  }
 }
