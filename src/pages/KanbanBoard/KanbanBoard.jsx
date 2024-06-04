@@ -34,29 +34,29 @@ import styles from "./KanbanBoard.module.scss";
 //   },
 // ];
 
-const defaultTasks = [
-  {
-    id: "1",
-    column: 1,
-    name: "Лёня хреначит реакт компоненты",
-    author: 1,
-    order: 2,
-  },
-  {
-    id: "2",
-    column: 1,
-    name: "Максим es lint",
-    author: 3,
-    order: 3,
-  },
-  {
-    id: "3",
-    column: 2,
-    name: "Кнопки меню",
-    author: 2,
-    order: 1,
-  }
-];
+// const defaultTasks = [
+//   {
+//     id: "1",
+//     column: 1,
+//     name: "Лёня хреначит реакт компоненты",
+//     author: 1,
+//     order: 2,
+//   },
+//   {
+//     id: "2",
+//     column: 1,
+//     name: "Максим es lint",
+//     author: 3,
+//     order: 3,
+//   },
+//   {
+//     id: "3",
+//     column: 2,
+//     name: "Кнопки меню",
+//     author: 2,
+//     order: 1,
+//   }
+// ];
 
 export default function KanbanBoard() {
 
@@ -194,7 +194,7 @@ export default function KanbanBoard() {
 
   function createTask(columnId) {
     const newTask = {
-      id: generateId(),
+      id: generateId().toString(),
       column: columnId,
       name: `Task ${tasks.length + 1}`,
     };
