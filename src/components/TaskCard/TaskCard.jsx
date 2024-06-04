@@ -5,6 +5,8 @@ import { useState } from "react";
 
 import TrashIcon from "../ui/Icons/TrashIcon";
 
+import styles from './TaskCard.module.scss';
+
 
 export default function TaskCard(props) {
 
@@ -15,6 +17,8 @@ export default function TaskCard(props) {
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(true);
+
+  let [label, setLabel] = useState(false);
 
   const {
     setNodeRef,
@@ -84,35 +88,80 @@ export default function TaskCard(props) {
     );
   }
 
+  function onCard_label() {
+    console.log('Проверка выполения функции =>', onCard_label.name);
+
+    label ?
+      setLabel(false)
+      :
+      setLabel(true)
+
+  }
+
   return (
-    <div
+    <li
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
       onClick={toggleEditMode}
-      className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
       onMouseLeave={() => {
         setMouseIsOver(false);
       }}
+      // className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
+      className={styles.TaskCard}
     >
-      <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-        {task.name}
-      </p>
+      <div className={styles.TaskCard__Wrap}>
 
-      {mouseIsOver && (
-        <button
-          onClick={() => {
-            deleteTask(task.id);
-          }}
-          className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
-        >
-          <TrashIcon />
-        </button>
-      )}
-    </div>
+        <div className={styles.CardView}>
+
+          <div className={styles.ColorLabel}>
+            <div
+              className={styles.ColorLabel_Wrap}
+              onClick={() => { onCard_label() }}
+            >
+              <span
+                className={
+                  label ?
+                    styles.LabelActive
+                    :
+                    styles.Label
+                } >
+                Важно
+              </span>
+            </div>
+          </div>
+
+          {/* <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+            {task.name}
+          </p> */}
+
+          <a className={styles.CardText} href="#">
+            {task.name}
+          </a>
+
+          {mouseIsOver && (
+            <button
+              onClick={() => {
+                deleteTask(task.id);
+              }}
+              className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
+            >
+              <TrashIcon />
+            </button>
+          )}
+        </div>
+
+        <div className={styles.CardEdit}>
+          <form>
+
+          </form>
+        </div>
+
+      </div>
+    </li>
   );
 }

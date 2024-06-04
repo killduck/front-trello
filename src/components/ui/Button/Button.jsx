@@ -13,7 +13,7 @@ export default function Button(props) {
 
     return (
         <button
-            className={`${class_name} ${styles.buttonStyle}`}
+            className={`${class_name} ${styles[class_name]} ${styles.buttonStyle}`}
             type={type}
             data-testid={dataTestid}
             aria-label={ariaLabel}

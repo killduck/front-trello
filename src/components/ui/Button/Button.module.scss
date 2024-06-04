@@ -39,3 +39,22 @@
 //     background-color: $colorhvr;
 //     cursor: pointer;
 // };
+
+
+.BtnCreateNewColumn {
+  display: flex;
+  align-items: center;
+  width: 272px;
+  height: 44px;
+
+  display: flex;
+  cursor: pointer;
+  padding: 12px;
+
+  border-radius: 12px;
+  background-color: #ffffff3d;
+
+  &:hover {
+    background-color: #A6C5E229;
+  }
+}

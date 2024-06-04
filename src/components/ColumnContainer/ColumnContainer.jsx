@@ -9,7 +9,6 @@ import PlusIcon from "../ui/Icons/PlusIcon";
 import TaskCard from "../TaskCard/TaskCard";
 
 
-
 export default function ColumnContainer(props) {
 
   let column = props.column;

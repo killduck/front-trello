@@ -14,13 +14,13 @@ import { createPortal } from "react-dom";
 import Default from "../../layouts/default/Default";
 
 
+import request from "../../api/request";
 import Icons from "../../components/ui/Icons/Icons";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
+import Button from "../../components/ui/Button/Button";
 import TaskCard from "../../components/TaskCard/TaskCard";
-import request from "../../api/request";
 
 import styles from "./KanbanBoard.module.scss";
-
 
 export default function KanbanBoard() {
 
@@ -125,7 +125,7 @@ export default function KanbanBoard() {
     request(
       "POST",
       'edite-columns/',
-      (response) => {},
+      (response) => { },
       columns)
   }
 
@@ -260,18 +260,16 @@ export default function KanbanBoard() {
                 </SortableContext>
               </div>
               <div className={styles.BtnCreateNewColumn__Wrap}>
-                <button
-                  className={styles.BtnCreateNewColumn}
-                  onClick={() => {
-                    createNewColumn();
-                  }}
+                <Button
+                  clickAction={createNewColumn}
+                  className={'BtnCreateNewColumn'}
                 >
                   <Icons
                     name={'AddIcon'}
                     class_name={'IconCreateNewColumn'}
                   />
                   Добавьте еще одну колонку
-                </button>
+                </Button>
               </div>
             </div>
 
