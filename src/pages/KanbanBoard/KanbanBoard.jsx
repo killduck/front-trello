@@ -15,7 +15,6 @@ import Default from "../../layouts/default/Default";
 
 
 import Icons from "../../components/ui/Icons/Icons";
-import PlusIcon from "../../components/ui/Icons/PlusIcon";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import request from "../../api/request";
@@ -47,11 +46,12 @@ export default function KanbanBoard() {
     request("GET", 'columns/', (response) => {
       setColumns(response);
 
-      /* Эта гр....я библиотека @dnd kit начинает катастрофически глючить если мы пытаемся перетаскивать объекты с одинаковыми id.
+      /* Эта гр....ная библиотека @dnd-kit начинает катастрофически глючить, если у разных компонентов встречается одинаковый id ((.
         Т.е. если на дашборде встречается хотя бы одна пара -  колонка и карточка с одинаковым id, то работа DnD полностью падает.
        <<Из оф. документации - Аргумент id представляет собой string или number и должен быть уникальным идентификатором.
         Это означает, что в пределах DndContext не должно быть других перетаскиваемых элементов, имеющих тот же идентификатор.>>
         Поэтому я придумал только такой костыль - на фронте подменить у карточек id с типа number на string.
+        Надеюсь не самый худший вариант, тк в разделе вопросов к библиотеке на github, для обхода данной "фичи", предлагают у сортируемых компонентов подменять id или переименовать его на что-то типа "_id"
       */
       let data_card = [];
       response.map((column) => (
@@ -93,14 +93,42 @@ export default function KanbanBoard() {
     const isActiveAColumn = active.data.current?.type === "Column";
     if (!isActiveAColumn) return;
 
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
+    // setColumns((columns) => {
+    //   const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
+    //   const overColumnIndex = columns.findIndex((column) => column.id === over.id);
+    //   return arrayMove(columns, activeColumnIndex, overColumnIndex);
+    // });
 
-      const overColumnIndex = columns.findIndex((column) => column.id === over.id);
-
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    });
+    editOrderColumns(active, over);
+    new_order();
   }
+
+
+  function editOrderColumns(active, over) {
+    const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
+    const overColumnIndex = columns.findIndex((column) => column.id === over.id);
+
+    let copy = arrayMove(columns, activeColumnIndex, overColumnIndex);
+
+    copy.map((column, index) => {
+      column.order = index;
+    })
+
+    setColumns(copy);
+
+    return arrayMove(copy, activeColumnIndex, overColumnIndex);
+  }
+
+  function new_order() {
+    console.log(columns);
+
+    request(
+      "POST",
+      'edite-columns/',
+      (response) => {},
+      columns)
+  }
+
 
   function onDragOver(event) {
 
@@ -155,6 +183,8 @@ export default function KanbanBoard() {
 
     setColumns([...columns, columnToAdd]);
   }
+
+
 
   function createTask(columnId) {
     const newTask = {
