@@ -5,13 +5,19 @@ import Icons from "../Icons/Icons";
 import styles from "./AddOneMoreCol.module.scss";
 
 export default function AddOneMoreCol(props){
+    
+    let className = props.className;
+    let showElAction = props.showElAction;
+    let showFlag = props.showFlag;
+    let buttonText = props.buttonText;
+
     return (
         <div 
-            className={props.className? `${props.className} ${styles.wrapForm}` : styles.wrapForm} >
+            className={className? `${className} ${styles.wrapForm}` : styles.wrapForm} >
             <Button 
                 className={styles.AddOneMoreColButton}
-                clickAction={props.showElAction}
-                actionVariable={props.showFlag}
+                clickAction={showElAction}
+                actionVariable={showFlag}
             >
                 <Icons 
                     className={styles.Icons}
@@ -22,7 +28,7 @@ export default function AddOneMoreCol(props){
                     sizeLine={'#fff'}
                     viewBox={'0 0 24 24'}
                 />
-                {props.buttonText}
+                {buttonText}
             </Button>
         </div>
 
