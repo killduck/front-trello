@@ -13,7 +13,6 @@ import { createPortal } from "react-dom";
 
 import Default from "../../layouts/default/Default";
 
-
 import request from "../../api/request";
 import Icons from "../../components/ui/Icons/Icons";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
@@ -21,6 +20,7 @@ import Button from "../../components/ui/Button/Button";
 import TaskCard from "../../components/TaskCard/TaskCard";
 
 import styles from "./KanbanBoard.module.scss";
+
 
 export default function KanbanBoard() {
 
@@ -100,9 +100,8 @@ export default function KanbanBoard() {
     // });
 
     editOrderColumns(active, over);
-    new_order();
+    request("POST", 'swap-columns/', (response) => {}, columns);
   }
-
 
   function editOrderColumns(active, over) {
     const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
@@ -117,16 +116,6 @@ export default function KanbanBoard() {
     setColumns(copy);
 
     return arrayMove(copy, activeColumnIndex, overColumnIndex);
-  }
-
-  function new_order() {
-    console.log(columns);
-
-    request(
-      "POST",
-      'edite-columns/',
-      (response) => { },
-      columns)
   }
 
 
@@ -182,9 +171,8 @@ export default function KanbanBoard() {
     };
 
     setColumns([...columns, columnToAdd]);
+    // request("POST", 'create-columns/', (response) => {}, columnToAdd);
   }
-
-
 
   function createTask(columnId) {
     const newTask = {

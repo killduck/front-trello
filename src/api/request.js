@@ -1,8 +1,9 @@
 import axios from "axios";
 import { URL_API } from "./config";
-export default function request(method, url, callback, data = null, status = 200) {
+// export default function request(method, url, callback, data = null, status = 200) {
+export default function request(method='', url='', callback='', data = null, status = 200) {
 
-    if (method == "GET") {
+    if (method === "GET") {
         axios.get(URL_API + url)
             .then((response) => {
 
@@ -17,7 +18,7 @@ export default function request(method, url, callback, data = null, status = 200
     }
 
 
-    if (method == "POST") {
+    if (method === "POST") {
         axios.post(URL_API + url, data)
             .then((response) => {
                 console.log(response.data);

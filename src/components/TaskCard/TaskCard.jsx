@@ -16,7 +16,7 @@ export default function TaskCard(props) {
 
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
   let [label, setLabel] = useState(false);
 
