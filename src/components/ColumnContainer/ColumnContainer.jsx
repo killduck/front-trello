@@ -8,6 +8,8 @@ import TrashIcon from "../ui/Icons/TrashIcon";
 import PlusIcon from "../ui/Icons/PlusIcon";
 import TaskCard from "../TaskCard/TaskCard";
 
+import styles from './ColumnContainer.module.scss';
+
 
 export default function ColumnContainer(props) {
 
@@ -51,18 +53,19 @@ export default function ColumnContainer(props) {
       <div
         ref={setNodeRef}
         style={style}
-        className="
-          bg-columnBackgroundColor
-          opacity-40
-          border-2
-          border-pink-500
-          w-[350px]
-          h-[500px]
-          max-h-[500px]
-          rounded-md
-          flex
-          flex-col
-        "
+        className={styles.Dragging}
+      //   className="
+      //   bg-columnBackgroundColor
+      //   opacity-40
+      //   border-2
+      //   border-pink-500
+      //   w-[350px]
+      //   h-[500px]
+      //   max-h-[500px]
+      //   rounded-md
+      //   flex
+      //   flex-col
+      // "
       ></div>
     );
   }
@@ -71,15 +74,16 @@ export default function ColumnContainer(props) {
     <div
       ref={setNodeRef}
       style={style}
-      className="
-        bg-columnBackgroundColor
-        w-[350px]
-        h-[500px]
-        max-h-[500px]
-        rounded-md
-        flex
-        flex-col
-      "
+      className={styles.Column}
+    //   className="
+    //   bg-columnBackgroundColor
+    //   w-[350px]
+    //   h-[500px]
+    //   max-h-[500px]
+    //   rounded-md
+    //   flex
+    //   flex-col
+    // "
     >
       {/* Column title */}
       <div
