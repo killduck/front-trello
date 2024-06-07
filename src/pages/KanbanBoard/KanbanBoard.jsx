@@ -204,6 +204,7 @@ export default function KanbanBoard() {
   }
 
   function deleteColumn(id) {
+    console.log('функция => deleteColumn');
     const filteredColumns = columns.filter((column) => column.id !== id);
     setColumns(filteredColumns);
 

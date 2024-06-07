@@ -3,7 +3,8 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { useMemo, useState } from "react";
 
-
+import Button from "../ui/Button/Button";
+import Icons from "../ui/Icons/Icons";
 import TrashIcon from "../ui/Icons/TrashIcon";
 import PlusIcon from "../ui/Icons/PlusIcon";
 import TaskCard from "../TaskCard/TaskCard";
@@ -92,23 +93,27 @@ export default function ColumnContainer(props) {
         onClick={() => {
           setEditMode(true);
         }}
-        className="
-          bg-mainBackgroundColor
-          text-md
-          h-[60px]
-          cursor-grab
-          rounded-md
-          rounded-b-none
-          p-3
-          font-bold
-          border-columnBackgroundColor
-          border-4
-          flex
-          items-center
-          justify-between
-        "
+        className={styles.ColumnTitleWrap}
+      // className="
+      //   bg-mainBackgroundColor
+      //   text-md
+      //   h-[60px]
+      //   cursor-grab
+      //   rounded-md
+      //   rounded-b-none
+      //   p-3
+      //   font-bold
+      //   border-columnBackgroundColor
+      //   border-4
+      //   flex
+      //   items-center
+      //   justify-between
+      // "
       >
-        <div className="flex gap-2">
+        <div
+          // className="flex gap-2"
+          className={styles.ColumnTitle}
+        >
           {!editMode && column.name}
           {editMode && (
             <input
@@ -126,21 +131,16 @@ export default function ColumnContainer(props) {
             />
           )}
         </div>
-        <button
-          onClick={() => {
-            deleteColumn(column.id);
-          }}
-          className="
-            stroke-gray-500
-            hover:stroke-white
-            hover:bg-columnBackgroundColor
-            rounded
-            px-1
-            py-2
-          "
+        <Button
+          clickAction={deleteColumn}
+          actionVariable={column.id}
+          className={'BtnDeletColumn'}
         >
-          <TrashIcon />
-        </button>
+          <Icons
+            name={'Trash'}
+            class_name={'IconDeletColumnn'}
+          />
+        </Button>
       </div>
 
       {/* Column task container */}
@@ -157,7 +157,7 @@ export default function ColumnContainer(props) {
         </SortableContext>
       </div>
       {/* Column footer */}
-      <button
+      {/* <button
         className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
         onClick={() => {
           createTask(column.id);
@@ -165,7 +165,20 @@ export default function ColumnContainer(props) {
       >
         <PlusIcon />
         Add task
-      </button>
+      </button> */}
+      <div className={styles.BtnCreateTaskWrap}>
+        <Button
+          clickAction={createTask}
+          actionVariable={column.id}
+          className={'BtnCreateTask'}
+        >
+          <Icons
+            name={'Plus'}
+            class_name={'IconCreateTask'}
+          />
+          Добавить карточку
+        </Button>
+      </div>
     </div>
   );
 }
