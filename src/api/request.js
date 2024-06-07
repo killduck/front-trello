@@ -7,7 +7,7 @@ export default function request(method='', url='', callback='', data = null, sta
         axios.get(URL_API + url)
             .then((response) => {
 
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.status === status) {
                     callback(response.data);
                 }
