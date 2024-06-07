@@ -161,17 +161,29 @@ export default function KanbanBoard() {
     }
   }
 
+  function requestSuccessCreateColumn(request) {
 
-  // Интерфейсы для работы с колонками и карточками
-  function createNewColumn() {
     const columnToAdd = {
-      id: generateId(),
-      name: `Column ${columns.length + 1}`,
-      order: columns.length,
+      // id: generateId(),
+      // name: `Column ${columns.length + 1}`,
+      // order: columns.length,
     };
 
     setColumns([...columns, columnToAdd]);
-    request("POST", 'create-columns/', (response) => { }, columnToAdd);
+  }
+
+
+  // Интерфейсы для работы с колонками и карточками
+  function createNewColumn() {
+
+    let columnToAdd = {
+      nameNewColumn: "Новая колонка",
+      idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
+      idDashboard: 1 //TODO переделать на конкретное рабочее пространство
+    }
+
+
+    request("POST", 'create-column/', () => { console.log(1); /*requestSuccessCreateColumn(request)*/ }, columnToAdd);
     // TODO Есть проблема! Если после создания карточки начать ее перестраивать - то ей в order прилетает null. Тк на фронете ей пока присваиваме виртуальный id, а при перстроении прилетает id из автоинкремента
   }
 
