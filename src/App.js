@@ -1,12 +1,13 @@
 import './ResetStyle.css'
 import './App.css'
 import Dashboard from './pages/Dashboard/Dashboard'
+import KanbanBoard from './pages/KanbanBoard/KanbanBoard'
 
 function App() {
   return (
     <div>
-      <Dashboard />
-
+      {/* <Dashboard /> */}
+      <KanbanBoard />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

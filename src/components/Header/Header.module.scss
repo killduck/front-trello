@@ -8,6 +8,7 @@ $button: #9fadbc;
 $button_color: #1d2125;
 $hover_icon: #2a2f3529;
 $hover_li: #a1bdd914;
+$hover_li_2: #a6c5e229;
 $shadow_1: #39424a;
 $shadow_2: #0304045c;
 $shadow_3: #03040480;
@@ -360,19 +361,19 @@ $transition_hover: all 0.3s ease;
   }
 
   &:hover {
-    background-color: $hover_icon;
+    background-color: $hover_li_2;
     cursor: pointer;
     transition: $transition_hover;
   }
 }
 
-.blockSearch{
+.blockSearch {
   position: relative;
   max-width: 100%;
   width: 200px;
 }
 // стили для Loupe
-.Loupe{
+.Loupe {
   width: 16px;
   height: 16px;
   position: absolute;
@@ -384,7 +385,7 @@ $transition_hover: all 0.3s ease;
   flex-shrink: 0;
 }
 .Loupe:focus {
-  box-shadow: 0 0 0 2px #85B8FF;
+  box-shadow: 0 0 0 2px #85b8ff;
   border-radius: 100%;
   outline: none;
 }

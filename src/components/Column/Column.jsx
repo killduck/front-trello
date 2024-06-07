@@ -7,9 +7,7 @@ import styles from './Column.module.scss';
 export default function Column(props) {
 
     let dataColumn = props.dataColumn;
-
     let columnCards = dataColumn.cards;
-
 
     return (
 
@@ -21,6 +19,10 @@ export default function Column(props) {
                 </h2>
 
                 <div className={styles.cardList}>
+
+                    <button onClick={() => {
+                        console.log(1);
+                    }}>кнопка</button>
 
                     {
                         columnCards.map((card) =>

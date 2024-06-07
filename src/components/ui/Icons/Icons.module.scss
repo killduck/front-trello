@@ -26,16 +26,51 @@
 .BtnCardDropdownStar {
   width: 16px;
   height: 16px;
-  fill:#a1bdd914;
-  stroke:#9FADBC;
+  fill: #a1bdd914;
+  stroke: #9FADBC;
   stroke-width: 3;
-  &.IconActive{
+
+  &.IconActive {
     fill: #e2b203;
-    stroke:#e2b203;
+    stroke: #e2b203;
   }
 
   &:hover {
     fill: #e2b203;
     stroke: #e2b203;
   }
+}
+
+.IconCreateNewColumn {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  color: #fff;
+}
+
+.IconDeletColumnn {
+  width: 20px;
+  height: 20px;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  stroke: #9fadbc;
+
+  &:hover {
+    stroke: white;
+  }
+}
+
+
+.IconCreateTask {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  fill: #9fadbc;
+  stroke: #9fadbc;
 }

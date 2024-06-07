@@ -1,0 +1,106 @@
+$background: #22272b;
+$background_2: #ae2e24;
+$color_label: #ffd5d2;
+$color_card_text: #b6c2cf;
+$shadow_1: #091e4240;
+$shadow_2: #091e424f;
+$shadow-raised:
+  0px 0px 0px 1px #00000000,
+  0px 1px 1px #03040480,
+  0px 0px 1px #03040480;
+$text: #172b4d;
+
+// Styles
+.TaskCard {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  scroll-margin: 80px;
+
+  .TaskCard__Wrap {
+    min-height: 100px;
+    position: relative;
+
+    background-color: $background;
+    border-radius: 8px;
+    box-shadow:
+      $shadow-raised,
+      0px 1px 1px $shadow_1 0px 0px 1px $shadow_2;
+    color: $text;
+    cursor: pointer;
+    scroll-margin: 8px;
+
+    &:hover {
+      opacity: 1;
+      outline: 2px solid #85b8ff;
+    }
+
+    .CardView {
+      display: flex;
+      flex-direction: column;
+
+      display: flow-root;
+      position: relative;
+      padding: 8px 12px 4px;
+      min-height: 34px;
+      z-index: 10;
+
+      .ColorLabel {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-bottom: 4px;
+        cursor: pointer;
+        .ColorLabel_Wrap {
+          display: inline-flex;
+          max-width: calc(100% - 4px);
+          background-color: $background_2;
+          border-radius: 4px;
+          min-width: 40px;
+          min-height: 8px;
+
+          position: relative;
+          z-index: 999;
+          .Label {
+            display: none;
+          }
+          .LabelActive {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 0;
+
+            padding: 0 8px;
+            min-width: 56px;
+            max-width: 56%;
+            height: 16px;
+            box-sizing: border-box;
+
+            color: $color_label;
+            line-height: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: left;
+            vertical-align: middle;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      .CardText {
+        color: $color_card_text;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 4px;
+        overflow: hidden;
+        overflow-wrap: break-word;
+        white-space: normal;
+        font-size: 14px;
+      }
+    }
+
+    .CardEdit {
+    }
+  }
+}
