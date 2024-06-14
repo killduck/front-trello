@@ -1,7 +1,9 @@
+
 import CardDropdownMenuIcon from "../CardDropdownMenuIcon/CardDropdownMenuIcon";
 
 import styles from './DropDownMenuFavourite.module.scss';
 
+import { NavLink } from 'react-router-dom';
 
 export default function DropDownMenuFavourite(props) {
 
@@ -18,11 +20,15 @@ export default function DropDownMenuFavourite(props) {
             if (board.favorites) {
               return (
                 <li key={board.id}>
-                  <CardDropdownMenuIcon
-                    card={board}
-                    cardIcon={'Star'}
-                    actionFunction={actionFunction}
-                  />
+
+                  <NavLink to='favourites' className={styles.CardDropdownMenuIcon} >
+                    <CardDropdownMenuIcon
+                      card={board}
+                      cardIcon={'Star'}
+                      actionFunction={actionFunction}
+                    />
+                  </NavLink>
+
                 </li>
               )
             }

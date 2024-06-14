@@ -1,7 +1,9 @@
+
 import CardDropdownMenuIcon from '../CardDropdownMenuIcon/CardDropdownMenuIcon';
 
 import styles from './DropDownMenuTemplates.module.scss';
 
+import { NavLink } from 'react-router-dom';
 
 export default function DropDownMenuTemplates(props) {
 
@@ -18,13 +20,18 @@ export default function DropDownMenuTemplates(props) {
         {
           templates.map((template, index) =>
             <li key={template.id}>
-              <CardDropdownMenuIcon
-                card={template}
-              />
+
+              <NavLink to='templates' className={styles.CardDropdownMenuIcon} >
+                <CardDropdownMenuIcon
+                  card={template}
+                />
+              </NavLink>
+
             </li>
           )
         }
       </ul>
+
     </div>
   )
 };

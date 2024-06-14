@@ -1,5 +1,5 @@
+
 import { useState } from 'react'
-import { Link } from "react-router-dom";
 
 import * as api from '../../api/api';
 
@@ -15,6 +15,7 @@ import Notification from '../ui/NotificateBTN/Notification';
 
 import styles from './Header.module.scss';
 
+import { NavLink } from 'react-router-dom';
 
 export default function Header(props) {
 
@@ -83,10 +84,12 @@ export default function Header(props) {
 
 
   return (
+
     <div
       className={styles.Header}
       onClick={(event) => onRemoving_all_menu(event)}
     >
+
       <nav className={styles.Navigation}>
 
         <div className={styles.KebabMenu}>
@@ -121,18 +124,22 @@ export default function Header(props) {
             <DropDownMenuKebab />
           </div>
         </div>
-
-        <Link to={"/"} className={styles.LogoWrap}>
-          <div className={styles.Logo}>
-            <img className={styles.LogoStatic} src={'img/logo_trello.gif'} alt="" />
-            {/* <img className={styles.LogoAnimation} src={'img/logo_trello_anim.gif'} alt="" /> */}
-          </div>
-        </Link>
-
+        
+        <NavLink to='' className={styles.LogoWrap}>
+          <ButtonDropMenu
+            class_name={'BtnActiveLogoDropMenu'}
+            actionFunction={onRemoving_active_menu}
+          >
+            <div className={styles.Logo}>
+              <img className={styles.LogoStatic} src={'img/logo_trello.gif'} alt="" />
+              {/* <img className={styles.LogoAnimation} src={'img/logo_trello_anim.gif'} alt="" /> */}
+            </div>
+          </ButtonDropMenu>
+        </NavLink>
+        
         <div className={styles.CenterMenu}>
           <div className={styles.CenterMenuWrap}>
             <div className={styles.DropDownMenu}>
-
               <div className={styles.MenuWorkspace}>
                 <div
                   className={
@@ -166,7 +173,7 @@ export default function Header(props) {
                   <DropDownMenuWorkspace />
                 </div>
               </div>
-
+              
               <div className={styles.MenuRecent}>
                 <div
                   className={
@@ -203,7 +210,7 @@ export default function Header(props) {
                   />
                 </div>
               </div>
-
+              
               <div className={styles.MenuFavourites}>
                 <div
                   className={
@@ -240,7 +247,7 @@ export default function Header(props) {
                   />
                 </div>
               </div>
-
+              
               <div className={styles.MenuTemplates}>
                 <div
                   className={
@@ -276,6 +283,7 @@ export default function Header(props) {
                   />
                 </div>
               </div>
+
             </div>
 
             <div className={styles.ButtonCreate}>
@@ -303,10 +311,7 @@ export default function Header(props) {
             </Notification>
           </div>
         </div>
-
-
       </nav >
-
 
     </div >
   )
