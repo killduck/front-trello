@@ -11,12 +11,13 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
-import Default from "../../layouts/default/Default";
+import request from "../../api/request"; // времянка
 
-import request from "../../api/request";
-import Icons from "../../components/ui/Icons/Icons";
-import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
 import Button from "../../components/ui/Button/Button";
+import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
+import CreateNewBoardItem from "../../components/ui/CreateNewBoardItem/CreateNewBoardItem";
+import Default from "../../layouts/default/Default";
+import Icons from "../../components/ui/Icons/Icons";
 import TaskCard from "../../components/TaskCard/TaskCard";
 
 import styles from "./KanbanBoard.module.scss";
@@ -34,6 +35,11 @@ export default function KanbanBoard() {
 
   const [activeTask, setActiveTask] = useState(null);
 
+  const [showForm, setShowForm] = useState(true);
+
+  const [newName, setText] = useState('Новая колонка');
+
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -46,13 +52,6 @@ export default function KanbanBoard() {
     request("GET", 'columns/', (response) => {
       setColumns(response);
 
-      /* Эта гр....ная библиотека @dnd-kit начинает катастрофически глючить, если у разных компонентов встречается одинаковый id ((.
-        Т.е. если на дашборде встречается хотя бы одна пара -  колонка и карточка с одинаковым id, то работа DnD полностью падает.
-       <<Из оф. документации - Аргумент id представляет собой string или number и должен быть уникальным идентификатором.
-        Это означает, что в пределах DndContext не должно быть других перетаскиваемых элементов, имеющих тот же идентификатор.>>
-        Поэтому я придумал только такой костыль - на фронте подменить у карточек id с типа number на string.
-        Надеюсь не самый худший вариант, тк в разделе вопросов к библиотеке на github, для обхода данной "фичи", предлагают у сортируемых компонентов подменять id или переименовать его на что-то типа "_id"
-      */
       let data_card = [];
       response.map((column) => (
         data_card = [...data_card, ...column.cards]
@@ -161,29 +160,37 @@ export default function KanbanBoard() {
     }
   }
 
-  function requestSuccessCreateColumn(request) {
+  // Кликкеры
 
-    const columnToAdd = {
-      // id: generateId(),
-      // name: `Column ${columns.length + 1}`,
-      // order: columns.length,
-    };
-
-    setColumns([...columns, columnToAdd]);
+  const onShowFormAddColumn = () => {
+    setShowForm(false);
   }
 
 
+
   // Интерфейсы для работы с колонками и карточками
+  function requestSuccessCreateColumn(response) {
+
+    console.log('requestSuccessCreateColumn(response)=>', response);
+
+    if (response) {
+      const columnToAdd = response;
+
+      setColumns([...columns, columnToAdd]);
+      setShowForm(true);
+    }
+  }
+
   function createNewColumn() {
 
     let columnToAdd = {
-      nameNewColumn: "Новая колонка",
+      nameNewColumn: newName,
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
       idDashboard: 1 //TODO переделать на конкретное рабочее пространство
     }
 
 
-    request("POST", 'create-column/', () => { console.log(1); /*requestSuccessCreateColumn(request)*/ }, columnToAdd);
+    request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);
     // TODO Есть проблема! Если после создания карточки начать ее перестраивать - то ей в order прилетает null. Тк на фронете ей пока присваиваме виртуальный id, а при перстроении прилетает id из автоинкремента
   }
 
@@ -215,13 +222,24 @@ export default function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  function deleteColumn(id) {
-    console.log('функция => deleteColumn');
-    const filteredColumns = columns.filter((column) => column.id !== id);
-    setColumns(filteredColumns);
 
-    const newTasks = tasks.filter((task) => task.column !== id);
-    setTasks(newTasks);
+  function requestSuccessDeletColumn(response, id) {
+
+    if (response) {
+      const filteredColumns = columns.filter((column) => column.id !== id);
+      setColumns(filteredColumns);
+
+      const newTasks = tasks.filter((task) => task.column !== id);
+      setTasks(newTasks);
+    }
+
+  }
+
+  function deleteColumn(id) {
+
+    let idColumnDeleted = { id_column: id }
+
+    request("POST", 'delete-column/', (request) => { requestSuccessDeletColumn(request, id) }, idColumnDeleted);
   }
 
   function deleteTask(id) {
@@ -261,9 +279,40 @@ export default function KanbanBoard() {
                   ))}
                 </SortableContext>
               </div>
-              <div className={styles.BtnCreateNewColumn__Wrap}>
+
+              <div>
+                <CreateNewBoardItem
+                  className={showForm ? styles.none : ''}
+                  buttonText={'Добавить колонку'}
+                  spellCheck="false"
+                  dir="auto"
+                  maxLength="512"
+                  autoComplete="off"
+                  name="Ввести заголовок списка"
+                  placeholder="Ввести заголовок списка"
+                  aria-label="Ввести заголовок списка"
+                  data-testid="list-name-textarea"
+                  // autoFocus={showForm ? false : true}
+                  autoFocus={true}
+                  hideElAction={setShowForm}
+                  showFlag={true}
+                  changeAction={setText}
+                  newText={newName}
+                  addColumnAction={createNewColumn}
+                  newColName={columns}
+                />
+              </div>
+
+              <div
+                className={
+                  showForm ?
+                    styles.BtnCreateNewColumn__Wrap
+                    :
+                    styles.none
+                }
+              >
                 <Button
-                  clickAction={createNewColumn}
+                  clickAction={onShowFormAddColumn}
                   className={'BtnCreateNewColumn'}
                 >
                   <Icons
@@ -301,8 +350,8 @@ export default function KanbanBoard() {
               document.body
             )}
           </DndContext>
-        </div>
-      </Default>
+        </div >
+      </Default >
     </>
   );
 
