@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from "react-router-dom";
 
 import * as api from '../../api/api';
 
@@ -121,12 +122,12 @@ export default function Header(props) {
           </div>
         </div>
 
-        <a href='/' className={styles.LogoWrap}>
+        <Link to={"/"} className={styles.LogoWrap}>
           <div className={styles.Logo}>
             <img className={styles.LogoStatic} src={'img/logo_trello.gif'} alt="" />
             {/* <img className={styles.LogoAnimation} src={'img/logo_trello_anim.gif'} alt="" /> */}
           </div>
-        </a>
+        </Link>
 
         <div className={styles.CenterMenu}>
           <div className={styles.CenterMenuWrap}>

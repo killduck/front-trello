@@ -46,13 +46,6 @@ export default function KanbanBoard() {
     request("GET", 'columns/', (response) => {
       setColumns(response);
 
-      /* Эта гр....ная библиотека @dnd-kit начинает катастрофически глючить, если у разных компонентов встречается одинаковый id ((.
-        Т.е. если на дашборде встречается хотя бы одна пара -  колонка и карточка с одинаковым id, то работа DnD полностью падает.
-       <<Из оф. документации - Аргумент id представляет собой string или number и должен быть уникальным идентификатором.
-        Это означает, что в пределах DndContext не должно быть других перетаскиваемых элементов, имеющих тот же идентификатор.>>
-        Поэтому я придумал только такой костыль - на фронте подменить у карточек id с типа number на string.
-        Надеюсь не самый худший вариант, тк в разделе вопросов к библиотеке на github, для обхода данной "фичи", предлагают у сортируемых компонентов подменять id или переименовать его на что-то типа "_id"
-      */
       let data_card = [];
       response.map((column) => (
         data_card = [...data_card, ...column.cards]
@@ -161,19 +154,19 @@ export default function KanbanBoard() {
     }
   }
 
-  function requestSuccessCreateColumn(request) {
-
-    const columnToAdd = {
-      // id: generateId(),
-      // name: `Column ${columns.length + 1}`,
-      // order: columns.length,
-    };
-
-    setColumns([...columns, columnToAdd]);
-  }
-
 
   // Интерфейсы для работы с колонками и карточками
+  function requestSuccessCreateColumn(response) {
+
+    console.log('requestSuccessCreateColumn(response)=>', response);
+
+    if (response) {
+      const columnToAdd = response;
+
+      setColumns([...columns, columnToAdd]);
+    }
+  }
+
   function createNewColumn() {
 
     let columnToAdd = {
@@ -183,7 +176,7 @@ export default function KanbanBoard() {
     }
 
 
-    request("POST", 'create-column/', () => { console.log(1); /*requestSuccessCreateColumn(request)*/ }, columnToAdd);
+    request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);
     // TODO Есть проблема! Если после создания карточки начать ее перестраивать - то ей в order прилетает null. Тк на фронете ей пока присваиваме виртуальный id, а при перстроении прилетает id из автоинкремента
   }
 
@@ -215,13 +208,24 @@ export default function KanbanBoard() {
     setTasks(newTasks);
   }
 
-  function deleteColumn(id) {
-    console.log('функция => deleteColumn');
-    const filteredColumns = columns.filter((column) => column.id !== id);
-    setColumns(filteredColumns);
 
-    const newTasks = tasks.filter((task) => task.column !== id);
-    setTasks(newTasks);
+  function requestSuccessDeletColumn(response, id) {
+
+    if (response) {
+      const filteredColumns = columns.filter((column) => column.id !== id);
+      setColumns(filteredColumns);
+
+      const newTasks = tasks.filter((task) => task.column !== id);
+      setTasks(newTasks);
+    }
+
+  }
+
+  function deleteColumn(id) {
+
+    let idColumnDeleted = { id_column: id }
+
+    request("POST", 'delete-column/', (request) => { requestSuccessDeletColumn(request, id) }, idColumnDeleted);
   }
 
   function deleteTask(id) {
