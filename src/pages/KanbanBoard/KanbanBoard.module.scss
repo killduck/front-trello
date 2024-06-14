@@ -1,7 +1,7 @@
 .KanbanBoard {
   margin-top: 15px;
   margin-top: 65px; // временный стиль
-  margin-left: 20px;  // временный стиль
+  margin-left: 20px; // временный стиль
   color: #9fadbc;
 
   .Wrap {
@@ -38,7 +38,10 @@
       //     background-color: #A6C5E229;
       //   }
       // }
-
     }
   }
+}
+
+.none {
+  display: none;
 }

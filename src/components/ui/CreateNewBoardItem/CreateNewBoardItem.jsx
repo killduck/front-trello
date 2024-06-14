@@ -5,7 +5,7 @@ import Icons from "../Icons/Icons";
 import styles from "./CreateNewBoardItem.module.scss";
 
 
-export default function CreateNewBoardItem(props){
+export default function CreateNewBoardItem(props) {
     // console.log(props);
     let addColumnAction = props.addColumnAction;
     let spellCheck = props.spellCheck;
@@ -25,8 +25,8 @@ export default function CreateNewBoardItem(props){
     let className = props.className;
 
     return (
-        
-        <div className={className? className : styles.wrapForm}>
+
+        <div className={className ? className : styles.wrapForm}>
             <form className={styles.form}>
                 <textarea
                     className={styles.textarea}
@@ -40,10 +40,10 @@ export default function CreateNewBoardItem(props){
                     data-testid={dataTestid}
                     autoFocus={autoFocus} //не работает???
                     onChange={(evt) => changeAction(evt.target.value)}
-                    value={className? '': undefined}
+                    value={className ? '' : undefined}
                 />
                 <div className={styles.buttons}>
-                    <Button 
+                    <Button
                         className={`${styles.buttonAdd}`}
                         type="button" // нужно заменить на: type="submit" ???
                         dataTestid="list-composer-add-list-button"
@@ -54,13 +54,13 @@ export default function CreateNewBoardItem(props){
                     </Button>
                     <Button
                         className={`${styles.buttonEsc}`}
-                        type="button" 
-                        dataTestid="list-composer-cancel-button" 
+                        type="button"
+                        dataTestid="list-composer-cancel-button"
                         ariaLabel="Отменить редактирование"
                         clickAction={hideElAction}
                         actionVariable={showFlag}
                     >
-                        <Icons 
+                        <Icons
                             className={styles.Icons}
                             name={'CloseIcon'}
                         ></Icons>
@@ -68,7 +68,6 @@ export default function CreateNewBoardItem(props){
                 </div>
             </form>
         </div>
-        
+
     )
 };
-

@@ -9,7 +9,6 @@ import './App.css'
 function App() {
   return (
     <div>
-      {/* <Dashboard /> */}
       <KanbanBoard />
 
       <Routes>

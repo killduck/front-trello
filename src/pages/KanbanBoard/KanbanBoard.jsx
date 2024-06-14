@@ -11,12 +11,13 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
-import Default from "../../layouts/default/Default";
+import request from "../../api/request"; // времянка
 
-import request from "../../api/request";
-import Icons from "../../components/ui/Icons/Icons";
-import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
 import Button from "../../components/ui/Button/Button";
+import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
+import CreateNewBoardItem from "../../components/ui/CreateNewBoardItem/CreateNewBoardItem";
+import Default from "../../layouts/default/Default";
+import Icons from "../../components/ui/Icons/Icons";
 import TaskCard from "../../components/TaskCard/TaskCard";
 
 import styles from "./KanbanBoard.module.scss";
@@ -33,6 +34,11 @@ export default function KanbanBoard() {
   const [activeColumn, setActiveColumn] = useState(null);
 
   const [activeTask, setActiveTask] = useState(null);
+
+  const [showForm, setShowForm] = useState(true);
+
+  const [newName, setText] = useState('Новая колонка');
+
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -154,6 +160,13 @@ export default function KanbanBoard() {
     }
   }
 
+  // Кликкеры
+
+  const onShowFormAddColumn = () => {
+    setShowForm(false);
+  }
+
+
 
   // Интерфейсы для работы с колонками и карточками
   function requestSuccessCreateColumn(response) {
@@ -164,13 +177,14 @@ export default function KanbanBoard() {
       const columnToAdd = response;
 
       setColumns([...columns, columnToAdd]);
+      setShowForm(true);
     }
   }
 
   function createNewColumn() {
 
     let columnToAdd = {
-      nameNewColumn: "Новая колонка",
+      nameNewColumn: newName,
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
       idDashboard: 1 //TODO переделать на конкретное рабочее пространство
     }
@@ -265,9 +279,40 @@ export default function KanbanBoard() {
                   ))}
                 </SortableContext>
               </div>
-              <div className={styles.BtnCreateNewColumn__Wrap}>
+
+              <div>
+                <CreateNewBoardItem
+                  className={showForm ? styles.none : ''}
+                  buttonText={'Добавить колонку'}
+                  spellCheck="false"
+                  dir="auto"
+                  maxLength="512"
+                  autoComplete="off"
+                  name="Ввести заголовок списка"
+                  placeholder="Ввести заголовок списка"
+                  aria-label="Ввести заголовок списка"
+                  data-testid="list-name-textarea"
+                  // autoFocus={showForm ? false : true}
+                  autoFocus={true}
+                  hideElAction={setShowForm}
+                  showFlag={true}
+                  changeAction={setText}
+                  newText={newName}
+                  addColumnAction={createNewColumn}
+                  newColName={columns}
+                />
+              </div>
+
+              <div
+                className={
+                  showForm ?
+                    styles.BtnCreateNewColumn__Wrap
+                    :
+                    styles.none
+                }
+              >
                 <Button
-                  clickAction={createNewColumn}
+                  clickAction={onShowFormAddColumn}
                   className={'BtnCreateNewColumn'}
                 >
                   <Icons
@@ -305,8 +350,8 @@ export default function KanbanBoard() {
               document.body
             )}
           </DndContext>
-        </div>
-      </Default>
+        </div >
+      </Default >
     </>
   );
 
