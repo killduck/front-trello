@@ -1,27 +1,30 @@
+
 import './ResetStyle.css'
 import './App.css'
-import Dashboard from './pages/Dashboard/Dashboard'
-import KanbanBoard from './pages/KanbanBoard/KanbanBoard'
+import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
+
+import { Route, Routes } from 'react-router-dom';
+import Workspace from './pages/Workspace/Workspace';
+import Recent from './pages/Recent/Recent';
+import Favourites from './pages/Favourites/Favourites';
+import Templates from './pages/Templates/Templates';
+import Default from './layouts/default/Default';
+
 
 function App() {
   return (
     <div>
-      {/* <Dashboard /> */}
+
       <KanbanBoard />
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
+
+      <Routes>
+        <Route path="/" element={<Default />} />
+        <Route path="workspace" element={<Workspace />} />
+        <Route path='recent' element={<Recent />} />
+        <Route path='favourites' element={<Favourites />} />
+        <Route path='templates' element={<Templates />} />
+      </Routes>
+      
     </div>
   )
 }

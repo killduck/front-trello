@@ -1,8 +1,7 @@
+
 import { useState } from 'react'
 
 import * as api from '../../api/api';
-
-import { NavLink, Route, Routes } from 'react-router-dom';
 
 import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
 import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
@@ -16,11 +15,7 @@ import Notification from '../ui/NotificateBTN/Notification';
 
 import styles from './Header.module.scss';
 
-import Workspace from '../../pages/Workspace/Workspace';
-import Recent from '../../pages/Recent/Recent';
-import Favourites from '../../pages/Favourites/Favourites';
-import Templates from '../../pages/Templates/Templates';
-
+import { NavLink } from 'react-router-dom';
 
 export default function Header(props) {
 
@@ -130,170 +125,164 @@ export default function Header(props) {
           </div>
         </div>
         
-        <NavLink to='/'>
-          <a href='/' className={styles.LogoWrap}>
+        <NavLink to='' className={styles.LogoWrap}>
+          <ButtonDropMenu
+            class_name={'BtnActiveLogoDropMenu'}
+            actionFunction={onRemoving_active_menu}
+          >
             <div className={styles.Logo}>
               <img className={styles.LogoStatic} src={'img/logo_trello.gif'} alt="" />
               {/* <img className={styles.LogoAnimation} src={'img/logo_trello_anim.gif'} alt="" /> */}
             </div>
-          </a>
+          </ButtonDropMenu>
         </NavLink>
-
         
         <div className={styles.CenterMenu}>
           <div className={styles.CenterMenuWrap}>
             <div className={styles.DropDownMenu}>
-              <NavLink to='workspace'>
-                <div className={styles.MenuWorkspace}>
-                  <div
-                    className={
-                      stateActiveDropMenu['BtnActiveWorkspaceDropMenu'] ?
-                        `${styles.MenuButton} ${styles.MenuButtonActive}`
-                        :
-                        styles.MenuButton
-                    }
-                  >
-                    <div className={styles.MenuTextIconActive}>
-                      <ButtonDropMenu
-                        class_name={'BtnActiveWorkspaceDropMenu'}
-                        actionFunction={onRemoving_active_menu}
-                      >
-                        <span>Рабочие пространства</span>
-                        <Icons
-                          name={'ArrowDown'}
-                          class_name={'BtnDropMenuIcon'}
-                        />
-                      </ButtonDropMenu>
-                    </div>
-                  </div>
-                  <div
-                    className={
-                      stateActiveDropMenu['BtnActiveWorkspaceDropMenu'] ?
-                        styles.WorkspaceDropDownMenu
-                        :
-                        styles.NoneDisplay
-                    }
-                  >
-                    <DropDownMenuWorkspace />
+              <div className={styles.MenuWorkspace}>
+                <div
+                  className={
+                    stateActiveDropMenu['BtnActiveWorkspaceDropMenu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
+                      :
+                      styles.MenuButton
+                  }
+                >
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveWorkspaceDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>Рабочие пространства</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
                   </div>
                 </div>
-              </NavLink>
+                <div
+                  className={
+                    stateActiveDropMenu['BtnActiveWorkspaceDropMenu'] ?
+                      styles.WorkspaceDropDownMenu
+                      :
+                      styles.NoneDisplay
+                  }
+                >
+                  <DropDownMenuWorkspace />
+                </div>
+              </div>
               
-              <NavLink to='recent' >
-                <div className={styles.MenuRecent}>
-                  <div
-                    className={
-                      stateActiveDropMenu['BtnActiveRecentDropMenu'] ?
-                        `${styles.MenuButton} ${styles.MenuButtonActive}`
-                        :
-                        styles.MenuButton
-                    }
-                  >
-                    <div className={styles.MenuTextIconActive}>
-                      <ButtonDropMenu
-                        class_name={'BtnActiveRecentDropMenu'}
-                        actionFunction={onRemoving_active_menu}
-                      >
-                        <span>Недавние</span>
-                        <Icons
-                          name={'ArrowDown'}
-                          class_name={'BtnDropMenuIcon'}
-                        />
-                      </ButtonDropMenu>
-                    </div>
-                  </div>
-                  <div
-                    className={
-                      stateActiveDropMenu['BtnActiveRecentDropMenu'] ?
-                        styles.RecentDropDownMenu
-                        :
-                        styles.NoneDisplay
-                    }
-                  >
-                    <DropDownMenuRecent
-                      data={stateBoardsList}
-                      actionFunction={onAddFavoriteStar}
-                    />
+              <div className={styles.MenuRecent}>
+                <div
+                  className={
+                    stateActiveDropMenu['BtnActiveRecentDropMenu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
+                      :
+                      styles.MenuButton
+                  }
+                >
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveRecentDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>Недавние</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
                   </div>
                 </div>
-              </NavLink>
+                <div
+                  className={
+                    stateActiveDropMenu['BtnActiveRecentDropMenu'] ?
+                      styles.RecentDropDownMenu
+                      :
+                      styles.NoneDisplay
+                  }
+                >
+                  <DropDownMenuRecent
+                    data={stateBoardsList}
+                    actionFunction={onAddFavoriteStar}
+                  />
+                </div>
+              </div>
               
-              <NavLink to='favourites'>
-                <div className={styles.MenuFavourites}>
-                  <div
-                    className={
-                      stateActiveDropMenu['BtnActiveFavouritesDropMenu'] ?
-                        `${styles.MenuButton} ${styles.MenuButtonActive}`
-                        :
-                        styles.MenuButton
-                    }
-                  >
-                    <div className={styles.MenuTextIconActive}>
-                      <ButtonDropMenu
-                        class_name={'BtnActiveFavouritesDropMenu'}
-                        actionFunction={onRemoving_active_menu}
-                      >
-                        <span>В избранном</span>
-                        <Icons
-                          name={'ArrowDown'}
-                          class_name={'BtnDropMenuIcon'}
-                        />
-                      </ButtonDropMenu>
-                    </div>
-                  </div>
-                  <div
-                    className={
-                      stateActiveDropMenu['BtnActiveFavouritesDropMenu'] ?
-                        styles.FavouritesDropDownMenu
-                        :
-                        styles.NoneDisplay
-                    }
-                  >
-                    <DropDownMenuFavourite
-                      data={stateBoardsList}
-                      actionFunction={onAddFavoriteStar}
-                    />
+              <div className={styles.MenuFavourites}>
+                <div
+                  className={
+                    stateActiveDropMenu['BtnActiveFavouritesDropMenu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
+                      :
+                      styles.MenuButton
+                  }
+                >
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveFavouritesDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>В избранном</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
                   </div>
                 </div>
-              </NavLink>
+                <div
+                  className={
+                    stateActiveDropMenu['BtnActiveFavouritesDropMenu'] ?
+                      styles.FavouritesDropDownMenu
+                      :
+                      styles.NoneDisplay
+                  }
+                >
+                  <DropDownMenuFavourite
+                    data={stateBoardsList}
+                    actionFunction={onAddFavoriteStar}
+                  />
+                </div>
+              </div>
               
-              <NavLink to='templates'>
-                <div className={styles.MenuTemplates}>
-                  <div
-                    className={
-                      stateActiveDropMenu['onRemoving_active_menu'] ?
-                        `${styles.MenuButton} ${styles.MenuButtonActive}`
-                        :
-                        styles.MenuButton
-                    }
-                  >
-                    <div className={styles.MenuTextIconActive}>
-                      <ButtonDropMenu
-                        class_name={'BtnActiveTemplatesDropMenu'}
-                        actionFunction={onRemoving_active_menu}
-                      >
-                        <span>Шаблоны</span>
-                        <Icons
-                          name={'ArrowDown'}
-                          class_name={'BtnDropMenuIcon'}
-                        />
-                      </ButtonDropMenu>
-                    </div>
-                  </div>
-                  <div
-                    className={
-                      stateActiveDropMenu['BtnActiveTemplatesDropMenu'] ?
-                        styles.TemplatesDropDownMenu
-                        :
-                        styles.NoneDisplay
-                    }
-                  >
-                    <DropDownMenuTemplates
-                      data={api.templates}
-                    />
+              <div className={styles.MenuTemplates}>
+                <div
+                  className={
+                    stateActiveDropMenu['onRemoving_active_menu'] ?
+                      `${styles.MenuButton} ${styles.MenuButtonActive}`
+                      :
+                      styles.MenuButton
+                  }
+                >
+                  <div className={styles.MenuTextIconActive}>
+                    <ButtonDropMenu
+                      class_name={'BtnActiveTemplatesDropMenu'}
+                      actionFunction={onRemoving_active_menu}
+                    >
+                      <span>Шаблоны</span>
+                      <Icons
+                        name={'ArrowDown'}
+                        class_name={'BtnDropMenuIcon'}
+                      />
+                    </ButtonDropMenu>
                   </div>
                 </div>
-              </NavLink>
+                <div
+                  className={
+                    stateActiveDropMenu['BtnActiveTemplatesDropMenu'] ?
+                      styles.TemplatesDropDownMenu
+                      :
+                      styles.NoneDisplay
+                  }
+                >
+                  <DropDownMenuTemplates
+                    data={api.templates}
+                  />
+                </div>
+              </div>
 
             </div>
 
@@ -324,14 +313,9 @@ export default function Header(props) {
         </div>
       </nav >
 
-      <Routes>
-
-        <Route path="workspace" element={<Workspace />} />
-        <Route path='recent' element={<Recent />} />
-        <Route path='favourites' element={<Favourites />} />
-        <Route path='templates' element={<Templates />} />
-
-      </Routes>
+      {/* <Routes>
+        <Route path="/" element={<Default />} />
+      </Routes> */}
 
     </div >
   )

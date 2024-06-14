@@ -1,7 +1,9 @@
+
 import CardDropdownMenuIcon from "../CardDropdownMenuIcon/CardDropdownMenuIcon";
 
 import styles from './DropDownMenuRecent.module.scss';
 
+import { NavLink } from 'react-router-dom';
 
 export default function DropDownMenuRecent(props) {
 
@@ -14,11 +16,16 @@ export default function DropDownMenuRecent(props) {
         {
           list_boards.map((board, index) =>
             <li key={board.id}>
-              <CardDropdownMenuIcon
-                card={board}
-                cardIcon={'Star'}
-                actionFunction={actionFunction}
-              />
+
+              <NavLink to='recent' className={styles.CardDropdownMenuIcon} >
+                <CardDropdownMenuIcon
+                  card={board}
+                  cardIcon={'Star'}
+                  actionFunction={actionFunction}
+                />
+              </NavLink>
+
+              
             </li>
           )
         }
