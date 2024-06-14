@@ -8,3 +8,7 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
+
+.header_offset {
+  padding-top: 48px;
+}

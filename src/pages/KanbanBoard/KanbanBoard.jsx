@@ -11,6 +11,8 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { useParams } from 'react-router-dom';
+
 import request from "../../api/request"; // времянка
 
 import Button from "../../components/ui/Button/Button";
@@ -39,6 +41,7 @@ export default function KanbanBoard() {
 
   const [newName, setText] = useState('Новая колонка');
 
+  let { dashboardId } = useParams();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -47,6 +50,8 @@ export default function KanbanBoard() {
       },
     })
   );
+
+
 
   useEffect(() => {
     request("GET", 'columns/', (response) => {

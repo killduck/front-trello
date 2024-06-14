@@ -1,10 +1,13 @@
+import Default from "../../layouts/default/Default";
 
 
 
-export default function Templates(props){
+export default function Templates(props) {
   return (
     <div>
-      Templates
+      <Default>
+        Templates
+      </Default>
     </div>
   )
 };

@@ -124,19 +124,19 @@ export default function Header(props) {
             <DropDownMenuKebab />
           </div>
         </div>
-        
-        <NavLink to='' className={styles.LogoWrap}>
+
+        <NavLink to='/' className={styles.LogoWrap}>
           <ButtonDropMenu
             class_name={'BtnActiveLogoDropMenu'}
             actionFunction={onRemoving_active_menu}
           >
             <div className={styles.Logo}>
-              <img className={styles.LogoStatic} src={'img/logo_trello.gif'} alt="" />
+              <img className={styles.LogoStatic} src={'/img/logo_trello.gif'} alt="" />
               {/* <img className={styles.LogoAnimation} src={'img/logo_trello_anim.gif'} alt="" /> */}
             </div>
           </ButtonDropMenu>
         </NavLink>
-        
+
         <div className={styles.CenterMenu}>
           <div className={styles.CenterMenuWrap}>
             <div className={styles.DropDownMenu}>
@@ -173,7 +173,7 @@ export default function Header(props) {
                   <DropDownMenuWorkspace />
                 </div>
               </div>
-              
+
               <div className={styles.MenuRecent}>
                 <div
                   className={
@@ -210,7 +210,7 @@ export default function Header(props) {
                   />
                 </div>
               </div>
-              
+
               <div className={styles.MenuFavourites}>
                 <div
                   className={
@@ -247,7 +247,7 @@ export default function Header(props) {
                   />
                 </div>
               </div>
-              
+
               <div className={styles.MenuTemplates}>
                 <div
                   className={

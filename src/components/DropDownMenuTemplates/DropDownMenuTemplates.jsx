@@ -21,7 +21,7 @@ export default function DropDownMenuTemplates(props) {
           templates.map((template, index) =>
             <li key={template.id}>
 
-              <NavLink to='templates' className={styles.CardDropdownMenuIcon} >
+              <NavLink to='/templates' className={styles.CardDropdownMenuIcon} >
                 <CardDropdownMenuIcon
                   card={template}
                 />
