@@ -313,10 +313,6 @@ export default function Header(props) {
         </div>
       </nav >
 
-      {/* <Routes>
-        <Route path="/" element={<Default />} />
-      </Routes> */}
-
     </div >
   )
 };

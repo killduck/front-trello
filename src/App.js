@@ -10,7 +10,6 @@ import Favourites from './pages/Favourites/Favourites';
 import Templates from './pages/Templates/Templates';
 import Default from './layouts/default/Default';
 
-
 function App() {
   return (
     <div>
@@ -24,7 +23,7 @@ function App() {
         <Route path='favourites' element={<Favourites />} />
         <Route path='templates' element={<Templates />} />
       </Routes>
-      
+
     </div>
   )
 }
