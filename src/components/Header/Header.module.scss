@@ -128,23 +128,47 @@ $transition_hover: all 0.3s ease;
 
     .Logo {
       @include no-touch-select;
-
       width: 75px;
-      // height: 16px;
+      height: 16px;
+      margin: 0;
       padding: 8px 0;
+      opacity: 1;
+      position: relative;
+      width: 75px;
+      filter: brightness(0) saturate(100%) invert(66%) sepia(20%) saturate(225%) hue-rotate(170deg) brightness(101%) contrast(85%) !important;
+      // height: 16px;
 
-      .LogoStatic {
+      &:after{
+        content: '';
         display: block;
+        position: absolute;
+        top: 0;
         width: 100%;
         height: 100%;
-        border-radius: 3px;
-        opacity: 0.6;
+        background-image: url('../../../public/img/logo_trello.gif');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 1;
       }
-
-      .LogoAnimation {
-        display: none;
+      &:before{
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
         width: 100%;
         height: 100%;
+        background-image: url('../../../public/img/logo_trello_anim.gif');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0;
+      }
+      &:hover:after {
+        opacity: 0;
+      }
+      &:hover:before {
+        opacity: 1;
       }
     }
   }

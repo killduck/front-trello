@@ -7,6 +7,7 @@ import Templates from './pages/Templates/Templates';
 
 import Default from './layouts/default/Default';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
+import Auth from './layouts/auth/Auth';
 
 export default function RoutesApp(props) {
 
@@ -16,7 +17,7 @@ export default function RoutesApp(props) {
 
             <Routes>
                 {/* <Route path="/" element={<Default />} /> */}
-
+                <Route path='/auth' element={<Auth />} />
                 <Route path="/dashboard/:dashboardId" element={<KanbanBoard />} />
                 <Route path="/" element={<Workspace />} />
                 <Route path='/recent' element={<Recent />} />

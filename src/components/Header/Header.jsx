@@ -130,10 +130,7 @@ export default function Header(props) {
             class_name={'BtnActiveLogoDropMenu'}
             actionFunction={onRemoving_active_menu}
           >
-            <div className={styles.Logo}>
-              <img className={styles.LogoStatic} src={'/img/logo_trello.gif'} alt="" />
-              {/* <img className={styles.LogoAnimation} src={'img/logo_trello_anim.gif'} alt="" /> */}
-            </div>
+            <div className={styles.Logo}></div>
           </ButtonDropMenu>
         </NavLink>
 
