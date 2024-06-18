@@ -54,7 +54,7 @@ export default function KanbanBoard() {
 
 
   useEffect(() => {
-    request("GET", 'columns/', (response) => {
+    request("POST", 'columns/', (response) => {
       setColumns(response);
 
       let data_card = [];
@@ -67,7 +67,7 @@ export default function KanbanBoard() {
       );
 
       setTasks(data_card);
-    })
+    }, { 'dashboardId': dashboardId })
   }, []);
 
 
