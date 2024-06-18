@@ -191,7 +191,7 @@ export default function KanbanBoard() {
     let columnToAdd = {
       nameNewColumn: newName,
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
-      idDashboard: 1 //TODO переделать на конкретное рабочее пространство
+      idDashboard: dashboardId //TODO переделать на конкретное рабочее пространство
     }
 
 
