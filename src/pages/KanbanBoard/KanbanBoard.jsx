@@ -104,7 +104,7 @@ export default function KanbanBoard() {
     // });
 
     editOrderColumns(active, over);
-    request("POST", 'swap-columns/', (response) => { }, columns);
+    request("POST", 'swap-columns/', (response) => { }, { columns, dashboardId });
   }
 
   function editOrderColumns(active, over) {
@@ -191,12 +191,11 @@ export default function KanbanBoard() {
     let columnToAdd = {
       nameNewColumn: newName,
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
-      idDashboard: dashboardId //TODO переделать на конкретное рабочее пространство
+      idDashboard: dashboardId
     }
 
 
     request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);
-    // TODO Есть проблема! Если после создания карточки начать ее перестраивать - то ей в order прилетает null. Тк на фронете ей пока присваиваме виртуальный id, а при перстроении прилетает id из автоинкремента
   }
 
   function createTask(columnId) {
