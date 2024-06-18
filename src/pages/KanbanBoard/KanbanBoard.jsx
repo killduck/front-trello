@@ -145,9 +145,10 @@ export default function KanbanBoard() {
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           // Fix introduced after video recording
           tasks[activeIndex].column = tasks[overIndex].column;
+          console.log('сортировка внутри колонки 1=>', arrayMove(tasks, activeIndex, overIndex - 1));
           return arrayMove(tasks, activeIndex, overIndex - 1);
         }
-
+        console.log('сортировка внутри колонки 2=>', arrayMove(tasks, activeIndex, overIndex));
         return arrayMove(tasks, activeIndex, overIndex);
       });
     }
@@ -160,6 +161,8 @@ export default function KanbanBoard() {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
 
         tasks[activeIndex].column = over.id;
+
+        console.log('сортировка между колонок=>', arrayMove(tasks, activeIndex, activeIndex));
         return arrayMove(tasks, activeIndex, activeIndex);
       });
     }
@@ -198,14 +201,26 @@ export default function KanbanBoard() {
     request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);
   }
 
+
+  function requestSuccessCreateTask(response) {
+
+    if (response) {
+      const cardToAdd = response;
+
+      setTasks([...tasks, cardToAdd]);
+    }
+
+  }
+
   function createTask(columnId) {
-    const newTask = {
-      id: generateId().toString(),
-      column: columnId,
+
+    let newTask = {
       name: `Task ${tasks.length + 1}`,
+      author: 1,
+      column: columnId,
     };
 
-    setTasks([...tasks, newTask]);
+    request("POST", 'create-card/', (request) => { requestSuccessCreateTask(request) }, newTask);
   }
 
   function updateColumn(id, name) {
