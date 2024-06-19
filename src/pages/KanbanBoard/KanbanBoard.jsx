@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   DndContext,
   DragOverlay,
@@ -9,9 +8,8 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
 import { useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
-
 import { useParams } from 'react-router-dom';
+import { createPortal } from "react-dom";
 
 import request from "../../api/request"; // времянка
 
@@ -43,6 +41,7 @@ export default function KanbanBoard() {
 
   let { dashboardId } = useParams();
 
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -50,7 +49,6 @@ export default function KanbanBoard() {
       },
     })
   );
-
 
 
   useEffect(() => {
@@ -73,6 +71,8 @@ export default function KanbanBoard() {
 
   // Библиотека @dnd kit
   function onDragStart(event) {
+    console.log('onDragStart');
+
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
@@ -85,26 +85,36 @@ export default function KanbanBoard() {
   }
 
   function onDragEnd(event) {
+    console.log('onDragEnd');
 
     setActiveColumn(null);
     setActiveTask(null);
 
     const { active, over } = event;
-    if (!over) return;
 
-    if (active.id === over.id) return;
+    const active_order_element = active.data.current?.type;
 
-    const isActiveAColumn = active.data.current?.type === "Column";
-    if (!isActiveAColumn) return;
 
-    // setColumns((columns) => {
-    //   const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
-    //   const overColumnIndex = columns.findIndex((column) => column.id === over.id);
-    //   return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    // });
+    if (active_order_element === "Column") {
+      console.log('Сортируем колонки');
 
-    editOrderColumns(active, over);
-    request("POST", 'swap-columns/', (response) => { }, { columns, dashboardId });
+      if (!over) return;
+
+      if (active.id === over.id) return;
+
+      const isActiveAColumn = active.data.current?.type === "Column";
+      if (!isActiveAColumn) return;
+
+      editOrderColumns(active, over);
+      request("POST", 'swap-columns/', (response) => { }, { columns, dashboardId });
+    }
+
+
+    if (active_order_element === "Task") {
+      console.log('Сортируем карточки');
+
+      editOrderCards(tasks);
+    }
   }
 
   function editOrderColumns(active, over) {
@@ -122,8 +132,13 @@ export default function KanbanBoard() {
     return arrayMove(copy, activeColumnIndex, overColumnIndex);
   }
 
+  function editOrderCards(arrCards) {
+    console.log(arrCards);
+  }
+
 
   function onDragOver(event) {
+    console.log('onDragOver');
 
     const { active, over } = event;
 
@@ -136,50 +151,42 @@ export default function KanbanBoard() {
 
     if (!isActiveATask) return;
 
-    // Im dropping a Task over another Task
+    // Dropping a Task over another Task
     if (isActiveATask && isOverATask) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
         const overIndex = tasks.findIndex((task) => task.id === over.id);
 
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
-          // Fix introduced after video recording
           tasks[activeIndex].column = tasks[overIndex].column;
-          console.log('сортировка внутри колонки 1=>', arrayMove(tasks, activeIndex, overIndex - 1));
           return arrayMove(tasks, activeIndex, overIndex - 1);
         }
-        console.log('сортировка внутри колонки 2=>', arrayMove(tasks, activeIndex, overIndex));
+
         return arrayMove(tasks, activeIndex, overIndex);
       });
     }
 
     const isOverAColumn = over.data.current?.type === "Column";
 
-    // Im dropping a Task over a column
+    // Dropping a Task over a column
     if (isActiveATask && isOverAColumn) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
-
         tasks[activeIndex].column = over.id;
-
-        console.log('сортировка между колонок=>', arrayMove(tasks, activeIndex, activeIndex));
         return arrayMove(tasks, activeIndex, activeIndex);
       });
     }
   }
 
-  // Кликкеры
 
+  // Кликкеры
   const onShowFormAddColumn = () => {
     setShowForm(false);
   }
 
 
-
   // Интерфейсы для работы с колонками и карточками
   function requestSuccessCreateColumn(response) {
-
-    console.log('requestSuccessCreateColumn(response)=>', response);
 
     if (response) {
       const columnToAdd = response;
@@ -196,7 +203,6 @@ export default function KanbanBoard() {
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
       idDashboard: dashboardId
     }
-
 
     request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);
   }
@@ -264,10 +270,6 @@ export default function KanbanBoard() {
   function deleteTask(id) {
     const newTasks = tasks.filter((task) => task.id !== id);
     setTasks(newTasks);
-  }
-
-  function generateId() {
-    return Math.floor(Math.random() * 10001);
   }
 
 
