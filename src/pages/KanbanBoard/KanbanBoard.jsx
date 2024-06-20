@@ -113,7 +113,10 @@ export default function KanbanBoard() {
     if (active_order_element === "Task") {
       console.log('Сортируем карточки');
 
-      editOrderCards(tasks);
+      let order_cards = editOrderCards(tasks);
+      console.log('массив карточек для бэка с правельным полем order =>', order_cards);
+
+      request("POST", 'swap-cards/', (response) => { }, { order_cards, dashboardId });
     }
   }
 
@@ -133,7 +136,48 @@ export default function KanbanBoard() {
   }
 
   function editOrderCards(arrCards) {
-    console.log(arrCards);
+    console.log('из стейта получаем массив сортированных карточек =>', arrCards);
+
+    let cards_by_columns = {};
+
+    arrCards.forEach((card) => {
+
+      if (typeof cards_by_columns[card.column] == "undefined") {
+        cards_by_columns[card.column] = [
+          {
+            id: card.id,
+            name: card.name,
+            order: card.order,
+            column: card.column,
+          }
+        ];
+      }
+      else {
+        cards_by_columns[card.column].push(
+          {
+            id: card.id,
+            name: card.name,
+            order: card.order,
+            column: card.column,
+          }
+        );
+      }
+    });
+
+    console.log('разбиваем его key=№ колоки / value=карточки колонки =>', cards_by_columns);
+
+    // Переписываем в карточках поле "order" в соответствии их позиции в массиве
+    let sort_cards = [];
+
+    Object.values(cards_by_columns).forEach((obj) => {
+
+      obj.forEach((card, index) => {
+        card.order = index;
+        sort_cards.push(card)
+      });
+    });
+
+    return sort_cards;
   }
 
 
