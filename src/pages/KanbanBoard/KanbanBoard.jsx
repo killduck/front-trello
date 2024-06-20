@@ -114,7 +114,6 @@ export default function KanbanBoard() {
       console.log('Сортируем карточки');
 
       let order_cards = editOrderCards(tasks);
-      console.log('массив карточек для бэка с правельным полем order =>', order_cards);
 
       request("POST", 'swap-cards/', (response) => { }, { order_cards, dashboardId });
     }
@@ -136,7 +135,6 @@ export default function KanbanBoard() {
   }
 
   function editOrderCards(arrCards) {
-    console.log('из стейта получаем массив сортированных карточек =>', arrCards);
 
     let cards_by_columns = {};
 
@@ -146,7 +144,7 @@ export default function KanbanBoard() {
         cards_by_columns[card.column] = [
           {
             id: card.id,
-            name: card.name,
+            // name: card.name,
             order: card.order,
             column: card.column,
           }
@@ -156,15 +154,13 @@ export default function KanbanBoard() {
         cards_by_columns[card.column].push(
           {
             id: card.id,
-            name: card.name,
+            // name: card.name,
             order: card.order,
             column: card.column,
           }
         );
       }
     });
-
-    console.log('разбиваем его key=№ колоки / value=карточки колонки =>', cards_by_columns);
 
     // Переписываем в карточках поле "order" в соответствии их позиции в массиве
     let sort_cards = [];
