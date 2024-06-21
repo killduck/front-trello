@@ -199,7 +199,8 @@ export default function KanbanBoard() {
 
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           tasks[activeIndex].column = tasks[overIndex].column;
-          return arrayMove(tasks, activeIndex, overIndex - 1);
+          // return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
+          return arrayMove(tasks, activeIndex, overIndex);
         }
 
         return arrayMove(tasks, activeIndex, overIndex);
