@@ -82,6 +82,11 @@ export default function Header(props) {
     setBoardsList(new_boards_list);
   }
 
+  function onCreate() {
+    console.log('Проверка выполения функции =>', onCreate.name);
+  }
+
+
 
   return (
 
@@ -283,10 +288,13 @@ export default function Header(props) {
 
             </div>
 
-            <div className={styles.ButtonCreate}>
+            <div
+              className={styles.ButtonCreate}
+              onClick={onRemoving_active_menu}
+            >
               <ButtonDropMenu
                 class_name={'BtnCreate'}
-                actionFunction={onRemoving_active_menu}
+                actionFunction={onCreate}
               >
                 <span>Создать</span>
               </ButtonDropMenu>

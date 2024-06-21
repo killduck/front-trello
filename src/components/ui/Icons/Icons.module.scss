@@ -27,7 +27,7 @@
   width: 16px;
   height: 16px;
   fill: #a1bdd914;
-  stroke: #9FADBC;
+  stroke: #9fadbc;
   stroke-width: 3;
 
   &.IconActive {
@@ -58,7 +58,7 @@
   stroke: #9fadbc;
 
   &:hover {
-    stroke: white;
+    stroke: #fff;
   }
 }
 
@@ -73,6 +73,7 @@
   fill: #9fadbc;
   stroke: #9fadbc;
 }
+
 .google_logo{
   width: auto;
   height: auto;
@@ -88,4 +89,35 @@
 .slack_logo{
   width: auto;
   height: auto;
+
+.WorkspaceTitleButtonPeopleIcon {
+  width: 16px;
+  height: 16px;
+
+  stroke-width: 0.1;
+  stroke: #000;
+}
+
+.WorkspaceTitleVisibilityStatusIcon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  fill-rule: evenodd;
+}
+
+.WorkspaceTitleNamePencilIcon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  fill-rule: evenodd;
+  margin-right: 2px;
+}
+
+.HelpCreateNewDashboardIcon {
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  fill: #9fadbc;
+  stroke: #9fadbc;
+  stroke-width: 2;
 }
