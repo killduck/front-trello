@@ -7,7 +7,7 @@ import Templates from './pages/Templates/Templates';
 
 import Default from './layouts/default/Default';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
-import Auth from './layouts/auth/Auth';
+import Auth from '../dist/auth/Auth';
 
 export default function RoutesApp(props) {
 

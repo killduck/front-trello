@@ -1,7 +1,7 @@
 
 
 import styles from "./Auth.module.scss";
-import Icons from "../../components/ui/Icons/Icons";
+import Icons from "../../src/components/ui/Icons/Icons";
 
 export default function Auth(props){
   return (
