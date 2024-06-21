@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   DndContext,
   DragOverlay,
@@ -9,9 +8,8 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
 import { useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
-
 import { useParams } from 'react-router-dom';
+import { createPortal } from "react-dom";
 
 import request from "../../api/request"; // времянка
 
@@ -43,6 +41,7 @@ export default function KanbanBoard() {
 
   let { dashboardId } = useParams();
 
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -52,9 +51,8 @@ export default function KanbanBoard() {
   );
 
 
-
   useEffect(() => {
-    request("GET", 'columns/', (response) => {
+    request("POST", 'columns/', (response) => {
       setColumns(response);
 
       let data_card = [];
@@ -67,12 +65,14 @@ export default function KanbanBoard() {
       );
 
       setTasks(data_card);
-    })
+    }, { 'dashboardId': dashboardId })
   }, []);
 
 
   // Библиотека @dnd kit
   function onDragStart(event) {
+    console.log('onDragStart');
+
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
@@ -85,26 +85,38 @@ export default function KanbanBoard() {
   }
 
   function onDragEnd(event) {
+    console.log('onDragEnd');
 
     setActiveColumn(null);
     setActiveTask(null);
 
     const { active, over } = event;
-    if (!over) return;
 
-    if (active.id === over.id) return;
+    const active_order_element = active.data.current?.type;
 
-    const isActiveAColumn = active.data.current?.type === "Column";
-    if (!isActiveAColumn) return;
 
-    // setColumns((columns) => {
-    //   const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
-    //   const overColumnIndex = columns.findIndex((column) => column.id === over.id);
-    //   return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    // });
+    if (active_order_element === "Column") {
+      console.log('Сортируем колонки');
 
-    editOrderColumns(active, over);
-    request("POST", 'swap-columns/', (response) => { }, columns);
+      if (!over) return;
+
+      if (active.id === over.id) return;
+
+      const isActiveAColumn = active.data.current?.type === "Column";
+      if (!isActiveAColumn) return;
+
+      editOrderColumns(active, over);
+      request("POST", 'swap-columns/', (response) => { }, { columns, dashboardId });
+    }
+
+
+    if (active_order_element === "Task") {
+      console.log('Сортируем карточки');
+
+      let order_cards = editOrderCards(tasks);
+
+      request("POST", 'swap-cards/', (response) => { }, { order_cards, dashboardId });
+    }
   }
 
   function editOrderColumns(active, over) {
@@ -122,8 +134,51 @@ export default function KanbanBoard() {
     return arrayMove(copy, activeColumnIndex, overColumnIndex);
   }
 
+  function editOrderCards(arrCards) {
+
+    let cards_by_columns = {};
+
+    arrCards.forEach((card) => {
+
+      if (typeof cards_by_columns[card.column] == "undefined") {
+        cards_by_columns[card.column] = [
+          {
+            id: card.id,
+            // name: card.name,
+            order: card.order,
+            column: card.column,
+          }
+        ];
+      }
+      else {
+        cards_by_columns[card.column].push(
+          {
+            id: card.id,
+            // name: card.name,
+            order: card.order,
+            column: card.column,
+          }
+        );
+      }
+    });
+
+    // Переписываем в карточках поле "order" в соответствии их позиции в массиве
+    let sort_cards = [];
+
+    Object.values(cards_by_columns).forEach((obj) => {
+
+      obj.forEach((card, index) => {
+        card.order = index;
+        sort_cards.push(card)
+      });
+    });
+
+    return sort_cards;
+  }
+
 
   function onDragOver(event) {
+    console.log('onDragOver');
 
     const { active, over } = event;
 
@@ -136,16 +191,16 @@ export default function KanbanBoard() {
 
     if (!isActiveATask) return;
 
-    // Im dropping a Task over another Task
+    // Dropping a Task over another Task
     if (isActiveATask && isOverATask) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
         const overIndex = tasks.findIndex((task) => task.id === over.id);
 
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
-          // Fix introduced after video recording
           tasks[activeIndex].column = tasks[overIndex].column;
-          return arrayMove(tasks, activeIndex, overIndex - 1);
+          // return arrayMove(tasks, activeIndex, overIndex);
+          return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
         }
 
         return arrayMove(tasks, activeIndex, overIndex);
@@ -154,29 +209,25 @@ export default function KanbanBoard() {
 
     const isOverAColumn = over.data.current?.type === "Column";
 
-    // Im dropping a Task over a column
+    // Dropping a Task over a column
     if (isActiveATask && isOverAColumn) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
-
         tasks[activeIndex].column = over.id;
         return arrayMove(tasks, activeIndex, activeIndex);
       });
     }
   }
 
-  // Кликкеры
 
+  // Кликкеры
   const onShowFormAddColumn = () => {
     setShowForm(false);
   }
 
 
-
   // Интерфейсы для работы с колонками и карточками
   function requestSuccessCreateColumn(response) {
-
-    console.log('requestSuccessCreateColumn(response)=>', response);
 
     if (response) {
       const columnToAdd = response;
@@ -191,22 +242,32 @@ export default function KanbanBoard() {
     let columnToAdd = {
       nameNewColumn: newName,
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
-      idDashboard: 1 //TODO переделать на конкретное рабочее пространство
+      idDashboard: dashboardId
     }
 
-
     request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);
-    // TODO Есть проблема! Если после создания карточки начать ее перестраивать - то ей в order прилетает null. Тк на фронете ей пока присваиваме виртуальный id, а при перстроении прилетает id из автоинкремента
+  }
+
+
+  function requestSuccessCreateTask(response) {
+
+    if (response) {
+      const cardToAdd = response;
+
+      setTasks([...tasks, cardToAdd]);
+    }
+
   }
 
   function createTask(columnId) {
-    const newTask = {
-      id: generateId().toString(),
-      column: columnId,
+
+    let newTask = {
       name: `Task ${tasks.length + 1}`,
+      author: 1,
+      column: columnId,
     };
 
-    setTasks([...tasks, newTask]);
+    request("POST", 'create-card/', (request) => { requestSuccessCreateTask(request) }, newTask);
   }
 
   function updateColumn(id, name) {
@@ -250,10 +311,6 @@ export default function KanbanBoard() {
   function deleteTask(id) {
     const newTasks = tasks.filter((task) => task.id !== id);
     setTasks(newTasks);
-  }
-
-  function generateId() {
-    return Math.floor(Math.random() * 10001);
   }
 
 
