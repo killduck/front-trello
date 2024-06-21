@@ -242,7 +242,7 @@ export default function KanbanBoard() {
     let columnToAdd = {
       nameNewColumn: newName,
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
-      idDashboard: dashboardId
+      idDashboard: Number(dashboardId)
     }
 
     request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);

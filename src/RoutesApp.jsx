@@ -7,13 +7,15 @@ import Templates from './pages/Templates/Templates';
 
 import Default from './layouts/default/Default';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
-import Auth from '../dist/auth/Auth';
+import Auth from './pages/Auth/Auth';
+
 
 export default function RoutesApp(props) {
 
 
     return (
         <div>
+
 
             <Routes>
                 {/* <Route path="/" element={<Default />} /> */}
