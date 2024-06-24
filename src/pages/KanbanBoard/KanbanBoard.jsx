@@ -52,20 +52,26 @@ export default function KanbanBoard() {
 
 
   useEffect(() => {
-    request("POST", 'columns/', (response) => {
-      setColumns(response);
+    request({
+      method:"POST", 
+      url:'columns/', 
+      callback:(response) => {
+        setColumns(response);
 
-      let data_card = [];
-      response.map((column) => (
-        data_card = [...data_card, ...column.cards]
-      ))
+        let data_card = [];
+        response.map((column) => (
+          data_card = [...data_card, ...column.cards]
+        ))
 
-      data_card.map(card =>
-        card.id = card.id.toString()
-      );
+        data_card.map(card =>
+          card.id = card.id.toString()
+        );
 
-      setTasks(data_card);
-    }, { 'dashboardId': dashboardId })
+        setTasks(data_card);
+      }, 
+      data:{ 'dashboardId': dashboardId },
+      status:200,
+    })
   }, []);
 
 
@@ -106,7 +112,13 @@ export default function KanbanBoard() {
       if (!isActiveAColumn) return;
 
       editOrderColumns(active, over);
-      request("POST", 'swap-columns/', (response) => { }, { columns, dashboardId });
+      request({
+        method:"POST", 
+        url:'swap-columns/', 
+        callback: (response) => { }, 
+        data: { columns, dashboardId },
+        status: 200,
+      });
     }
 
 
@@ -115,7 +127,13 @@ export default function KanbanBoard() {
 
       let order_cards = editOrderCards(tasks);
 
-      request("POST", 'swap-cards/', (response) => { }, { order_cards, dashboardId });
+      request({
+        method: "POST", 
+        url: 'swap-cards/', 
+        callback: (response) => { }, 
+        data: { order_cards, dashboardId },
+        status: 200,
+      });
     }
   }
 
@@ -245,7 +263,13 @@ export default function KanbanBoard() {
       idDashboard: Number(dashboardId)
     }
 
-    request("POST", 'create-column/', (request) => { requestSuccessCreateColumn(request) }, columnToAdd);
+    request({
+      method: "POST", 
+      url: 'create-column/', 
+      callback: (request) => { requestSuccessCreateColumn(request) }, 
+      data: columnToAdd,
+      status: 200,
+    });
   }
 
 
@@ -267,7 +291,13 @@ export default function KanbanBoard() {
       column: columnId,
     };
 
-    request("POST", 'create-card/', (request) => { requestSuccessCreateTask(request) }, newTask);
+    request({
+      method: "POST", 
+      url: 'create-card/', 
+      callback: (request) => { requestSuccessCreateTask(request) }, 
+      data: newTask,
+      status: 200,
+    });
   }
 
   function updateColumn(id, name) {
@@ -305,7 +335,13 @@ export default function KanbanBoard() {
 
     let idColumnDeleted = { id_column: id }
 
-    request("POST", 'delete-column/', (request) => { requestSuccessDeletColumn(request, id) }, idColumnDeleted);
+    request({
+      method: "POST", 
+      url: 'delete-column/', 
+      callback: (request) => { requestSuccessDeletColumn(request, id) }, 
+      data: idColumnDeleted,
+      status: 200,
+    });
   }
 
   function deleteTask(id) {
