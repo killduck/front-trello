@@ -2,7 +2,6 @@
 import axios from "axios";
 import { URL_API } from "./config";
 
-
 export default function request(params = { method: 'GET', url: '', callback: '', data: null, status: 200 }) {
 
     if (params.method === "GET") {
