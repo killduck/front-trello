@@ -3,14 +3,14 @@ import axios from "axios";
 import { URL_API } from "./config";
 
 
-export default function request(request = { method: 'GET', url: '', callback: '', data: null, status: 200 }) {
+export default function request(params = { method: 'GET', url: '', callback: '', data: null, status: 200 }) {
 
-    if (request.method === "GET") {
-        axios.get(URL_API + request.url)
+    if (params.method === "GET") {
+        axios.get(URL_API + params.url)
             .then((response) => {
 
-                if (response.status === request.status) {
-                    request.callback(response.data);
+                if (response.status === params.status) {
+                    params.callback(response.data);
                 }
             })
             .catch((error) => {
@@ -19,12 +19,12 @@ export default function request(request = { method: 'GET', url: '', callback: ''
     }
 
 
-    if (request.method === "POST") {
-        axios.post(URL_API + request.url, request.data)
+    if (params.method === "POST") {
+        axios.post(URL_API + params.url, params.data)
             .then((response) => {
                 console.log(response.data);
-                if (response.status === request.status) {
-                    request.callback(response.data);
+                if (response.status === params.status) {
+                    params.callback(response.data);
                 }
             })
             .catch((error) => {

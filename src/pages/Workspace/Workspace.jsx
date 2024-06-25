@@ -18,7 +18,13 @@ export default function Workspace(props) {
   let [ShowForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    request('GET', 'dashboards/', (response) => { requestDashboards(response) });
+    request({
+      method:'GET', 
+      url:'dashboards/', 
+      callback:(response) => { requestDashboards(response) }, 
+      data: null,
+      status:200,
+    });
   }, []);
 
   function requestDashboards(response) {
