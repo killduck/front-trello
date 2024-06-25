@@ -53,8 +53,8 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     request({
-      method:"POST", 
-      url:'columns/', 
+      method:"POST",
+      url:'columns/',
       callback:(response) => {
         setColumns(response);
 
@@ -68,7 +68,7 @@ export default function KanbanBoard() {
         );
 
         setTasks(data_card);
-      }, 
+      },
       data:{ 'dashboardId': dashboardId },
       status:200,
     })
@@ -113,9 +113,9 @@ export default function KanbanBoard() {
 
       editOrderColumns(active, over);
       request({
-        method:"POST", 
-        url:'swap-columns/', 
-        callback: (response) => { }, 
+        method:"POST",
+        url:'swap-columns/',
+        callback: (response) => { },
         data: { columns, dashboardId },
         status: 200,
       });
@@ -128,9 +128,9 @@ export default function KanbanBoard() {
       let order_cards = editOrderCards(tasks);
 
       request({
-        method: "POST", 
-        url: 'swap-cards/', 
-        callback: (response) => { }, 
+        method: "POST",
+        url: 'swap-cards/',
+        callback: (response) => { },
         data: { order_cards, dashboardId },
         status: 200,
       });
@@ -217,10 +217,12 @@ export default function KanbanBoard() {
 
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           tasks[activeIndex].column = tasks[overIndex].column;
-          // return arrayMove(tasks, activeIndex, overIndex);
+          if(tasks[overIndex].column === columns[0].id){
+            console.log('>>>проверяем проблемное место #1');
+            return arrayMove(tasks, activeIndex, overIndex);  // пытаемся решить проблему пермещения карточки на 1ое место в 1ую колонку
+          }
           return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
         }
-
         return arrayMove(tasks, activeIndex, overIndex);
       });
     }
@@ -264,9 +266,9 @@ export default function KanbanBoard() {
     }
 
     request({
-      method: "POST", 
-      url: 'create-column/', 
-      callback: (request) => { requestSuccessCreateColumn(request) }, 
+      method: "POST",
+      url: 'create-column/',
+      callback: (request) => { requestSuccessCreateColumn(request) },
       data: columnToAdd,
       status: 200,
     });
@@ -292,9 +294,9 @@ export default function KanbanBoard() {
     };
 
     request({
-      method: "POST", 
-      url: 'create-card/', 
-      callback: (request) => { requestSuccessCreateTask(request) }, 
+      method: "POST",
+      url: 'create-card/',
+      callback: (request) => { requestSuccessCreateTask(request) },
       data: newTask,
       status: 200,
     });
@@ -336,9 +338,9 @@ export default function KanbanBoard() {
     let idColumnDeleted = { id_column: id }
 
     request({
-      method: "POST", 
-      url: 'delete-column/', 
-      callback: (request) => { requestSuccessDeletColumn(request, id) }, 
+      method: "POST",
+      url: 'delete-column/',
+      callback: (request) => { requestSuccessDeletColumn(request, id) },
       data: idColumnDeleted,
       status: 200,
     });
