@@ -75,7 +75,7 @@ export default function KanbanBoard() {
       data:{ 'dashboardId': dashboardId },
       status:200,
     })
-  }, []);
+  }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
@@ -112,9 +112,11 @@ export default function KanbanBoard() {
       if (active.id === over.id) return;
 
       const isActiveAColumn = active.data.current?.type === "Column";
+
       if (!isActiveAColumn) return;
 
       editOrderColumns(active, over);
+
       request({
         method:"POST",
         url:'swap-columns/',
@@ -220,12 +222,13 @@ export default function KanbanBoard() {
 
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           tasks[activeIndex].column = tasks[overIndex].column;
+
           if(tasks[overIndex].column === columnBug){
-            // console.log('>>>проверяем проблемное место #1');
-            // console.log('tasks[overIndex].column->', tasks[overIndex].column, 'columnBug->', columnBug);
+            console.log('>>>проверяем проблемное место #1');
             return arrayMove(tasks, activeIndex, overIndex);  // пытаемся решить проблему пермещения карточки на 1ое место в 1ую колонку
           }
-          return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
+          // return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
+          return arrayMove(tasks, activeIndex, overIndex);
         }
         return arrayMove(tasks, activeIndex, overIndex);
       });
