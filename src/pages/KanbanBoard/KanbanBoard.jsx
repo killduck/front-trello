@@ -27,6 +27,8 @@ export default function KanbanBoard() {
 
   const [columns, setColumns] = useState([]);
 
+  const [columnBug, setcolumnBug] = useState(null); // используем для корректировки работы библиотеки DnD
+
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState([]);
@@ -57,6 +59,7 @@ export default function KanbanBoard() {
       url:'columns/',
       callback:(response) => {
         setColumns(response);
+        setcolumnBug(response[0].id); // ищем 1ую колонку
 
         let data_card = [];
         response.map((column) => (
@@ -217,8 +220,9 @@ export default function KanbanBoard() {
 
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           tasks[activeIndex].column = tasks[overIndex].column;
-          if(tasks[overIndex].column === columns[0].id){
-            console.log('>>>проверяем проблемное место #1');
+          if(tasks[overIndex].column === columnBug){
+            // console.log('>>>проверяем проблемное место #1');
+            // console.log('tasks[overIndex].column->', tasks[overIndex].column, 'columnBug->', columnBug);
             return arrayMove(tasks, activeIndex, overIndex);  // пытаемся решить проблему пермещения карточки на 1ое место в 1ую колонку
           }
           return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
