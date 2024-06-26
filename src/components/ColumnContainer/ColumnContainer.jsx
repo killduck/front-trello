@@ -5,8 +5,6 @@ import { useMemo, useState } from "react";
 
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
-import TrashIcon from "../ui/Icons/TrashIcon";
-import PlusIcon from "../ui/Icons/PlusIcon";
 import TaskCard from "../TaskCard/TaskCard";
 
 import styles from './ColumnContainer.module.scss';
@@ -55,19 +53,8 @@ export default function ColumnContainer(props) {
         ref={setNodeRef}
         style={style}
         className={styles.Dragging}
-      //   className="
-      //   bg-columnBackgroundColor
-      //   opacity-40
-      //   border-2
-      //   border-pink-500
-      //   w-[350px]
-      //   h-[500px]
-      //   max-h-[500px]
-      //   rounded-md
-      //   flex
-      //   flex-col
-      // "
-      ></div>
+      />
+      // </div>
     );
   }
 
@@ -76,15 +63,6 @@ export default function ColumnContainer(props) {
       ref={setNodeRef}
       style={style}
       className={styles.Column}
-    //   className="
-    //   bg-columnBackgroundColor
-    //   w-[350px]
-    //   h-[500px]
-    //   max-h-[500px]
-    //   rounded-md
-    //   flex
-    //   flex-col
-    // "
     >
       {/* Column title */}
       <div
@@ -94,30 +72,14 @@ export default function ColumnContainer(props) {
           setEditMode(true);
         }}
         className={styles.ColumnTitleWrap}
-      // className="
-      //   bg-mainBackgroundColor
-      //   text-md
-      //   h-[60px]
-      //   cursor-grab
-      //   rounded-md
-      //   rounded-b-none
-      //   p-3
-      //   font-bold
-      //   border-columnBackgroundColor
-      //   border-4
-      //   flex
-      //   items-center
-      //   justify-between
-      // "
       >
         <div
-          // className="flex gap-2"
           className={styles.ColumnTitle}
         >
           {!editMode && column.name}
           {editMode && (
             <input
-              className="bg-black focus:border-rose-500 border rounded outline-none px-2"
+              className={styles.EditeColumnTitle}
               value={column.name}
               onChange={(e) => updateColumn(column.id, e.target.value)}
               autoFocus
@@ -144,7 +106,9 @@ export default function ColumnContainer(props) {
       </div>
 
       {/* Column task container */}
-      <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
+      <div
+      className={styles.ColumnCardsWrap}
+      >
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
             <TaskCard
@@ -157,15 +121,6 @@ export default function ColumnContainer(props) {
         </SortableContext>
       </div>
       {/* Column footer */}
-      {/* <button
-        className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
-        onClick={() => {
-          createTask(column.id);
-        }}
-      >
-        <PlusIcon />
-        Add task
-      </button> */}
       <div className={styles.BtnCreateTaskWrap}>
         <Button
           clickAction={createTask}
