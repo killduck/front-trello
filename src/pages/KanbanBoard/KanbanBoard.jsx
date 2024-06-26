@@ -227,9 +227,10 @@ export default function KanbanBoard() {
             console.log('>>>проверяем проблемное место #1');
             return arrayMove(tasks, activeIndex, overIndex);  // пытаемся решить проблему пермещения карточки на 1ое место в 1ую колонку
           }
-          // return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
-          return arrayMove(tasks, activeIndex, overIndex);
+
+          return arrayMove(tasks, activeIndex, overIndex - 1); // пока оставить на всякий случай - библиотека чудит (:
         }
+
         return arrayMove(tasks, activeIndex, overIndex);
       });
     }
