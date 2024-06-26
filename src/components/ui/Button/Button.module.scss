@@ -60,8 +60,19 @@
   }
 }
 
-.BtnDeletColumn {
+.BtnDeleteColumn {
   padding: 8px;
+}
+
+.BtnDeleteCard {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  opacity: 60%;
+  transform: translateY(50%);
+  &:hover {
+    opacity: 100%;
+  }
 }
 
 .BtnCreateTask {

@@ -14,6 +14,8 @@ $text: #172b4d;
 .TaskCard {
   display: flex;
   flex-direction: column;
+  // height: 100px;
+  // min-height: 100px;
   row-gap: 8px;
   scroll-margin: 80px;
 
@@ -27,7 +29,7 @@ $text: #172b4d;
       $shadow-raised,
       0px 1px 1px $shadow_1 0px 0px 1px $shadow_2;
     color: $text;
-    cursor: pointer;
+    cursor: grab;
     scroll-margin: 8px;
 
     &:hover {
@@ -93,8 +95,10 @@ $text: #172b4d;
         text-decoration: none;
         display: block;
         margin-bottom: 4px;
-        overflow: hidden;
-        overflow-wrap: break-word;
+        // overflow: hidden;
+        // overflow-wrap: break-word;
+        overflow-x: hidden;
+        overflow-y: auto;
         white-space: normal;
         font-size: 14px;
       }

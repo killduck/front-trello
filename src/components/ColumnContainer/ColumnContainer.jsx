@@ -96,7 +96,7 @@ export default function ColumnContainer(props) {
         <Button
           clickAction={deleteColumn}
           actionVariable={column.id}
-          className={'BtnDeletColumn'}
+          className={'BtnDeleteColumn'}
         >
           <Icons
             name={'Trash'}
