@@ -295,22 +295,6 @@ export default function KanbanBoard() {
 
   }
 
-  function createNewTask(columnId) {
-
-    let newTask = {
-      name: newTextTask,
-      author: 1,
-      column: columnId,
-    };
-
-    request({
-      method: "POST",
-      url: 'create-card/',
-      callback: (request) => { requestSuccessCreateTask(request) },
-      data: newTask,
-      status: 200,
-    });
-  }
 
   function updateColumn(id, name) {
     const newColumns = columns.map((col) => {
@@ -381,9 +365,9 @@ export default function KanbanBoard() {
                       column={column}
                       newTextTask={newTextTask}
                       setNewTextTask={setNewTextTask}
+                      requestSuccessCreateTask={requestSuccessCreateTask}
                       deleteColumn={deleteColumn}
                       updateColumn={updateColumn}
-                      createTask={createNewTask}
                       deleteTask={deleteTask}
                       updateTask={updateTask}
                       tasks={tasks.filter((task) => task.column === column.id)}
@@ -443,9 +427,9 @@ export default function KanbanBoard() {
                     column={activeColumn}
                     newTextTask={newTextTask}
                     setNewTextTask = {setNewTextTask}
+                    requestSuccessCreateTask={requestSuccessCreateTask}
                     deleteColumn={deleteColumn}
                     updateColumn={updateColumn}
-                    createTask={createNewTask}
                     deleteTask={deleteTask}
                     updateTask={updateTask}
                     tasks={tasks.filter(

@@ -3,13 +3,14 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { useMemo, useState } from "react";
 
+import request from "../../api/request";
+
 import Button from "../ui/Button/Button";
 import CreateNewBoardItem from "../ui/CreateNewBoardItem/CreateNewBoardItem";
 import Icons from "../ui/Icons/Icons";
 import TaskCard from "../TaskCard/TaskCard";
 
 import styles from './ColumnContainer.module.scss';
-import request from "../../api/request";
 
 
 export default function ColumnContainer(props) {
@@ -17,9 +18,9 @@ export default function ColumnContainer(props) {
   let column = props.column;
   let newTextTask = props.newTextTask;
   let setNewTextTask = props.setNewTextTask;
+  let requestSuccessCreateTask= props.requestSuccessCreateTask;
   let deleteColumn = props.deleteColumn;
   let updateColumn = props.updateColumn;
-  let createTask = props.createTask;
   let tasks = props.tasks;
   let deleteTask = props.deleteTask;
   let updateTask = props.updateTask;
@@ -65,6 +66,25 @@ export default function ColumnContainer(props) {
 
   const onShowFormAddColumn = () => {
     setShowForm(false);
+  }
+
+  function createNewTask(columnId) {
+
+    let newTask = {
+      name: newTextTask,
+      author: 1,
+      column: columnId,
+    };
+
+    request({
+      method: "POST",
+      url: 'create-card/',
+      callback: (request) => { requestSuccessCreateTask(request) },
+      data: newTask,
+      status: 200,
+    });
+
+    setShowForm(true);
   }
 
   return (
@@ -127,27 +147,27 @@ export default function ColumnContainer(props) {
               updateTask={updateTask}
             />
           ))}
+          <CreateNewBoardItem
+            className={showForm ? styles.none : ''}
+            buttonText={'Добавить карточку'}
+            spellCheck="false"
+            dir="auto"
+            maxLength="512"
+            autoComplete="off"
+            name="Ввести заголовок карточки"
+            placeholder="Ввести заголовок карточки"
+            aria-label="Ввести заголовок карточки"
+            data-testid="list-name-textarea"
+            // autoFocus={showForm ? false : true}
+            autoFocus={true}
+            hideElAction={setShowForm}
+            showFlag={true}
+            changeAction={setNewTextTask}
+            newText={newTextTask}
+            addColumnAction={createNewTask}
+            newColName={column.id}
+          />
         </SortableContext>
-        <CreateNewBoardItem
-          className={showForm ? styles.none : ''}
-          buttonText={'Добавить карточку'}
-          spellCheck="false"
-          dir="auto"
-          maxLength="512"
-          autoComplete="off"
-          name="Ввести заголовок карточки"
-          placeholder="Ввести заголовок карточки"
-          aria-label="Ввести заголовок карточки"
-          data-testid="list-name-textarea"
-          // autoFocus={showForm ? false : true}
-          autoFocus={true}
-          hideElAction={setShowForm}
-          showFlag={true}
-          changeAction={setNewTextTask}
-          newText={newTextTask}
-          addColumnAction={createTask}
-          newColName={column.id}
-        />
       </div>
       {/* Column footer */}
       <div
@@ -160,7 +180,6 @@ export default function ColumnContainer(props) {
       >
         <Button
           clickAction={onShowFormAddColumn}
-          actionVariable={column.id}
           className={'BtnCreateTask'}
         >
           <Icons

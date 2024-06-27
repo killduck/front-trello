@@ -14,6 +14,7 @@ $text: #172b4d;
 .TaskCard {
   display: flex;
   flex-direction: column;
+  position: relative; // ???
   // height: 100px;
   // min-height: 100px;
   row-gap: 8px;
@@ -105,6 +106,28 @@ $text: #172b4d;
     }
 
     .CardEdit {
+      position: absolute;
+      top: 0;
+      right: -40px;
+      color: #fff;
+      font-weight: 700;
     }
   }
+}
+
+.CardEditData{
+  display: flex;
+  align-items: center;
+  position: relative;
+  text-align: left;
+  height: 100px;
+  min-height: 100px;
+  padding: 10px;
+  background-color: #ffffff3d;
+  border-radius: 12px;
+  outline: 2px solid red;
+  &:hover {
+    cursor: grab;
+  }
+
 }
