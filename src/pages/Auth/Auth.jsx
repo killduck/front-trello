@@ -4,15 +4,16 @@ import styles from "./Auth.module.scss";
 import Icons from "../../components/ui/Icons/Icons";
 import AuthLayout from "../../layouts/auth/Auth";
 import request from "../../api/request";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function Auth(props) {
 
     let [formAuth, setFormAuth] = useState({ email: null, password: null });
-
-    let passwordField = React.createRef();
-
     let [fieldEmailData, setFieldEmailData] = useState("");
+    let [fieldPasswordData, setFieldPasswordData] = useState("");
+
+    let [hidePass , setHidePass] = useState(true);
+
 
 
     function login() {
@@ -22,18 +23,14 @@ export default function Auth(props) {
         if (fieldEmailData.length > 3) {
             setFormAuth({ email: fieldEmailData, password: null });
         }
-        // if (email.current.value.length > 3) {
-        //     setFormAuth({ email: email.current.value, password: null });
-        // }
 
-
-        if (passwordField.current && passwordField.current.value.length > 3) {
-            setFormAuth({ email: fieldEmailData, password: passwordField.current.value });
+        if (fieldPasswordData && fieldPasswordData.length > 3) {
+            setFormAuth({ email: fieldEmailData, password: fieldPasswordData });
         }
 
-        // if (formAuth.email && formAuth.password) {
-        //     request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: { key: 123 } })
-        // }
+        if (formAuth.email && formAuth.password) {
+            request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: formAuth })
+        }
     }
 
     function responseLogin(response) {
@@ -41,10 +38,20 @@ export default function Auth(props) {
     }
 
     function writeEmail(evt) {
+        console.log(evt);
 
         setFieldEmailData(evt);
 
-        console.log(fieldEmailData)
+        console.log(fieldEmailData);
+
+    }
+
+    function writePassword(evt) {
+        console.log(evt);
+
+        setFieldPasswordData(evt);
+
+        console.log(fieldPasswordData);
 
     }
 
@@ -91,7 +98,7 @@ export default function Auth(props) {
                                             readOnly=""
                                             wfd-id="id0"
                                             value={(fieldEmailData) ? fieldEmailData : ""}
-                                            onChange={e => writeEmail(e.target.value)} />
+                                            onChange={(evt) => writeEmail(evt.target.value)} />
                                     </div>
                                 </div>
                             </div>
@@ -106,14 +113,19 @@ export default function Auth(props) {
                                                         aria-describedby="password-uid3-helper"
                                                         aria-labelledby="password-uid3-label"
                                                         id="password"
-                                                        autoComplete="current-password" type="password"
+                                                        autoComplete="current-password" type={ hidePass ? "password" : "text" }
                                                         spellCheck="false" data-ds--text-field--input="true"
                                                         data-testid="password" name="password" placeholder="Введите пароль"
                                                         className={styles._1cab8vv} readOnly="" wfd-id="id1"
-                                                        ref={passwordField} />
+                                                        // ref={passwordField} 
+                                                        value={(fieldPasswordData) ? fieldPasswordData : ""}
+                                                        onChange={(evt) => writePassword(evt.target.value)} />
 
                                                     <div className={styles._lspp5b} >
-                                                        <button type="button" className={styles._o6ruxu} >
+                                                        <button 
+                                                            type="button" className={styles._o6ruxu} 
+                                                            onClick={ () => {(hidePass)? setHidePass(false): setHidePass(true)}} 
+                                                        >
                                                             <span className={styles._1spmf3f} >
                                                                 <span aria-hidden="true" className={styles._snhnyn} >
                                                                     <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">

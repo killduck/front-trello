@@ -309,11 +309,13 @@ export default function Header(props) {
             <Icons className={styles.Loupe} name={'Loupe'} />
             <Input type="text" placeholder="Поиск" maxLength="500" />
           </div>
-
+          
           <div className={styles.blockNotification}>
-            <Notification>
-              <img src={'img/no_name.png'} alt="" />
-            </Notification>
+            <NavLink to='/auth' className={styles.LogoWrap}> {/* времянка */}
+              <Notification>
+                <img src={'img/no_name.png'} alt="" />
+              </Notification>
+            </NavLink>
           </div>
         </div>
       </nav >
