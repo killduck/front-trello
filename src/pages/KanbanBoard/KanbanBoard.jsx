@@ -57,9 +57,9 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     request({
-      method:"POST",
-      url:'columns/',
-      callback:(response) => {
+      method: "POST",
+      url: 'columns/',
+      callback: (response) => {
         setColumns(response);
         setcolumnBug(response[0].id); // ищем 1ую колонку
 
@@ -74,8 +74,8 @@ export default function KanbanBoard() {
 
         setTasks(data_card);
       },
-      data:{ 'dashboardId': dashboardId },
-      status:200,
+      data: { 'dashboardId': dashboardId },
+      status: 200,
     })
   }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
 
@@ -120,8 +120,8 @@ export default function KanbanBoard() {
       editOrderColumns(active, over);
 
       request({
-        method:"POST",
-        url:'swap-columns/',
+        method: "POST",
+        url: 'swap-columns/',
         callback: (response) => { },
         data: { columns, dashboardId },
         status: 200,
@@ -225,7 +225,7 @@ export default function KanbanBoard() {
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           tasks[activeIndex].column = tasks[overIndex].column;
 
-          if(tasks[overIndex].column === columnBug){
+          if (tasks[overIndex].column === columnBug) {
             console.log('>>>проверяем проблемное место #1');
             return arrayMove(tasks, activeIndex, overIndex);  // пытаемся решить проблему пермещения карточки на 1ое место в 1ую колонку
           }
@@ -264,6 +264,8 @@ export default function KanbanBoard() {
 
       setColumns([...columns, columnToAdd]);
       setShowForm(true);
+      setText('Новая колонка');
+
     }
   }
 
@@ -291,6 +293,8 @@ export default function KanbanBoard() {
       const cardToAdd = response;
 
       setTasks([...tasks, cardToAdd]);
+
+      setNewTextTask('Новая задача');
     }
 
   }
@@ -388,8 +392,7 @@ export default function KanbanBoard() {
                   placeholder="Ввести заголовок списка"
                   aria-label="Ввести заголовок списка"
                   data-testid="list-name-textarea"
-                  // autoFocus={showForm ? false : true}
-                  autoFocus={true}
+                  autoFocus={showForm ? false : true}
                   hideElAction={setShowForm}
                   showFlag={true}
                   changeAction={setText}
@@ -426,7 +429,7 @@ export default function KanbanBoard() {
                   <ColumnContainer
                     column={activeColumn}
                     newTextTask={newTextTask}
-                    setNewTextTask = {setNewTextTask}
+                    setNewTextTask={setNewTextTask}
                     requestSuccessCreateTask={requestSuccessCreateTask}
                     deleteColumn={deleteColumn}
                     updateColumn={updateColumn}

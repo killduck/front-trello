@@ -99,18 +99,32 @@
         border-color: #fff;
       }
     }
-
   }
 }
 
-.ColumnCardsWrap{
+.ColumnCardsWrap {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  gap: 10px;  // расстояние между карточек
+  gap: 10px; // расстояние между карточек
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 8px
+  padding: 8px;
+
+  .FormCreateCard {
+    form {
+      width: 100%;
+      padding: 0;
+      border-radius: 8px;
+      textarea {
+        border-radius: 8px;
+        min-height: 36px;
+        max-height: 160px;
+        margin: 0;
+        padding: 8px 12px;
+      }
+    }
+  }
 }
 
 .BtnCreateTaskWrap {
@@ -119,7 +133,6 @@
   padding: 8px 8px 0 8px;
   margin-bottom: 10px;
 }
-
 
 .none {
   display: none;

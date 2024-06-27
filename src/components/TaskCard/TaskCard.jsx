@@ -99,7 +99,7 @@ export default function TaskCard(props) {
   }
 
   return (
-    <li
+    <div
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -143,12 +143,12 @@ export default function TaskCard(props) {
               clickAction={deleteTask}
               actionVariable={task.id}
               className={'BtnDeleteCard'}
-              // className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
+            // className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
             >
               <Icons
                 name={'Trash'}
                 class_name={'IconDeletColumnn'}
-                />
+              />
             </Button>
           )}
 
@@ -160,6 +160,6 @@ export default function TaskCard(props) {
         </div>
 
       </div>
-    </li>
+    </div>
   );
 }

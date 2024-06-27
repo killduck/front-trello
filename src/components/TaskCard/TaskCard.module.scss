@@ -115,7 +115,7 @@ $text: #172b4d;
   }
 }
 
-.CardEditData{
+.CardEditData {
   display: flex;
   align-items: center;
   position: relative;
@@ -124,10 +124,9 @@ $text: #172b4d;
   min-height: 100px;
   padding: 10px;
   background-color: #ffffff3d;
-  border-radius: 12px;
+  border-radius: 8px;
   outline: 2px solid red;
   &:hover {
     cursor: grab;
   }
-
 }

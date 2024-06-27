@@ -6,7 +6,7 @@ import styles from "./CreateNewBoardItem.module.scss";
 
 
 export default function CreateNewBoardItem(props) {
-    // console.log(props);
+    console.log(props);
     let addColumnAction = props.addColumnAction;
     let spellCheck = props.spellCheck;
     let dir = props.dir;
@@ -40,12 +40,12 @@ export default function CreateNewBoardItem(props) {
                     data-testid={dataTestid}
                     autoFocus={autoFocus} //не работает???
                     onChange={(evt) => changeAction(evt.target.value)}
-                    value={className ? '' : undefined}
+                // value={className ? '' : undefined}
                 />
                 <div className={styles.buttons}>
                     <Button
                         className={`${styles.buttonAdd}`}
-                        type="button" // нужно заменить на: type="submit" ???
+                        type="reset" // нужно заменить на: type="submit" ???
                         dataTestid="list-composer-add-list-button"
                         clickAction={addColumnAction}
                         actionVariable={newColName}
@@ -54,7 +54,7 @@ export default function CreateNewBoardItem(props) {
                     </Button>
                     <Button
                         className={`${styles.buttonEsc}`}
-                        type="button"
+                        type="reset"
                         dataTestid="list-composer-cancel-button"
                         ariaLabel="Отменить редактирование"
                         clickAction={hideElAction}

@@ -18,7 +18,7 @@ export default function ColumnContainer(props) {
   let column = props.column;
   let newTextTask = props.newTextTask;
   let setNewTextTask = props.setNewTextTask;
-  let requestSuccessCreateTask= props.requestSuccessCreateTask;
+  let requestSuccessCreateTask = props.requestSuccessCreateTask;
   let deleteColumn = props.deleteColumn;
   let updateColumn = props.updateColumn;
   let tasks = props.tasks;
@@ -136,7 +136,7 @@ export default function ColumnContainer(props) {
 
       {/* Column task container */}
       <div
-      className={styles.ColumnCardsWrap}
+        className={styles.ColumnCardsWrap}
       >
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
@@ -148,7 +148,7 @@ export default function ColumnContainer(props) {
             />
           ))}
           <CreateNewBoardItem
-            className={showForm ? styles.none : ''}
+            className={showForm ? styles.none : styles.FormCreateCard}
             buttonText={'Добавить карточку'}
             spellCheck="false"
             dir="auto"
@@ -158,8 +158,7 @@ export default function ColumnContainer(props) {
             placeholder="Ввести заголовок карточки"
             aria-label="Ввести заголовок карточки"
             data-testid="list-name-textarea"
-            // autoFocus={showForm ? false : true}
-            autoFocus={true}
+            autoFocus={showForm ? false : true}
             hideElAction={setShowForm}
             showFlag={true}
             changeAction={setNewTextTask}
