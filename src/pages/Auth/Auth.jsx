@@ -9,27 +9,29 @@ import { useState } from "react";
 export default function Auth(props) {
 
     let [formAuth, setFormAuth] = useState({ email: null, password: null });
+
     let [fieldEmailData, setFieldEmailData] = useState("");
     let [fieldPasswordData, setFieldPasswordData] = useState("");
 
     let [hidePass , setHidePass] = useState(true);
 
-
-
     function login() {
-
-
-        // TODO проверка на email
+        // console.log('func_login_1 =>', formAuth);
+        // TODO проверка на email 
         if (fieldEmailData.length > 3) {
-            setFormAuth({ email: fieldEmailData, password: null });
+            setFormAuth( formAuth = { email: fieldEmailData, password: null } );
         }
-
+        // console.log('func_login_2 =>', formAuth);
         if (fieldPasswordData && fieldPasswordData.length > 3) {
-            setFormAuth({ email: fieldEmailData, password: fieldPasswordData });
+            setFormAuth( formAuth = { email: fieldEmailData, password: fieldPasswordData });
         }
-
+        // console.log('func_login_3 =>', formAuth);
         if (formAuth.email && formAuth.password) {
-            request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: formAuth })
+            request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: formAuth });
+            console.log('есть запрос', formAuth);
+        }
+        else{
+            console.log('нет запроса', formAuth);
         }
     }
 
@@ -38,21 +40,11 @@ export default function Auth(props) {
     }
 
     function writeEmail(evt) {
-        console.log(evt);
-
-        setFieldEmailData(evt);
-
-        console.log(fieldEmailData);
-
+        setFieldEmailData( fieldEmailData = evt );
     }
 
     function writePassword(evt) {
-        console.log(evt);
-
-        setFieldPasswordData(evt);
-
-        console.log(fieldPasswordData);
-
+        setFieldPasswordData( fieldPasswordData = evt );
     }
 
     return (
@@ -83,6 +75,7 @@ export default function Auth(props) {
                     <form id="form-login" data-testid="form-login" className={styles._r44k6v} >
                         <div className={styles._env1z2} >
                             <div className={styles._cnfgt3} >
+                                {(formAuth.email === null) ? (
                                 <div className={styles._q5x77e} >
                                     <div role="presentation" data-ds--text-field--container="true" data-testid="username-container" className={styles._1s25hsw} >
                                         <input aria-describedby="username-uid2-helper"
@@ -98,9 +91,22 @@ export default function Auth(props) {
                                             readOnly=""
                                             wfd-id="id0"
                                             value={(fieldEmailData) ? fieldEmailData : ""}
-                                            onChange={(evt) => writeEmail(evt.target.value)} />
+                                            onChange={ (evt) => writeEmail(evt.target.value) } />
                                     </div>
+                                </div>)
+                                :
+                                (<div 
+                                    tabIndex="0" className={styles._1743vyl} 
+                                    onClick={ () => {setFormAuth({email: null})}} 
+                                >
+                                    <span className={styles._eznkzx} >{fieldEmailData}</span>
+                                    <span className={styles._1tdtezu} >
+                                        {/* <span aria-hidden="true" className={styles._snhnyn} style={{color: "#44546f"}}> */}
+                                        <Icons name={'pencil-logo'} class_name={'pencil_logo'} sizeWidth={"24px"} sizeHeight={"24px"} fill={"currentColor"} fillRule={"evenodd" }/>
+                                        {/* </span> */}
+                                    </span>
                                 </div>
+                                )}
                             </div>
                             {(formAuth.email && formAuth.email.length > 3) ? (
                                 <div className={styles._cnfgt3}>
@@ -113,10 +119,16 @@ export default function Auth(props) {
                                                         aria-describedby="password-uid3-helper"
                                                         aria-labelledby="password-uid3-label"
                                                         id="password"
-                                                        autoComplete="current-password" type={ hidePass ? "password" : "text" }
-                                                        spellCheck="false" data-ds--text-field--input="true"
-                                                        data-testid="password" name="password" placeholder="Введите пароль"
-                                                        className={styles._1cab8vv} readOnly="" wfd-id="id1"
+                                                        autoComplete="current-password" 
+                                                        type={ hidePass ? "password" : "text" }
+                                                        spellCheck="false" 
+                                                        data-ds--text-field--input="true"
+                                                        data-testid="password" 
+                                                        name="password" 
+                                                        placeholder="Введите пароль"
+                                                        className={styles._1cab8vv} 
+                                                        readOnly="" 
+                                                        wfd-id="id1"
                                                         // ref={passwordField} 
                                                         value={(fieldPasswordData) ? fieldPasswordData : ""}
                                                         onChange={(evt) => writePassword(evt.target.value)} />

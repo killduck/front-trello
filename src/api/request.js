@@ -21,7 +21,7 @@ export default function request(params = { method: 'GET', url: '', callback: '',
     if (params.method === "POST") {
         axios.post(URL_API + params.url, params.data)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.status === params.status) {
                     params.callback(response.data);
                 }
