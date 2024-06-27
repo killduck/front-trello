@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { createPortal } from "react-dom";
 
-import request from "../../api/request"; // времянка
+import request from "../../api/request";
 
 import Button from "../../components/ui/Button/Button";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
@@ -40,6 +40,8 @@ export default function KanbanBoard() {
   const [showForm, setShowForm] = useState(true);
 
   const [newName, setText] = useState('Новая колонка');
+
+  const [newTextTask, setNewTextTask] = useState('Новая задача');
 
   let { dashboardId } = useParams();
 
@@ -293,10 +295,10 @@ export default function KanbanBoard() {
 
   }
 
-  function createTask(columnId) {
+  function createNewTask(columnId) {
 
     let newTask = {
-      name: `Task ${tasks.length + 1}`,
+      name: newTextTask,
       author: 1,
       column: columnId,
     };
@@ -377,9 +379,11 @@ export default function KanbanBoard() {
                     <ColumnContainer
                       key={column.id}
                       column={column}
+                      newTextTask={newTextTask}
+                      setNewTextTask={setNewTextTask}
                       deleteColumn={deleteColumn}
                       updateColumn={updateColumn}
-                      createTask={createTask}
+                      createTask={createNewTask}
                       deleteTask={deleteTask}
                       updateTask={updateTask}
                       tasks={tasks.filter((task) => task.column === column.id)}
@@ -437,9 +441,11 @@ export default function KanbanBoard() {
                 {activeColumn && (
                   <ColumnContainer
                     column={activeColumn}
+                    newTextTask={newTextTask}
+                    setNewTextTask = {setNewTextTask}
                     deleteColumn={deleteColumn}
                     updateColumn={updateColumn}
-                    createTask={createTask}
+                    createTask={createNewTask}
                     deleteTask={deleteTask}
                     updateTask={updateTask}
                     tasks={tasks.filter(

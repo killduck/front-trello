@@ -48,7 +48,7 @@ export default function CreateNewBoardItem(props) {
                         type="button" // нужно заменить на: type="submit" ???
                         dataTestid="list-composer-add-list-button"
                         clickAction={addColumnAction}
-                        actionVariable={newColName.value}
+                        actionVariable={newColName}
                     >
                         {buttonText}
                     </Button>
