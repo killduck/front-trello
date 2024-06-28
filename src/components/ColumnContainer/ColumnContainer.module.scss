@@ -58,16 +58,16 @@
   display: flex;
   flex-direction: column;
   width: 272px;
-  height: 500px;
-  min-height: 500px;
+  height: 430px;
+  // max-height: 500px;
 }
 
 .Column {
   background: #101204;
   width: 272px;
-  // height: 300px; // 500px
-  // min-height: 500px;
-  max-height: 700px; // 500px
+  height: 430px; // 500px
+  min-height: 100px;
+  max-height: 500px; // 500px
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -136,4 +136,20 @@
 
 .none {
   display: none;
+}
+
+
+
+.ColumnCardsWrap::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ColumnCardsWrap::-webkit-scrollbar-track {
+  background-color: #323940;
+  border-radius: 8px;
+}
+
+.ColumnCardsWrap::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 8px #898e91;
+  border-radius: 8px;
 }

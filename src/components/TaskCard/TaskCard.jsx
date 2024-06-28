@@ -51,10 +51,8 @@ export default function TaskCard(props) {
       <div
         ref={setNodeRef}
         style={style}
-        className="
-        opacity-30
-      bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative
-      "
+        // className="opacity-30 bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative"
+        className={styles.DraggingCard}
       />
     );
   }
@@ -69,10 +67,7 @@ export default function TaskCard(props) {
         className={styles.CardEditData}
       >
         <textarea
-          className="
-        h-[90%]
-        w-full resize-none border-none rounded bg-transparent text-white focus:outline-none
-        "
+          className={styles.EditFocus}
           value={task.name}
           autoFocus
           placeholder="Task content here"

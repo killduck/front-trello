@@ -10,7 +10,7 @@
 
     .Container {
       display: flex;
-      align-items: flex-start;
+      // align-items: flex-start; // TODO при перестроении колонки расстягиваются
       gap: 1rem;
     }
 

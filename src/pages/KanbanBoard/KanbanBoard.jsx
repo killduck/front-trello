@@ -222,6 +222,7 @@ export default function KanbanBoard() {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
         const overIndex = tasks.findIndex((task) => task.id === over.id);
 
+
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           tasks[activeIndex].column = tasks[overIndex].column;
 

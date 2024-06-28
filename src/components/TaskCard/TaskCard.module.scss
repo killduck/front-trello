@@ -129,4 +129,35 @@ $text: #172b4d;
   &:hover {
     cursor: grab;
   }
+
+  .EditFocus {
+    width: 100px;
+    height: 90%;
+    resize: none;
+    border-style: none;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #fff;
+    &:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+
+    }
+  }
+}
+
+.DraggingCard {
+  // background-color: rgb(224, 222, 233);
+  display: flex;
+  align-items: center;
+  position: relative;
+  text-align: left;
+  padding: 10px;
+  height: 100px;
+  min-height: 100px;
+  border-color: #f43f5e;
+  border-radius: 8px;
+  border-width: 2px;
+  opacity: 0.3;
+  cursor: grab;
 }
