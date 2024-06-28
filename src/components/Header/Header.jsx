@@ -311,9 +311,12 @@ export default function Header(props) {
           </div>
 
           <div className={styles.blockNotification}>
-            <Notification>
-              <img src={'/img/no_name.png'} alt="" />
-            </Notification>
+
+            <NavLink to='/auth' className={styles.LogoWrap}>
+              <Notification>
+                <img src={'/img/no_name.png'} alt="" />
+              </Notification>
+            </NavLink>
           </div>
         </div>
       </nav >
