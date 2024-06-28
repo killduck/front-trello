@@ -312,7 +312,7 @@ export default function Header(props) {
 
           <div className={styles.blockNotification}>
             <Notification>
-              <img src={'img/no_name.png'} alt="" />
+              <img src={'/img/no_name.png'} alt="" />
             </Notification>
           </div>
         </div>
