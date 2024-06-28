@@ -40,11 +40,11 @@ export default function Auth(props) {
     }
 
     function writeEmail(evt) {
-        setFieldEmailData( fieldEmailData = evt );
+        setFieldEmailData( (fieldEmailData) => (fieldEmailData = evt) );
     }
 
     function writePassword(evt) {
-        setFieldPasswordData( fieldPasswordData = evt );
+        setFieldPasswordData( (fieldPasswordData) => (fieldPasswordData = evt) );
     }
 
     return (
@@ -91,7 +91,8 @@ export default function Auth(props) {
                                             readOnly=""
                                             wfd-id="id0"
                                             value={(fieldEmailData) ? fieldEmailData : ""}
-                                            onChange={ (evt) => writeEmail(evt.target.value) } />
+                                            onChange={ (evt) => writeEmail(evt.target.value) } 
+                                        />
                                     </div>
                                 </div>)
                                 :
@@ -131,7 +132,8 @@ export default function Auth(props) {
                                                         wfd-id="id1"
                                                         // ref={passwordField} 
                                                         value={(fieldPasswordData) ? fieldPasswordData : ""}
-                                                        onChange={(evt) => writePassword(evt.target.value)} />
+                                                        onChange={(evt) => writePassword(evt.target.value)} 
+                                                    />
 
                                                     <div className={styles._lspp5b} >
                                                         <button 
