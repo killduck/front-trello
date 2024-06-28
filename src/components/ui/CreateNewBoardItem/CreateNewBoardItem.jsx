@@ -40,21 +40,21 @@ export default function CreateNewBoardItem(props) {
                     data-testid={dataTestid}
                     autoFocus={autoFocus} //не работает???
                     onChange={(evt) => changeAction(evt.target.value)}
-                    value={className ? '' : undefined}
+                // value={className ? '' : undefined}
                 />
                 <div className={styles.buttons}>
                     <Button
                         className={`${styles.buttonAdd}`}
-                        type="button" // нужно заменить на: type="submit" ???
+                        type="reset" // нужно заменить на: type="submit" ???
                         dataTestid="list-composer-add-list-button"
                         clickAction={addColumnAction}
-                        actionVariable={newColName.value}
+                        actionVariable={newColName}
                     >
                         {buttonText}
                     </Button>
                     <Button
                         className={`${styles.buttonEsc}`}
-                        type="button"
+                        type="reset"
                         dataTestid="list-composer-cancel-button"
                         ariaLabel="Отменить редактирование"
                         clickAction={hideElAction}

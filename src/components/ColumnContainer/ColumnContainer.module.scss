@@ -58,15 +58,16 @@
   display: flex;
   flex-direction: column;
   width: 272px;
-  height: 500px;
-  min-height: 500px;
+  height: 430px;
+  // max-height: 500px;
 }
 
 .Column {
   background: #101204;
   width: 272px;
-  height: 500px;
-  min-height: 500px;
+  height: 430px; // 500px
+  min-height: 100px;
+  max-height: 500px; // 500px
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -87,6 +88,42 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
+
+    .EditeColumnTitle {
+      background: #000;
+      padding-left: 8px;
+      padding-right: 8px;
+      border-radius: 4px;
+      // outline: none;
+      &:focus {
+        border-color: #fff;
+      }
+    }
+  }
+}
+
+.ColumnCardsWrap {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 10px; // расстояние между карточек
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 8px;
+
+  .FormCreateCard {
+    form {
+      width: 100%;
+      padding: 0;
+      border-radius: 8px;
+      textarea {
+        border-radius: 8px;
+        min-height: 36px;
+        max-height: 160px;
+        margin: 0;
+        padding: 8px 12px;
+      }
+    }
   }
 }
 
@@ -95,4 +132,24 @@
 
   padding: 8px 8px 0 8px;
   margin-bottom: 10px;
+}
+
+.none {
+  display: none;
+}
+
+
+
+.ColumnCardsWrap::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ColumnCardsWrap::-webkit-scrollbar-track {
+  background-color: #323940;
+  border-radius: 8px;
+}
+
+.ColumnCardsWrap::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 8px #898e91;
+  border-radius: 8px;
 }

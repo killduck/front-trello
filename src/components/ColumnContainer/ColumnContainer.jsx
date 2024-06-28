@@ -3,10 +3,11 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { useMemo, useState } from "react";
 
+import request from "../../api/request";
+
 import Button from "../ui/Button/Button";
+import CreateNewBoardItem from "../ui/CreateNewBoardItem/CreateNewBoardItem";
 import Icons from "../ui/Icons/Icons";
-import TrashIcon from "../ui/Icons/TrashIcon";
-import PlusIcon from "../ui/Icons/PlusIcon";
 import TaskCard from "../TaskCard/TaskCard";
 
 import styles from './ColumnContainer.module.scss';
@@ -15,14 +16,18 @@ import styles from './ColumnContainer.module.scss';
 export default function ColumnContainer(props) {
 
   let column = props.column;
+  let newTextTask = props.newTextTask;
+  let setNewTextTask = props.setNewTextTask;
+  let requestSuccessCreateTask = props.requestSuccessCreateTask;
   let deleteColumn = props.deleteColumn;
   let updateColumn = props.updateColumn;
-  let createTask = props.createTask;
   let tasks = props.tasks;
   let deleteTask = props.deleteTask;
   let updateTask = props.updateTask;
 
   const [editMode, setEditMode] = useState(false);
+
+  const [showForm, setShowForm] = useState(true);
 
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
@@ -55,20 +60,31 @@ export default function ColumnContainer(props) {
         ref={setNodeRef}
         style={style}
         className={styles.Dragging}
-      //   className="
-      //   bg-columnBackgroundColor
-      //   opacity-40
-      //   border-2
-      //   border-pink-500
-      //   w-[350px]
-      //   h-[500px]
-      //   max-h-[500px]
-      //   rounded-md
-      //   flex
-      //   flex-col
-      // "
-      ></div>
+      />
     );
+  }
+
+  const onShowFormAddColumn = () => {
+    setShowForm(false);
+  }
+
+  function createNewTask(columnId) {
+
+    let newTask = {
+      name: newTextTask,
+      author: 1,
+      column: columnId,
+    };
+
+    request({
+      method: "POST",
+      url: 'create-card/',
+      callback: (request) => { requestSuccessCreateTask(request) },
+      data: newTask,
+      status: 200,
+    });
+
+    setShowForm(true);
   }
 
   return (
@@ -76,15 +92,6 @@ export default function ColumnContainer(props) {
       ref={setNodeRef}
       style={style}
       className={styles.Column}
-    //   className="
-    //   bg-columnBackgroundColor
-    //   w-[350px]
-    //   h-[500px]
-    //   max-h-[500px]
-    //   rounded-md
-    //   flex
-    //   flex-col
-    // "
     >
       {/* Column title */}
       <div
@@ -94,30 +101,14 @@ export default function ColumnContainer(props) {
           setEditMode(true);
         }}
         className={styles.ColumnTitleWrap}
-      // className="
-      //   bg-mainBackgroundColor
-      //   text-md
-      //   h-[60px]
-      //   cursor-grab
-      //   rounded-md
-      //   rounded-b-none
-      //   p-3
-      //   font-bold
-      //   border-columnBackgroundColor
-      //   border-4
-      //   flex
-      //   items-center
-      //   justify-between
-      // "
       >
         <div
-          // className="flex gap-2"
           className={styles.ColumnTitle}
         >
           {!editMode && column.name}
           {editMode && (
             <input
-              className="bg-black focus:border-rose-500 border rounded outline-none px-2"
+              className={styles.EditeColumnTitle}
               value={column.name}
               onChange={(e) => updateColumn(column.id, e.target.value)}
               autoFocus
@@ -134,7 +125,7 @@ export default function ColumnContainer(props) {
         <Button
           clickAction={deleteColumn}
           actionVariable={column.id}
-          className={'BtnDeletColumn'}
+          className={'BtnDeleteColumn'}
         >
           <Icons
             name={'Trash'}
@@ -144,7 +135,9 @@ export default function ColumnContainer(props) {
       </div>
 
       {/* Column task container */}
-      <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
+      <div
+        className={styles.ColumnCardsWrap}
+      >
         <SortableContext items={tasksIds}>
           {tasks.map((task) => (
             <TaskCard
@@ -154,22 +147,38 @@ export default function ColumnContainer(props) {
               updateTask={updateTask}
             />
           ))}
+          <CreateNewBoardItem
+            className={showForm ? styles.none : styles.FormCreateCard}
+            buttonText={'Добавить карточку'}
+            spellCheck="false"
+            dir="auto"
+            maxLength="512"
+            autoComplete="off"
+            name="Ввести заголовок карточки"
+            placeholder="Ввести заголовок карточки"
+            aria-label="Ввести заголовок карточки"
+            data-testid="list-name-textarea"
+            autoFocus={showForm ? false : true}
+            hideElAction={setShowForm}
+            showFlag={true}
+            changeAction={setNewTextTask}
+            newText={newTextTask}
+            addColumnAction={createNewTask}
+            newColName={column.id}
+          />
         </SortableContext>
       </div>
       {/* Column footer */}
-      {/* <button
-        className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
-        onClick={() => {
-          createTask(column.id);
-        }}
+      <div
+        className={
+          showForm ?
+            styles.BtnCreateTaskWrap
+            :
+            styles.none
+        }
       >
-        <PlusIcon />
-        Add task
-      </button> */}
-      <div className={styles.BtnCreateTaskWrap}>
         <Button
-          clickAction={createTask}
-          actionVariable={column.id}
+          clickAction={onShowFormAddColumn}
           className={'BtnCreateTask'}
         >
           <Icons

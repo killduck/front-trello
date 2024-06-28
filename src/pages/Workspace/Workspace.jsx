@@ -19,9 +19,9 @@ export default function Workspace(props) {
 
   useEffect(() => {
     request({
-      method:'GET', 
-      url:'dashboards/', 
-      callback:(response) => { requestDashboards(response) }, 
+      method:'GET',
+      url:'dashboards/',
+      callback:(response) => { requestDashboards(response) },
       data: null,
       status:200,
     });
@@ -172,7 +172,7 @@ export default function Workspace(props) {
                           to={"dashboard/" + dashboard.id}
                           className={styles.DashboardWrap}
                         >
-                          <h3>{dashboard.name}</h3>
+                          <div className={styles.DashboardCardTitle}>{dashboard.name}</div>
                         </Link>
                       </li>
                     )

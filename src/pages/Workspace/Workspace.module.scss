@@ -150,6 +150,12 @@ $background_2: #fea362;
               padding: 8px;
               background-color: #a1bdd914;
               border-radius: 3px;
+              color:  #b6c2cf;
+              text-decoration: none;
+
+              .DashboardCardTitle {
+                font-weight: 700;
+              }
 
               .CreateNewDashboard {
                 .HelpCreateNewDashboard {
