@@ -55,7 +55,7 @@ export default function Header(props) {
   }
 
   function onRemoving_all_menu(event) {
-    // console.log(event);
+    // console.log('event->', event);
 
     // Временное решение и конечно мне за этот костыль стыдно )))
     if (event.clientX > 785) {

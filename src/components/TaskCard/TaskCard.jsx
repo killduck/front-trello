@@ -3,9 +3,9 @@ import { CSS } from "@dnd-kit/utilities";
 
 import { useState } from "react";
 
-import TrashIcon from "../ui/Icons/TrashIcon";
-
 import styles from './TaskCard.module.scss';
+import Button from "../ui/Button/Button";
+import Icons from "../ui/Icons/Icons";
 
 
 export default function TaskCard(props) {
@@ -51,10 +51,8 @@ export default function TaskCard(props) {
       <div
         ref={setNodeRef}
         style={style}
-        className="
-        opacity-30
-      bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative
-      "
+        // className="opacity-30 bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative"
+        className={styles.DraggingCard}
       />
     );
   }
@@ -66,13 +64,10 @@ export default function TaskCard(props) {
         style={style}
         {...attributes}
         {...listeners}
-        className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative"
+        className={styles.CardEditData}
       >
         <textarea
-          className="
-        h-[90%]
-        w-full resize-none border-none rounded bg-transparent text-white focus:outline-none
-        "
+          className={styles.EditFocus}
           value={task.name}
           autoFocus
           placeholder="Task content here"
@@ -99,7 +94,7 @@ export default function TaskCard(props) {
   }
 
   return (
-    <li
+    <div
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -111,7 +106,6 @@ export default function TaskCard(props) {
       onMouseLeave={() => {
         setMouseIsOver(false);
       }}
-      // className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
       className={styles.TaskCard}
     >
       <div className={styles.TaskCard__Wrap}>
@@ -135,33 +129,32 @@ export default function TaskCard(props) {
             </div>
           </div>
 
-          {/* <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-            {task.name}
-          </p> */}
-
           <a className={styles.CardText} href="#">
             {task.name}
           </a>
 
           {mouseIsOver && (
-            <button
-              onClick={() => {
-                deleteTask(task.id);
-              }}
-              className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
+            <Button
+              clickAction={deleteTask}
+              actionVariable={task.id}
+              className={'BtnDeleteCard'}
+            // className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
             >
-              <TrashIcon />
-            </button>
+              <Icons
+                name={'Trash'}
+                class_name={'IconDeletColumnn'}
+              />
+            </Button>
           )}
+
         </div>
 
         <div className={styles.CardEdit}>
           <form>
-
           </form>
         </div>
 
       </div>
-    </li>
+    </div>
   );
 }
