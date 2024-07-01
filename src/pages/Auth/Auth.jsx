@@ -15,20 +15,42 @@ export default function Auth(props) {
 
     let [hidePass , setHidePass] = useState(true);
 
-    function login() {
-        // console.log('func_login_1 =>', formAuth);
-        // TODO проверка на email 
-        if (fieldEmailData.length > 3) {
+    function check_email(re_email){
+        if (re_email.test(fieldEmailData) && fieldEmailData.length > 3) {
             setFormAuth( formAuth = { email: fieldEmailData, password: null } );
         }
-        // console.log('func_login_2 =>', formAuth);
-        if (fieldPasswordData && fieldPasswordData.length > 3) {
+        else{
+            console.log('ne email');
+            setFieldEmailData("");
+        }
+    }
+    function check_password(re_password){
+        if (re_password.test(fieldPasswordData) && fieldPasswordData.length >= 3) {
             setFormAuth( formAuth = { email: fieldEmailData, password: fieldPasswordData });
         }
-        // console.log('func_login_3 =>', formAuth);
+        else{
+            console.log('ne pass');
+            setFieldPasswordData("");
+        }
+    }
+    function login() {
+        // TODO проверка на email 
+        const re_email = /@/;
+        const re_password = /^\S{4,}$/;
+
+
+        if (fieldEmailData) {
+            check_email(re_email);
+        }
+        
+        if (fieldPasswordData) {
+            check_password(re_password);
+        }
+        
         if (formAuth.email && formAuth.password) {
-            request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: formAuth });
-            console.log('есть запрос', formAuth);
+            let req = request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: formAuth, status: 200 });
+            console.log('есть запрос', formAuth, req);
+            console.log(req);
         }
         else{
             console.log('нет запроса', formAuth);
