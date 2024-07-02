@@ -1,7 +1,7 @@
 
-import styles from './Auth.module.scss'
+import styles from './Login.module.scss'
 
-export default function AuthLayout(props) {
+export default function LoginLayout(props) {
     return (
         <div id="root_auth">
             <div className={styles._4b375e} >

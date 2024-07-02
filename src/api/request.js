@@ -23,7 +23,7 @@ export default function request(params = { method: 'GET', url: '', callback: '',
             .then((response) => {
                 // console.log(response.data);
                 if (response.status === params.status) {
-                    params.callback(response.data);
+                    params.callback(response);
                 }
             })
             .catch((error) => {

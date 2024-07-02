@@ -1,12 +1,15 @@
 
 
-import styles from "./Auth.module.scss";
+import styles from "./Login.module.scss";
 import Icons from "../../components/ui/Icons/Icons";
-import AuthLayout from "../../layouts/auth/Auth";
+import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 
-export default function Auth(props) {
+export default function Login(props) {
+    
+    let [authed, setAuthed] = useState(false);
 
     let [formAuth, setFormAuth] = useState({ email: null, password: null });
 
@@ -16,7 +19,7 @@ export default function Auth(props) {
     let [hidePass , setHidePass] = useState(true);
 
     function check_email(re_email){
-        if (re_email.test(fieldEmailData) && fieldEmailData.length > 3) {
+        if (re_email.test(fieldEmailData) && fieldEmailData.length > 5) {
             setFormAuth( formAuth = { email: fieldEmailData, password: null } );
         }
         else{
@@ -34,7 +37,7 @@ export default function Auth(props) {
         }
     }
     function login() {
-        // TODO проверка на email 
+
         const re_email = /@/;
         const re_password = /^\S{4,}$/;
 
@@ -48,18 +51,35 @@ export default function Auth(props) {
         }
         
         if (formAuth.email && formAuth.password) {
-            let req = request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: formAuth, status: 200 });
-            console.log('есть запрос', formAuth, req);
-            console.log(req);
+            console.log('qwerty');
+            request({ 
+                method: "POST", 
+                url: "login/", 
+                callback: (response) => { responseLogin(response) },
+                data: formAuth, 
+                status: 200 
+            });
+            console.log('есть запрос', formAuth);
         }
         else{
             console.log('нет запроса', formAuth);
         }
+        console.log("authed -> ", authed);
     }
 
     function responseLogin(response) {
-        console.log(response);
+        if(response.status === 200){
+
+            setAuthed( authed = true );
+            console.log("вы вошли -> ", {status: response.status, response} );
+            console.log("authed -> ", authed);
+
+            <Navigate to= {authed ? '/' : '/login'} />
+
+        }
+       
     }
+    // console.log(authed);
 
     function writeEmail(evt) {
         setFieldEmailData( (fieldEmailData) => (fieldEmailData = evt) );
@@ -71,7 +91,7 @@ export default function Auth(props) {
 
     return (
 
-        <AuthLayout>
+        <LoginLayout>
             <section role="main" className={styles._qj62pw} >
                 <div data-testid="header" id="ProductHeading" className={styles._146wmq} >
                     <span aria-label="Trello" role="img" className={styles._a3l9jr} >
@@ -182,9 +202,11 @@ export default function Auth(props) {
                                 </div>
                             ) : ""}
                         </div>
-                        <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
-                            <span className={styles._178ag6o} >{(formAuth.email && formAuth.email.length > 3) ? "Войти" : "Продолжить"}</span>
-                        </button>
+                        {/* <Link to= {authed ? '/' : '/login'}> */}
+                            <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
+                                <span className={styles._178ag6o} >{(formAuth.email && formAuth.email.length > 3) ? "Войти" : "Продолжить"}</span>
+                            </button>
+                        {/* </Link> */}
                         <div className={`${styles._hidden} ${styles._cnfgt3}`} >
                             <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >
@@ -317,7 +339,7 @@ export default function Auth(props) {
                     </div>
                 </div>
             </section>
-        </AuthLayout>
+        </LoginLayout>
 
 
     )

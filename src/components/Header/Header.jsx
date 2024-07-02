@@ -312,7 +312,7 @@ export default function Header(props) {
 
           <div className={styles.blockNotification}>
 
-            <NavLink to='/auth' className={styles.LogoWrap}>
+            <NavLink to='/login' className={styles.LogoWrap}>
               <Notification>
                 <img src={'/img/no_name.png'} alt="" />
               </Notification>
