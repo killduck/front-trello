@@ -5,11 +5,17 @@ import Icons from "../../components/ui/Icons/Icons";
 import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../Auth";
 
 export default function Login(props) {
+    // console.log(props.authed);
+    const navigate = useNavigate();
+    const { _login } = useAuth();
+    const { state } = useLocation();
     
-    let [authed, setAuthed] = useState(false);
+    // let setAuthed = props.setAuthed;
+    // let authed = props.authed;
 
     let [formAuth, setFormAuth] = useState({ email: null, password: null });
 
@@ -56,7 +62,8 @@ export default function Login(props) {
                 method: "POST", 
                 url: "login/", 
                 callback: (response) => { responseLogin(response) },
-                data: formAuth, 
+                // data: formAuth, 
+                data: { uresname: formAuth.email, password: formAuth.password },
                 status: 200 
             });
             console.log('есть запрос', formAuth);
@@ -64,22 +71,21 @@ export default function Login(props) {
         else{
             console.log('нет запроса', formAuth);
         }
-        console.log("authed -> ", authed);
+
     }
 
     function responseLogin(response) {
         if(response.status === 200){
 
-            setAuthed( authed = true );
             console.log("вы вошли -> ", {status: response.status, response} );
-            console.log("authed -> ", authed);
 
-            <Navigate to= {authed ? '/' : '/login'} />
+            _login().then(() => {
+                navigate(state?.path || "/dashboard");
+            });
 
         }
        
     }
-    // console.log(authed);
 
     function writeEmail(evt) {
         setFieldEmailData( (fieldEmailData) => (fieldEmailData = evt) );

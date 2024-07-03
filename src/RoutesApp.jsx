@@ -8,19 +8,22 @@ import Templates from './pages/Templates/Templates';
 // import Default from './layouts/default/Default';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
 import Login from './pages/Login/Login';
-// import authed from "./pages/Login/Login";
+// import { useState } from 'react';
+import useAuth from "./Auth";
 
 export default function RoutesApp(props) {
-    // console.log(authed);
 
     function RequireAuth({ children }) {
-        const { authed } = Login();
-        console.log(authed);
 
+        const { authed } = useAuth();
         const location = useLocation();
+
+        // console.log(authed);
+        // console.log("nen gj,sdfkb");
       
         return authed === true ? ( 
-            children ) : (
+            children 
+            ) : (
             <Navigate to="/login" replace state={{ path: location.pathname }} /> 
         );
     }
@@ -30,17 +33,42 @@ export default function RoutesApp(props) {
 
             <Routes>
                 {/* <Route path="/" element={<Default />} /> */}
-                {/* <Route path="/" element={
+
+                {/* <Route path="/" element={ <Workspace /> } /> */}
+                {/* <Route path="/dashboard/:dashboardId" element={ <KanbanBoard /> } /> */}
+                {/* <Route path='/favourites' element={<Favourites />} /> */}
+                {/* <Route path='/templates' element={<Templates />} /> */}
+                {/* <Route path='/login' element={<Login  authed = {authed} setAuthed={setAuthed}/>} /> */}
+
+                <Route path='/login' element={
+                    <Login /> 
+                } />
+                <Route path="/" element={
                     <RequireAuth>
                         <Workspace />
                     </RequireAuth>
-                } /> */}
-                <Route path="/" element={ <Workspace /> } />
-                <Route path='/login' element={<Login />} />
-                <Route path="/dashboard/:dashboardId" element={<KanbanBoard />} />
-                <Route path='/recent' element={<Recent />} />
-                <Route path='/favourites' element={<Favourites />} />
-                <Route path='/templates' element={<Templates />} />
+                } />
+                <Route path="/dashboard/:dashboardId" element={
+                    <RequireAuth>
+                        <KanbanBoard />
+                    </RequireAuth>
+                } />
+                <Route path='/recent' element={
+                    <RequireAuth>
+                        <Recent />
+                    </RequireAuth>
+                } />
+                <Route path='/favourites' element={
+                    <RequireAuth>
+                        <Favourites />
+                    </RequireAuth>
+                } />
+                <Route path='/templates' element={
+                    <RequireAuth>
+                        <Templates />
+                    </RequireAuth>
+                } />
+
             </Routes>
 
         </div>
