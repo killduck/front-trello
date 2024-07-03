@@ -63,7 +63,7 @@ export default function Login(props) {
                 url: "login/", 
                 callback: (response) => { responseLogin(response) },
                 // data: formAuth, 
-                data: { uresname: formAuth.email, password: formAuth.password },
+                data: { username: formAuth.email, password: formAuth.password },
                 status: 200 
             }, 
             true
