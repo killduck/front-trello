@@ -65,7 +65,9 @@ export default function Login(props) {
                 // data: formAuth, 
                 data: { uresname: formAuth.email, password: formAuth.password },
                 status: 200 
-            });
+            }, 
+            true
+            );
             console.log('есть запрос', formAuth);
         }
         else{

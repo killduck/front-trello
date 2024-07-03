@@ -5,6 +5,8 @@ const authContext = createContext();
 
 function useAuth() {
     const [authed, setAuthed] = useState(false);
+    // const [authed, setAuthed] = useState(true);
+
   
     return {
         authed,
