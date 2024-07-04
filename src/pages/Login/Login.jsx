@@ -9,16 +9,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Auth";
 
 export default function Login(props) {
-    // console.log(props.authed);
+
     const navigate = useNavigate();
     const { _login } = useAuth();
     const { state } = useLocation();
-    
-    // let setAuthed = props.setAuthed;
-    // let authed = props.authed;
 
     let [formAuth, setFormAuth] = useState({ email: null, password: null });
-
     let [fieldEmailData, setFieldEmailData] = useState("");
     let [fieldPasswordData, setFieldPasswordData] = useState("");
 
@@ -47,7 +43,6 @@ export default function Login(props) {
         const re_email = /@/;
         const re_password = /^\S{4,}$/;
 
-
         if (fieldEmailData) {
             check_email(re_email);
         }
@@ -68,10 +63,10 @@ export default function Login(props) {
             }, 
             true
             );
-            console.log('есть запрос', formAuth);
+            // console.log('есть запрос', formAuth);
         }
         else{
-            console.log('нет запроса', formAuth);
+            // console.log('нет запроса', formAuth);
         }
 
     }
@@ -79,10 +74,10 @@ export default function Login(props) {
     function responseLogin(response) {
         if(response.status === 200){
 
-            console.log("вы вошли -> ", {status: response.status, response} );
+            // console.log("вы вошли -> ", {status: response.status, response} );
 
             _login().then(() => {
-                navigate(state?.path || "/dashboard");
+                navigate(state?.path || "/");
             });
 
         }
