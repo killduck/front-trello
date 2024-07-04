@@ -14,7 +14,7 @@ export default function Login(props) {
     const { _login } = useAuth();
     const { state } = useLocation();
 
-    let [formAuth, setFormAuth] = useState({ email: null, password: null });
+    let [formAuth, setFormAuth] = useState({ username: null, password: null });
     let [fieldEmailData, setFieldEmailData] = useState("");
     let [fieldPasswordData, setFieldPasswordData] = useState("");
 
@@ -22,16 +22,16 @@ export default function Login(props) {
 
     function check_email(re_email){
         if (re_email.test(fieldEmailData) && fieldEmailData.length > 5) {
-            setFormAuth( formAuth = { email: fieldEmailData, password: null } );
+            setFormAuth( formAuth = { username: fieldEmailData, password: null } );
         }
         else{
-            console.log('ne email');
+            console.log('ne username');
             setFieldEmailData("");
         }
     }
     function check_password(re_password){
         if (re_password.test(fieldPasswordData) && fieldPasswordData.length >= 3) {
-            setFormAuth( formAuth = { email: fieldEmailData, password: fieldPasswordData });
+            setFormAuth( formAuth = { username: fieldEmailData, password: fieldPasswordData });
         }
         else{
             console.log('ne pass');
@@ -51,7 +51,7 @@ export default function Login(props) {
             check_password(re_password);
         }
         
-        if (formAuth.email && formAuth.password) {
+        if (formAuth.username && formAuth.password) {
             console.log('qwerty');
             request({ 
                 method: "POST", 
@@ -120,7 +120,7 @@ export default function Login(props) {
                     <form id="form-login" data-testid="form-login" className={styles._r44k6v} >
                         <div className={styles._env1z2} >
                             <div className={styles._cnfgt3} >
-                                {(formAuth.email === null) ? (
+                                {(formAuth.username === null) ? (
                                 <div className={styles._q5x77e} >
                                     <div role="presentation" data-ds--text-field--container="true" data-testid="username-container" className={styles._1s25hsw} >
                                         <input aria-describedby="username-uid2-helper"
@@ -143,7 +143,7 @@ export default function Login(props) {
                                 :
                                 (<div 
                                     tabIndex="0" className={styles._1743vyl} 
-                                    onClick={ () => {setFormAuth({email: null})}} 
+                                    onClick={ () => {setFormAuth({username: null})}} 
                                 >
                                     <span className={styles._eznkzx} >{fieldEmailData}</span>
                                     <span className={styles._1tdtezu} >
@@ -154,7 +154,7 @@ export default function Login(props) {
                                 </div>
                                 )}
                             </div>
-                            {(formAuth.email && formAuth.email.length > 3) ? (
+                            {(formAuth.username && formAuth.username.length > 3) ? (
                                 <div className={styles._cnfgt3}>
                                     <div>
                                         <div className={styles._1xfynbg} >
@@ -207,7 +207,7 @@ export default function Login(props) {
                         </div>
                         {/* <Link to= {authed ? '/' : '/login'}> */}
                             <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
-                                <span className={styles._178ag6o} >{(formAuth.email && formAuth.email.length > 3) ? "Войти" : "Продолжить"}</span>
+                                <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
                             </button>
                         {/* </Link> */}
                         <div className={`${styles._hidden} ${styles._cnfgt3}`} >
