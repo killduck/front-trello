@@ -18,22 +18,22 @@ export default function Login(props) {
     let [fieldEmailData, setFieldEmailData] = useState("");
     let [fieldPasswordData, setFieldPasswordData] = useState("");
 
-    let [hidePass , setHidePass] = useState(true);
+    let [hidePass, setHidePass] = useState(true);
 
-    function check_email(re_email){
+    function check_email(re_email) {
         if (re_email.test(fieldEmailData) && fieldEmailData.length > 5) {
-            setFormAuth( formAuth = { username: fieldEmailData, password: null } );
+            setFormAuth(formAuth = { username: fieldEmailData, password: null });
         }
-        else{
+        else {
             console.log('ne username');
             setFieldEmailData("");
         }
     }
-    function check_password(re_password){
+    function check_password(re_password) {
         if (re_password.test(fieldPasswordData) && fieldPasswordData.length >= 3) {
-            setFormAuth( formAuth = { username: fieldEmailData, password: fieldPasswordData });
+            setFormAuth(formAuth = { username: fieldEmailData, password: fieldPasswordData });
         }
-        else{
+        else {
             console.log('ne pass');
             setFieldPasswordData("");
         }
@@ -46,48 +46,47 @@ export default function Login(props) {
         if (fieldEmailData) {
             check_email(re_email);
         }
-        
+
         if (fieldPasswordData) {
             check_password(re_password);
         }
-        
+
         if (formAuth.username && formAuth.password) {
-            request({ 
-                method: "POST", 
-                url: "login/", 
+            request({
+                method: "POST",
+                url: "login/",
                 callback: (response) => { responseLogin(response) },
-                data: { username: formAuth.email, password: formAuth.password },
-                status: 200 
-            }, 
-            true
+                data: { username: formAuth.username, password: formAuth.password },
+                status: 200
+            },
+                true
             );
             // console.log('есть запрос', formAuth);
         }
-        else{
+        else {
             // console.log('нет запроса', formAuth);
         }
 
     }
 
     function responseLogin(response) {
-        if(response.status === 200){
+        if (response.status === 200 && response.data['token']) {
 
-            // console.log("вы вошли -> ", {status: response.status, response} );
+            localStorage.setItem("trello_auth", response.data['token']);
 
-            _login().then(() => {
-                navigate(state?.path || "/");
-            });
+            navigate("/");
+
 
         }
-       
+
     }
 
     function writeEmail(evt) {
-        setFieldEmailData( (fieldEmailData) => (fieldEmailData = evt) );
+        setFieldEmailData((fieldEmailData) => (fieldEmailData = evt));
     }
 
     function writePassword(evt) {
-        setFieldPasswordData( (fieldPasswordData) => (fieldPasswordData = evt) );
+        setFieldPasswordData((fieldPasswordData) => (fieldPasswordData = evt));
     }
 
     return (
@@ -119,38 +118,38 @@ export default function Login(props) {
                         <div className={styles._env1z2} >
                             <div className={styles._cnfgt3} >
                                 {(formAuth.username === null) ? (
-                                <div className={styles._q5x77e} >
-                                    <div role="presentation" data-ds--text-field--container="true" data-testid="username-container" className={styles._1s25hsw} >
-                                        <input aria-describedby="username-uid2-helper"
-                                            aria-labelledby="username-uid2-label"
-                                            id="username"
-                                            autoComplete="username"
-                                            type="email"
-                                            data-ds--text-field--input="true"
-                                            data-testid="username"
-                                            name="username"
-                                            placeholder="Введите адрес электронной почты"
-                                            className={styles._1cab8vv}
-                                            readOnly=""
-                                            wfd-id="id0"
-                                            value={(fieldEmailData) ? fieldEmailData : ""}
-                                            onChange={ (evt) => writeEmail(evt.target.value) } 
-                                        />
+                                    <div className={styles._q5x77e} >
+                                        <div role="presentation" data-ds--text-field--container="true" data-testid="username-container" className={styles._1s25hsw} >
+                                            <input aria-describedby="username-uid2-helper"
+                                                aria-labelledby="username-uid2-label"
+                                                id="username"
+                                                autoComplete="username"
+                                                type="email"
+                                                data-ds--text-field--input="true"
+                                                data-testid="username"
+                                                name="username"
+                                                placeholder="Введите адрес электронной почты"
+                                                className={styles._1cab8vv}
+                                                readOnly=""
+                                                wfd-id="id0"
+                                                value={(fieldEmailData) ? fieldEmailData : ""}
+                                                onChange={(evt) => writeEmail(evt.target.value)}
+                                            />
+                                        </div>
+                                    </div>)
+                                    :
+                                    (<div
+                                        tabIndex="0" className={styles._1743vyl}
+                                        onClick={() => { setFormAuth({ username: null }) }}
+                                    >
+                                        <span className={styles._eznkzx} >{fieldEmailData}</span>
+                                        <span className={styles._1tdtezu} >
+                                            {/* <span aria-hidden="true" className={styles._snhnyn} style={{color: "#44546f"}}> */}
+                                            <Icons name={'pencil-logo'} class_name={'pencil_logo'} sizeWidth={"24px"} sizeHeight={"24px"} fill={"currentColor"} fillRule={"evenodd"} />
+                                            {/* </span> */}
+                                        </span>
                                     </div>
-                                </div>)
-                                :
-                                (<div 
-                                    tabIndex="0" className={styles._1743vyl} 
-                                    onClick={ () => {setFormAuth({username: null})}} 
-                                >
-                                    <span className={styles._eznkzx} >{fieldEmailData}</span>
-                                    <span className={styles._1tdtezu} >
-                                        {/* <span aria-hidden="true" className={styles._snhnyn} style={{color: "#44546f"}}> */}
-                                        <Icons name={'pencil-logo'} class_name={'pencil_logo'} sizeWidth={"24px"} sizeHeight={"24px"} fill={"currentColor"} fillRule={"evenodd" }/>
-                                        {/* </span> */}
-                                    </span>
-                                </div>
-                                )}
+                                    )}
                             </div>
                             {(formAuth.username && formAuth.username.length > 3) ? (
                                 <div className={styles._cnfgt3}>
@@ -163,25 +162,25 @@ export default function Login(props) {
                                                         aria-describedby="password-uid3-helper"
                                                         aria-labelledby="password-uid3-label"
                                                         id="password"
-                                                        autoComplete="current-password" 
-                                                        type={ hidePass ? "password" : "text" }
-                                                        spellCheck="false" 
+                                                        autoComplete="current-password"
+                                                        type={hidePass ? "password" : "text"}
+                                                        spellCheck="false"
                                                         data-ds--text-field--input="true"
-                                                        data-testid="password" 
-                                                        name="password" 
+                                                        data-testid="password"
+                                                        name="password"
                                                         placeholder="Введите пароль"
-                                                        className={styles._1cab8vv} 
-                                                        readOnly="" 
+                                                        className={styles._1cab8vv}
+                                                        readOnly=""
                                                         wfd-id="id1"
                                                         // ref={passwordField} 
                                                         value={(fieldPasswordData) ? fieldPasswordData : ""}
-                                                        onChange={(evt) => writePassword(evt.target.value)} 
+                                                        onChange={(evt) => writePassword(evt.target.value)}
                                                     />
 
                                                     <div className={styles._lspp5b} >
-                                                        <button 
-                                                            type="button" className={styles._o6ruxu} 
-                                                            onClick={ () => {(hidePass)? setHidePass(false): setHidePass(true)}} 
+                                                        <button
+                                                            type="button" className={styles._o6ruxu}
+                                                            onClick={() => { (hidePass) ? setHidePass(false) : setHidePass(true) }}
                                                         >
                                                             <span className={styles._1spmf3f} >
                                                                 <span aria-hidden="true" className={styles._snhnyn} >
@@ -203,11 +202,11 @@ export default function Login(props) {
                                 </div>
                             ) : ""}
                         </div>
-                        
+
                         <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
                             <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
                         </button>
-                        
+
                         <div className={`${styles._hidden} ${styles._cnfgt3}`} >
                             <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >

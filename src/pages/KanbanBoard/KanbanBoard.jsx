@@ -61,19 +61,25 @@ export default function KanbanBoard() {
       method: "POST",
       url: 'columns/',
       callback: (response) => {
-        setColumns(response);
-        setcolumnBug(response[0].id); // ищем 1ую колонку
+        if (response.status === 200) {
 
-        let data_card = [];
-        response.map((column) => (
-          data_card = [...data_card, ...column.cards]
-        ))
+          setColumns(response);
+          setcolumnBug(response[0].id); // ищем 1ую колонку
 
-        data_card.map(card =>
-          card.id = card.id.toString()
-        );
+          let data_card = [];
+          response.map((column) => (
+            data_card = [...data_card, ...column.cards]
+          ))
 
-        setTasks(data_card);
+          data_card.map(card =>
+            card.id = card.id.toString()
+          );
+
+          setTasks(data_card);
+        }
+        else {
+          console.log("редирект");
+        }
       },
       data: { 'dashboardId': dashboardId },
       status: 200,
