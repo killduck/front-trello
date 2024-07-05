@@ -18,9 +18,6 @@ export default function RoutesApp(props) {
         const { authed } = useAuth();
         const location = useLocation();
 
-        // console.log(authed);
-        // console.log("nen gj,sdfkb");
-      
         return authed === true ? ( 
             children 
             ) : (
@@ -32,13 +29,6 @@ export default function RoutesApp(props) {
         <div>
 
             <Routes>
-                {/* <Route path="/" element={<Default />} /> */}
-
-                {/* <Route path="/" element={ <Workspace /> } /> */}
-                {/* <Route path="/dashboard/:dashboardId" element={ <KanbanBoard /> } /> */}
-                {/* <Route path='/favourites' element={<Favourites />} /> */}
-                {/* <Route path='/templates' element={<Templates />} /> */}
-                {/* <Route path='/login' element={<Login  authed = {authed} setAuthed={setAuthed}/>} /> */}
 
                 <Route path='/login' element={
                     <Login /> 

@@ -21,6 +21,7 @@ import Icons from "../../components/ui/Icons/Icons";
 import TaskCard from "../../components/TaskCard/TaskCard";
 
 import styles from "./KanbanBoard.module.scss";
+// import WorkspaceMenu from "../../components/WorkspaceMenu/WorkspaceMenu";
 
 
 export default function KanbanBoard() {
@@ -354,6 +355,7 @@ export default function KanbanBoard() {
   return (
     <>
       <Default>
+        {/* <WorkspaceMenu /> */}
         <div className={styles.KanbanBoard}>
           <DndContext
             sensors={sensors}

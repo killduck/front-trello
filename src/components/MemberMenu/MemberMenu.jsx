@@ -1,9 +1,19 @@
 
+import { useNavigate } from 'react-router-dom';
 import styles from './MemberMenu.module.scss';
+import useAuth from "../../Auth";
 
 export default function MemberMenu(props){
 
     let swowMenu = props.swowMenu;
+
+    const { authed, _logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        _logout();
+        navigate("/");
+    };
 
     return (
     <div style={{ zIndex: 1 }}>
@@ -163,7 +173,11 @@ export default function MemberMenu(props){
                             <ul>
                                 <li className={styles.hDigGK0jR2_0pl}></li>
                                 <li>
-                                    <button className={styles.gJDsPins_eYkBM} data-testid="account-menu-logout">
+                                    <button 
+                                        className={styles.gJDsPins_eYkBM} 
+                                        data-testid="account-menu-logout"
+                                        onClick={handleLogout}
+                                    >
                                         <span className={styles.LCeoUSr_PkZrP2}>
                                             <span className={styles.BmRHtH7FIX0jcL}>Выйти</span>
                                         </span>

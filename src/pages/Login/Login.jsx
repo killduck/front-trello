@@ -52,12 +52,10 @@ export default function Login(props) {
         }
         
         if (formAuth.username && formAuth.password) {
-            console.log('qwerty');
             request({ 
                 method: "POST", 
                 url: "login/", 
                 callback: (response) => { responseLogin(response) },
-                // data: formAuth, 
                 data: { username: formAuth.email, password: formAuth.password },
                 status: 200 
             }, 
@@ -205,11 +203,11 @@ export default function Login(props) {
                                 </div>
                             ) : ""}
                         </div>
-                        {/* <Link to= {authed ? '/' : '/login'}> */}
-                            <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
-                                <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
-                            </button>
-                        {/* </Link> */}
+                        
+                        <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
+                            <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
+                        </button>
+                        
                         <div className={`${styles._hidden} ${styles._cnfgt3}`} >
                             <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >

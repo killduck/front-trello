@@ -1,5 +1,6 @@
 
 import Header from "../../components/Header/Header";
+// import WorkspaceMenu from "../../components/WorkspaceMenu/WorkspaceMenu";
 
 import styles from './Default.module.scss';
 
@@ -11,7 +12,10 @@ export default function Default(props) {
     <div>
       <Header />
       <main className={`${styles.Content} ${styles.bgc}`}>
-        {props.children}
+        <div className={styles.main_wrap}>
+          {/* <WorkspaceMenu /> */}
+          {props.children}
+        </div>
       </main>
     </div>
   )

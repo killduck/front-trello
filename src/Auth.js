@@ -26,9 +26,7 @@ function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-    // console.log( children );
     const auth = useAuth();
-    console.log( auth );
     return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
 
