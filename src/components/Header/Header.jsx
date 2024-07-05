@@ -16,11 +16,15 @@ import Notification from '../ui/NotificateBTN/Notification';
 import styles from './Header.module.scss';
 
 import { NavLink } from 'react-router-dom';
+import MemberMenu from '../MemberMenu/MemberMenu';
 
 export default function Header(props) {
 
   // состояние для Favorites в карточках Workspace
   let [stateBoardsList, setBoardsList] = useState(api.boards_recent);
+
+  let [showMemberMenu, setMemberMenu] = useState(false);
+
 
   // состояние для открытия/закрытия выпадающих меню в header
   let [stateActiveDropMenu, setActiveDropMenu] = useState(
@@ -86,7 +90,13 @@ export default function Header(props) {
     console.log('Проверка выполения функции =>', onCreate.name);
   }
 
-
+  function funkMemberMenu(){
+    if(showMemberMenu){
+      setMemberMenu(false);
+      return;
+    }
+    setMemberMenu(true);
+  }
 
   return (
 
@@ -302,6 +312,11 @@ export default function Header(props) {
 
           </div>
         </div>
+        
+        {/* TODO сотри это  */}
+        <NavLink to='/login' className={styles.LogoWrap}>
+          <div>"/login"</div>
+        </NavLink>
 
 
         <div className={styles.RightMenu}>
@@ -310,13 +325,13 @@ export default function Header(props) {
             <Input type="text" placeholder="Поиск" maxLength="500" />
           </div>
 
-          <div className={styles.blockNotification}>
+          <div className={styles.blockNotification} onClick={funkMemberMenu}>
+            <Notification onClick={funkMemberMenu} >
+              <img src={'/img/no_name.png'} alt="" />
+            </Notification>
 
-            <NavLink to='/auth' className={styles.LogoWrap}>
-              <Notification>
-                <img src={'/img/no_name.png'} alt="" />
-              </Notification>
-            </NavLink>
+            <MemberMenu swowMenu={ showMemberMenu} />
+
           </div>
         </div>
       </nav >

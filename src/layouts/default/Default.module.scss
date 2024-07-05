@@ -6,3 +6,19 @@
     padding-left: 20px;
   }
 }
+.bgc{
+  background-blend-mode: darken;
+  background-color: #0000004d;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  background-image: url('../../../public/img/desert_xl.webp');
+  // background-image: url('https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1367x2048/8694436355c64f30caa17a94780a3693/photo-1713847177191-318d6ab96e62.webp');
+}
+.main_wrap{
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0%;
+  position: relative;
+  overflow-y: auto;
+} 

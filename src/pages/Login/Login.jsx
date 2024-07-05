@@ -1,42 +1,85 @@
 
 
-import styles from "./Auth.module.scss";
+import styles from "./Login.module.scss";
 import Icons from "../../components/ui/Icons/Icons";
-import AuthLayout from "../../layouts/auth/Auth";
+import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../Auth";
 
-export default function Auth(props) {
+export default function Login(props) {
 
-    let [formAuth, setFormAuth] = useState({ email: null, password: null });
+    const navigate = useNavigate();
+    const { _login } = useAuth();
+    const { state } = useLocation();
 
+    let [formAuth, setFormAuth] = useState({ username: null, password: null });
     let [fieldEmailData, setFieldEmailData] = useState("");
     let [fieldPasswordData, setFieldPasswordData] = useState("");
 
     let [hidePass , setHidePass] = useState(true);
 
-    function login() {
-        // console.log('func_login_1 =>', formAuth);
-        // TODO проверка на email 
-        if (fieldEmailData.length > 3) {
-            setFormAuth( formAuth = { email: fieldEmailData, password: null } );
-        }
-        // console.log('func_login_2 =>', formAuth);
-        if (fieldPasswordData && fieldPasswordData.length > 3) {
-            setFormAuth( formAuth = { email: fieldEmailData, password: fieldPasswordData });
-        }
-        // console.log('func_login_3 =>', formAuth);
-        if (formAuth.email && formAuth.password) {
-            request({ method: "POST", url: "login/", callback: (response) => { responseLogin(response) }, data: formAuth });
-            console.log('есть запрос', formAuth);
+    function check_email(re_email){
+        if (re_email.test(fieldEmailData) && fieldEmailData.length > 5) {
+            setFormAuth( formAuth = { username: fieldEmailData, password: null } );
         }
         else{
-            console.log('нет запроса', formAuth);
+            console.log('ne username');
+            setFieldEmailData("");
         }
+    }
+    function check_password(re_password){
+        if (re_password.test(fieldPasswordData) && fieldPasswordData.length >= 3) {
+            setFormAuth( formAuth = { username: fieldEmailData, password: fieldPasswordData });
+        }
+        else{
+            console.log('ne pass');
+            setFieldPasswordData("");
+        }
+    }
+    function login() {
+
+        const re_email = /@/;
+        const re_password = /^\S{4,}$/;
+
+        if (fieldEmailData) {
+            check_email(re_email);
+        }
+        
+        if (fieldPasswordData) {
+            check_password(re_password);
+        }
+        
+        if (formAuth.username && formAuth.password) {
+            request({ 
+                method: "POST", 
+                url: "login/", 
+                callback: (response) => { responseLogin(response) },
+                data: { username: formAuth.email, password: formAuth.password },
+                status: 200 
+            }, 
+            true
+            );
+            // console.log('есть запрос', formAuth);
+        }
+        else{
+            // console.log('нет запроса', formAuth);
+        }
+
     }
 
     function responseLogin(response) {
-        console.log(response);
+        if(response.status === 200){
+
+            // console.log("вы вошли -> ", {status: response.status, response} );
+
+            _login().then(() => {
+                navigate(state?.path || "/");
+            });
+
+        }
+       
     }
 
     function writeEmail(evt) {
@@ -49,7 +92,7 @@ export default function Auth(props) {
 
     return (
 
-        <AuthLayout>
+        <LoginLayout>
             <section role="main" className={styles._qj62pw} >
                 <div data-testid="header" id="ProductHeading" className={styles._146wmq} >
                     <span aria-label="Trello" role="img" className={styles._a3l9jr} >
@@ -75,7 +118,7 @@ export default function Auth(props) {
                     <form id="form-login" data-testid="form-login" className={styles._r44k6v} >
                         <div className={styles._env1z2} >
                             <div className={styles._cnfgt3} >
-                                {(formAuth.email === null) ? (
+                                {(formAuth.username === null) ? (
                                 <div className={styles._q5x77e} >
                                     <div role="presentation" data-ds--text-field--container="true" data-testid="username-container" className={styles._1s25hsw} >
                                         <input aria-describedby="username-uid2-helper"
@@ -98,7 +141,7 @@ export default function Auth(props) {
                                 :
                                 (<div 
                                     tabIndex="0" className={styles._1743vyl} 
-                                    onClick={ () => {setFormAuth({email: null})}} 
+                                    onClick={ () => {setFormAuth({username: null})}} 
                                 >
                                     <span className={styles._eznkzx} >{fieldEmailData}</span>
                                     <span className={styles._1tdtezu} >
@@ -109,7 +152,7 @@ export default function Auth(props) {
                                 </div>
                                 )}
                             </div>
-                            {(formAuth.email && formAuth.email.length > 3) ? (
+                            {(formAuth.username && formAuth.username.length > 3) ? (
                                 <div className={styles._cnfgt3}>
                                     <div>
                                         <div className={styles._1xfynbg} >
@@ -160,9 +203,11 @@ export default function Auth(props) {
                                 </div>
                             ) : ""}
                         </div>
+                        
                         <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
-                            <span className={styles._178ag6o} >{(formAuth.email && formAuth.email.length > 3) ? "Войти" : "Продолжить"}</span>
+                            <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
                         </button>
+                        
                         <div className={`${styles._hidden} ${styles._cnfgt3}`} >
                             <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >
@@ -295,7 +340,7 @@ export default function Auth(props) {
                     </div>
                 </div>
             </section>
-        </AuthLayout>
+        </LoginLayout>
 
 
     )
