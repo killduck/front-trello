@@ -61,13 +61,14 @@ export default function KanbanBoard() {
       method: "POST",
       url: 'columns/',
       callback: (response) => {
+        console.log(response);
         if (response.status === 200) {
 
-          setColumns(response);
-          setcolumnBug(response[0].id); // ищем 1ую колонку
+          setColumns(response.data);
+          setcolumnBug(response.data[0].id); // ищем 1ую колонку
 
           let data_card = [];
-          response.map((column) => (
+          response.data.map((column) => (
             data_card = [...data_card, ...column.cards]
           ))
 
@@ -268,7 +269,7 @@ export default function KanbanBoard() {
   function requestSuccessCreateColumn(response) {
 
     if (response) {
-      const columnToAdd = response;
+      const columnToAdd = response.data;
 
       setColumns([...columns, columnToAdd]);
       setShowForm(true);
@@ -296,9 +297,9 @@ export default function KanbanBoard() {
 
 
   function requestSuccessCreateTask(response) {
-
+    console.log(response);
     if (response) {
-      const cardToAdd = response;
+      const cardToAdd = response.data;
 
       setTasks([...tasks, cardToAdd]);
 
@@ -329,7 +330,7 @@ export default function KanbanBoard() {
 
   function requestSuccessDeletColumn(response, id) {
 
-    if (response) {
+    if (response.data) {
       const filteredColumns = columns.filter((column) => column.id !== id);
       setColumns(filteredColumns);
 

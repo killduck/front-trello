@@ -28,7 +28,7 @@ export default function Workspace(props) {
   }, []);
 
   function requestDashboards(response) {
-    setDashboards(response);
+    setDashboards(response.data);
   }
 
   function onInvite_users_workspace() {

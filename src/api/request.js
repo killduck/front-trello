@@ -3,7 +3,7 @@ import axios from "axios";
 import { URL_API } from "./config";
 import redirect from "./redirect";
 
-export default function request(params = { method: 'GET', url: '', callback: '', data: null, status: 200 }, responseAll = false) {
+export default function request(params = { method: 'GET', url: '', callback: '', data: null, status: 200 }) {
     let token = "";
     if (localStorage.getItem('trello_auth')) {
         token = 'Token ' + localStorage.getItem('trello_auth');
@@ -20,17 +20,17 @@ export default function request(params = { method: 'GET', url: '', callback: '',
 
                 if (response.status === params.status) {
                     // так получим весь response, если нужно
-                    if (responseAll) {
-                        params.callback(response);
-                    }
+                    // if (responseAll) {
+                    //     params.callback(response);
+                    // }
                     // так только response.data
-                    params.callback(response.data);
+                    params.callback(response);
                 }
 
 
             })
             .catch((error) => {
-                redirect();
+                // redirect();
                 console.error(error);
             })
     }
@@ -45,15 +45,15 @@ export default function request(params = { method: 'GET', url: '', callback: '',
             .then((response) => {
                 if (response.status === params.status) {
                     // так получим весь response, если нужно
-                    if (responseAll) {
-                        params.callback(response);
-                    }
+                    // if (responseAll) {
+                    //     params.callback(response);
+                    // }
                     // так только response.data
-                    params.callback(response.data);
+                    params.callback(response);
                 }
             })
             .catch((error) => {
-                redirect();
+                // redirect();
                 console.error(error);
             })
     }

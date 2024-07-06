@@ -58,9 +58,7 @@ export default function Login(props) {
                 callback: (response) => { responseLogin(response) },
                 data: { username: formAuth.username, password: formAuth.password },
                 status: 200
-            },
-                true
-            );
+            });
             // console.log('есть запрос', formAuth);
         }
         else {
@@ -183,6 +181,7 @@ export default function Login(props) {
                                                             onClick={() => { (hidePass) ? setHidePass(false) : setHidePass(true) }}
                                                         >
                                                             <span className={styles._1spmf3f} >
+                                                                
                                                                 <span aria-hidden="true" className={styles._snhnyn} >
                                                                     <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
                                                                         <g fill="currentColor" fillRule="evenodd">
@@ -192,6 +191,17 @@ export default function Login(props) {
                                                                     </svg>
                                                                 </span>
                                                                 <span className={styles._b5o75w} >Show password</span>
+                                                                {/* TODO сделать смену иконок */}
+                                                                {/* <span aria-hidden="true" className={styles._snhnyn} >
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
+                                                                        <g fill="currentColor" fill-rule="evenodd">
+                                                                            <path d="M11.983 15.984a4.005 4.005 0 01-4.002-4c0-2.206 1.795-4 4.002-4a4.005 4.005 0 014.002 4c0 2.206-1.795 4-4.002 4M12 4C6.48 4 2 8.84 2 12c0 3.086 4.577 8 10 8s10-4.914 10-8c0-3.16-4.481-8-10-8"></path>
+                                                                            <circle cx="12" cy="12" r="2"></circle>
+                                                                        </g>
+                                                                    </svg>
+                                                                </span>
+                                                                <span class="css-b5o75w">Hide password</span> */}
+
                                                             </span>
                                                         </button>
                                                     </div>
