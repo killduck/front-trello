@@ -312,12 +312,6 @@ export default function Header(props) {
 
           </div>
         </div>
-        
-        {/* TODO сотри это  */}
-        <NavLink to='/login' className={styles.LogoWrap}>
-          <div>"/login"</div>
-        </NavLink>
-
 
         <div className={styles.RightMenu}>
           <div className={styles.blockSearch}>

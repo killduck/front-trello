@@ -1,15 +1,12 @@
 
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Workspace from './pages/Workspace/Workspace';
 import Recent from './pages/Recent/Recent';
 import Favourites from './pages/Favourites/Favourites';
 import Templates from './pages/Templates/Templates';
 
-// import Default from './layouts/default/Default';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
 import Login from './pages/Login/Login';
-// import { useState } from 'react';
-import useAuth from "./Auth";
 import { useEffect } from 'react';
 
 
@@ -22,20 +19,7 @@ export default function RoutesApp(props) {
         if (!localStorage.getItem('trello_auth')) {
             navigate("/login");
         }
-    }, []);
-
-
-    function RequireAuth({ children }) {
-
-        // const { authed } = useAuth();
-        // const location = useLocation();
-
-        // return authed === true ? ( 
-        //     children 
-        //     ) : (
-        //     <Navigate to="/login" replace state={{ path: location.pathname }} /> 
-        // );
-    }
+    });
 
     return (
         <div>

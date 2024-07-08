@@ -3,7 +3,6 @@
 import styles from './WorkspaceMenu.module.scss';
 
 export default function WorkspaceMenu(props){
-
     
     return (
       

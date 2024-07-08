@@ -69,10 +69,10 @@ export default function ColumnContainer(props) {
   }
 
   function createNewTask(columnId) {
-
+    
     let newTask = {
       name: newTextTask,
-      author: 1,
+      author: 4,
       column: columnId,
     };
 

@@ -1,27 +1,27 @@
 
 import { useNavigate } from 'react-router-dom';
 import styles from './MemberMenu.module.scss';
-import useAuth from "../../Auth";
+// import useAuth from "../../Auth";
 import request from '../../api/request';
 
 export default function MemberMenu(props) {
 
     let swowMenu = props.swowMenu;
 
-    const { authed, _logout } = useAuth();
+    // const { authed, _logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
 
         request({ method: 'GET', url: "logout/" });
-
-
         navigate("/login");
+        
     };
 
     return (
-        <div style={{ zIndex: 1 }}>
-            <section className={styles.rX4pAv5sWHFNjp} data-testid="header-member-menu-popover" data-elevation="1" style={{ display: swowMenu ? "" : "none", position: "fixed", inset: "51px auto auto 1124px", width: "304px" }} >
+        <div style={{ zIndex: 1 }}> 
+            <section className={styles.rX4pAv5sWHFNjp} data-testid="header-member-menu-popover" data-elevation="1" style={{ display: swowMenu ? "" : "none", position: "absolute", right: "3px", top: "50px", width: "304px" }} >
+                {/* position: "fixed", inset: "51px auto auto 1124px", width: "304px" */}
                 <span data-focus-scope-start="" hidden=""></span>
                 <div tabIndex="-1" className={styles.q2PzD_Dkq1FVX3} style={{ maxHeight: "684px" }}>
                     <div className={styles.JaxGrNSZxJ4ghJ} data-testid="account-menu">

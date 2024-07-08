@@ -4,14 +4,14 @@ import Header from "../../components/Header/Header";
 
 import styles from './Default.module.scss';
 
-// import backgroundImage from '../../../public/img/background_desert.webp';
-
-
 export default function Default(props) {
+
+  let backGroundImage = props.backGroundImage;
+
   return (
     <div>
       <Header />
-      <main className={`${styles.Content} ${styles.bgc}`}>
+      <main className={`${styles.Content} ${styles.bgc}`} style={ backGroundImage }>
         <div className={styles.main_wrap}>
           {/* <WorkspaceMenu /> */}
           {props.children}

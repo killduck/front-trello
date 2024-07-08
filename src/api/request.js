@@ -11,6 +11,7 @@ export default function request(params = { method: 'GET', url: '', callback: '',
 
 
     if (params.method === "GET") {
+
         axios.get(URL_API + params.url, {
             headers: {
                 'Authorization': token,
@@ -19,11 +20,6 @@ export default function request(params = { method: 'GET', url: '', callback: '',
             .then((response) => {
 
                 if (response.status === params.status) {
-                    // так получим весь response, если нужно
-                    // if (responseAll) {
-                    //     params.callback(response);
-                    // }
-                    // так только response.data
                     params.callback(response);
                 }
 
@@ -37,6 +33,7 @@ export default function request(params = { method: 'GET', url: '', callback: '',
 
 
     if (params.method === "POST") {
+        
         axios.post(URL_API + params.url, params.data, {
             headers: {
                 'Authorization': token,
@@ -44,11 +41,6 @@ export default function request(params = { method: 'GET', url: '', callback: '',
         })
             .then((response) => {
                 if (response.status === params.status) {
-                    // так получим весь response, если нужно
-                    // if (responseAll) {
-                    //     params.callback(response);
-                    // }
-                    // так только response.data
                     params.callback(response);
                 }
             })

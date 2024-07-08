@@ -44,8 +44,9 @@ export default function KanbanBoard() {
 
   const [newTextTask, setNewTextTask] = useState('Новая задача');
 
-  let { dashboardId } = useParams();
+  let [backGroundImage, setBackGroundImage] = useState('');
 
+  let { dashboardId } = useParams();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -58,10 +59,22 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     request({
+      method:'POST',
+      url:'dashboards/',
+      callback:(response) => { 
+        if (response.status === 200) {
+          setBackGroundImage(response.data[0].img);
+        }
+      },
+      data: { 'dashboardId': dashboardId },
+      status:200,
+    });
+    
+    request({
       method: "POST",
       url: 'columns/',
       callback: (response) => {
-        console.log(response);
+        
         if (response.status === 200) {
 
           setColumns(response.data);
@@ -84,7 +97,8 @@ export default function KanbanBoard() {
       },
       data: { 'dashboardId': dashboardId },
       status: 200,
-    })
+    });
+
   }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
 
 
@@ -158,9 +172,9 @@ export default function KanbanBoard() {
 
     let copy = arrayMove(columns, activeColumnIndex, overColumnIndex);
 
-    copy.map((column, index) => {
-      column.order = index;
-    })
+    copy.map(
+      (column, index) => (column.order = index)
+    );
 
     setColumns(copy);
 
@@ -360,8 +374,10 @@ export default function KanbanBoard() {
 
 
   return (
-    <>
-      <Default>
+ 
+      <Default
+        backGroundImage={{ backgroundImage: `url(/img/${ backGroundImage })` }}
+      >
         {/* <WorkspaceMenu /> */}
         <div className={styles.KanbanBoard}>
           <DndContext
@@ -463,7 +479,7 @@ export default function KanbanBoard() {
           </DndContext>
         </div >
       </Default >
-    </>
+    
   );
 
 }
