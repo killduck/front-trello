@@ -12,12 +12,12 @@ export default function MemberMenu(props) {
     const handleLogout = () => {
 
         request({ method: 'GET', url: "logout/" });
+        localStorage.removeItem("trello_auth");
         navigate("/login");
-        
     };
 
     return (
-        <div style={{ zIndex: 1 }}> 
+        <div style={{ zIndex: 1 }}>
             <section className={styles.rX4pAv5sWHFNjp} data-testid="header-member-menu-popover" data-elevation="1" style={{ display: swowMenu ? "" : "none", position: "absolute", right: "3px", top: "50px", width: "304px" }} >
                 {/* position: "fixed", inset: "51px auto auto 1124px", width: "304px" */}
                 <span data-focus-scope-start="" hidden=""></span>
@@ -196,4 +196,3 @@ export default function MemberMenu(props) {
 
     )
 };
-
