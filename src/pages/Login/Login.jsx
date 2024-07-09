@@ -6,13 +6,10 @@ import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-// import useAuth from "../../Auth";
 
 export default function Login(props) {
 
     const navigate = useNavigate();
-    // const { _login } = useAuth();
-    // const { state } = useLocation();
 
     let [formAuth, setFormAuth] = useState({ username: null, password: null });
     let [fieldEmailData, setFieldEmailData] = useState("");
@@ -25,7 +22,7 @@ export default function Login(props) {
             setFormAuth(formAuth = { username: fieldEmailData, password: null });
         }
         else {
-            console.log('ne username');
+            // console.log('ne username');
             setFieldEmailData("");
         }
     }
@@ -34,7 +31,7 @@ export default function Login(props) {
             setFormAuth(formAuth = { username: fieldEmailData, password: fieldPasswordData });
         }
         else {
-            console.log('ne pass');
+            // console.log('ne pass');
             setFieldPasswordData("");
         }
     }

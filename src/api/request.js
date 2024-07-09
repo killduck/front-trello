@@ -9,31 +9,25 @@ export default function request(params = { method: 'GET', url: '', callback: '',
         token = 'Token ' + localStorage.getItem('trello_auth');
     }
 
-
     if (params.method === "GET") {
-
         axios.get(URL_API + params.url, {
             headers: {
                 'Authorization': token,
             }
         })
             .then((response) => {
-
                 if (response.status === params.status) {
                     params.callback(response);
                 }
-
-
             })
             .catch((error) => {
-                // redirect();
+                redirect();
                 console.error(error);
             })
     }
 
 
     if (params.method === "POST") {
-        
         axios.post(URL_API + params.url, params.data, {
             headers: {
                 'Authorization': token,
@@ -49,10 +43,4 @@ export default function request(params = { method: 'GET', url: '', callback: '',
                 console.error(error);
             })
     }
-
-
-
-
-
-
 }

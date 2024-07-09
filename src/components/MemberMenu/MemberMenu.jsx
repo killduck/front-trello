@@ -1,14 +1,12 @@
 
 import { useNavigate } from 'react-router-dom';
 import styles from './MemberMenu.module.scss';
-// import useAuth from "../../Auth";
 import request from '../../api/request';
 
 export default function MemberMenu(props) {
 
     let swowMenu = props.swowMenu;
 
-    // const { authed, _logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {

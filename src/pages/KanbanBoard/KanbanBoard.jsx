@@ -63,40 +63,30 @@ export default function KanbanBoard() {
       url:'dashboards/',
       callback:(response) => { 
         if (response.status === 200) {
-          setBackGroundImage(response.data[0].img);
-        }
-      },
-      data: { 'dashboardId': dashboardId },
-      status:200,
-    });
-    
-    request({
-      method: "POST",
-      url: 'columns/',
-      callback: (response) => {
-        
-        if (response.status === 200) {
+          let dashboard = response.data[0]; //нужный дашборд
 
-          setColumns(response.data);
-          setcolumnBug(response.data[0].id); // ищем 1ую колонку
+          setBackGroundImage( dashboard.img );
+          setColumns( dashboard.column );
+          setcolumnBug( dashboard.column[0].id ); // ищем 1ую колонку
 
           let data_card = [];
-          response.data.map((column) => (
+          dashboard.column.map((column) => (
             data_card = [...data_card, ...column.cards]
           ))
 
-          data_card.map(card =>
+          data_card.map((card) =>
             card.id = card.id.toString()
           );
 
           setTasks(data_card);
+
         }
         else {
           console.log("редирект");
         }
       },
       data: { 'dashboardId': dashboardId },
-      status: 200,
+      status:200,
     });
 
   }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
