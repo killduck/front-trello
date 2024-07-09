@@ -59,6 +59,26 @@
     background-color: #a6c5e229;
   }
 }
+.BtnKebabColumnn{
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-bottom: 0px;
+  padding: 8px;
+  border-radius: 8px;
+  color: #8c9bab;
+
+  &:hover {
+    background-color: #a6c5e229;
+    color: #9fadbc;
+  }
+
+  &:active {
+    background-color: #bfdbf847;
+    color: #9fadbc;
+  }
+  
+}
+
 
 .BtnDeleteColumn {
   padding: 8px;
