@@ -6,6 +6,7 @@ import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Button from "../../components/ui/Button/Button";
 
 export default function Login(props) {
 
@@ -81,9 +82,11 @@ export default function Login(props) {
     }
 
     return (
-
+        
         <LoginLayout>
             <section role="main" className={styles._qj62pw} >
+                admin@mail.ru
+                admin
                 <div data-testid="header" id="ProductHeading" className={styles._146wmq} >
                     <span aria-label="Trello" role="img" className={styles._a3l9jr} >
                         <svg viewBox="0 0 94 32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -205,11 +208,14 @@ export default function Login(props) {
                                 </div>
                             ) : ""}
                         </div>
-
-                        <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
+                        <Button
+                            id="login-submit"
+                            type="button"
+                            className={'BtnLogin'}
+                            clickAction={login}
+                        >
                             <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
-                        </button>
-
+                        </Button>
                         <div className={`${styles._hidden} ${styles._cnfgt3}`} >
                             <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >

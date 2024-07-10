@@ -83,7 +83,9 @@
 .BtnDeleteColumn {
   padding: 8px;
 }
-
+.cardWidth{
+  width: 100%;
+}
 .BtnDeleteCard {
   position: absolute;
   right: 0px;
@@ -147,5 +149,68 @@
   & > div:first-child {
     font-size: 14px;
     margin-bottom: 8px;
+  }
+}
+.BtnLogout{
+  border: none;
+  background-color: transparent;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 6px 12px;
+  transition: none;
+  border-radius: 0;
+  outline: 0;
+  background: #00000000;
+  box-shadow: none;
+  color: #b6c2cf;
+  text-align: left;
+  text-decoration: none;
+  &:hover {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    background: #a1bdd914;
+    color: #b6c2cf;
+    text-decoration: none;
+  }
+}
+
+.BtnLogin {
+  height: 40px !important;
+  line-height: 40px !important;
+  -webkit-box-align: baseline;
+  align-items: baseline;
+  border-width: 0px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: inline-flex;
+  font-size: inherit;
+  font-style: normal;
+  font-family: inherit;
+  font-weight: 500;
+  max-width: 100%;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  white-space: nowrap;
+  background: #0c66e4;
+  cursor: pointer;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  padding: 0px 10px;
+  vertical-align: middle;
+  width: 100%;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: #ffffff !important;
+  
+  & > div, span {
+    -webkit-box-pack: center;
+    justify-content: center;
+    display: flex !important;
   }
 }

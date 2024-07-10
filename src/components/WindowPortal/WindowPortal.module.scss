@@ -1,0 +1,43 @@
+.Modal {
+    /* inset: 100px; */
+    background-color: rgba(5, 0, 0, 0.3607843137);
+    display: flex;
+    position: fixed;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    align-items: flex-start;
+    /* margin: 0 auto; */
+    outline: none;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.Overlay {
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    // right: 0;
+    // bottom: 0;
+    background-color: transparent;
+}
+.wrap{
+    position: fixed;
+    // background-color: #282e33;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    // width: 768px;
+    // height: auto;
+    overflow: auto;
+    align-items: flex-start;
+    margin: 0 auto;
+    top: 50px;
+    outline: none;
+    border-radius: 8px;
+}

@@ -11,6 +11,7 @@ import Icons from "../ui/Icons/Icons";
 import TaskCard from "../TaskCard/TaskCard";
 
 import styles from './ColumnContainer.module.scss';
+import ModalWindow from "../WindowPortal/WindowPortal";
 
 
 export default function ColumnContainer(props) {
@@ -122,18 +123,19 @@ export default function ColumnContainer(props) {
             />
           )}
         </div>
-        <Button
+        {/* <Button
           // clickAction={deleteColumn}
           // actionVariable={column.id}
           // className={'BtnDeleteColumn'}
           clickAction={deleteColumn}
           actionVariable={column.id}
           className={'BtnKebabColumnn'}
-        >
+        > */}
           {/* <Icons
             name={'Trash'}
             class_name={'IconDeletColumnn'}
           /> */}
+        <ModalWindow>
           <Icons
             name={'three_dots'}
             class_name={'IconKebabColumnn'}
@@ -141,7 +143,8 @@ export default function ColumnContainer(props) {
             sizeHeight={"24px"}
             viewBox={"0 0 24 24"}
           />
-        </Button>
+        </ModalWindow>
+        {/* </Button> */}
       </div>
 
       {/* <button class="x7x105F0Ex0A7R bxgKMAm3lq5BpA iUcMblFAuq9LKn HAVwIqCeMHpVKh SEj5vUdI3VvxDc" type="button" data-testid="list-edit-menu-button" aria-haspopup="true">

@@ -16,7 +16,7 @@ export default function CardDropdownMenuIcon(props) {
     <div className={styles.CardDropdownMenuIcon}>
       
         <div className={styles.Image}>
-          <img className={styles.ImageBackground} src={`img/${card.cardImg}`} alt="" />
+          <img className={styles.ImageBackground} src={`../img/${card.cardImg}`} alt="" />
         </div>
         <div className={styles.CardText}>
           <div className={styles.CardTheme}>

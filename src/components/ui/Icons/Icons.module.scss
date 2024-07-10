@@ -24,8 +24,8 @@
 }
 
 .BtnCardDropdownStar {
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   fill: #a1bdd914;
   stroke: #9fadbc;
   stroke-width: 3;
@@ -124,6 +124,15 @@
   fill: currentColor;
   fill-rule: evenodd;
   margin-right: 2px;
+}
+
+.CardTextPencilLogo{
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  fill-rule: evenodd;
+  margin-right: 2px;
+  color: #9fadbc;
 }
 
 .HelpCreateNewDashboardIcon {

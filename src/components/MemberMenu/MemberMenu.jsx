@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './MemberMenu.module.scss';
 import request from '../../api/request';
+import Button from '../ui/Button/Button';
 
 export default function MemberMenu(props) {
 
@@ -12,6 +13,7 @@ export default function MemberMenu(props) {
     const handleLogout = () => {
 
         request({ method: 'GET', url: "logout/" });
+        localStorage.removeItem("trello_auth");
         navigate("/login");
         
     };
@@ -21,7 +23,7 @@ export default function MemberMenu(props) {
             <section className={styles.rX4pAv5sWHFNjp} data-testid="header-member-menu-popover" data-elevation="1" style={{ display: swowMenu ? "" : "none", position: "absolute", right: "3px", top: "50px", width: "304px" }} >
                 {/* position: "fixed", inset: "51px auto auto 1124px", width: "304px" */}
                 <span data-focus-scope-start="" hidden=""></span>
-                <div tabIndex="-1" className={styles.q2PzD_Dkq1FVX3} style={{ maxHeight: "684px" }}>
+                <div tabIndex="-1" className={styles.q2PzD_Dkq1FVX3} style={{ maxHeight: "90vh" }}>
                     <div className={styles.JaxGrNSZxJ4ghJ} data-testid="account-menu">
                         <div data-testid="account-menu-account-section">
                             <h2>Учетная запись</h2>
@@ -175,7 +177,16 @@ export default function MemberMenu(props) {
                                 <ul>
                                     <li className={styles.hDigGK0jR2_0pl}></li>
                                     <li>
-                                        <button
+                                        <Button
+                                             className={styles.gJDsPins_eYkBM}
+                                             data-testid="account-menu-logout"
+                                             clickAction={handleLogout}
+                                        >
+                                            <span className={styles.LCeoUSr_PkZrP2}>
+                                                <span className={styles.BmRHtH7FIX0jcL}>Выйти</span>
+                                            </span>
+                                        </Button>
+                                        {/* <button
                                             className={styles.gJDsPins_eYkBM}
                                             data-testid="account-menu-logout"
                                             onClick={handleLogout}
@@ -183,7 +194,7 @@ export default function MemberMenu(props) {
                                             <span className={styles.LCeoUSr_PkZrP2}>
                                                 <span className={styles.BmRHtH7FIX0jcL}>Выйти</span>
                                             </span>
-                                        </button>
+                                        </button> */}
                                     </li>
                                 </ul>
                             </nav>
