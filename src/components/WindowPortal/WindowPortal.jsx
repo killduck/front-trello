@@ -28,6 +28,7 @@ export default function ModalWindow(props){
         </div>
     );
 
+    
     return (
         <div>
             <button onClick={openModal}>{props.children}</button>
