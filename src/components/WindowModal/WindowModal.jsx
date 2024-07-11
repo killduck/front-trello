@@ -1,6 +1,10 @@
 
 import styles from "./WindowModal.module.scss"
 
+import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 
 export default function WindowModal(props){
     // console.log(props.data);
@@ -8,11 +12,12 @@ export default function WindowModal(props){
     let idColumn = Number(props.data.idColumn);
     let idTask = Number(props.data.idTask);
     // console.log(typeElem, idColumn, idTask);
+    const [value, setValue] = useState('');
     
   return (
     <div className={styles.wrap}>
-        {/* <h2>WindowPortal</h2>
-        <p>Текст модального окна</p> */}
+        {props.children}
+        {/* хедер */}
         <div className={styles.header}>
           header:
           <h3>
@@ -21,9 +26,11 @@ export default function WindowModal(props){
           участники в колонке/карточке "название"
 
         </div>
+        {/* главная коронка */}
         <div className={styles.mainCol}>
           mainCol:
-          Описание
+          Описание:
+          <ReactQuill theme="snow" value={value} onChange={setValue} />
           Добавить более подробное описание…
 
           Действия
@@ -31,6 +38,7 @@ export default function WindowModal(props){
           Напишите комментарий…
 
         </div>
+        {/* сайдбар */}
         <div className={styles.sidebar}>
           sidebar:
           Добавить на карточку

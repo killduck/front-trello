@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 import WindowModal from '../WindowModal/WindowModal';
 
 import styles from "./WindowPortal.module.scss";
+import Button from '../ui/Button/Button';
+import Icons from '../ui/Icons/Icons';
 
 export default function WindowPortal(props){
 
@@ -24,18 +26,31 @@ export default function WindowPortal(props){
 
     const modalContent = (
         <div className={styles.wrap}>
-            <button className={styles.btnWindowModal} onClick={closeModal}>
+            {/* <button className={styles.btnWindowModal} onClick={closeModal}> */}
                 <WindowModal 
                     closeWindowPortal={closeModal}
                     data={props}
-                />
-            </button>
+                >
+                    <Button
+                        className={styles.btnWindowModal}
+                        clickAction={closeModal}
+                    >
+                        <Icons
+                            className={styles.Icons}
+                            name={'CloseIcon'}
+                        >
+                        </Icons>
+                    </Button>
+
+                </WindowModal>
+
+            {/* </button> */}
         </div>
     );
 
 
     return (
-        <div >
+        <div>
             <button className={styles.wrapPortal} onClick={openModal}>{props.children}</button>
             <Modal 
                 isOpen={modalIsOpen} 
