@@ -1,3 +1,16 @@
+
+.wrapPortal{
+    padding: 8px 12px;
+    width: 100%;
+    &:hover {
+        border: none;
+        background-color: #a6c5e229;
+        box-shadow: none;
+        color: #b6c2cf;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+}
 .Modal {
     /* inset: 100px; */
     background-color: rgba(5, 0, 0, 0.3607843137);
@@ -28,16 +41,20 @@
 }
 .wrap{
     position: fixed;
-    // background-color: #282e33;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
-    // width: 768px;
-    // height: auto;
     overflow: auto;
     align-items: flex-start;
     margin: 0 auto;
     top: 50px;
     outline: none;
     border-radius: 8px;
+    width: 100%;
+    height: 100%;
+}
+.btnWindowModal{
+    width: 100%;
+    height: 100%;
+    display: flex;
 }

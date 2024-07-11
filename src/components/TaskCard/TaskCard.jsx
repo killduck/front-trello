@@ -6,10 +6,13 @@ import { useState } from "react";
 import styles from './TaskCard.module.scss';
 // import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
-import ModalWindow from "../WindowPortal/WindowPortal";
+import WindowPortal from "../WindowPortal/WindowPortal";
+import Button from "../ui/Button/Button";
 
 
 export default function TaskCard(props) {
+  // console.log('TaskCard ->')
+  // console.log(props)
 
   let task = props.task;
   // let deleteTask = props.deleteTask;
@@ -87,7 +90,7 @@ export default function TaskCard(props) {
 
   function onCard_label() {
     console.log('Проверка выполения функции =>', onCard_label.name);
-
+    // TODO Наверное лишнее?
     label ?
       setLabel(false)
       :
@@ -106,7 +109,7 @@ export default function TaskCard(props) {
       style={style}
       {...attributes}
       {...listeners}
-      onClick={toggleEditMode}
+      // onClick={toggleEditMode}
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -115,7 +118,12 @@ export default function TaskCard(props) {
       }}
       className={styles.TaskCard}
     >
-      {/* <ModalWindow> */}
+      <WindowPortal
+        typeElem={'card'}
+        idTask={props.task.id}
+        idColumn={props.column.id}
+        
+      >
         <div className={styles.TaskCard__Wrap}>
 
           <div className={styles.CardView}>
@@ -142,17 +150,25 @@ export default function TaskCard(props) {
             </a>
             <div className={styles.cardIcon}>
               {mouseIsOver && (
-                <Icons
-                  name={'pencil-colorless'}
-                  class_name={'CardTextPencilLogo'}
-                />   
+                <Button
+                  type={"button"}
+                  ariaLabel={"Изменить карточку"}
+                  className={"BtnCardNameEdit"}
+                  clickAction={toggleEditMode}
+
+                >
+                  <Icons
+                    name={'pencil-colorless'}
+                    class_name={'CardTextPencilLogo'}
+                  />   
+                </Button>
               )}
             </div>
             
 
           </div>
         </div>
-      {/* </ModalWindow> */}
+      </WindowPortal>
     </div>
 
   );

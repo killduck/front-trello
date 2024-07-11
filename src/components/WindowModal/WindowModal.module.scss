@@ -1,13 +1,15 @@
+
 .wrap{
 
     position: relative;
     width: 768px;
     min-height: 200px;
-    margin: 48px 0;
+    margin: 0 auto;
     background: transparent;
     // padding: 100px 480px;
     background-color: #282e33;
     border-radius: 8px;
+    overflow: hidden;
 }
 .header {
     min-height: 32px;
@@ -24,7 +26,7 @@
     position: relative;
     width: 550px;
     z-index: 1;
-    background-color: #1cb421;
+    background-color: #118015;
 }
 .sidebar {
     float: right;

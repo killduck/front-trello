@@ -95,35 +95,52 @@ export default function ColumnContainer(props) {
       className={styles.Column}
     >
       {/* Column title */}
-      <div
-        {...attributes}
-        {...listeners}
-        onClick={() => {
-          setEditMode(true);
-        }}
-        className={styles.ColumnTitleWrap}
-      >
+      <div className={styles.topWrap}>
         <div
-          className={styles.ColumnTitle}
+          {...attributes}
+          {...listeners}
+          onClick={() => {
+            setEditMode(true);
+          }}
+          className={styles.ColumnTitleWrap}
         >
-          {!editMode && column.name}
-          {editMode && (
-            <input
-              className={styles.EditeColumnTitle}
-              value={column.name}
-              onChange={(e) => updateColumn(column.id, e.target.value)}
-              autoFocus
-              onBlur={() => {
-                setEditMode(false);
-              }}
-              onKeyDown={(e) => {
-                if (e.key !== "Enter") return;
-                setEditMode(false);
-              }}
-            />
-          )}
+          <div
+            className={styles.ColumnTitle}
+          >
+            {!editMode && column.name}
+            {editMode && (
+              <input
+                className={styles.EditeColumnTitle}
+                value={column.name}
+                onChange={(e) => updateColumn(column.id, e.target.value)}
+                autoFocus
+                onBlur={() => {
+                  setEditMode(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key !== "Enter") return;
+                  setEditMode(false);
+                }}
+              />
+            )}
+          </div>
         </div>
-        {/* <Button
+          
+        <ModalWindow
+          typeElem={'column'}
+          idColumn={column.id}
+        >
+          <Icons
+            name={'three_dots'}
+            class_name={'IconKebabColumnn'}
+            sizeWidth={"24px"}
+            sizeHeight={"24px"}
+            viewBox={"0 0 24 24"}
+          />
+        </ModalWindow>
+      </div>
+
+      {/* <Button
           // clickAction={deleteColumn}
           // actionVariable={column.id}
           // className={'BtnDeleteColumn'}
@@ -135,17 +152,8 @@ export default function ColumnContainer(props) {
             name={'Trash'}
             class_name={'IconDeletColumnn'}
           /> */}
-        <ModalWindow>
-          <Icons
-            name={'three_dots'}
-            class_name={'IconKebabColumnn'}
-            sizeWidth={"24px"}
-            sizeHeight={"24px"}
-            viewBox={"0 0 24 24"}
-          />
-        </ModalWindow>
-        {/* </Button> */}
-      </div>
+      {/* </Button> */}
+      
 
       {/* <button class="x7x105F0Ex0A7R bxgKMAm3lq5BpA iUcMblFAuq9LKn HAVwIqCeMHpVKh SEj5vUdI3VvxDc" type="button" data-testid="list-edit-menu-button" aria-haspopup="true">
         <span class="nch-icon A3PtEe1rGIm_yL neoUEAwI0GETBQ fAvkXZrzkeHLoc">
@@ -166,6 +174,7 @@ export default function ColumnContainer(props) {
             <TaskCard
               key={task.id}
               task={task}
+              column={column}
               deleteTask={deleteTask}
               updateTask={updateTask}
             />

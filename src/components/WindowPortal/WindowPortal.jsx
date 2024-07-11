@@ -6,7 +6,11 @@ import WindowModal from '../WindowModal/WindowModal';
 
 import styles from "./WindowPortal.module.scss";
 
-export default function ModalWindow(props){
+export default function WindowPortal(props){
+
+    // console.log(props.children.props.children.owner);
+    // console.log(props);
+
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -20,18 +24,19 @@ export default function ModalWindow(props){
 
     const modalContent = (
         <div className={styles.wrap}>
-            <button onClick={closeModal}>
+            <button className={styles.btnWindowModal} onClick={closeModal}>
                 <WindowModal 
                     closeWindowPortal={closeModal}
+                    data={props}
                 />
             </button>
         </div>
     );
 
-    
+
     return (
-        <div>
-            <button onClick={openModal}>{props.children}</button>
+        <div >
+            <button className={styles.wrapPortal} onClick={openModal}>{props.children}</button>
             <Modal 
                 isOpen={modalIsOpen} 
                 onRequestClose={closeModal}
