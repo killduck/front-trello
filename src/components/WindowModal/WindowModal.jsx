@@ -1,18 +1,33 @@
 
 import styles from "./WindowModal.module.scss"
 
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import request from "../../api/request";
 
 export default function WindowModal(props){
-    // console.log(props.data);
-    let typeElem = props.data.typeElem;
-    let idColumn = Number(props.data.idColumn);
-    let idTask = Number(props.data.idTask);
-    // console.log(typeElem, idColumn, idTask);
-    const [value, setValue] = useState('');
+  console.log(props.data);
+  let typeElem = props.data.typeElem;
+  let idElem = Number(props.data.idElem);
+  // let idTask = Number(props.data.idTask);
+  // console.log(typeElem, idColumn, idTask);
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    request({
+      method:'POST',
+      url:`${typeElem}/`,
+      callback:(response) => { 
+        if (response.status === 200) {
+          console.log(response.data);
+        }
+      },
+      data: { 'id': idElem },
+      status:200,
+    });
+
+  },[typeElem, idElem]);
     
   return (
     <div className={styles.wrap}>
@@ -21,7 +36,7 @@ export default function WindowModal(props){
         <div className={styles.header}>
           header:
           <h3>
-            {typeElem}: { idTask ? <span>{idTask}</span> : <span>{idColumn}</span> }
+            {typeElem}: { idElem ? <span>{idElem}</span> : <span>{idElem}</span> }
           </h3>
           участники в колонке/карточке "название"
 

@@ -70,7 +70,6 @@ export default function Login(props) {
             localStorage.setItem("trello_auth", response.data['token']);
             navigate("/");
         }
-
     }
 
     function writeEmail(evt) {
@@ -80,6 +79,32 @@ export default function Login(props) {
     function writePassword(evt) {
         setFieldPasswordData((fieldPasswordData) => (fieldPasswordData = evt));
     }
+
+    let showPassword = (
+        
+        <span className={styles._1spmf3f} >    
+            <span aria-hidden="true" className={styles._snhnyn} >
+                <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
+                    {(hidePass) ?
+                        (
+                        <g fill="currentColor" fillRule="evenodd">
+                            <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path>
+                            <path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4"></path>
+                        </g>
+                        )
+                        :
+                        (
+                        <g fill="currentColor" fillRule="evenodd">
+                            <path d="M11.983 15.984a4.005 4.005 0 01-4.002-4c0-2.206 1.795-4 4.002-4a4.005 4.005 0 014.002 4c0 2.206-1.795 4-4.002 4M12 4C6.48 4 2 8.84 2 12c0 3.086 4.577 8 10 8s10-4.914 10-8c0-3.16-4.481-8-10-8"></path>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </g>
+                        )
+                    }
+                </svg>
+            </span>
+            <span className={styles._b5o75w} >Show password</span>
+        </span>
+    );
 
     return (
         
@@ -176,9 +201,10 @@ export default function Login(props) {
                                                             type="button" className={styles._o6ruxu}
                                                             onClick={() => { (hidePass) ? setHidePass(false) : setHidePass(true) }}
                                                         >
-                                                            <span className={styles._1spmf3f} >
+                                                            {showPassword}
+                                                            {/* <span className={styles._1spmf3f} > */}
                                                                 
-                                                                <span aria-hidden="true" className={styles._snhnyn} >
+                                                                {/* <span aria-hidden="true" className={styles._snhnyn} >
                                                                     <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
                                                                         <g fill="currentColor" fillRule="evenodd">
                                                                             <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path>
@@ -186,7 +212,7 @@ export default function Login(props) {
                                                                         </g>
                                                                     </svg>
                                                                 </span>
-                                                                <span className={styles._b5o75w} >Show password</span>
+                                                                <span className={styles._b5o75w} >Show password</span> */}
                                                                 {/* TODO сделать смену иконок */}
                                                                 {/* <span aria-hidden="true" className={styles._snhnyn} >
                                                                     <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
@@ -198,7 +224,7 @@ export default function Login(props) {
                                                                 </span>
                                                                 <span class="css-b5o75w">Hide password</span> */}
 
-                                                            </span>
+                                                            {/* </span> */}
                                                         </button>
                                                     </div>
                                                 </div>

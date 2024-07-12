@@ -20,7 +20,7 @@ export default function ColumnContainer(props) {
   let newTextTask = props.newTextTask;
   let setNewTextTask = props.setNewTextTask;
   let requestSuccessCreateTask = props.requestSuccessCreateTask;
-  let deleteColumn = props.deleteColumn;
+  // let deleteColumn = props.deleteColumn;
   let updateColumn = props.updateColumn;
   let tasks = props.tasks;
   let deleteTask = props.deleteTask;
@@ -128,7 +128,7 @@ export default function ColumnContainer(props) {
           
         <ModalWindow
           typeElem={'column'}
-          idColumn={column.id}
+          idElem={column.id}
         >
           <Icons
             name={'three_dots'}

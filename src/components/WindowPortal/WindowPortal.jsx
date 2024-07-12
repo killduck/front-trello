@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from 'react-modal';
 import WindowModal from '../WindowModal/WindowModal';
 
@@ -17,16 +17,15 @@ export default function WindowPortal(props){
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
-    setModalIsOpen(true);
+        setModalIsOpen(true);
     };
 
     const closeModal = () => {
-    setModalIsOpen(false);
+        setModalIsOpen(false);
     };
 
     const modalContent = (
         <div className={styles.wrap}>
-            {/* <button className={styles.btnWindowModal} onClick={closeModal}> */}
                 <WindowModal 
                     closeWindowPortal={closeModal}
                     data={props}
@@ -44,18 +43,18 @@ export default function WindowPortal(props){
 
                 </WindowModal>
 
-            {/* </button> */}
         </div>
     );
 
 
     return (
         <div>
-            <button className={styles.wrapPortal} onClick={openModal}>{props.children}</button>
+            <div className={styles.wrapPortal} onClick={openModal}>{props.children}</div>
             <Modal 
                 isOpen={modalIsOpen} 
                 onRequestClose={closeModal}
                 parentSelector={() => document.querySelector('#root')}
+                ariaHideApp={false}
                 className={styles.Modal}
                 overlayClassName={styles.Overlay}
             >

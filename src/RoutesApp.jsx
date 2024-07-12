@@ -19,7 +19,7 @@ export default function RoutesApp(props) {
         if (!localStorage.getItem('trello_auth')) {
             navigate("/login");
         }
-    });
+    },[navigate]);
 
     return (
         <div>

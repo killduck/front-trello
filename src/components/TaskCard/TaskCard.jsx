@@ -15,6 +15,8 @@ export default function TaskCard(props) {
   // console.log(props)
 
   let task = props.task;
+  // let column = props.column;
+
   // let deleteTask = props.deleteTask;
   let updateTask = props.updateTask;
 
@@ -120,9 +122,7 @@ export default function TaskCard(props) {
     >
       <WindowPortal
         typeElem={'card'}
-        idTask={props.task.id}
-        idColumn={props.column.id}
-        
+        idElem={task.id}
       >
         <div className={styles.TaskCard__Wrap}>
 
