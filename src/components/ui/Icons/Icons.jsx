@@ -11,6 +11,7 @@ export default function Icons({
   className // нужно разобраться зачем тут className ???
 }) {
   return (
+    // ${styles.Icons}
     <svg className={`${styles.Icons} ${className} ${styles[class_name]} ${styles[active_icon]}`} fill={color} stroke={color} strokeWidth={sizeLine} width={sizeWidth} height={sizeHeight}>
       <use xlinkHref={`${IconsSVG}#${name}`} />
     </svg>

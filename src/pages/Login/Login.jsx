@@ -6,13 +6,11 @@ import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../Auth";
+import Button from "../../components/ui/Button/Button";
 
 export default function Login(props) {
 
     const navigate = useNavigate();
-    const { _login } = useAuth();
-    const { state } = useLocation();
 
     let [formAuth, setFormAuth] = useState({ username: null, password: null });
     let [fieldEmailData, setFieldEmailData] = useState("");
@@ -25,7 +23,7 @@ export default function Login(props) {
             setFormAuth(formAuth = { username: fieldEmailData, password: null });
         }
         else {
-            console.log('ne username');
+            // console.log('ne username');
             setFieldEmailData("");
         }
     }
@@ -34,7 +32,7 @@ export default function Login(props) {
             setFormAuth(formAuth = { username: fieldEmailData, password: fieldPasswordData });
         }
         else {
-            console.log('ne pass');
+            // console.log('ne pass');
             setFieldPasswordData("");
         }
     }
@@ -58,9 +56,7 @@ export default function Login(props) {
                 callback: (response) => { responseLogin(response) },
                 data: { username: formAuth.username, password: formAuth.password },
                 status: 200
-            },
-                true
-            );
+            });
             // console.log('есть запрос', formAuth);
         }
         else {
@@ -71,14 +67,9 @@ export default function Login(props) {
 
     function responseLogin(response) {
         if (response.status === 200 && response.data['token']) {
-
             localStorage.setItem("trello_auth", response.data['token']);
-
             navigate("/");
-
-
         }
-
     }
 
     function writeEmail(evt) {
@@ -89,10 +80,38 @@ export default function Login(props) {
         setFieldPasswordData((fieldPasswordData) => (fieldPasswordData = evt));
     }
 
-    return (
+    let showPassword = (
+        
+        <span className={styles._1spmf3f} >    
+            <span aria-hidden="true" className={styles._snhnyn} >
+                <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
+                    {(hidePass) ?
+                        (
+                        <g fill="currentColor" fillRule="evenodd">
+                            <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path>
+                            <path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4"></path>
+                        </g>
+                        )
+                        :
+                        (
+                        <g fill="currentColor" fillRule="evenodd">
+                            <path d="M11.983 15.984a4.005 4.005 0 01-4.002-4c0-2.206 1.795-4 4.002-4a4.005 4.005 0 014.002 4c0 2.206-1.795 4-4.002 4M12 4C6.48 4 2 8.84 2 12c0 3.086 4.577 8 10 8s10-4.914 10-8c0-3.16-4.481-8-10-8"></path>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </g>
+                        )
+                    }
+                </svg>
+            </span>
+            <span className={styles._b5o75w} >Show password</span>
+        </span>
+    );
 
+    return (
+        
         <LoginLayout>
             <section role="main" className={styles._qj62pw} >
+                admin@mail.ru
+                admin
                 <div data-testid="header" id="ProductHeading" className={styles._146wmq} >
                     <span aria-label="Trello" role="img" className={styles._a3l9jr} >
                         <svg viewBox="0 0 94 32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -182,8 +201,10 @@ export default function Login(props) {
                                                             type="button" className={styles._o6ruxu}
                                                             onClick={() => { (hidePass) ? setHidePass(false) : setHidePass(true) }}
                                                         >
-                                                            <span className={styles._1spmf3f} >
-                                                                <span aria-hidden="true" className={styles._snhnyn} >
+                                                            {showPassword}
+                                                            {/* <span className={styles._1spmf3f} > */}
+                                                                
+                                                                {/* <span aria-hidden="true" className={styles._snhnyn} >
                                                                     <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
                                                                         <g fill="currentColor" fillRule="evenodd">
                                                                             <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path>
@@ -191,8 +212,19 @@ export default function Login(props) {
                                                                         </g>
                                                                     </svg>
                                                                 </span>
-                                                                <span className={styles._b5o75w} >Show password</span>
-                                                            </span>
+                                                                <span className={styles._b5o75w} >Show password</span> */}
+                                                                {/* TODO сделать смену иконок */}
+                                                                {/* <span aria-hidden="true" className={styles._snhnyn} >
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
+                                                                        <g fill="currentColor" fill-rule="evenodd">
+                                                                            <path d="M11.983 15.984a4.005 4.005 0 01-4.002-4c0-2.206 1.795-4 4.002-4a4.005 4.005 0 014.002 4c0 2.206-1.795 4-4.002 4M12 4C6.48 4 2 8.84 2 12c0 3.086 4.577 8 10 8s10-4.914 10-8c0-3.16-4.481-8-10-8"></path>
+                                                                            <circle cx="12" cy="12" r="2"></circle>
+                                                                        </g>
+                                                                    </svg>
+                                                                </span>
+                                                                <span class="css-b5o75w">Hide password</span> */}
+
+                                                            {/* </span> */}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -202,11 +234,14 @@ export default function Login(props) {
                                 </div>
                             ) : ""}
                         </div>
-
-                        <button id="login-submit" className={`${styles._1w9zxjf} ${styles._1edgkow}`} tabIndex="0" type="button" onClick={login}>
+                        <Button
+                            id="login-submit"
+                            type="button"
+                            className={'BtnLogin'}
+                            clickAction={login}
+                        >
                             <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
-                        </button>
-
+                        </Button>
                         <div className={`${styles._hidden} ${styles._cnfgt3}`} >
                             <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >

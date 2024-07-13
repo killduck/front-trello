@@ -1,5 +1,7 @@
 $background_1: #cc4223;
 $background_2: #fea362;
+$--ds-text-subtle: #9FADBC;
+$--ds-text: #B6C2CF;
 
 .Workspace {
   .WorkspaceWrap {
@@ -123,6 +125,46 @@ $background_2: #fea362;
           }
         }
         .Search {
+          
+          label {
+            color: $--ds-text-subtle;
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 16px;
+            margin-bottom: 4px;
+            margin-top: 12px;
+          }
+          input {
+            width: 250px;
+            height: 36px;
+            padding-left: 32px;
+            border-radius: 3px;
+            color: $--ds-text;
+          }
+          .blockSearch {
+            position: relative;
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+          }
+          
+          .Loupe { // стили для Loupe
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: unset;;
+            left: 8px;
+            color: #8c9bab;
+            // line-height: 0;
+            display: inline-block;
+            flex-shrink: 0;
+          }
+          .Loupe:focus {
+            box-shadow: 0 0 0 2px #85b8ff;
+            border-radius: 100%;
+            outline: none;
+          } // стили для Loupe
         }
       }
 

@@ -1,5 +1,12 @@
 
 
+.position{
+    display: none;
+    position: absolute;
+    right: 3px;
+    top: 50px;
+    width: 304px;
+}
 .rX4pAv5sWHFNjp {
     color: #B6C2CF;
      /* var(--ds-text, #172b4d); */
@@ -22,6 +29,8 @@
     padding: 12px;
     overflow-x: hidden;
     overflow-y: auto;
+    scrollbar-color: #ffffff4d #00000026;
+    scrollbar-width: auto;
 }
 .JaxGrNSZxJ4ghJ h2 {
     margin: 16px 0 8px;

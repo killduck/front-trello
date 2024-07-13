@@ -65,22 +65,22 @@
 .Column {
   background: #101204;
   width: 272px;
-  height: 430px; // 500px
+  height: 430px; //TODO 500px в идеале height: 100%;
   min-height: 100px;
   max-height: 500px; // 500px
   border-radius: 12px;
   display: flex;
   flex-direction: column;
 }
-
-.ColumnTitleWrap {
+.topWrap{
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 8px 8px 0;
-
-  cursor: grab;
+}
+.ColumnTitleWrap {
+  cursor: pointer;
+  width: 80%;
 
   .ColumnTitle {
     padding: 6px 8px 6px 12px;

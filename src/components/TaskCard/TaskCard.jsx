@@ -4,19 +4,26 @@ import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 
 import styles from './TaskCard.module.scss';
-import Button from "../ui/Button/Button";
+// import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
+import WindowPortal from "../WindowPortal/WindowPortal";
+import Button from "../ui/Button/Button";
 
 
 export default function TaskCard(props) {
+  // console.log('TaskCard ->')
+  // console.log(props)
 
   let task = props.task;
-  let deleteTask = props.deleteTask;
+  // let column = props.column;
+
+  // let deleteTask = props.deleteTask;
   let updateTask = props.updateTask;
 
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  // const [cardFunc, setCardFunc] = useState(false);
 
   let [label, setLabel] = useState(false);
 
@@ -85,7 +92,7 @@ export default function TaskCard(props) {
 
   function onCard_label() {
     console.log('Проверка выполения функции =>', onCard_label.name);
-
+    // TODO Наверное лишнее?
     label ?
       setLabel(false)
       :
@@ -93,13 +100,18 @@ export default function TaskCard(props) {
 
   }
 
+  // function cardFunctions(){
+
+  // }
+
   return (
+
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      onClick={toggleEditMode}
+      // onClick={toggleEditMode}
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -108,53 +120,56 @@ export default function TaskCard(props) {
       }}
       className={styles.TaskCard}
     >
-      <div className={styles.TaskCard__Wrap}>
+      <WindowPortal
+        typeElem={'card'}
+        idElem={task.id}
+      >
+        <div className={styles.TaskCard__Wrap}>
 
-        <div className={styles.CardView}>
+          <div className={styles.CardView}>
 
-          <div className={styles.ColorLabel}>
-            <div
-              className={styles.ColorLabel_Wrap}
-              onClick={() => { onCard_label() }}
-            >
-              <span
-                className={
-                  label ?
-                    styles.LabelActive
-                    :
-                    styles.Label
-                } >
-                Важно
-              </span>
+            <div className={styles.ColorLabel}>
+              <div
+                className={styles.ColorLabel_Wrap}
+                onClick={() => { onCard_label() }}
+              >
+                <span
+                  className={
+                    label ?
+                      styles.LabelActive
+                      :
+                      styles.Label
+                  } >
+                  Важно
+                </span>
+              </div>
             </div>
+
+            <a className={styles.CardText} href="#">
+              {task.name}
+            </a>
+            <div className={styles.cardIcon}>
+              {mouseIsOver && (
+                <Button
+                  type={"button"}
+                  ariaLabel={"Изменить карточку"}
+                  className={"BtnCardNameEdit"}
+                  clickAction={toggleEditMode}
+
+                >
+                  <Icons
+                    name={'pencil-colorless'}
+                    class_name={'CardTextPencilLogo'}
+                  />   
+                </Button>
+              )}
+            </div>
+            
+
           </div>
-
-          <a className={styles.CardText} href="#">
-            {task.name}
-          </a>
-
-          {mouseIsOver && (
-            <Button
-              clickAction={deleteTask}
-              actionVariable={task.id}
-              className={'BtnDeleteCard'}
-            // className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
-            >
-              <Icons
-                name={'Trash'}
-                class_name={'IconDeletColumnn'}
-              />
-            </Button>
-          )}
-
         </div>
-
-        <div className={styles.CardEdit}>
-          <form>
-          </form>
-        </div>
-
-      </div>
+      </WindowPortal>
     </div>
+
   );
 }

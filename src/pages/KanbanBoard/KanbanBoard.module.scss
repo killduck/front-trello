@@ -1,17 +1,25 @@
 .KanbanBoard {
   margin-top: 15px;
-  margin-top: 65px; // временный стиль
+  margin-top: 65px; // TODO временный стиль
   margin-left: 20px; // временный стиль
+  margin-right: 20px; // временный стиль
   color: #9fadbc;
+  height: 100%;
 
   .Wrap {
     display: flex;
     padding: 2px 6px 8px 6px;
+    height: 100%;
+    scrollbar-color: #ffffff4d #00000026;
+    scrollbar-width: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     .Container {
       display: flex;
       // align-items: flex-start; // TODO при перестроении колонки расстягиваются
       gap: 1rem;
+      height: 100%;
     }
 
     .BtnCreateNewColumn__Wrap {

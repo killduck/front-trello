@@ -44,8 +44,9 @@ export default function KanbanBoard() {
 
   const [newTextTask, setNewTextTask] = useState('Новая задача');
 
-  let { dashboardId } = useParams();
+  let [backGroundImage, setBackGroundImage] = useState('');
 
+  let { dashboardId } = useParams();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -58,32 +59,36 @@ export default function KanbanBoard() {
 
   useEffect(() => {
     request({
-      method: "POST",
-      url: 'columns/',
-      callback: (response) => {
+      method:'POST',
+      url:'dashboards/',
+      callback:(response) => { 
         if (response.status === 200) {
+          let dashboard = response.data[0]; //нужный дашборд
 
-          setColumns(response);
-          setcolumnBug(response[0].id); // ищем 1ую колонку
+          setBackGroundImage( dashboard.img );
+          setColumns( dashboard.column );
+          setcolumnBug( dashboard.column[0].id ); // ищем 1ую колонку
 
           let data_card = [];
-          response.map((column) => (
+          dashboard.column.map((column) => (
             data_card = [...data_card, ...column.cards]
           ))
 
-          data_card.map(card =>
+          data_card.map((card) =>
             card.id = card.id.toString()
           );
 
           setTasks(data_card);
+
         }
         else {
           console.log("редирект");
         }
       },
       data: { 'dashboardId': dashboardId },
-      status: 200,
-    })
+      status:200,
+    });
+
   }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
 
 
@@ -157,9 +162,9 @@ export default function KanbanBoard() {
 
     let copy = arrayMove(columns, activeColumnIndex, overColumnIndex);
 
-    copy.map((column, index) => {
-      column.order = index;
-    })
+    copy.map(
+      (column, index) => (column.order = index)
+    );
 
     setColumns(copy);
 
@@ -268,7 +273,7 @@ export default function KanbanBoard() {
   function requestSuccessCreateColumn(response) {
 
     if (response) {
-      const columnToAdd = response;
+      const columnToAdd = response.data;
 
       setColumns([...columns, columnToAdd]);
       setShowForm(true);
@@ -296,9 +301,9 @@ export default function KanbanBoard() {
 
 
   function requestSuccessCreateTask(response) {
-
+    console.log(response);
     if (response) {
-      const cardToAdd = response;
+      const cardToAdd = response.data;
 
       setTasks([...tasks, cardToAdd]);
 
@@ -329,7 +334,7 @@ export default function KanbanBoard() {
 
   function requestSuccessDeletColumn(response, id) {
 
-    if (response) {
+    if (response.data) {
       const filteredColumns = columns.filter((column) => column.id !== id);
       setColumns(filteredColumns);
 
@@ -359,8 +364,10 @@ export default function KanbanBoard() {
 
 
   return (
-    <>
-      <Default>
+ 
+      <Default
+        backGroundImage={{ backgroundImage: `url(/img/${ backGroundImage })` }}
+      >
         {/* <WorkspaceMenu /> */}
         <div className={styles.KanbanBoard}>
           <DndContext
@@ -462,7 +469,7 @@ export default function KanbanBoard() {
           </DndContext>
         </div >
       </Default >
-    </>
+    
   );
 
 }

@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 import styles from "./Workspace.module.scss";
 import Button from "../../components/ui/Button/Button";
 import Icons from "../../components/ui/Icons/Icons";
+import Input from "../../components/ui/Input/Input";
 
+// import bgc_disert from '../../../public/img/background_desert.webp';
 
 
 export default function Workspace(props) {
@@ -21,14 +23,18 @@ export default function Workspace(props) {
     request({
       method:'GET',
       url:'dashboards/',
-      callback:(response) => { requestDashboards(response) },
+      callback:(response) => { 
+        if (response.status === 200) { 
+          requestDashboards(response) 
+        } 
+      },
       data: null,
       status:200,
     });
   }, []);
 
   function requestDashboards(response) {
-    setDashboards(response);
+    setDashboards(response.data);
   }
 
   function onInvite_users_workspace() {
@@ -129,7 +135,7 @@ export default function Workspace(props) {
 
             <div className={styles.WorkspaceContent}>
               <div className={styles.WorkspaceContentTitle}>
-                Доски
+                <h2>Доски</h2>
               </div>
 
               <div className={styles.WorkspaceContentSortFilterSearch}>
@@ -137,7 +143,15 @@ export default function Workspace(props) {
                   <div>Сортировать по</div>
                   <div>Фильтр:</div>
                 </div>
-                <div className={styles.Search}>Поиск</div>
+
+                <div className={styles.Search}>
+                  <label>Поиск</label>
+                  <div className={styles.blockSearch}>
+                    <Icons className={styles.Loupe} name={'Loupe'} />
+                    <Input type="text" placeholder="Поиск досок" maxLength="500" />
+                  </div>
+
+                </div>
               </div>
 
               <div className={styles.WorkspaceContentDashboards}>
@@ -171,6 +185,11 @@ export default function Workspace(props) {
                         <Link
                           to={"dashboard/" + dashboard.id}
                           className={styles.DashboardWrap}
+                          style={{
+                            backgroundImage: `url(/img/${dashboard.img})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                          }}
                         >
                           <div className={styles.DashboardCardTitle}>{dashboard.name}</div>
                         </Link>
