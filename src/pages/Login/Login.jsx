@@ -106,6 +106,13 @@ export default function Login(props) {
         </span>
     );
 
+    const handleKeyPress = (evt) => {
+        if(evt.key === 'Enter'){
+            console.log('Нажата клавиша Enter, ура!');
+            login();
+        }
+    };
+
     return (
         
         <LoginLayout>
@@ -152,20 +159,20 @@ export default function Login(props) {
                                                 readOnly=""
                                                 wfd-id="id0"
                                                 value={(fieldEmailData) ? fieldEmailData : ""}
+                                                onKeyDown={handleKeyPress}
                                                 onChange={(evt) => writeEmail(evt.target.value)}
                                             />
                                         </div>
                                     </div>)
                                     :
                                     (<div
-                                        tabIndex="0" className={styles._1743vyl}
+                                        tabIndex="0" 
+                                        className={styles._1743vyl}
                                         onClick={() => { setFormAuth({ username: null }) }}
                                     >
                                         <span className={styles._eznkzx} >{fieldEmailData}</span>
                                         <span className={styles._1tdtezu} >
-                                            {/* <span aria-hidden="true" className={styles._snhnyn} style={{color: "#44546f"}}> */}
                                             <Icons name={'pencil-logo'} class_name={'pencil_logo'} sizeWidth={"24px"} sizeHeight={"24px"} fill={"currentColor"} fillRule={"evenodd"} />
-                                            {/* </span> */}
                                         </span>
                                     </div>
                                     )}
@@ -191,8 +198,8 @@ export default function Login(props) {
                                                         className={styles._1cab8vv}
                                                         readOnly=""
                                                         wfd-id="id1"
-                                                        // ref={passwordField} 
                                                         value={(fieldPasswordData) ? fieldPasswordData : ""}
+                                                        onKeyDown={handleKeyPress}
                                                         onChange={(evt) => writePassword(evt.target.value)}
                                                     />
 
@@ -202,29 +209,6 @@ export default function Login(props) {
                                                             onClick={() => { (hidePass) ? setHidePass(false) : setHidePass(true) }}
                                                         >
                                                             {showPassword}
-                                                            {/* <span className={styles._1spmf3f} > */}
-                                                                
-                                                                {/* <span aria-hidden="true" className={styles._snhnyn} >
-                                                                    <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
-                                                                        <g fill="currentColor" fillRule="evenodd">
-                                                                            <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path>
-                                                                            <path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4"></path>
-                                                                        </g>
-                                                                    </svg>
-                                                                </span>
-                                                                <span className={styles._b5o75w} >Show password</span> */}
-                                                                {/* TODO сделать смену иконок */}
-                                                                {/* <span aria-hidden="true" className={styles._snhnyn} >
-                                                                    <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
-                                                                        <g fill="currentColor" fill-rule="evenodd">
-                                                                            <path d="M11.983 15.984a4.005 4.005 0 01-4.002-4c0-2.206 1.795-4 4.002-4a4.005 4.005 0 014.002 4c0 2.206-1.795 4-4.002 4M12 4C6.48 4 2 8.84 2 12c0 3.086 4.577 8 10 8s10-4.914 10-8c0-3.16-4.481-8-10-8"></path>
-                                                                            <circle cx="12" cy="12" r="2"></circle>
-                                                                        </g>
-                                                                    </svg>
-                                                                </span>
-                                                                <span class="css-b5o75w">Hide password</span> */}
-
-                                                            {/* </span> */}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -242,7 +226,7 @@ export default function Login(props) {
                         >
                             <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
                         </Button>
-                        <div className={`${styles._hidden} ${styles._cnfgt3}`} >
+                        {/* <div className={`${styles._hidden} ${styles._cnfgt3}`} >
                             <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >
                                     <span role="img" aria-label="email" className={styles._snhnyn} >
@@ -259,7 +243,7 @@ export default function Login(props) {
                                     <span style={{ width: "24px" }}></span>
                                 </span>
                             </button>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
                 <div data-i18n-or="или" data-i18n-continue="Или продолжить с помощью:" className={styles._1n7nx3r} data-testid="social-login-wrapper">

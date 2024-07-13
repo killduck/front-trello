@@ -11,7 +11,7 @@ import Icons from '../ui/Icons/Icons';
 export default function WindowPortal(props){
 
     // console.log(props.children.props.children.owner);
-    // console.log(props);
+    console.log(props);
 
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
