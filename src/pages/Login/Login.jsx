@@ -174,6 +174,7 @@ export default function Login(props) {
                                         <span className={styles._1tdtezu} >
                                             <Icons name={'pencil-logo'} class_name={'pencil_logo'} sizeWidth={"24px"} sizeHeight={"24px"} fill={"currentColor"} fillRule={"evenodd"} />
                                         </span>
+                                        <input hidden type="text" name="username" autoComplete="username" />
                                     </div>
                                     )}
                             </div>

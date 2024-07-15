@@ -11,7 +11,11 @@ import Icons from '../ui/Icons/Icons';
 export default function WindowPortal(props){
 
     // console.log(props.children.props.children.owner);
-    console.log(props);
+    // console.log(props);
+
+    let idElem = props.idElem;
+    let typeElem = props.typeElem;
+    let updateFunc = props.updateFunc;
 
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -24,11 +28,23 @@ export default function WindowPortal(props){
         setModalIsOpen(false);
     };
 
+    const closeModalHandle = (evt) => {
+        console.log(evt);
+        if(evt.target.className === "WindowPortal_wrap__DtBsC"){
+          console.log('"windowNameHandleKeyPress", ура!');
+          closeModal();
+        }
+    }
+
     const modalContent = (
-        <div className={styles.wrap}>
+        <div className={styles.wrap} onClick={closeModalHandle}>
                 <WindowModal 
-                    closeWindowPortal={closeModal}
-                    data={props}
+                    // closeWindowPortal={closeModal}
+                    // data={props}
+                    // onBlur={closeModal}
+                    idElem = {idElem}
+                    typeElem = {typeElem}
+                    updateFunc = {updateFunc}
                 >
                     <Button
                         className={styles.btnWindowModal}

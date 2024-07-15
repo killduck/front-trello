@@ -315,7 +315,27 @@ export default function KanbanBoard() {
 
   function updateColumn(id, name) {
     const newColumns = columns.map((col) => {
-      if (col.id !== id) return col;
+      
+      if (col.id !== id){
+        return col;
+      }
+
+      request({
+        method: "POST",
+        url: `new-data-column/`,
+        callback: (response) => { 
+          if (response.status === 200) {
+            name = response.data[0]['name'];
+            console.log(name);
+            console.log('wa');
+          }
+        },
+        data: {id: id, name: name},
+        status: 200,
+      });
+  
+      console.log('wa wa');
+      console.log(name);
       return { ...col, name };
     });
 
@@ -323,14 +343,34 @@ export default function KanbanBoard() {
   }
 
   function updateTask(id, name) {
+    console.log(name);
     const newTasks = tasks.map((task) => {
-      if (task.id !== id) return task;
+      console.log(String(id) , name ,task.id);
+      if (task.id !== String(id)){ 
+        return task;
+      }
+
+      request({
+        method: "POST",
+        url: `new-data-card/`,
+        callback: (response) => { 
+          if (response.status === 200) {
+            name = response.data[0]['name'];
+            console.log(name);
+            console.log('da');
+          }
+        },
+        data: {id: id, name: name},
+        status: 200,
+      });
+
+      console.log('da da');
+      console.log(name);
       return { ...task, name };
     });
-
+    // TODO тут нужен промис
     setTasks(newTasks);
   }
-
 
   function requestSuccessDeletColumn(response, id) {
 

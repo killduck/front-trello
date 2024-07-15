@@ -23,7 +23,7 @@ export default function TaskCard(props) {
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  // const [cardFunc, setCardFunc] = useState(false);
+  const [newTaskName, setNewTaskName] = useState('');
 
   let [label, setLabel] = useState(false);
 
@@ -48,10 +48,21 @@ export default function TaskCard(props) {
     transform: CSS.Transform.toString(transform),
   };
 
-  const toggleEditMode = () => {
+  const toggleEditMode = (evt) => {
     setEditMode((prev) => !prev);
     setMouseIsOver(false);
   };
+
+  function writeNewText(evt) {
+    setNewTaskName((newTaskName) => (newTaskName = evt));
+  }
+
+  const closeUpdate =  (evt) => {
+    if (evt.key === "Enter" && evt.shiftKey || evt.type === "blur") {
+      updateTask(task.id, newTaskName);
+      toggleEditMode();
+    }
+  }
 
   if (isDragging) {
     return (
@@ -75,16 +86,13 @@ export default function TaskCard(props) {
       >
         <textarea
           className={styles.EditFocus}
-          value={task.name}
+          value={ newTaskName === '' ? task.name : newTaskName }
           autoFocus
+          onFocus={(evt) => evt.currentTarget.select(evt)}
           placeholder="Task content here"
-          onBlur={toggleEditMode}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && e.shiftKey) {
-              toggleEditMode();
-            }
-          }}
-          onChange={(e) => updateTask(task.id, e.target.value)}
+          onBlur={closeUpdate}
+          onKeyDown={closeUpdate}
+          onChange={(evt) => writeNewText(evt.target.value)}
         />
       </div>
     );
@@ -123,6 +131,7 @@ export default function TaskCard(props) {
       <WindowPortal
         typeElem={'card'}
         idElem={task.id}
+        updateFunc={updateTask}
       >
         <div className={styles.TaskCard__Wrap}>
 
@@ -149,7 +158,7 @@ export default function TaskCard(props) {
               {task.name}
             </a>
             <div className={styles.cardIcon}>
-              {mouseIsOver && (
+              {/* {mouseIsOver && ( */}
                 <Button
                   type={"button"}
                   ariaLabel={"Изменить карточку"}
@@ -162,7 +171,7 @@ export default function TaskCard(props) {
                     class_name={'CardTextPencilLogo'}
                   />   
                 </Button>
-              )}
+              {/* )} */}
             </div>
             
 

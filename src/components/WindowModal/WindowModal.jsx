@@ -7,14 +7,16 @@ import 'react-quill/dist/quill.snow.css';
 import request from "../../api/request";
 
 export default function WindowModal(props){
-  console.log(props.data);
-  let typeElem = props.data.typeElem;
-  let idElem = Number(props.data.idElem);
-  // let idTask = Number(props.data.idTask);
-  // console.log(typeElem, idColumn, idTask);
+  // console.log(props);
+  let typeElem = props.typeElem;
+  let idElem = Number(props.idElem);
+  let updateFunc = props.updateFunc;
+
+  // const [mainState, setMainState] = useState(false);
+
   const [value, setValue] = useState('');
   let [windowData, setWindowData] = useState({});
-  let [windowName, setWindowname] = useState('');
+  let [windowName, setWindowName] = useState('');
 
   let [newName, setNewNameField] = useState(false);
   let [newText, setNewTextData] = useState('');
@@ -27,8 +29,8 @@ export default function WindowModal(props){
         if (response.status === 200) {
           console.log(response.data);
           if(response.data){
-            setWindowData(windowData = response.data[0]);
-            setWindowname(windowName = response.data[0]['name'])
+            setWindowData(response.data[0]);
+            setWindowName(response.data[0]['name']);
           }
         }
       },
@@ -48,10 +50,38 @@ export default function WindowModal(props){
   }
 
   function writeNewText(evt) {
-    console.log(evt);
-    setWindowname((newText) => (newText = evt));
+    // console.log(evt);
+    setWindowName((newText) => (newText = evt));
   }
 
+  const windowNameHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+      // console.log('"windowNameHandleKeyPress", ура!');
+      showTextarea();
+      // updateTask(windowData.id, windowName);
+      console.log('мы тут');
+      updateFunc(windowData.id, windowName);
+      // request({
+      //   method: "POST",
+      //   url: `new-data-${typeElem}/`,
+      //   callback: (request) => { responseNewName(request) },
+      //   data: {id: windowData.id, name: windowName},
+      //   status: 200,
+      // });
+    }
+    // console.log(typeof(windowName));
+  }
+
+  function responseNewName(response) {
+    // console.log(response);
+    if (response) {
+      let newName = response.data[0]['name'];
+
+      setWindowName(windowData = newName);
+
+      // setNewTextTask('Новая задача');
+    }
+  }
   // console.log(windowData);
     
   return (
@@ -73,10 +103,14 @@ export default function WindowModal(props){
             :
             (
             <textarea 
+              autoFocus
+              onFocus={(evt) => evt.currentTarget.select(evt)}
               onChange={(evt) => writeNewText(evt.target.value)}
-              // onKeyDown={handleKeyPress}
+              onKeyDown={windowNameHandleKeyPress}
+              onBlur={windowNameHandleKeyPress}
 
-              className={''} dir="auto" 
+              className={''} 
+              dir="auto" 
               data-testid="card-back-title-input" 
               data-autosize="true"
               value={ windowName }
