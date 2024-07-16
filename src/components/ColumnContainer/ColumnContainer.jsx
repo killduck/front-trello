@@ -73,7 +73,7 @@ export default function ColumnContainer(props) {
     
     let newTask = {
       name: newTextTask,
-      author: 4,
+      // author: 4,
       column: columnId,
     };
 

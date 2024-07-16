@@ -88,6 +88,10 @@
             }
         }
     }
+    .columnTitle{
+        display: flex;
+        align-items: center;
+    }
 }
 .mainCol {
     float: left;

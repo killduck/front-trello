@@ -15,6 +15,8 @@ export default function WindowPortal(props){
 
     let idElem = props.idElem;
     let typeElem = props.typeElem;
+    let task = props.task;
+    let column = props.column;
     let updateFunc = props.updateFunc;
 
     
@@ -44,6 +46,8 @@ export default function WindowPortal(props){
                     // onBlur={closeModal}
                     idElem = {idElem}
                     typeElem = {typeElem}
+                    task = {task}
+                    column = {column}
                     updateFunc = {updateFunc}
                 >
                     <Button

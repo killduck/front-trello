@@ -312,64 +312,61 @@ export default function KanbanBoard() {
 
   }
 
-
-  function updateColumn(id, name) {
+  function updateSetColumns(id, name) {
     const newColumns = columns.map((col) => {
-      
+      // console.log(id, name ,col.id);
       if (col.id !== id){
         return col;
       }
-
-      request({
-        method: "POST",
-        url: `new-data-column/`,
-        callback: (response) => { 
-          if (response.status === 200) {
-            name = response.data[0]['name'];
-            console.log(name);
-            console.log('wa');
-          }
-        },
-        data: {id: id, name: name},
-        status: 200,
-      });
-  
-      console.log('wa wa');
-      console.log(name);
       return { ...col, name };
     });
-
     setColumns(newColumns);
   }
 
-  function updateTask(id, name) {
-    console.log(name);
+  function updateColumn(id, name) {
+    // console.log(id, name);
+    console.log('мы_тут');
+    request({
+      method: "POST",
+      url: `new-data-column/`,
+      callback: (response) => { 
+        if (response.status === 200) {
+          name = response.data[0]['name'];
+          console.log(name);
+          console.log('wa');
+          updateSetColumns(id, name);
+        }
+      },
+      data: {id: id, name: name},
+      status: 200,
+    });
+  }
+
+  function updateSetTasks(id, name) {
     const newTasks = tasks.map((task) => {
-      console.log(String(id) , name ,task.id);
+      // console.log(String(id) , name ,task.id);
       if (task.id !== String(id)){ 
         return task;
       }
-
-      request({
-        method: "POST",
-        url: `new-data-card/`,
-        callback: (response) => { 
-          if (response.status === 200) {
-            name = response.data[0]['name'];
-            console.log(name);
-            console.log('da');
-          }
-        },
-        data: {id: id, name: name},
-        status: 200,
-      });
-
-      console.log('da da');
-      console.log(name);
       return { ...task, name };
     });
-    // TODO тут нужен промис
     setTasks(newTasks);
+  }
+
+  function updateTask(id, name) {
+    // console.log(id, name);
+    request({
+      method: "POST",
+      url: `new-data-card/`,
+      callback: (response) => { 
+        if (response.status === 200) {
+          name = response.data[0]['name'];
+          updateSetTasks(id, name);
+        }
+      },
+      data: {id: id, name: name},
+      status: 200,
+    });
   }
 
   function requestSuccessDeletColumn(response, id) {
