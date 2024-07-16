@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import request from "../../api/request";
+import Button from "../ui/Button/Button";
+import Icons from "../ui/Icons/Icons";
 
 export default function WindowModal(props){
   console.log(props);
@@ -112,24 +114,57 @@ export default function WindowModal(props){
           <div className={styles.columnTitle}> {/* "window-header-inline-content quiet js-current-list" */}
               <p className="u-inline-block">В колонке "{column.name}".</p>
               <span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" role="presentation">
+                <Icons
+                  name={'eye-open'}
+                  className={''}
+                  sizeWidth={"14"}
+                  sizeHeight={"14"}
+                /> 
+                  {/* <svg width="14" height="14" viewBox="0 0 24 24" role="presentation">
                     <g fill="currentColor" fillRule="evenodd">
                       <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path>
                       <path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4"></path>
                     </g>
-                  </svg>
+                  </svg> */}
                 </span>
           </div>
 
-          участники в колонке/карточке "название"
+          
 
         </div>
         {/* главная колонка */}
         <div className={styles.mainCol}>
           mainCol:
-          Описание:
-          <ReactQuill theme="snow" value={value} onChange={setValue} />
-          Добавить более подробное описание…
+          <div className={styles.cardDetails}>
+            <div className={styles.cardDetailsNotifications}>
+              <h3  className={styles.cardDetailsTitle}>
+                Уведомления
+              </h3>
+              <Button
+                className = {'BtnCardSubscribe'}
+                ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
+                clickAction = {''}
+              >
+                <Icons
+                  name={'eye-open'}
+                  class_name={'iconCardSubscribe'}
+                  sizeWidth={"14"}
+                  sizeHeight={"14"}
+                /> 
+                <span>Подписаться</span>
+              </Button>
+              
+            </div>
+            участники в колонке/карточке "название"
+          </div>
+
+          <div  className={styles.taskDescription}>
+            Описание:
+            <ReactQuill theme="snow" value={value} onChange={setValue} />
+            Добавить более подробное описание…
+          </div>
+          
+          
 
           Действия
           Показать подробности

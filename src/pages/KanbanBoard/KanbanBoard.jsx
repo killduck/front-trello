@@ -470,6 +470,8 @@ export default function KanbanBoard() {
                   <Icons
                     name={'AddIcon'}
                     class_name={'IconCreateNewColumn'}
+                    sizeWidth={''}
+                    sizeHeight={''}
                   />
                   Добавьте еще одну колонку
                 </Button>

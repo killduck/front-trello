@@ -129,6 +129,7 @@ export default function ColumnContainer(props) {
         <ModalWindow
           typeElem={'column'}
           idElem={column.id}
+          column = {column}
           updateFunc={updateColumn}
         >
           <Icons

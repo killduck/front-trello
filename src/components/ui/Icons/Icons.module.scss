@@ -1,7 +1,7 @@
-.Icons {
-  width: 0;
-  height: 0;
-}
+// .Icons {
+//   width: 0;
+//   height: 0;
+// }
 
 .BtnDropMenuIcon {
   width: 16px;
@@ -143,4 +143,33 @@
   fill: #9fadbc;
   stroke: #9fadbc;
   stroke-width: 2;
+}
+.btnModalCloseIcon{
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+  // margin-right: 8px;
+  color: #ffffff;
+  font-weight: 500;
+}
+.iconCardSubscribe{
+  margin: 0 6px 0 -6px;
+  color: #9fadbc;
+  color: #9fadbc;
+  font-size: 16px;
+  // height: 20px;
+  line-height: 20px;
+  width: 20px;
+
+  display: inline-block;
+  font-family: trellicons;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: bottom;
+
 }

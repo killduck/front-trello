@@ -234,3 +234,47 @@
     text-decoration: none;
   }
 }
+.BtnCardSubscribe{
+  margin-top: 0;
+  background-color: #a1bdd914;
+  border: none;
+  border-radius: 3px;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #b6c2cf;
+  cursor: pointer;
+  display: block;
+  font-weight: 500;
+  height: 32px;
+  margin-top: 8px;
+  max-width: 300px;
+  overflow: hidden;
+  padding: 6px 12px;
+  position: relative;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition-duration: 85ms;
+  transition-property: background-color, border-color, box-shadow;
+  transition-timing-function: ease;
+  -webkit-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+
+  display: flex;
+
+  &:hover,
+  &:active{
+    border: none;
+    box-shadow: none;
+    color: #b6c2cf;
+  }
+  &:hover {
+    background-color: #a6c5e229;
+    text-decoration: none;
+  }
+  &:active {
+    background-color: #bfdbf847;
+    outline: 0;
+
+  }
+}

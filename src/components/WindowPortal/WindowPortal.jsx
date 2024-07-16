@@ -40,7 +40,7 @@ export default function WindowPortal(props){
 
     const modalContent = (
         <div className={styles.wrap} onClick={closeModalHandle}>
-                <WindowModal 
+                <WindowModal
                     // closeWindowPortal={closeModal}
                     // data={props}
                     // onBlur={closeModal}
@@ -55,7 +55,7 @@ export default function WindowPortal(props){
                         clickAction={closeModal}
                     >
                         <Icons
-                            className={styles.Icons}
+                            class_name={'btnModalCloseIcon'}
                             name={'CloseIcon'}
                         >
                         </Icons>

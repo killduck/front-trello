@@ -1,4 +1,4 @@
-import Icons from '../Icons/Icons';
+// import Icons from '../Icons/Icons';
 
 import styles from './QuickLabelled.module.scss';
 
@@ -27,11 +27,11 @@ export default function QuickLabelled(props) {
       }
     >
 
-      <Icons
+      {/* <Icons
         name={option.iconName}
         class_name={option.iconClass}
         active_icon={option.favoriteStar ? 'IconActive' : ''}
-      />
+      /> */}
     </div>
   )
 };

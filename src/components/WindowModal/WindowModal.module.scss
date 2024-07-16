@@ -102,6 +102,36 @@
     width: 550px;
     z-index: 1;
     // background-color: #118015;
+    .cardDetails{
+        margin-top: 8px;
+        margin-left: 40px;
+
+        .cardDetailsNotifications{
+            height: 64px;
+            display: block;
+            float: left;
+            margin: 0 8px 8px 0;
+            max-width: 100%;
+
+            .cardDetailsTitle{
+                color: #9fadbc;
+                display: block;
+                font-size: 12px;
+                font-weight: 600;
+                line-height: 16px;
+                line-height: 20px;
+                margin: 0 8px 4px 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+    .cardDescription{
+        position: relative;
+        margin-bottom: 24px;
+        clear: both;
+    }
 }
 .sidebar {
     float: right;
