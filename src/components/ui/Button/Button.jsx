@@ -10,13 +10,15 @@ export default function Button(props) {
     let ariaLabel = props.ariaLabel;
     let clickAction = props.clickAction;
     let actionVariable = props.actionVariable;
+    let style = props.style;
 
     return (
         <button
-            className={`${styles.buttonStyle} ${class_name} ${styles[class_name]} `}
+            className={`${styles.buttonStyle} ${styles[class_name]} `}
             type={type}
             data-testid={dataTestid}
             aria-label={ariaLabel}
+            style={style}
             onClick={() => clickAction(actionVariable)}
         >
             {props.children}

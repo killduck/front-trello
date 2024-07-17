@@ -16,7 +16,7 @@
     padding: 8px 52px 8px 56px;
     position: relative;
     z-index: 1;
-    background-color: #ab2525;
+    // background-color: #ab2525;
 
     .headerIcon{
         left: 16px;
@@ -51,7 +51,10 @@
         h2{
             margin-right: 4px;
             cursor: pointer;
+            font-weight: 600;
+
         }
+        
         textarea{
             resize: vertical;
             width: 100%;
@@ -91,6 +94,18 @@
     .columnTitle{
         display: flex;
         align-items: center;
+        cursor: default;
+        width: fit-content;
+        margin: 4px 8px 4px 2px;
+        color: #9fadbc;
+        font-size: 14px;
+
+        .columnTitleName{
+            cursor: default;
+            margin: 4px 8px 4px 2px;
+            color: #9fadbc;
+            // margin: 0 0 8px;
+        }
     }
 }
 .mainCol {
@@ -105,13 +120,22 @@
     .cardDetails{
         margin-top: 8px;
         margin-left: 40px;
+        display: flex;
+        flex-wrap: wrap;
 
-        .cardDetailsNotifications{
-            height: 64px;
+        .cardDetailItem{
             display: block;
-            float: left;
+            // float: left;
             margin: 0 8px 8px 0;
             max-width: 100%;
+        }
+
+        .cardDetailNotifications{
+            height: 64px;
+            // display: block;
+            // // float: left;
+            // margin: 0 8px 8px 0;
+            // max-width: 100%;
 
             .cardDetailsTitle{
                 color: #9fadbc;
@@ -124,6 +148,27 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+            .cardDetailsInfo{
+                overflow: hidden;
+            }
+            .simbolSubscribed{
+                display: block;
+                background-color: #8c9bab;
+                border-radius: 3px;
+                // font-size: 12px;
+                font-weight: 400;
+                width: 24px;
+                height: 24px;
+                line-height: 20px;
+                margin: 0;
+                padding: 8px 7px;
+                position: absolute;
+                right: 4px;
+                text-align: center;
+                top: 4px;
+                color: #1d2125 !important;
+                font-size: 16px;
             }
         }
     }
@@ -139,4 +184,63 @@
     width: calc(100% - 550px);
     z-index: 10;
     background-color: #4c1cb4;
+
+    .addItemsWrap{
+        clear: both;
+        margin-bottom: 24px;
+        position: relative;
+
+        .cardTitle{
+            margin-top: 0;
+            color: #9fadbc;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 20px;
+            margin-bottom: -4px;
+        }
+        .itemsWrap{
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            .itemMembers{
+                color: rgb(102, 250, 102);
+            }
+            .itemLabels{
+                color: rgb(102, 250, 102);
+            }
+            .itemDueDate{
+                color: rgb(102, 250, 102);
+            }
+            .itemAttachments{
+                color: rgb(102, 250, 102);
+            }
+        }
+    }
+
+    .actionsWrap{
+        clear: both;
+        margin-bottom: 24px;
+        position: relative;
+
+        .actionsTitle{
+            margin-top: 0;
+            color: #9fadbc;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 20px;
+            margin-bottom: -4px;
+        } 
+        .actionsWrap{
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+
+            .actionDeleteCard{
+                color: rgb(255, 56, 56);
+            }
+        }
+    }
+}
+.cardDescription{
+    margin-top: 30px;
 }

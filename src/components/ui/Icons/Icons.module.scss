@@ -155,13 +155,12 @@
 .iconCardSubscribe{
   margin: 0 6px 0 -6px;
   color: #9fadbc;
-  color: #9fadbc;
   font-size: 16px;
   // height: 20px;
   line-height: 20px;
   width: 20px;
 
-  display: inline-block;
+  // display: inline-block;
   font-family: trellicons;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -170,6 +169,11 @@
   line-height: 1;
   text-align: center;
   text-decoration: none;
-  vertical-align: bottom;
+  // vertical-align: bottom;
 
+}
+
+.iconSelected{
+  width: 26px;
+  height: 26px;
 }

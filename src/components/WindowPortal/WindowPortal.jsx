@@ -31,7 +31,7 @@ export default function WindowPortal(props){
     };
 
     const closeModalHandle = (evt) => {
-        console.log(evt);
+        // console.log(evt);
         if(evt.target.className === "WindowPortal_wrap__DtBsC"){
           console.log('"windowNameHandleKeyPress", ура!');
           closeModal();
@@ -51,7 +51,7 @@ export default function WindowPortal(props){
                     updateFunc = {updateFunc}
                 >
                     <Button
-                        className={styles.btnWindowModal}
+                        className={'btnWindowModal'}
                         clickAction={closeModal}
                     >
                         <Icons

@@ -15,7 +15,7 @@ export default function WindowModal(props){
   // let task = props.task;
   let column = props.column;
   let updateFunc = props.updateFunc;
-  console.log(column);
+  // console.log(column);
 
   // const [mainState, setMainState] = useState(false);
 
@@ -26,7 +26,9 @@ export default function WindowModal(props){
   let [windowName, setWindowName] = useState('');
 
   let [newName, setNewNameField] = useState(false);
-  let [newText, setNewTextData] = useState('');
+  // let [newText, setNewTextData] = useState('');
+
+  let [subscribe, setSubscribe] = useState(false);
 
   useEffect(() => {
     request({
@@ -34,7 +36,7 @@ export default function WindowModal(props){
       url:`${typeElem}/`,
       callback:(response) => { 
         if (response.status === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           if(response.data){
             setWindowData(response.data[0]);
             setWindowName(response.data[0]['name']);
@@ -47,7 +49,7 @@ export default function WindowModal(props){
     });
 
   },[typeElem, idElem]);
-  console.log(windowData);
+  // console.log(windowData);
   function showTextarea() {
     if(!newName){
       setNewNameField(newName = true);
@@ -73,108 +75,207 @@ export default function WindowModal(props){
 
     }
   }
+
+  function funcSubscribe(){
+    if(subscribe){
+      setSubscribe(false);
+    }
+    else{
+      setSubscribe(true);
+    }
+  }
+
+  const headerSection = (
+  <>
+    <span className={styles.headerIcon}></span>
+    <div className={styles.headerTitle}>
     
+      {(!newName) ?
+      (
+      <h2 onClick={ showTextarea } >
+        { windowName }
+      </h2>
+      )
+      :
+      (
+      <textarea 
+        autoFocus
+        onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
+        onChange={(evt) => writeNewText(evt.target.value)}
+        onKeyDown={windowNameHandleKeyPress}
+        onBlur={windowNameHandleKeyPress}
+
+        className={''} 
+        dir="auto" 
+        data-testid="card-back-title-input" 
+        data-autosize="true"
+        value={ windowName }
+        placeholder="введите название"
+        style={{overflow: "hidden", overflowWrap: "break-word", height: "35.8889px"}} 
+      />
+      )
+      }
+
+    </div>
+    <div className={styles.columnTitle}> {/* "window-header-inline-content quiet js-current-list" */}
+      <p className={styles.columnTitleName}>В колонке "{column.name}".</p>
+      {subscribe ?
+      (<span>
+        <Icons
+          name={'eye-open'}
+          className={''}
+          sizeWidth={"14"}
+          sizeHeight={"14"}
+        /> 
+      </span>) : "" } 
+    </div>
+  </>
+  )
+
+  const elementSubscribe = (
+    <div className={styles.cardDetailNotifications} >
+      <h3  className={styles.cardDetailsTitle}>
+        Уведомления
+      </h3>
+      
+      { (!subscribe) ?
+      (
+      <Button
+        className = {'BtnCardSubscribe'}
+        ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
+        clickAction = {funcSubscribe}
+      >
+        
+        <Icons
+          name={'eye-open'}
+          class_name={'iconCardSubscribe'}
+          sizeWidth={"14"}
+          sizeHeight={"14"}
+        /> 
+        <span>Подписаться</span>
+      </Button>
+      )
+      :
+      (
+      <Button
+        className = {'BtnCardSubscribe'}
+        ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
+        clickAction = {funcSubscribe}
+        style={{paddingRight: "32px", width: "138px"}}
+      >
+        
+        <Icons
+          name={'eye-open'}
+          class_name={'iconCardSubscribe'}
+          sizeWidth={"14"}
+          sizeHeight={"14"}
+        /> 
+        <span className={styles.cardDetailsInfo}>Вы подписаны</span>
+        <span style={{paddingLeft: "5px"}}>...</span>
+        <span className={styles.simbolSubscribed}>
+          <Icons 
+            name={'selected'}
+            class_name={'iconSelected'}
+          />
+        </span>
+      </Button>
+      )
+    }
+    </div>
+  )
+
+  const columnMembers = (
+    "участники в колонке/карточке"
+  )
+
+  const columnLabels = (
+    "метки"
+  )
+
+  const columnDueDate = (
+    "дата"
+  )
+   
   return (
     <div className={styles.wrap}>
         {props.children}
+
+        {/* header */}
         <div className={styles.header}>
-          {/* header: */}
-          <span className={styles.headerIcon}></span>
-          <div 
-            className={styles.headerTitle}
-          >
-          
-            {(!newName) ?
-            (
-            <h2 onClick={ showTextarea } >
-              { windowName }
-            </h2>
-            )
-            :
-            (
-            <textarea 
-              autoFocus
-              onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
-              onChange={(evt) => writeNewText(evt.target.value)}
-              onKeyDown={windowNameHandleKeyPress}
-              onBlur={windowNameHandleKeyPress}
-
-              className={''} 
-              dir="auto" 
-              data-testid="card-back-title-input" 
-              data-autosize="true"
-              value={ windowName }
-              placeholder="введите название"
-              style={{overflow: "hidden", overflowWrap: "break-word", height: "35.8889px"}} 
-            />
-            )
-            }
-
-          </div>
-          <div className={styles.columnTitle}> {/* "window-header-inline-content quiet js-current-list" */}
-              <p className="u-inline-block">В колонке "{column.name}".</p>
-              <span>
-                <Icons
-                  name={'eye-open'}
-                  className={''}
-                  sizeWidth={"14"}
-                  sizeHeight={"14"}
-                /> 
-                  {/* <svg width="14" height="14" viewBox="0 0 24 24" role="presentation">
-                    <g fill="currentColor" fillRule="evenodd">
-                      <path d="M12 18c-4.536 0-7.999-4.26-7.999-6 0-2.001 3.459-6 8-6 4.376 0 7.998 3.973 7.998 6 0 1.74-3.462 6-7.998 6m0-14C6.48 4 2 8.841 2 12c0 3.086 4.576 8 10 8 5.423 0 10-4.914 10-8 0-3.159-4.48-8-10-8"></path>
-                      <path d="M11.977 13.984c-1.103 0-2-.897-2-2s.897-2 2-2c1.104 0 2 .897 2 2s-.896 2-2 2m0-6c-2.206 0-4 1.794-4 4s1.794 4 4 4c2.207 0 4-1.794 4-4s-1.793-4-4-4"></path>
-                    </g>
-                  </svg> */}
-                </span>
-          </div>
-
-          
-
+          { headerSection }
         </div>
+
         {/* главная колонка */}
         <div className={styles.mainCol}>
-          mainCol:
-          <div className={styles.cardDetails}>
-            <div className={styles.cardDetailsNotifications}>
-              <h3  className={styles.cardDetailsTitle}>
-                Уведомления
-              </h3>
-              <Button
-                className = {'BtnCardSubscribe'}
-                ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
-                clickAction = {''}
-              >
-                <Icons
-                  name={'eye-open'}
-                  class_name={'iconCardSubscribe'}
-                  sizeWidth={"14"}
-                  sizeHeight={"14"}
-                /> 
-                <span>Подписаться</span>
-              </Button>
-              
+
+          <div className={styles.cardDetails} >
+            <div className={styles.cardDetailItem}>
+              {columnMembers}
             </div>
-            участники в колонке/карточке "название"
+
+            <div className={styles.cardDetailItem}>
+              {columnLabels}
+            </div>
+
+            <div className={styles.cardDetailItem}>
+              {elementSubscribe}
+            </div>
+
+            <div className={styles.cardDetailItem}>
+              {columnDueDate}
+            </div>
+            
           </div>
 
-          <div  className={styles.taskDescription}>
+          <div  className={styles.cardDescription}>
             Описание:
             <ReactQuill theme="snow" value={value} onChange={setValue} />
             Добавить более подробное описание…
           </div>
           
-          
-
-          Действия
-          Показать подробности
-          Напишите комментарий…
+          <div  className={styles.cardAttachmentsSection}>
+            Действия (Тут же: показать подробности, напишите комментарий…)
+          </div>
 
         </div>
         {/* сайдбар */}
         <div className={styles.sidebar}>
-          sidebar:
-          Добавить на карточку
+          {/* sidebar */}
+          <div className={styles.addItemsWrap}>
+            <h3 class={styles.cardTitle}>Добавить на карточку:</h3>
+            <div className={styles.itemsWrap}>
+              
+              <div className={styles.itemMembers}>
+                Участники
+              </div>
+
+              <div className={styles.itemLabels}>
+                Метки
+              </div>
+
+              <div className={styles.itemDueDate}>
+                Даты
+              </div>
+
+              <div className={styles.itemAttachments}>
+                Прикрепить
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className={styles.actionsWrap}>
+            <h3 class={styles.actionsTitle}>Действия:</h3>
+            <div className={styles.actionsWrap}>
+              <div className={styles.actionDeleteCard}>
+                Удалить карточку
+              </div>
+            </div>
+
+          </div>
+
+          
         </div>
 
     </div>

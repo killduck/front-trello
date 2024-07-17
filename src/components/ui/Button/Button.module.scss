@@ -246,7 +246,7 @@
   display: block;
   font-weight: 500;
   height: 32px;
-  margin-top: 8px;
+  // margin-top: 8px;
   max-width: 300px;
   overflow: hidden;
   padding: 6px 12px;
@@ -276,5 +276,23 @@
     background-color: #bfdbf847;
     outline: 0;
 
+  }
+}
+.btnWindowModal{
+  // width: 50px;
+  // height: 50px;
+  display: flex;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  // background-color: #574949;
+  z-index: 2;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+
+  &:hover {
+    background-color: #a6c5e229;
   }
 }
