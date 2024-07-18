@@ -68,7 +68,7 @@ export default function Login(props) {
     function responseLogin(response) {
         if (response.status === 200 && response.data['token']) {
             localStorage.setItem("trello_auth", response.data['token']);
-            navigate("/");
+            navigate("/", {state:{key:response.data.user_id}});
         }
     }
 

@@ -21,7 +21,8 @@ export default function request(params = { method: 'GET', url: '', callback: '',
                 }
             })
             .catch((error) => {
-                redirect();
+                setTimeout(() => {redirect();}, 2000);
+                // redirect();
                 console.error(error);
             })
     }
@@ -40,6 +41,7 @@ export default function request(params = { method: 'GET', url: '', callback: '',
             })
             .catch((error) => {
                 // redirect();
+                // setTimeout(() => {redirect();}, 2000);
                 console.error(error);
             })
     }

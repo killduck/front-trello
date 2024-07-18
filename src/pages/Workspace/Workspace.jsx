@@ -1,22 +1,27 @@
 import Default from "../../layouts/default/Default";
 import request from "../../api/request";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import styles from "./Workspace.module.scss";
 import Button from "../../components/ui/Button/Button";
 import Icons from "../../components/ui/Icons/Icons";
 import Input from "../../components/ui/Input/Input";
 
-// import bgc_disert from '../../../public/img/background_desert.webp';
-
+import { preload } from 'react-dom';
 
 export default function Workspace(props) {
   // console.log(`props => ${props.cardName}`);
   // console.log(props);
 
-  let [dashboards, setDashboards] = useState([]);
+  let state = useLocation();
+  // console.log(state.state['key']);
+  console.log(state);
 
+
+  let [showDashboards, setShowDashboards] = useState(false);
+
+  let [dashboards, setDashboards] = useState([]);
   let [ShowForm, setShowForm] = useState(false);
 
   useEffect(() => {
@@ -25,7 +30,8 @@ export default function Workspace(props) {
       url:'dashboards/',
       callback:(response) => { 
         if (response.status === 200) { 
-          requestDashboards(response) 
+          requestDashboards(response);
+          setShowDashboards(true);
         } 
       },
       data: null,
@@ -61,7 +67,8 @@ export default function Workspace(props) {
 
   return (
     <>
-      <Default>
+    { showDashboards ?
+      (<Default>
         <div className={styles.Workspace}>
           <div className={styles.WorkspaceWrap}>
 
@@ -203,7 +210,12 @@ export default function Workspace(props) {
 
           </div>
         </div>
-      </Default >
+      </Default >)
+      :
+      (
+        "грузим хуйню"
+      )
+    }
     </>
   )
 };
