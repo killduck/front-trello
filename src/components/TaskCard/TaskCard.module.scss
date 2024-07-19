@@ -34,7 +34,7 @@ $text: #172b4d;
       $shadow-raised,
       0px 1px 1px $shadow_1 0px 0px 1px $shadow_2;
     color: $text;
-    cursor: grab;
+    cursor: pointer;
     scroll-margin: 8px;
 
     &:hover {

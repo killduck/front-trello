@@ -42,6 +42,47 @@
 //     cursor: pointer;
 // };
 
+.buttonAdd {
+  background-color: #579dff;
+  box-shadow: none;
+  border: none;
+  color: #1d2125;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #85b8ff;
+    box-shadow: none;
+    border: none;
+    color: #1d2125;
+    text-decoration: none;
+  }
+  &:active {
+    background-color: #cce0ff; //#09326c;
+    box-shadow: none;
+    border: none;
+    color: #1d2125; //#ffffff;
+    outline: 0;
+  }
+}
+
+.buttonEsc {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 6px;
+  position: relative;
+  color: #dee4ea;
+
+  &:hover {
+    background-color: #a6c5e229;
+    box-shadow: none;
+    border: none;
+    color: #b6c2cf;
+    text-decoration: none;
+  }
+}
+
+
 .BtnCreateNewColumn {
   display: flex;
   align-items: center;
@@ -232,5 +273,67 @@
     box-shadow: none;
     color: #b6c2cf;
     text-decoration: none;
+  }
+}
+.BtnCardSubscribe{
+  margin-top: 0;
+  background-color: #a1bdd914;
+  border: none;
+  border-radius: 3px;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #b6c2cf;
+  cursor: pointer;
+  display: block;
+  font-weight: 500;
+  height: 32px;
+  // margin-top: 8px;
+  max-width: 300px;
+  overflow: hidden;
+  padding: 6px 12px;
+  position: relative;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition-duration: 85ms;
+  transition-property: background-color, border-color, box-shadow;
+  transition-timing-function: ease;
+  -webkit-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+
+  display: flex;
+
+  &:hover,
+  &:active{
+    border: none;
+    box-shadow: none;
+    color: #b6c2cf;
+  }
+  &:hover {
+    background-color: #a6c5e229;
+    text-decoration: none;
+  }
+  &:active {
+    background-color: #bfdbf847;
+    outline: 0;
+
+  }
+}
+.btnWindowModal{
+  // width: 50px;
+  // height: 50px;
+  display: flex;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  // background-color: #574949;
+  z-index: 2;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+
+  &:hover {
+    background-color: #a6c5e229;
   }
 }

@@ -73,3 +73,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 drag and drop:
 https://docs.dndkit.com/
 https://github.com/monsterlessonsacademy/monsterlessonsacademy/blob/353-react-drag-n-drop/src/Users.jsx
+
+Сылка на текстовый редактор Quill v2.0.2:
+https://quilljs.com/docs/installation
+
+React modal:
+https://reactcommunity.org/react-modal/examples/should_close_on_overlay_click/

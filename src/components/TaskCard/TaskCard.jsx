@@ -14,16 +14,17 @@ export default function TaskCard(props) {
   // console.log('TaskCard ->')
   // console.log(props)
 
-  let task = props.task;
-  // let column = props.column;
-
   // let deleteTask = props.deleteTask;
+
+  let task = props.task;
+  let column = props.column;
   let updateTask = props.updateTask;
+  let deleteCard = props.deleteCard;
 
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  // const [cardFunc, setCardFunc] = useState(false);
+  const [newTaskName, setNewTaskName] = useState('');
 
   let [label, setLabel] = useState(false);
 
@@ -48,17 +49,32 @@ export default function TaskCard(props) {
     transform: CSS.Transform.toString(transform),
   };
 
-  const toggleEditMode = () => {
+  function toggleEditMode() {
     setEditMode((prev) => !prev);
     setMouseIsOver(false);
   };
+
+  function writeNewText(evt) {
+    setNewTaskName((newTaskName) => (newTaskName = evt));
+  }
+
+  const closeUpdate =  (evt) => {
+    if (evt.key === "Enter" && evt.shiftKey || evt.type === "blur") {
+
+      if(newTaskName !== '' && newTaskName !== task.name){
+        updateTask(task.id, newTaskName);
+        task.name = newTaskName;
+      }
+
+      toggleEditMode();
+    }
+  }
 
   if (isDragging) {
     return (
       <div
         ref={setNodeRef}
         style={style}
-        // className="opacity-30 bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative"
         className={styles.DraggingCard}
       />
     );
@@ -75,16 +91,13 @@ export default function TaskCard(props) {
       >
         <textarea
           className={styles.EditFocus}
-          value={task.name}
+          value={ newTaskName === '' ? task.name : newTaskName }
           autoFocus
-          placeholder="Task content here"
-          onBlur={toggleEditMode}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && e.shiftKey) {
-              toggleEditMode();
-            }
-          }}
-          onChange={(e) => updateTask(task.id, e.target.value)}
+          onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
+          placeholder="Введите имя карточки"
+          onBlur={closeUpdate}
+          onKeyDown={closeUpdate}
+          onChange={(evt) => writeNewText(evt.target.value)}
         />
       </div>
     );
@@ -100,10 +113,6 @@ export default function TaskCard(props) {
 
   }
 
-  // function cardFunctions(){
-
-  // }
-
   return (
 
     <div
@@ -111,7 +120,6 @@ export default function TaskCard(props) {
       style={style}
       {...attributes}
       {...listeners}
-      // onClick={toggleEditMode}
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -121,8 +129,12 @@ export default function TaskCard(props) {
       className={styles.TaskCard}
     >
       <WindowPortal
-        typeElem={'card'}
-        idElem={task.id}
+        typeElem = {'card'}
+        idElem = {task.id}
+        task = {task}
+        column = {column}
+        updateFunc = {updateTask}
+        deleteFunc={deleteCard}
       >
         <div className={styles.TaskCard__Wrap}>
 
@@ -145,9 +157,12 @@ export default function TaskCard(props) {
               </div>
             </div>
 
-            <a className={styles.CardText} href="#">
+            {/* <a className={styles.CardText} href="#">
               {task.name}
-            </a>
+            </a> */}
+            <span className={styles.CardText} >
+              {task.name}
+            </span>
             <div className={styles.cardIcon}>
               {mouseIsOver && (
                 <Button

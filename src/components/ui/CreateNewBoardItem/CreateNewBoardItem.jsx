@@ -44,7 +44,7 @@ export default function CreateNewBoardItem(props) {
                 />
                 <div className={styles.buttons}>
                     <Button
-                        className={`${styles.buttonAdd}`}
+                        className={'buttonAdd'}
                         type="reset" // нужно заменить на: type="submit" ???
                         dataTestid="list-composer-add-list-button"
                         clickAction={addColumnAction}
@@ -53,7 +53,7 @@ export default function CreateNewBoardItem(props) {
                         {buttonText}
                     </Button>
                     <Button
-                        className={`${styles.buttonEsc}`}
+                        className={'buttonEsc'}
                         type="reset"
                         dataTestid="list-composer-cancel-button"
                         ariaLabel="Отменить редактирование"

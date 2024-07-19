@@ -13,6 +13,13 @@ export default function WindowPortal(props){
     // console.log(props.children.props.children.owner);
     // console.log(props);
 
+    let idElem = props.idElem;
+    let typeElem = props.typeElem;
+    let task = props.task;
+    let column = props.column;
+    let updateFunc = props.updateFunc;
+    let deleteFunc = props.deleteFunc;
+
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -24,24 +31,39 @@ export default function WindowPortal(props){
         setModalIsOpen(false);
     };
 
-    const modalContent = (
-        <div className={styles.wrap}>
-                <WindowModal 
-                    closeWindowPortal={closeModal}
-                    data={props}
-                >
-                    <Button
-                        className={styles.btnWindowModal}
-                        clickAction={closeModal}
-                    >
-                        <Icons
-                            className={styles.Icons}
-                            name={'CloseIcon'}
-                        >
-                        </Icons>
-                    </Button>
+    const closeModalHandle = (evt) => {
+        // console.log(evt);
+        if(evt.target.className === "WindowPortal_wrap__DtBsC"){
+          console.log('"windowNameHandleKeyPress", ура!');
+          closeModal();
+        }
+    }
 
-                </WindowModal>
+    const modalContent = (
+        <div className={styles.wrap} onClick={closeModalHandle}>
+            <WindowModal
+                // closeWindowPortal={closeModal}
+                // data={props}
+                // onBlur={closeModal}
+                idElem = {idElem}
+                typeElem = {typeElem}
+                task = {task}
+                column = {column}
+                updateFunc = {updateFunc}
+                deleteFunc = {deleteFunc}
+            >
+                <Button
+                    className={'btnWindowModal'}
+                    clickAction={closeModal}
+                >
+                    <Icons
+                        class_name={'btnModalCloseIcon'}
+                        name={'CloseIcon'}
+                    >
+                    </Icons>
+                </Button>
+
+            </WindowModal>
 
         </div>
     );

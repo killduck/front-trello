@@ -17,7 +17,7 @@ export default function RoutesApp(props) {
 
     useEffect(() => {
         if (!localStorage.getItem('trello_auth')) {
-            navigate("/login");
+            // navigate("/login");
         }
     },[navigate]);
 

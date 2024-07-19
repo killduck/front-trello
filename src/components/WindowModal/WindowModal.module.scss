@@ -16,7 +16,97 @@
     padding: 8px 52px 8px 56px;
     position: relative;
     z-index: 1;
-    background-color: #ab2525;
+    // background-color: #ab2525;
+
+    .headerIcon{
+        left: 16px;
+        position: absolute;
+        top: 16px;
+        color: #9fadbc;
+        height: 32px;
+        line-height: 32px;
+        width: 32px;
+        font-size: 24px;
+
+        display: inline-block;
+        font-family: trellicons;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: bottom;
+
+        &::before{
+            content: "\e912";
+        }
+    }
+
+    .headerTitle{
+        padding: 12px 0 0;
+        width: 95%;
+
+        h2{
+            margin-right: 4px;
+            cursor: pointer;
+            font-weight: 600;
+
+        }
+        
+        textarea{
+            resize: vertical;
+            width: 100%;
+
+            background: #0000;
+            border-radius: 4px;
+            box-shadow: none;
+            font-size: 20px;
+            font-weight: 600;
+            height: 32px;
+            line-height: 24px;
+            margin: -6px -10px;
+            min-height: 24px;
+            padding: 6px 10px;
+            resize: none;
+
+            // -webkit-appearance: none;
+            background-color: #22272b;
+            border: none;
+            border-radius: 3px;
+            box-shadow: inset 0 0 0 1px #738496;
+            box-sizing: border-box;
+            display: block;
+            line-height: 20px;
+            margin-bottom: 12px;
+            outline: none;
+            padding: 8px 12px;
+            transition-duration: 85ms;
+            transition-property: background-color, border-color, box-shadow;
+            transition-timing-function: ease;
+            &:focus {
+                background-color: #22272b;
+                box-shadow: inset 0 0 0 2px #85b8ff;
+            }
+        }
+    }
+    .columnTitle{
+        display: flex;
+        align-items: center;
+        cursor: default;
+        width: fit-content;
+        margin: 4px 8px 4px 2px;
+        color: #9fadbc;
+        font-size: 14px;
+
+        .columnTitleName{
+            cursor: default;
+            margin: 4px 8px 4px 2px;
+            color: #9fadbc;
+            // margin: 0 0 8px;
+        }
+    }
 }
 .mainCol {
     float: left;
@@ -26,7 +116,67 @@
     position: relative;
     width: 550px;
     z-index: 1;
-    background-color: #118015;
+    // background-color: #118015;
+    .cardDetails{
+        margin-top: 8px;
+        margin-left: 40px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .cardDetailItem{
+            display: block;
+            // float: left;
+            margin: 0 8px 8px 0;
+            max-width: 100%;
+        }
+
+        .cardDetailNotifications{
+            height: 64px;
+            // display: block;
+            // // float: left;
+            // margin: 0 8px 8px 0;
+            // max-width: 100%;
+
+            .cardDetailsTitle{
+                color: #9fadbc;
+                display: block;
+                font-size: 12px;
+                font-weight: 600;
+                line-height: 16px;
+                line-height: 20px;
+                margin: 0 8px 4px 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .cardDetailsInfo{
+                overflow: hidden;
+            }
+            .simbolSubscribed{
+                display: block;
+                background-color: #8c9bab;
+                border-radius: 3px;
+                // font-size: 12px;
+                font-weight: 400;
+                width: 24px;
+                height: 24px;
+                line-height: 20px;
+                margin: 0;
+                padding: 8px 7px;
+                position: absolute;
+                right: 4px;
+                text-align: center;
+                top: 4px;
+                color: #1d2125 !important;
+                font-size: 16px;
+            }
+        }
+    }
+    .cardDescription{
+        position: relative;
+        margin-bottom: 24px;
+        clear: both;
+    }
 }
 .sidebar {
     float: right;
@@ -34,4 +184,63 @@
     width: calc(100% - 550px);
     z-index: 10;
     background-color: #4c1cb4;
+
+    .addItemsWrap{
+        clear: both;
+        margin-bottom: 24px;
+        position: relative;
+
+        .cardTitle{
+            margin-top: 0;
+            color: #9fadbc;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 20px;
+            margin-bottom: -4px;
+        }
+        .itemsWrap{
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            .itemMembers{
+                color: rgb(102, 250, 102);
+            }
+            .itemLabels{
+                color: rgb(102, 250, 102);
+            }
+            .itemDueDate{
+                color: rgb(102, 250, 102);
+            }
+            .itemAttachments{
+                color: rgb(102, 250, 102);
+            }
+        }
+    }
+
+    .actionsWrap{
+        clear: both;
+        margin-bottom: 24px;
+        position: relative;
+
+        .actionsTitle{
+            margin-top: 0;
+            color: #9fadbc;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 20px;
+            margin-bottom: -4px;
+        } 
+        .actionsWrap{
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+
+            .actionDeleteCard{
+                color: rgb(255, 56, 56);
+            }
+        }
+    }
+}
+.cardDescription{
+    margin-top: 30px;
 }

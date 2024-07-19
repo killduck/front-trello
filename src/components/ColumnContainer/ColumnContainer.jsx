@@ -11,7 +11,7 @@ import Icons from "../ui/Icons/Icons";
 import TaskCard from "../TaskCard/TaskCard";
 
 import styles from './ColumnContainer.module.scss';
-import ModalWindow from "../WindowPortal/WindowPortal";
+import WindowPortal from "../WindowPortal/WindowPortal";
 
 
 export default function ColumnContainer(props) {
@@ -20,15 +20,17 @@ export default function ColumnContainer(props) {
   let newTextTask = props.newTextTask;
   let setNewTextTask = props.setNewTextTask;
   let requestSuccessCreateTask = props.requestSuccessCreateTask;
-  // let deleteColumn = props.deleteColumn;
+  let deleteColumn = props.deleteColumn;
   let updateColumn = props.updateColumn;
   let tasks = props.tasks;
-  let deleteTask = props.deleteTask;
+  let deleteCard = props.deleteCard;
   let updateTask = props.updateTask;
 
   const [editMode, setEditMode] = useState(false);
 
   const [showForm, setShowForm] = useState(true);
+
+  const [newColName, setNewColName] = useState('');
 
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
@@ -73,7 +75,6 @@ export default function ColumnContainer(props) {
     
     let newTask = {
       name: newTextTask,
-      author: 4,
       column: columnId,
     };
 
@@ -86,6 +87,21 @@ export default function ColumnContainer(props) {
     });
 
     setShowForm(true);
+  }
+
+  function writeNewText(evt) {
+    setNewColName((newColName) => (newColName = evt));
+  }
+  const closeUpdate =  (evt) => {
+    if (evt.key === "Enter" && evt.shiftKey || evt.type === "blur") {
+
+      if(newColName !== '' && newColName !== column.name){
+        updateColumn(column.id, newColName);
+        column.name = newColName;
+      }
+
+      setEditMode(false);
+    }
   }
 
   return (
@@ -101,6 +117,7 @@ export default function ColumnContainer(props) {
           {...listeners}
           onClick={() => {
             setEditMode(true);
+            setNewColName(column.name);
           }}
           className={styles.ColumnTitleWrap}
         >
@@ -111,59 +128,37 @@ export default function ColumnContainer(props) {
             {editMode && (
               <input
                 className={styles.EditeColumnTitle}
-                value={column.name}
-                onChange={(e) => updateColumn(column.id, e.target.value)}
+                value={ !editMode ? column.name : newColName }
                 autoFocus
-                onBlur={() => {
-                  setEditMode(false);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key !== "Enter") return;
-                  setEditMode(false);
-                }}
+                onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }
+                placeholder="Введите имя колонки"
+                onBlur={ closeUpdate }
+                onKeyDown={ closeUpdate }
+                onChange={(evt) => writeNewText(evt.target.value)} //updateColumn
               />
             )}
           </div>
         </div>
           
-        <ModalWindow
+        <WindowPortal
           typeElem={'column'}
           idElem={column.id}
+          column = {column}
+          updateFunc={updateColumn}
+          deleteFunc={deleteColumn}
         >
-          <Icons
-            name={'three_dots'}
-            class_name={'IconKebabColumnn'}
-            sizeWidth={"24px"}
-            sizeHeight={"24px"}
-            viewBox={"0 0 24 24"}
-          />
-        </ModalWindow>
+          <div className={styles.iconWrap}>
+            <Icons
+              name={'three_dots'}
+              class_name={'IconKebabColumnn'}
+              sizeWidth={"24px"}
+              sizeHeight={"24px"}
+              viewBox={"0 0 24 24"}
+            />
+          </div>
+          
+        </WindowPortal>
       </div>
-
-      {/* <Button
-          // clickAction={deleteColumn}
-          // actionVariable={column.id}
-          // className={'BtnDeleteColumn'}
-          clickAction={deleteColumn}
-          actionVariable={column.id}
-          className={'BtnKebabColumnn'}
-        > */}
-          {/* <Icons
-            name={'Trash'}
-            class_name={'IconDeletColumnn'}
-          /> */}
-      {/* </Button> */}
-      
-
-      {/* <button class="x7x105F0Ex0A7R bxgKMAm3lq5BpA iUcMblFAuq9LKn HAVwIqCeMHpVKh SEj5vUdI3VvxDc" type="button" data-testid="list-edit-menu-button" aria-haspopup="true">
-        <span class="nch-icon A3PtEe1rGIm_yL neoUEAwI0GETBQ fAvkXZrzkeHLoc">
-          <span data-testid="OverflowMenuHorizontalIcon" aria-hidden="true" class="css-snhnyn" style="--icon-primary-color: currentColor; --icon-secondary-color: inherit;">
-            <svg width="24" height="24" role="presentation" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14ZM12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14ZM21 12C21 13.1046 20.1046 14 19 14C17.8954 14 17 13.1046 17 12C17 10.8954 17.8954 10 19 10C20.1046 10 21 10.8954 21 12Z" fill="currentColor"></path>
-            </svg>
-          </span>
-        </span>
-      </button> */}
 
       {/* Column task container */}
       <div
@@ -175,8 +170,8 @@ export default function ColumnContainer(props) {
               key={task.id}
               task={task}
               column={column}
-              deleteTask={deleteTask}
               updateTask={updateTask}
+              deleteCard={deleteCard}
             />
           ))}
           <CreateNewBoardItem

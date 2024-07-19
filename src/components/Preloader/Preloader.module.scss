@@ -1,0 +1,38 @@
+
+.preloaderWrap{
+    text-align: -webkit-center;
+    height: 100vh;
+    width: 100vw;
+    padding: 20% 0;
+    // z-index: 99;
+    z-index: 99;
+    position: absolute;
+    background-color: rgba($color: #000000, $alpha: .5);
+    // left: 50%;
+    // top: 20%;
+}
+.preloader{
+    width: 80px;
+    height: 80px;
+    background-color: transparent;
+    border: 10px dotted rgb(54, 194, 187);
+    border-radius: 50%;
+
+    animation: preloder 4s ease 1s infinite;
+
+    span{
+        animation: tree_dots 2s ease 1s infinite;
+    }
+}
+@keyframes preloder{
+    0%{
+        transform: rotate(0deg); 
+    }
+    100%{
+        transform: rotate(360deg); 
+    }
+}
+
+@keyframes tree_dots{
+
+}
