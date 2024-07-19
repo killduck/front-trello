@@ -1,7 +1,7 @@
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import * as api from '../../api/api';
+import request from "../../api/request";
 
 import ButtonDropMenu from '../ui/ButtonDropMenu/ButtonDropMenu';
 import DropDownMenuKebab from '../DropDownMenuKebab/DropDownMenuKebab';
@@ -20,6 +20,25 @@ import MemberMenu from '../MemberMenu/MemberMenu';
 
 export default function Header(props) {
 
+  let [authorized_user, setAuthorizedUser] = useState({});
+
+  let [first_letter, setFirstLetter] = useState('');
+
+  useEffect(() => {
+    request({
+      method: 'GET',
+      url: 'user/',
+      callback: (response) => {
+        if (response.status === 200) {
+          setAuthorizedUser(response.data);
+          setFirstLetter(response.data.username.substring(0, 1).toUpperCase());
+        }
+      },
+      data: null,
+      status: 200,
+    })
+  }, [])
+
   // состояние для Favorites в карточках Workspace
   let [stateBoardsList, setBoardsList] = useState(api.boards_recent);
 
@@ -36,6 +55,7 @@ export default function Header(props) {
       'BtnActiveTemplatesDropMenu': false,
     }
   );
+
 
   function onRemoving_active_menu(name_state = null) {
 
@@ -90,8 +110,8 @@ export default function Header(props) {
     console.log('Проверка выполения функции =>', onCreate.name);
   }
 
-  function funkMemberMenu(){
-    if(showMemberMenu){
+  function funkMemberMenu() {
+    if (showMemberMenu) {
       setMemberMenu(false);
       return;
     }
@@ -320,11 +340,18 @@ export default function Header(props) {
           </div>
 
           <div className={styles.blockNotification} onClick={funkMemberMenu}>
-            <Notification onClick={funkMemberMenu} >
-              <img src={'/img/no_name.png'} alt="" />
+            <Notification
+              onClick={funkMemberMenu}
+              authorized_user={authorized_user}
+              first_letter={first_letter}
+            >
+              {/* <img src={'/img/no_name.png'} alt="" /> */}
             </Notification>
 
-            <MemberMenu swowMenu={ showMemberMenu} />
+            <MemberMenu
+              authorized_user={authorized_user}
+              swowMenu={showMemberMenu}
+            />
 
           </div>
         </div>
