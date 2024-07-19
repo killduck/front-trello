@@ -5,7 +5,7 @@ import Icons from "../../components/ui/Icons/Icons";
 import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button/Button";
 
 export default function Login(props) {
@@ -50,6 +50,8 @@ export default function Login(props) {
         }
 
         if (formAuth.username && formAuth.password) {
+            localStorage.removeItem("trello_auth");
+
             request({
                 method: "POST",
                 url: "login/",

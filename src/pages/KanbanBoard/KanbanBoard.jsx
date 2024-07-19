@@ -66,7 +66,7 @@ export default function KanbanBoard() {
       url:'dashboards/',
       callback:(response) => { 
         if (response.status === 200) {
-          let dashboard = response.data[0]; //нужный дашборд
+          let dashboard = response.data; //нужный дашборд
 
           setBackGroundImage( dashboard.img );
           setColumns( dashboard.column );

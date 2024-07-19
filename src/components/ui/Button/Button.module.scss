@@ -42,6 +42,47 @@
 //     cursor: pointer;
 // };
 
+.buttonAdd {
+  background-color: #579dff;
+  box-shadow: none;
+  border: none;
+  color: #1d2125;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #85b8ff;
+    box-shadow: none;
+    border: none;
+    color: #1d2125;
+    text-decoration: none;
+  }
+  &:active {
+    background-color: #cce0ff; //#09326c;
+    box-shadow: none;
+    border: none;
+    color: #1d2125; //#ffffff;
+    outline: 0;
+  }
+}
+
+.buttonEsc {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 6px;
+  position: relative;
+  color: #dee4ea;
+
+  &:hover {
+    background-color: #a6c5e229;
+    box-shadow: none;
+    border: none;
+    color: #b6c2cf;
+    text-decoration: none;
+  }
+}
+
+
 .BtnCreateNewColumn {
   display: flex;
   align-items: center;

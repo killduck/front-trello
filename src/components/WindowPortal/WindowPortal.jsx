@@ -41,29 +41,29 @@ export default function WindowPortal(props){
 
     const modalContent = (
         <div className={styles.wrap} onClick={closeModalHandle}>
-                <WindowModal
-                    // closeWindowPortal={closeModal}
-                    // data={props}
-                    // onBlur={closeModal}
-                    idElem = {idElem}
-                    typeElem = {typeElem}
-                    task = {task}
-                    column = {column}
-                    updateFunc = {updateFunc}
-                    deleteFunc = {deleteFunc}
+            <WindowModal
+                // closeWindowPortal={closeModal}
+                // data={props}
+                // onBlur={closeModal}
+                idElem = {idElem}
+                typeElem = {typeElem}
+                task = {task}
+                column = {column}
+                updateFunc = {updateFunc}
+                deleteFunc = {deleteFunc}
+            >
+                <Button
+                    className={'btnWindowModal'}
+                    clickAction={closeModal}
                 >
-                    <Button
-                        className={'btnWindowModal'}
-                        clickAction={closeModal}
+                    <Icons
+                        class_name={'btnModalCloseIcon'}
+                        name={'CloseIcon'}
                     >
-                        <Icons
-                            class_name={'btnModalCloseIcon'}
-                            name={'CloseIcon'}
-                        >
-                        </Icons>
-                    </Button>
+                    </Icons>
+                </Button>
 
-                </WindowModal>
+            </WindowModal>
 
         </div>
     );

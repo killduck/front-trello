@@ -13,9 +13,9 @@ export default function Workspace(props) {
   // console.log(`props => ${props.cardName}`);
   // console.log(props);
 
-  let state = useLocation();
+  let state = useLocation(); // тут id авторизованного юзера
   // console.log(state.state['key']);
-  console.log(state);
+  // console.log(state);
 
 
   let [showDashboards, setShowDashboards] = useState(false);
