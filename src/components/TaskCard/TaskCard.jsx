@@ -19,6 +19,8 @@ export default function TaskCard(props) {
   let task = props.task;
   let column = props.column;
   let updateTask = props.updateTask;
+  let deleteCard = props.deleteCard;
+
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -47,7 +49,7 @@ export default function TaskCard(props) {
     transform: CSS.Transform.toString(transform),
   };
 
-  const toggleEditMode = (evt) => {
+  function toggleEditMode() {
     setEditMode((prev) => !prev);
     setMouseIsOver(false);
   };
@@ -92,7 +94,7 @@ export default function TaskCard(props) {
           value={ newTaskName === '' ? task.name : newTaskName }
           autoFocus
           onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
-          placeholder="Task content here"
+          placeholder="Введите имя карточки"
           onBlur={closeUpdate}
           onKeyDown={closeUpdate}
           onChange={(evt) => writeNewText(evt.target.value)}
@@ -132,6 +134,7 @@ export default function TaskCard(props) {
         task = {task}
         column = {column}
         updateFunc = {updateTask}
+        deleteFunc={deleteCard}
       >
         <div className={styles.TaskCard__Wrap}>
 

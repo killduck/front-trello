@@ -20,15 +20,17 @@ export default function ColumnContainer(props) {
   let newTextTask = props.newTextTask;
   let setNewTextTask = props.setNewTextTask;
   let requestSuccessCreateTask = props.requestSuccessCreateTask;
-  // let deleteColumn = props.deleteColumn;
+  let deleteColumn = props.deleteColumn;
   let updateColumn = props.updateColumn;
   let tasks = props.tasks;
-  let deleteTask = props.deleteTask;
+  let deleteCard = props.deleteCard;
   let updateTask = props.updateTask;
 
   const [editMode, setEditMode] = useState(false);
 
   const [showForm, setShowForm] = useState(true);
+
+  const [newColName, setNewColName] = useState('');
 
   const tasksIds = useMemo(() => {
     return tasks.map((task) => task.id);
@@ -88,6 +90,21 @@ export default function ColumnContainer(props) {
     setShowForm(true);
   }
 
+  function writeNewText(evt) {
+    setNewColName((newColName) => (newColName = evt));
+  }
+  const closeUpdate =  (evt) => {
+    if (evt.key === "Enter" && evt.shiftKey || evt.type === "blur") {
+
+      if(newColName !== '' && newColName !== column.name){
+        updateColumn(column.id, newColName);
+        column.name = newColName;
+      }
+
+      setEditMode(false);
+    }
+  }
+
   return (
     <div
       ref={setNodeRef}
@@ -101,6 +118,7 @@ export default function ColumnContainer(props) {
           {...listeners}
           onClick={() => {
             setEditMode(true);
+            setNewColName(column.name);
           }}
           className={styles.ColumnTitleWrap}
         >
@@ -111,16 +129,13 @@ export default function ColumnContainer(props) {
             {editMode && (
               <input
                 className={styles.EditeColumnTitle}
-                value={column.name}
-                onChange={(e) => updateColumn(column.id, e.target.value)}
+                value={ !editMode ? column.name : newColName }
                 autoFocus
-                onBlur={() => {
-                  setEditMode(false);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key !== "Enter") return;
-                  setEditMode(false);
-                }}
+                onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }
+                placeholder="Введите имя колонки"
+                onBlur={ closeUpdate }
+                onKeyDown={ closeUpdate }
+                onChange={(evt) => writeNewText(evt.target.value)} //updateColumn
               />
             )}
           </div>
@@ -131,6 +146,7 @@ export default function ColumnContainer(props) {
           idElem={column.id}
           column = {column}
           updateFunc={updateColumn}
+          deleteFunc={deleteColumn}
         >
           <Icons
             name={'three_dots'}
@@ -177,8 +193,8 @@ export default function ColumnContainer(props) {
               key={task.id}
               task={task}
               column={column}
-              deleteTask={deleteTask}
               updateTask={updateTask}
+              deleteCard={deleteCard}
             />
           ))}
           <CreateNewBoardItem

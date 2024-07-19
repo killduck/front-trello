@@ -9,12 +9,13 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 
 export default function WindowModal(props){
-  console.log(props);
+  // console.log(props);
   let typeElem = props.typeElem;
   let idElem = Number(props.idElem);
   // let task = props.task;
   let column = props.column;
   let updateFunc = props.updateFunc;
+  let deleteFunc = props.deleteFunc;
   // console.log(column);
 
   // const [mainState, setMainState] = useState(false);
@@ -33,10 +34,10 @@ export default function WindowModal(props){
   useEffect(() => {
     request({
       method:'POST',
-      url:`${typeElem}/`,
+      url:`take-data-${typeElem}/`,
       callback:(response) => { 
         if (response.status === 200) {
-          // console.log(response.data);
+          console.log(response.data);
           if(response.data){
             setWindowData(response.data[0]);
             setWindowName(response.data[0]['name']);
@@ -269,7 +270,20 @@ export default function WindowModal(props){
             <h3 class={styles.actionsTitle}>Действия:</h3>
             <div className={styles.actionsWrap}>
               <div className={styles.actionDeleteCard}>
-                Удалить карточку
+                Удалить {typeElem === 'column' ? 'колонку' : 'карточку'}
+                <Button
+                    // clickAction={deleteColumn}
+                    // actionVariable={column.id}
+                    // className={'BtnDeleteColumn'}
+                    clickAction={deleteFunc}
+                    actionVariable={windowData.id}
+                    className={'BtnKebabColumnn'}
+                  >
+                    <Icons
+                      name={'Trash'}
+                      class_name={'IconDeletColumnn'}
+                    />
+                </Button>
               </div>
             </div>
 

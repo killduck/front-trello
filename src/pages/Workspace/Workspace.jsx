@@ -7,8 +7,7 @@ import styles from "./Workspace.module.scss";
 import Button from "../../components/ui/Button/Button";
 import Icons from "../../components/ui/Icons/Icons";
 import Input from "../../components/ui/Input/Input";
-
-import { preload } from 'react-dom';
+import Preloader from "../../components/Preloader/Preloader";
 
 export default function Workspace(props) {
   // console.log(`props => ${props.cardName}`);
@@ -213,7 +212,7 @@ export default function Workspace(props) {
       </Default >)
       :
       (
-        "грузим хуйню"
+        <Preloader />
       )
     }
     </>

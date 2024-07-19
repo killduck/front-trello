@@ -21,10 +21,13 @@ import Icons from "../../components/ui/Icons/Icons";
 import TaskCard from "../../components/TaskCard/TaskCard";
 
 import styles from "./KanbanBoard.module.scss";
+import Preloader from "../../components/Preloader/Preloader";
 // import WorkspaceMenu from "../../components/WorkspaceMenu/WorkspaceMenu";
 
 
 export default function KanbanBoard() {
+
+  let [showPreloder, setShowPreloder] = useState(false);
 
   const [columns, setColumns] = useState([]);
 
@@ -293,7 +296,7 @@ export default function KanbanBoard() {
     request({
       method: "POST",
       url: 'create-column/',
-      callback: (request) => { requestSuccessCreateColumn(request) },
+      callback: (response) => { requestSuccessCreateColumn(response) },
       data: columnToAdd,
       status: 200,
     });
@@ -301,7 +304,7 @@ export default function KanbanBoard() {
 
 
   function requestSuccessCreateTask(response) {
-    console.log(response);
+    // console.log(response);
     if (response) {
       const cardToAdd = response.data;
 
@@ -325,15 +328,13 @@ export default function KanbanBoard() {
 
   function updateColumn(id, name) {
     // console.log(id, name);
-    console.log('мы_тут');
+    // console.log('мы_тут');
     request({
       method: "POST",
       url: `new-data-column/`,
       callback: (response) => { 
         if (response.status === 200) {
           name = response.data[0]['name'];
-          console.log(name);
-          console.log('wa');
           updateSetColumns(id, name);
         }
       },
@@ -370,15 +371,13 @@ export default function KanbanBoard() {
   }
 
   function requestSuccessDeletColumn(response, id) {
-
     if (response.data) {
       const filteredColumns = columns.filter((column) => column.id !== id);
       setColumns(filteredColumns);
 
-      const newTasks = tasks.filter((task) => task.column !== id);
-      setTasks(newTasks);
+      const filteredTasks = tasks.filter((task) => task.column !== id);
+      setTasks(filteredTasks);
     }
-
   }
 
   function deleteColumn(id) {
@@ -388,15 +387,41 @@ export default function KanbanBoard() {
     request({
       method: "POST",
       url: 'delete-column/',
-      callback: (request) => { requestSuccessDeletColumn(request, id) },
+      callback: (response) => { 
+        setShowPreloder(true);
+        if(response.status === 200){
+          requestSuccessDeletColumn(response, id);
+          setShowPreloder(false);
+        }
+      },
       data: idColumnDeleted,
       status: 200,
     });
   }
 
-  function deleteTask(id) {
-    const newTasks = tasks.filter((task) => task.id !== id);
-    setTasks(newTasks);
+  function requestSuccessDeletCard(response, id) {
+    if (response.data) {
+      const filteredTasks = tasks.filter((task) => task.id !== id);
+      setTasks(filteredTasks);
+    }
+  }
+
+  function deleteCard(id) {
+    let idCardDeleted = { id_card: id }
+
+    request({
+      method: "POST",
+      url: 'delete-card/',
+      callback: (response) => { 
+        setShowPreloder(true);
+        if(response.status === 200){
+            requestSuccessDeletCard(response, id);
+            setShowPreloder(false);
+        }
+      },
+      data: idCardDeleted,
+      status: 200,
+    });
   }
 
 
@@ -405,6 +430,7 @@ export default function KanbanBoard() {
       <Default
         backGroundImage={{ backgroundImage: `url(/img/${ backGroundImage })` }}
       >
+      {showPreloder ? (<Preloader />) : ("")}
         {/* <WorkspaceMenu /> */}
         <div className={styles.KanbanBoard}>
           <DndContext
@@ -425,7 +451,7 @@ export default function KanbanBoard() {
                       requestSuccessCreateTask={requestSuccessCreateTask}
                       deleteColumn={deleteColumn}
                       updateColumn={updateColumn}
-                      deleteTask={deleteTask}
+                      deleteCard={deleteCard}
                       updateTask={updateTask}
                       tasks={tasks.filter((task) => task.column === column.id)}
                     />
@@ -488,7 +514,7 @@ export default function KanbanBoard() {
                     requestSuccessCreateTask={requestSuccessCreateTask}
                     deleteColumn={deleteColumn}
                     updateColumn={updateColumn}
-                    deleteTask={deleteTask}
+                    deleteCard={deleteCard}
                     updateTask={updateTask}
                     tasks={tasks.filter(
                       (task) => task.column === activeColumn.id
@@ -498,7 +524,7 @@ export default function KanbanBoard() {
                 {activeTask && (
                   <TaskCard
                     task={activeTask}
-                    deleteTask={deleteTask}
+                    deleteCard={deleteCard}
                     updateTask={updateTask}
                   />
                 )}
