@@ -185,7 +185,7 @@ export default function ColumnContainer(props) {
             placeholder="Ввести заголовок карточки"
             aria-label="Ввести заголовок карточки"
             data-testid="list-name-textarea"
-            autoFocus={showForm ? false : true}
+            autoFocus
             hideElAction={setShowForm}
             showFlag={true}
             changeAction={setNewTextTask}

@@ -471,7 +471,7 @@ export default function KanbanBoard() {
                   placeholder="Ввести заголовок списка"
                   aria-label="Ввести заголовок списка"
                   data-testid="list-name-textarea"
-                  autoFocus={showForm ? false : true}
+                  autoFocus
                   hideElAction={setShowForm}
                   showFlag={true}
                   changeAction={setText}

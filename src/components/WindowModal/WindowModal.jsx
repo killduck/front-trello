@@ -25,8 +25,10 @@ export default function WindowModal(props){
   let [windowData, setWindowData] = useState({});
   const [startWindowName, setStartWindowName] = useState('');
   let [windowName, setWindowName] = useState('');
-
   let [newName, setNewNameField] = useState(false);
+
+  let [ membersWindow, setMembersWindow] = useState(false);
+
   // let [newText, setNewTextData] = useState('');
 
   let [subscribe, setSubscribe] = useState(false);
@@ -83,6 +85,16 @@ export default function WindowModal(props){
     }
     else{
       setSubscribe(true);
+    }
+  }
+
+  function funcMembersWindow(){
+    
+    if(membersWindow){
+      setMembersWindow(false);
+    }
+    else{
+      setMembersWindow(true);
     }
   }
 
@@ -246,20 +258,112 @@ export default function WindowModal(props){
             <h3 class={styles.cardTitle}>Добавить на карточку:</h3>
             <div className={styles.itemsWrap}>
               
-              <div className={styles.itemMembers}>
-                Участники
+              <div 
+                className={styles.itemMembers}
+                onClick={ funcMembersWindow }  
+              >
+                <Icons
+                  name={'icon-date'}
+                  class_name={'itemDueDateIcon'}
+                />
+                <span>Участники</span>
+                
+                {membersWindow ?
+                
+                (<div 
+                  className={styles.smallWindowWrap}
+                >
+                  {/* <div className={styles.itemHeader}> */}
+                  <div className={styles.itemHeader}>
+                    <span class={styles.itemHeaderTitle}>Участники</span>
+                    <div className={styles.iconWrap}>
+                      <Button
+                          className={'btnSmallWindow'}
+                          type="dutton"
+                          ariaLabel="Закрыть окно"
+                          clickAction={ funcMembersWindow }
+                      >
+                        {/* <div className={styles.iconWrap}> */}
+                          <Icons
+                              class_name={'btnModalCloseIcon'}
+                              name={'CloseIcon'}
+                          />
+                        {/* </div> */}
+                      </Button>
+                    </div>
+                  </div>
+                  <div className={styles.itemContent}>
+                    <input 
+                      className={styles.itemContentInput} 
+                      autoFocus = {true}
+                      type="text" 
+                      placeholder="Поиск участников" 
+                    />
+                    
+                    <div className={styles.itemContentCardMembers} >
+                      <div className={styles.itemContentCardMembersTitle} >
+                        <h4 className={styles.itemContentCardMembersTitle}>Участники карточки</h4>
+                      </div>
+                      <div className={styles.itemContentDashboardMember} >
+                        <ul>
+                          <li>
+                            <div className={styles.itemContentDashboardMemberInfo} >
+                              <span></span>
+                              <div title="Leo (killduck)">Leo</div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className={styles.itemContentDashboardMembers} >
+                      <div className={styles.itemContentDashboardMembersTitle} >
+                        <h4 className={''}>Участники доски</h4>
+                      </div>
+                      <div className={styles.itemContentDashboardMember}>
+                        <ul>
+                          <li>
+                            <div className={styles.itemContentDashboardMemberInfo} >
+                              <span></span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                  {/* </div> */}
+                </div>
+                )
+                :
+                ("")
+                }
               </div>
 
               <div className={styles.itemLabels}>
-                Метки
+                <Icons
+                  name={'icon-date'}
+                  class_name={'itemDueDateIcon'}
+                />
+                <span>Метки</span>
               </div>
 
               <div className={styles.itemDueDate}>
-                Даты
+                <Icons
+                  name={'icon-date'}
+                  class_name={'itemDueDateIcon'}
+                />
+                <span>Даты</span>
               </div>
 
               <div className={styles.itemAttachments}>
-                Прикрепить
+                <Icons
+                  name={'icon-date'}
+                  class_name={'itemDueDateIcon'}
+                />
+                <span>Прикрепить</span>
               </div>
 
             </div>
@@ -267,7 +371,7 @@ export default function WindowModal(props){
           </div>
 
           <div className={styles.actionsWrap}>
-            <h3 class={styles.actionsTitle}>Действия:</h3>
+            <h3 className={styles.actionsTitle}>Действия:</h3>
             <div className={styles.actionsWrap}>
               <div className={styles.actionDeleteCard}>
                 Удалить {typeElem === 'column' ? 'колонку' : 'карточку'}

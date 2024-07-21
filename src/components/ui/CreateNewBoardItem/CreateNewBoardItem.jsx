@@ -16,7 +16,7 @@ export default function CreateNewBoardItem(props) {
     let placeholder = props.placeholder;
     let ariaLabel = props.ariaLabel;
     let dataTestid = props.dataTestid;
-    let autoFocus = props.autoFocus;
+    // let autoFocus = props.autoFocus;
     let changeAction = props.changeAction;
     let newColName = props.newColName;
     let buttonText = props.buttonText;
@@ -38,7 +38,7 @@ export default function CreateNewBoardItem(props) {
                     placeholder={placeholder}
                     aria-label={ariaLabel}
                     data-testid={dataTestid}
-                    autoFocus={autoFocus} //не работает???
+                    autoFocus = {true}
                     onChange={(evt) => changeAction(evt.target.value)}
                 // value={className ? '' : undefined}
                 />

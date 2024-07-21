@@ -30,10 +30,10 @@ $text: #172b4d;
 
     background-color: $background;
     border-radius: 8px;
-    box-shadow:
-      $shadow-raised,
-      0px 1px 1px $shadow_1 0px 0px 1px $shadow_2;
-    color: $text;
+    // box-shadow:
+    //   $shadow-raised,
+    //   0px 1px 1px $shadow_1 0px 0px 1px $shadow_2;
+    color: $color_card_text;
     cursor: pointer;
     scroll-margin: 8px;
 
@@ -68,6 +68,12 @@ $text: #172b4d;
 
           position: relative;
           // z-index: 999;
+
+          &:hover {
+            color: #000000;
+            opacity: 0.5;
+            cursor: pointer;
+          }
           .Label {
             display: none;
           }
