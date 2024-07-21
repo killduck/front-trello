@@ -21,7 +21,7 @@ export default function request(params = { method: 'GET', url: '', callback: '',
                 }
             })
             .catch((error) => {
-                redirect();
+                // redirect();
                 console.error(error);
             })
     }
@@ -39,7 +39,7 @@ export default function request(params = { method: 'GET', url: '', callback: '',
                 }
             })
             .catch((error) => {
-                redirect();
+                // redirect();
                 console.error(error);
             })
     }

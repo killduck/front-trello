@@ -340,3 +340,9 @@
 .btnSmallWindow{
   padding: 5px;
 }
+.addUserToCard{
+  width: 100%;
+  &:hover {
+    background-color: #a1bdd914;
+}
+}

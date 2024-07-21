@@ -408,9 +408,17 @@
                     list-style: none;
                     margin: 0;
                     padding: 0;
+
+                    li{
+                        display: flex;
+                        align-items: center;
+                        padding: 4px 8px 4px 4px;
+                        height: 40px;
+                        width: 100%;
+                    }
                 }
-                .itemContentDashboardMemberInfo{
-                    display: flex;
+                .itemContentDashboardMemberImg{
+                    // display: flex;
 
                     div{
                     flex: 1;
@@ -427,6 +435,7 @@
                         height: 30px;
                         width: 30px;
                         margin-right: 8px;
+                        border-radius: 50%;
                     }
                 }
             }

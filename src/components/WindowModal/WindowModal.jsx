@@ -29,6 +29,9 @@ export default function WindowModal(props){
 
   let [ membersWindow, setMembersWindow] = useState(false);
 
+  // let [cardUsers, setCardUsers] = useState([]);
+  let [dashboardUsers, setDashboardUsers] = useState([]);
+
   // let [newText, setNewTextData] = useState('');
 
   let [subscribe, setSubscribe] = useState(false);
@@ -39,7 +42,7 @@ export default function WindowModal(props){
       url:`take-data-${typeElem}/`,
       callback:(response) => { 
         if (response.status === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           if(response.data){
             setWindowData(response.data[0]);
             setWindowName(response.data[0]['name']);
@@ -52,7 +55,7 @@ export default function WindowModal(props){
     });
 
   },[typeElem, idElem]);
-  // console.log(windowData);
+
   function showTextarea() {
     if(!newName){
       setNewNameField(newName = true);
@@ -70,12 +73,10 @@ export default function WindowModal(props){
   const windowNameHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
       showTextarea();
-
       if(windowName !== startWindowName){
         updateFunc(windowData.id, windowName);
         setStartWindowName(windowName);
       }
-
     }
   }
 
@@ -88,14 +89,49 @@ export default function WindowModal(props){
     }
   }
 
+  function requestUsers() {
+    request({
+      method:'POST',
+      url:`dashboard-user/`,
+      callback:(response) => { 
+        if (response.status === 200) {
+          console.log(response.data);
+          if(response.data){
+            setDashboardUsers(response.data);
+          }
+        }
+      },
+      data: { 'dashboard_id': column.dashboard },
+      status:200,
+    });
+  }
+
   function funcMembersWindow(){
-    
     if(membersWindow){
       setMembersWindow(false);
     }
     else{
-      setMembersWindow(true);
+      setMembersWindow(membersWindow = true);
+      requestUsers();
     }
+  }
+
+  function addUserToCard( user_id ){
+    console.log(user_id);
+    request({
+      method:'POST',
+      url:`card-user-update/`,
+      callback:(response) => { 
+        if (response.status === 200) {
+          console.log(response.data);
+          // if(response.data){
+          //   setDashboardUsers(response.data);
+          // }
+        }
+      },
+      data: { 'user_id': user_id },
+      status:200,
+    });
   }
 
   const headerSection = (
@@ -176,7 +212,6 @@ export default function WindowModal(props){
         clickAction = {funcSubscribe}
         style={{paddingRight: "32px", width: "138px"}}
       >
-        
         <Icons
           name={'eye-open'}
           class_name={'iconCardSubscribe'}
@@ -210,7 +245,7 @@ export default function WindowModal(props){
   )
    
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrap} >
         {props.children}
 
         {/* header */}
@@ -260,90 +295,105 @@ export default function WindowModal(props){
               
               <div 
                 className={styles.itemMembers}
-                onClick={ funcMembersWindow }  
+                onClick={ funcMembersWindow }
               >
-                <Icons
+                <Icons //нужна другая иконка
                   name={'icon-date'}
                   class_name={'itemDueDateIcon'}
                 />
                 <span>Участники</span>
-                
-                {membersWindow ?
-                
-                (<div 
-                  className={styles.smallWindowWrap}
-                >
-                  {/* <div className={styles.itemHeader}> */}
-                  <div className={styles.itemHeader}>
-                    <span class={styles.itemHeaderTitle}>Участники</span>
-                    <div className={styles.iconWrap}>
-                      <Button
-                          className={'btnSmallWindow'}
-                          type="dutton"
-                          ariaLabel="Закрыть окно"
-                          clickAction={ funcMembersWindow }
-                      >
-                        {/* <div className={styles.iconWrap}> */}
-                          <Icons
-                              class_name={'btnModalCloseIcon'}
-                              name={'CloseIcon'}
-                          />
-                        {/* </div> */}
-                      </Button>
-                    </div>
-                  </div>
-                  <div className={styles.itemContent}>
-                    <input 
-                      className={styles.itemContentInput} 
-                      autoFocus = {true}
-                      type="text" 
-                      placeholder="Поиск участников" 
-                    />
-                    
-                    <div className={styles.itemContentCardMembers} >
-                      <div className={styles.itemContentCardMembersTitle} >
-                        <h4 className={styles.itemContentCardMembersTitle}>Участники карточки</h4>
-                      </div>
-                      <div className={styles.itemContentDashboardMember} >
-                        <ul>
-                          <li>
-                            <div className={styles.itemContentDashboardMemberInfo} >
-                              <span></span>
-                              <div title="Leo (killduck)">Leo</div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className={styles.itemContentDashboardMembers} >
-                      <div className={styles.itemContentDashboardMembersTitle} >
-                        <h4 className={''}>Участники доски</h4>
-                      </div>
-                      <div className={styles.itemContentDashboardMember}>
-                        <ul>
-                          <li>
-                            <div className={styles.itemContentDashboardMemberInfo} >
-                              <span></span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                  </div>
-
-
-                  {/* </div> */}
-                </div>
-                )
-                :
-                ("")
-                }
               </div>
+              
+              {membersWindow ?
+              
+              (<div 
+                className={styles.smallWindowWrap}
+              >
+                {/* <div className={styles.itemHeader}> */}
+                <div className={styles.itemHeader}>
+                  <span class={styles.itemHeaderTitle}>Участники</span>
+                  <div className={styles.iconWrap}>
+                    <Button
+                        className={'btnSmallWindow'}
+                        type="dutton"
+                        ariaLabel="Закрыть окно"
+                        clickAction={ funcMembersWindow }
+                    >
+                      {/* <div className={styles.iconWrap}> */}
+                        <Icons
+                            class_name={'btnModalCloseIcon'}
+                            name={'CloseIcon'}
+                        />
+                      {/* </div> */}
+                    </Button>
+                  </div>
+                </div>
+                <div className={styles.itemContent}>
+                  <input 
+                    className={styles.itemContentInput} 
+                    autoFocus = {true}
+                    type="text" 
+                    placeholder="Поиск участников" 
+                  />
+                  
+                  <div className={styles.itemContentCardMembers} >
+                    <div className={styles.itemContentCardMembersTitle} >
+                      <h4 className={styles.itemContentCardMembersTitle}>Участники карточки</h4>
+                    </div>
+                    <div className={styles.itemContentDashboardMember} >
+                      <ul>
+                        <li>
+                          <div className={styles.itemContentDashboardMemberInfo} >
+                            <span></span>
+                            <div title="Leo (killduck)">Leo</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className={styles.itemContentDashboardMembers} >
+                    <div className={styles.itemContentDashboardMembersTitle} >
+                      <h4 className={''}>Участники доски</h4>
+                    </div>
+                    <div className={styles.itemContentDashboardMember}>
+                      <ul>
+                      {dashboardUsers.map
+                        ((user)=> 
+                          <li key={user.id} >
+                            <Button
+                              className={'addUserToCard'}
+                              type="dutton"
+                              ariaLabel="Добавить пользователя к карточке"
+                              actionVariable = {user.id}
+                              clickAction = { addUserToCard }
+                            >
+                              <div className={styles.itemContentDashboardMemberImg} >
+                                <span />
+                              </div>
+                              <div>
+                                <span>{user.username}</span>
+                              </div>
+                            </Button>
+                            
+                          </li>
+                        )
+                      }
+                      </ul>
+                    </div>
+                  </div>
+
+                </div>
+                {/* </div> */}
+              </div>
+              )
+              :
+              ("")
+              }
+              
 
               <div className={styles.itemLabels}>
-                <Icons
+                <Icons  //нужна другая иконка
                   name={'icon-date'}
                   class_name={'itemDueDateIcon'}
                 />
@@ -359,7 +409,7 @@ export default function WindowModal(props){
               </div>
 
               <div className={styles.itemAttachments}>
-                <Icons
+                <Icons  //нужна другая иконка
                   name={'icon-date'}
                   class_name={'itemDueDateIcon'}
                 />
