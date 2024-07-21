@@ -3,17 +3,23 @@ import styles from "../NotificateBTN/Notification.module.scss";
 
 export default function Notification(props) {
 
-    let authorized_user = props.authorized_user;
+    let user = props.user;
 
-    let first_letter = props.first_letter;
+    let class_name = props.class_name;
+
+    let clickAction = props.clickAction ?? Function.prototype;
+
+    let actionVariable = props.actionVariable;
 
     return (
-        <button className={styles.Notificate}>
+        <button
+            className={`${styles.Notificate} ${styles[class_name]} `}
+            onClick={() => clickAction(actionVariable)}
+        >
             {props.children}
             <div className={styles.NotificateUserName}>
-                {first_letter}
+                {user.first_letter}
             </div>
-
         </button>
     )
 };

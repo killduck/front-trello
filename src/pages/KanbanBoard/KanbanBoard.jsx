@@ -16,6 +16,7 @@ import request from "../../api/request";
 import Button from "../../components/ui/Button/Button";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
 import CreateNewBoardItem from "../../components/ui/CreateNewBoardItem/CreateNewBoardItem";
+import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
 import Default from "../../layouts/default/Default";
 import Icons from "../../components/ui/Icons/Icons";
 import TaskCard from "../../components/TaskCard/TaskCard";
@@ -49,6 +50,10 @@ export default function KanbanBoard() {
 
   let [backGroundImage, setBackGroundImage] = useState('');
 
+  let [name_dashboard, setNameDashboard] = useState('');
+
+  let [users, setUsers] = useState([]);
+
   let { dashboardId } = useParams();
 
   const sensors = useSensors(
@@ -61,16 +66,18 @@ export default function KanbanBoard() {
 
 
   useEffect(() => {
+
     request({
-      method:'POST',
-      url:'dashboards/',
-      callback:(response) => { 
+      method: 'POST',
+      url: 'dashboards/',
+      callback: (response) => {
         if (response.status === 200) {
           let dashboard = response.data; //нужный дашборд
 
-          setBackGroundImage( dashboard.img );
-          setColumns( dashboard.column );
-          setcolumnBug( dashboard.column[0].id ); // ищем 1ую колонку
+          setNameDashboard(dashboard.name);
+          setBackGroundImage(dashboard.img);
+          setColumns(dashboard.column);
+          setcolumnBug(dashboard.column[0].id); // ищем 1ую колонку
 
           let data_card = [];
           dashboard.column.map((column) => (
@@ -89,10 +96,23 @@ export default function KanbanBoard() {
         }
       },
       data: { 'dashboardId': dashboardId },
-      status:200,
+      status: 200,
     });
 
-  }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
+    request({
+      method: 'POST',
+      url: 'dashboard-user/',
+      callback: (response) => {
+        if (response.status === 200) {
+          setUsers(response.data);
+        }
+      },
+      data: { 'dashboardId': dashboardId },
+      status: 200,
+    });
+
+
+  }, []); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
@@ -318,7 +338,7 @@ export default function KanbanBoard() {
   function updateSetColumns(id, name) {
     const newColumns = columns.map((col) => {
       // console.log(id, name ,col.id);
-      if (col.id !== id){
+      if (col.id !== id) {
         return col;
       }
       return { ...col, name };
@@ -332,13 +352,13 @@ export default function KanbanBoard() {
     request({
       method: "POST",
       url: `new-data-column/`,
-      callback: (response) => { 
+      callback: (response) => {
         if (response.status === 200) {
           name = response.data[0]['name'];
           updateSetColumns(id, name);
         }
       },
-      data: {id: id, name: name},
+      data: { id: id, name: name },
       status: 200,
     });
   }
@@ -346,7 +366,7 @@ export default function KanbanBoard() {
   function updateSetTasks(id, name) {
     const newTasks = tasks.map((task) => {
       // console.log(String(id) , name ,task.id);
-      if (task.id !== String(id)){ 
+      if (task.id !== String(id)) {
         return task;
       }
       return { ...task, name };
@@ -359,13 +379,13 @@ export default function KanbanBoard() {
     request({
       method: "POST",
       url: `new-data-card/`,
-      callback: (response) => { 
+      callback: (response) => {
         if (response.status === 200) {
           name = response.data[0]['name'];
           updateSetTasks(id, name);
         }
       },
-      data: {id: id, name: name},
+      data: { id: id, name: name },
       status: 200,
     });
   }
@@ -387,9 +407,9 @@ export default function KanbanBoard() {
     request({
       method: "POST",
       url: 'delete-column/',
-      callback: (response) => { 
+      callback: (response) => {
         setShowPreloder(true);
-        if(response.status === 200){
+        if (response.status === 200) {
           requestSuccessDeletColumn(response, id);
           setShowPreloder(false);
         }
@@ -412,11 +432,11 @@ export default function KanbanBoard() {
     request({
       method: "POST",
       url: 'delete-card/',
-      callback: (response) => { 
+      callback: (response) => {
         setShowPreloder(true);
-        if(response.status === 200){
-            requestSuccessDeletCard(response, id);
-            setShowPreloder(false);
+        if (response.status === 200) {
+          requestSuccessDeletCard(response, id);
+          setShowPreloder(false);
         }
       },
       data: idCardDeleted,
@@ -426,89 +446,30 @@ export default function KanbanBoard() {
 
 
   return (
- 
-      <Default
-        backGroundImage={{ backgroundImage: `url(/img/${ backGroundImage })` }}
-      >
+
+    <Default
+      backGroundImage={{ backgroundImage: `url(/img/${backGroundImage})` }}
+    >
+      <DashboardHeader
+        users={users}
+        name_dashboard={name_dashboard}
+      />
       {showPreloder ? (<Preloader />) : ("")}
-        {/* <WorkspaceMenu /> */}
-        <div className={styles.KanbanBoard}>
-          <DndContext
-            sensors={sensors}
-            onDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-            onDragOver={onDragOver}
-          >
-            <div className={styles.Wrap}>
-              <div className={styles.Container}>
-                <SortableContext items={columnsId}>
-                  {columns.map((column) => (
-                    <ColumnContainer
-                      key={column.id}
-                      column={column}
-                      newTextTask={newTextTask}
-                      setNewTextTask={setNewTextTask}
-                      requestSuccessCreateTask={requestSuccessCreateTask}
-                      deleteColumn={deleteColumn}
-                      updateColumn={updateColumn}
-                      deleteCard={deleteCard}
-                      updateTask={updateTask}
-                      tasks={tasks.filter((task) => task.column === column.id)}
-                    />
-                  ))}
-                </SortableContext>
-              </div>
-
-              <div>
-                <CreateNewBoardItem
-                  className={showForm ? styles.none : ''}
-                  buttonText={'Добавить колонку'}
-                  spellCheck="false"
-                  dir="auto"
-                  maxLength="512"
-                  autoComplete="off"
-                  name="Ввести заголовок списка"
-                  placeholder="Ввести заголовок списка"
-                  aria-label="Ввести заголовок списка"
-                  data-testid="list-name-textarea"
-                  autoFocus={showForm ? false : true}
-                  hideElAction={setShowForm}
-                  showFlag={true}
-                  changeAction={setText}
-                  newText={newName}
-                  addColumnAction={createNewColumn}
-                  newColName={columns}
-                />
-              </div>
-
-              <div
-                className={
-                  showForm ?
-                    styles.BtnCreateNewColumn__Wrap
-                    :
-                    styles.none
-                }
-              >
-                <Button
-                  clickAction={onShowFormAddColumn}
-                  className={'BtnCreateNewColumn'}
-                >
-                  <Icons
-                    name={'AddIcon'}
-                    class_name={'IconCreateNewColumn'}
-                    sizeWidth={''}
-                    sizeHeight={''}
-                  />
-                  Добавьте еще одну колонку
-                </Button>
-              </div>
-            </div>
-
-            {createPortal(
-              <DragOverlay>
-                {activeColumn && (
+      {/* <WorkspaceMenu /> */}
+      <div className={styles.KanbanBoard}>
+        <DndContext
+          sensors={sensors}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+        >
+          <div className={styles.Wrap}>
+            <div className={styles.Container}>
+              <SortableContext items={columnsId}>
+                {columns.map((column) => (
                   <ColumnContainer
-                    column={activeColumn}
+                    key={column.id}
+                    column={column}
                     newTextTask={newTextTask}
                     setNewTextTask={setNewTextTask}
                     requestSuccessCreateTask={requestSuccessCreateTask}
@@ -516,25 +477,88 @@ export default function KanbanBoard() {
                     updateColumn={updateColumn}
                     deleteCard={deleteCard}
                     updateTask={updateTask}
-                    tasks={tasks.filter(
-                      (task) => task.column === activeColumn.id
-                    )}
+                    tasks={tasks.filter((task) => task.column === column.id)}
                   />
-                )}
-                {activeTask && (
-                  <TaskCard
-                    task={activeTask}
-                    deleteCard={deleteCard}
-                    updateTask={updateTask}
-                  />
-                )}
-              </DragOverlay>,
-              document.body
-            )}
-          </DndContext>
-        </div >
-      </Default >
-    
+                ))}
+              </SortableContext>
+            </div>
+
+            <div>
+              <CreateNewBoardItem
+                className={showForm ? styles.none : ''}
+                buttonText={'Добавить колонку'}
+                spellCheck="false"
+                dir="auto"
+                maxLength="512"
+                autoComplete="off"
+                name="Ввести заголовок списка"
+                placeholder="Ввести заголовок списка"
+                aria-label="Ввести заголовок списка"
+                data-testid="list-name-textarea"
+                autoFocus={showForm ? false : true}
+                hideElAction={setShowForm}
+                showFlag={true}
+                changeAction={setText}
+                newText={newName}
+                addColumnAction={createNewColumn}
+                newColName={columns}
+              />
+            </div>
+
+            <div
+              className={
+                showForm ?
+                  styles.BtnCreateNewColumn__Wrap
+                  :
+                  styles.none
+              }
+            >
+              <Button
+                clickAction={onShowFormAddColumn}
+                className={'BtnCreateNewColumn'}
+              >
+                <Icons
+                  name={'AddIcon'}
+                  class_name={'IconCreateNewColumn'}
+                  sizeWidth={''}
+                  sizeHeight={''}
+                />
+                Добавьте еще одну колонку
+              </Button>
+            </div>
+          </div>
+
+          {createPortal(
+            <DragOverlay>
+              {activeColumn && (
+                <ColumnContainer
+                  column={activeColumn}
+                  newTextTask={newTextTask}
+                  setNewTextTask={setNewTextTask}
+                  requestSuccessCreateTask={requestSuccessCreateTask}
+                  deleteColumn={deleteColumn}
+                  updateColumn={updateColumn}
+                  deleteCard={deleteCard}
+                  updateTask={updateTask}
+                  tasks={tasks.filter(
+                    (task) => task.column === activeColumn.id
+                  )}
+                />
+              )}
+              {activeTask && (
+                <TaskCard
+                  task={activeTask}
+                  deleteCard={deleteCard}
+                  updateTask={updateTask}
+                />
+              )}
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
+      </div >
+    </Default >
+
   );
 
 }

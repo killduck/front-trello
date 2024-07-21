@@ -22,8 +22,6 @@ export default function Header(props) {
 
   let [authorized_user, setAuthorizedUser] = useState({});
 
-  let [first_letter, setFirstLetter] = useState('');
-
   useEffect(() => {
     request({
       method: 'GET',
@@ -31,7 +29,6 @@ export default function Header(props) {
       callback: (response) => {
         if (response.status === 200) {
           setAuthorizedUser(response.data);
-          setFirstLetter(response.data.username.substring(0, 1).toUpperCase());
         }
       },
       data: null,
@@ -339,11 +336,10 @@ export default function Header(props) {
             <Input type="text" placeholder="Поиск" maxLength="500" />
           </div>
 
-          <div className={styles.blockNotification} onClick={funkMemberMenu}>
+          <div className={styles.blockNotification}>
             <Notification
-              onClick={funkMemberMenu}
-              authorized_user={authorized_user}
-              first_letter={first_letter}
+              clickAction={funkMemberMenu}
+              user={authorized_user}
             >
               {/* <img src={'/img/no_name.png'} alt="" /> */}
             </Notification>

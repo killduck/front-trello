@@ -8,7 +8,6 @@ export default function MemberMenu(props) {
 
     let authorized_user = props.authorized_user;
 
-
     let swowMenu = props.swowMenu;
 
     const navigate = useNavigate();
@@ -31,8 +30,10 @@ export default function MemberMenu(props) {
                             <h2>Учетная запись</h2>
                             <div className={styles.TyNFo3ay3iQKOz}>
                                 <div className={styles.fG5A960F7Q3GJJ}>
-                                    <div className={styles.B1uWdim9Jd0dJ9} title="Leo (killduck)">
-                                        <span aria-label={`${authorized_user.last_name} ${authorized_user.last_name} (${authorized_user.username})`} role="img" title={`${authorized_user.last_name} ${authorized_user.last_name} (${authorized_user.username})`} className={`${styles.DweEFaF5owOe02} ${styles.S7RWiPL9Qgl9P9} ${styles.kFZ3hS99jGmKWk}`} style={{ backgroundImage: "url(&quot;https://trello-members.s3.amazonaws.com/662bd7222422de983bbab209/68699ec7e84b2530faa3447a45c09236/170.png&quot;)", height: "40px", width: "40px", lineHeight: "40px" }}></span>
+                                    <div className={styles.B1uWdim9Jd0dJ9} title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`}>
+                                        <span aria-label={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} role="img" title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} className={`${styles.DweEFaF5owOe02} ${styles.S7RWiPL9Qgl9P9} ${styles.kFZ3hS99jGmKWk}`} style={{ backgroundImage: "", height: "40px", width: "40px", lineHeight: "40px" }}>
+                                            {authorized_user.first_letter}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className={styles.vqeVFoaA8KQnX4} >

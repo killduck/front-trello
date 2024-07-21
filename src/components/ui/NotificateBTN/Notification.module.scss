@@ -3,6 +3,7 @@ $color1: #9fadbc;
 $color2: #a6c5e229;
 $color3: #1d2125;
 $color4: #2121ff;
+$color5: #454f59;
 
 .Notificate {
   display: block;
@@ -17,7 +18,7 @@ $color4: #2121ff;
   position: relative;
 
   &:hover {
-    background-color: $color2;
+    background-color: $color5;
   }
 
   img {
@@ -30,4 +31,9 @@ $color4: #2121ff;
     font-weight: 700;
     color: #fff;
   }
+}
+
+.HeaderUsers {
+  width: 28px;
+  height: 28px;
 }
