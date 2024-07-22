@@ -29,7 +29,7 @@ export default function WindowModal(props){
 
   let [ membersWindow, setMembersWindow] = useState(false);
 
-  // let [cardUsers, setCardUsers] = useState([]);
+  let [cardUsers, setCardUsers] = useState([]);
   let [dashboardUsers, setDashboardUsers] = useState([]);
 
   // let [newText, setNewTextData] = useState('');
@@ -116,24 +116,56 @@ export default function WindowModal(props){
     }
   }
 
-  function addUserToCard( user_id ){
-    console.log(user_id);
-    request({
-      method:'POST',
-      url:`card-user-update/`,
-      callback:(response) => { 
-        if (response.status === 200) {
-          console.log(response.data);
-          // if(response.data){
-          //   setDashboardUsers(response.data);
-          // }
+
+  function chechUserToAdd(user_id){
+    console.log(user_id, cardUsers);
+    
+    if(cardUsers.length === 0){
+      console.log('cardUsers.length === 0');
+      return true;
+    }
+    else{
+      cardUsers.forEach(cardUser => {
+        console.log(user_id, cardUser.user_id);
+        if (user_id === cardUser.user_id){
+          console.log('da');
+          return false;
         }
-      },
-      data: { 'user_id': user_id },
-      status:200,
-    });
+        // else{
+        //   console.log('net');
+        //   return false;
+        // }
+      });
+
+      return true;
+    }
+
   }
 
+  function addUserToCard( user_id ){
+    console.log(user_id, cardUsers.length);
+    // chechUserToAdd(user_id)
+   
+    
+    if(chechUserToAdd(user_id)){
+      request({
+        method:'POST',
+        url:`card-user-update/`,
+        callback:(response) => { 
+          if (response.status === 200) {
+            console.log(response.data);
+            if(response.data){
+              setCardUsers( [...cardUsers, response.data] );
+            }
+          }
+        },
+        data: { 'user_id': user_id, 'card_id': windowData.id},
+        status:200,
+      });
+    }
+    
+  }
+  // console.log(cardUsers);
   const headerSection = (
   <>
     <span className={styles.headerIcon}></span>
@@ -342,12 +374,26 @@ export default function WindowModal(props){
                     </div>
                     <div className={styles.itemContentDashboardMember} >
                       <ul>
-                        <li>
+                        { cardUsers.map(
+                          (cardUser) => 
+                            <li key={cardUser.id}>
+                              <div className={styles.itemContentDashboardMemberInfo} >
+
+                                <span></span>
+                                <div title={ cardUser.user_data.username }>
+                                  { cardUser.user_data.username }
+                                </div>
+
+                              </div>
+                            </li>
+                          )
+                        }
+                        {/* <li>
                           <div className={styles.itemContentDashboardMemberInfo} >
                             <span></span>
                             <div title="Leo (killduck)">Leo</div>
                           </div>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>
