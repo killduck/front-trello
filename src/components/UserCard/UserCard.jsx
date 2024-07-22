@@ -10,6 +10,20 @@ export default function UserCard(props) {
 
   let clickAction = props.clickAction;
 
+  function onAddAdmin(id_user) {
+    console.log('Проверка выполения функции =>', onAddAdmin.name, id_user);
+  }
+
+  function onDelAdmin(id_user) {
+    console.log('Проверка выполения функции =>', onDelAdmin.name, id_user);
+  }
+
+
+  function onLeaveBoard(id_user) {
+    console.log('Проверка выполения функции =>', onLeaveBoard.name, id_user);
+  }
+
+
   return (
     <div className={styles.UserCard}>
       <div className={styles.UserCardWrap}>
@@ -41,6 +55,38 @@ export default function UserCard(props) {
             </div>
           </div>
         </div>
+
+        <hr />
+
+        <ul className={styles.UserCardActions} >
+          <li>
+            <Button
+              className={"BtnUserCardActions"}
+              clickAction={onAddAdmin}
+              actionVariable={user.id}
+            >
+              Добавить на доску как администратора
+            </Button>
+          </li>
+          <li>
+            <Button
+              className={"BtnUserCardActions"}
+              clickAction={onDelAdmin}
+              actionVariable={user.id}
+            >
+              Удалить из администраторов
+            </Button>
+          </li>
+          <li>
+            <Button
+              className={"BtnUserCardActions"}
+              clickAction={onLeaveBoard}
+              actionVariable={user.id}
+            >
+              Покинуть доску
+            </Button>
+          </li>
+        </ul>
 
       </div>
     </div>

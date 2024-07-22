@@ -15,6 +15,10 @@ export default function DashboardHeader(props) {
 
   let [showUserCard, setShowUserCard] = useState(null);
 
+  let [showFormShare, setShowFormShare] = useState(false);
+
+  let [fieldEmailData, setFieldEmailData] = useState("");
+
 
   function onUserCard(id_user = null) {
     console.log('Проверка выполения функции =>', onUserCard.name, id_user);
@@ -25,20 +29,37 @@ export default function DashboardHeader(props) {
       setShowUserCard(id_user)
   }
 
-
   function onShareDashboard() {
     console.log('Проверка выполения функции =>', onShareDashboard.name);
+
+    showFormShare ?
+      setShowFormShare(false)
+      :
+      setShowFormShare(true)
   }
+
+
+  function writeEmail(evt) {
+    setFieldEmailData((fieldEmailData) => (fieldEmailData = evt));
+  }
+
+  function SubmitFormShare() {
+    console.log('Проверка выполения функции =>', SubmitFormShare.name);
+    console.log('email>>>', fieldEmailData);
+
+
+  }
+
 
   function onRemoving_all_menu(event) {
-    console.log('DashboardHeader event->', event);
-  }
+    console.log('Проверка выполения функции =>', onRemoving_all_menu.name, event);
 
+  }
 
   return (
     <div
       className={styles.DashboardHeader}
-      onClick={(event) => onRemoving_all_menu(event)}
+    // onClick={(event) => onRemoving_all_menu(event)}
     >
       <div className={styles.DashboardHeaderWrap}>
 
@@ -92,6 +113,42 @@ export default function DashboardHeader(props) {
               />
               Поделиться
             </Button>
+
+            <div className={
+              showFormShare ?
+                `${styles.FormShare}`
+                :
+                styles.DisplayNone
+            }>
+              <div className={styles.FormShareTitle}>
+                <span>Поделиться доской</span>
+                <Button
+                  clickAction={onShareDashboard}
+                  className={"BtnFormShareDashboard"}
+                >
+                  <Icons
+                    name={'CloseIcon'}
+                    class_name={'IconCloseFormShare'}
+                  />
+                </Button>
+              </div>
+              <form id="form-sharedashboard" className={styles.FormShareInput}>
+                <input
+                  type="email"
+                  value={(fieldEmailData) ? fieldEmailData : ""}
+                  onChange={(evt) => writeEmail(evt.target.value)}
+                />
+                <Button
+                  id="form-sharedashboard"
+                  type="button"
+                  className={"BtnFormShareInput"}
+                  clickAction={SubmitFormShare}
+                >
+                  Поделиться
+                </Button>
+              </form>
+
+            </div>
           </div>
         </div>
 

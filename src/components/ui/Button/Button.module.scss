@@ -360,6 +360,43 @@
 
   &:hover {
     filter: brightness(75%);
-    background-color: #85B8FF;
+    background-color: #85b8ff;
+  }
+}
+
+.BtnUserCardActions {
+  display: block;
+  width: 100%;
+  text-align: left;
+
+  &:hover {
+    background-color: #a1bdd914;
+  }
+}
+
+.BtnFormShareDashboard {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    filter: brightness(75%);
+  }
+}
+
+.BtnFormShareInput {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: #579dff;
+  margin-left: 10px;
+  color: #1d2125;
+  &:hover {
+    background-color: #85b8ff;
   }
 }
