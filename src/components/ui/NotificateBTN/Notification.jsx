@@ -15,6 +15,7 @@ export default function Notification(props) {
         <button
             className={`${styles.Notificate} ${styles[class_name]} `}
             onClick={() => clickAction(actionVariable)}
+            title={`${user.last_name} ${user.first_name} (${user.username})`}
         >
             {props.children}
             <div className={styles.NotificateUserName}>

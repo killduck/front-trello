@@ -1,8 +1,11 @@
-
+import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import styles from './MemberMenu.module.scss';
+
 import request from '../../api/request';
 import Button from '../ui/Button/Button';
+
+import styles from './MemberMenu.module.scss';
+
 
 export default function MemberMenu(props) {
 
@@ -44,11 +47,11 @@ export default function MemberMenu(props) {
                             <nav className={styles.IfckxJ5PbpJuxT}>
                                 <ul>
                                     <li>
-                                        <a className={styles.gJDsPins_eYkBM} href="https://id.atlassian.com/login?prompt=select_account&amp;continue=https%3A%2F%2Ftrello.com%2Fauth%2Fatlassian%2Fcallback&amp;application=trello" data-testid="switch-accounts-link">
+                                        <NavLink to='/login' className={styles.gJDsPins_eYkBM} data-testid="switch-accounts-link">
                                             <span className={styles.LCeoUSr_PkZrP2}>
                                                 <span className={styles.BmRHtH7FIX0jcL}>Переключение аккаунтов</span>
                                             </span>
-                                        </a>
+                                        </NavLink>
                                     </li>
                                     <li>
                                         <a className={styles.gJDsPins_eYkBM} href="https://id.atlassian.com/login?prompt=none&amp;login_hint=kildushev%40gmail.com&amp;continue=https%3A%2F%2Fid.atlassian.com%2Fmanage-profile&amp;application=trello" target="_blank" rel="noreferrer" data-testid="manage-account-link">

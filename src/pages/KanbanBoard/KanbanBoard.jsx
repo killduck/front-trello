@@ -71,7 +71,9 @@ export default function KanbanBoard() {
       method: 'POST',
       url: 'dashboards/',
       callback: (response) => {
+        setShowPreloder(true);
         if (response.status === 200) {
+          setShowPreloder(false);
           let dashboard = response.data; //нужный дашборд
 
           setNameDashboard(dashboard.name);

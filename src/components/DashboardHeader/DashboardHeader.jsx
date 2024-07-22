@@ -25,14 +25,13 @@ export default function DashboardHeader(props) {
       setShowUserCard(id_user)
   }
 
+
   function onShareDashboard() {
     console.log('Проверка выполения функции =>', onShareDashboard.name);
   }
 
   function onRemoving_all_menu(event) {
     console.log('DashboardHeader event->', event);
-
-
   }
 
 
@@ -74,6 +73,7 @@ export default function DashboardHeader(props) {
                   >
                     <UserCard
                       user={user}
+                      clickAction={onUserCard}
                     />
                   </div>
                 </div>
