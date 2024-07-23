@@ -10,13 +10,14 @@ import Icons from "../ui/Icons/Icons";
 
 export default function WindowModal(props){
   // console.log(props);
+
+  let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
   let idElem = Number(props.idElem);
   // let task = props.task;
   let column = props.column;
   let updateFunc = props.updateFunc;
   let deleteFunc = props.deleteFunc;
-  // console.log(column);
 
   // const [mainState, setMainState] = useState(false);
 
@@ -30,7 +31,7 @@ export default function WindowModal(props){
   let [ membersWindow, setMembersWindow] = useState(false);
 
   let [cardUsers, setCardUsers] = useState([]);
-  let [dashboardUsers, setDashboardUsers] = useState([]);
+  // let [dashboardUsers, setDashboardUsers] = useState([]);
 
   // let [newText, setNewTextData] = useState('');
 
@@ -42,7 +43,7 @@ export default function WindowModal(props){
       url:`take-data-${typeElem}/`,
       callback:(response) => { 
         if (response.status === 200) {
-          // console.log(response.data);
+          console.log(response.data);
           if(response.data){
             setWindowData(response.data[0]);
             setWindowName(response.data[0]['name']);
@@ -89,22 +90,22 @@ export default function WindowModal(props){
     }
   }
 
-  function requestUsers() {
-    request({
-      method:'POST',
-      url:`dashboard-user/`,
-      callback:(response) => { 
-        if (response.status === 200) {
-          console.log(response.data);
-          if(response.data){
-            setDashboardUsers(response.data);
-          }
-        }
-      },
-      data: { 'dashboard_id': column.dashboard },
-      status:200,
-    });
-  }
+  // function requestCardUser() {
+  //   request({
+  //     method:'POST',
+  //     url:`card-user/`,
+  //     callback:(response) => { 
+  //       if (response.status === 200) {
+  //         console.log(response.data);
+  //         if(response.data){
+  //           // setDashboardUsers(response.data);
+  //         }
+  //       }
+  //     },
+  //     data: { 'dashboard_id': column.dashboard },
+  //     status:200,
+  //   });
+  // }
 
   function funcMembersWindow(){
     if(membersWindow){
@@ -112,7 +113,7 @@ export default function WindowModal(props){
     }
     else{
       setMembersWindow(membersWindow = true);
-      requestUsers();
+      // requestCardUser();
     }
   }
 
@@ -402,7 +403,7 @@ export default function WindowModal(props){
                                 <div className={styles.itemContentDashboardMemberInfo} >
 
                                   <div className={styles.itemContentDashboardMemberImg} >
-                                    <span />
+                                    <span style={{ backgroundImage: cardUser.user_data.img ? `url(/img/users/${cardUser.user_data.img})` : 'url(/img/no_photo1.png)' }} />
                                   </div>
                                   <div className={styles.itemContentDashboardMemberName} title={ cardUser.user_data.username }>
                                     <span>
@@ -444,8 +445,10 @@ export default function WindowModal(props){
                               actionVariable = {user.id}
                               clickAction = { addUserToCard }
                             >
-                              <div className={styles.itemContentDashboardMemberImg} >
-                                <span />
+                              <div 
+                                className={styles.itemContentDashboardMemberImg} 
+                              >
+                                <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
                               </div>
                               <div title={ user.username }>
                                 <span>{user.username}</span>

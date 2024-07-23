@@ -103,7 +103,7 @@ export default function KanbanBoard() {
 
     request({
       method: 'POST',
-      url: 'dashboard-user-header/',
+      url: 'dashboard-user/',
       callback: (response) => {
         if (response.status === 200) {
           setUsers(response.data);
@@ -114,7 +114,7 @@ export default function KanbanBoard() {
     });
 
 
-  }, []); //TODO ES Lint просит добавить dashboardId
+  }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
@@ -453,7 +453,7 @@ export default function KanbanBoard() {
       backGroundImage={{ backgroundImage: `url(/img/${backGroundImage})` }}
     >
       <DashboardHeader
-        users={users}
+        dashboardUsers={users}
         name_dashboard={name_dashboard}
       />
       {showPreloder ? (<Preloader />) : ("")}
@@ -480,6 +480,7 @@ export default function KanbanBoard() {
                     deleteCard={deleteCard}
                     updateTask={updateTask}
                     tasks={tasks.filter((task) => task.column === column.id)}
+                    dashboardUsers={users}
                   />
                 ))}
               </SortableContext>
@@ -522,8 +523,6 @@ export default function KanbanBoard() {
                 <Icons
                   name={'AddIcon'}
                   class_name={'IconCreateNewColumn'}
-                  sizeWidth={''}
-                  sizeHeight={''}
                 />
                 Добавьте еще одну колонку
               </Button>
@@ -542,9 +541,8 @@ export default function KanbanBoard() {
                   updateColumn={updateColumn}
                   deleteCard={deleteCard}
                   updateTask={updateTask}
-                  tasks={tasks.filter(
-                    (task) => task.column === activeColumn.id
-                  )}
+                  tasks={tasks.filter((task) => task.column === activeColumn.id)}
+                  dashboardUsers={users}
                 />
               )}
               {activeTask && (

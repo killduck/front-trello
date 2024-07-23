@@ -13,9 +13,10 @@ import Button from "../ui/Button/Button";
 export default function TaskCard(props) {
   // console.log('TaskCard ->')
   // console.log(props)
-
   // let deleteTask = props.deleteTask;
 
+  let dashboardUsers = props.dashboardUsers; 
+  //  это пока не нужно было
   let task = props.task;
   let column = props.column;
   let updateTask = props.updateTask;
@@ -133,6 +134,7 @@ export default function TaskCard(props) {
         idElem = {task.id}
         task = {task}
         column = {column}
+        dashboardUsers={dashboardUsers}
         updateFunc = {updateTask}
         deleteFunc={deleteCard}
       >

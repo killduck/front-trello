@@ -11,7 +11,7 @@ export default function DashboardHeader(props) {
 
   let name_dashboard = props.name_dashboard;
 
-  let users = props.users;
+  let dashboardUsers = props.dashboardUsers;
 
   let [showUserCard, setShowUserCard] = useState(null);
 
@@ -51,10 +51,10 @@ export default function DashboardHeader(props) {
   }
 
 
-  function onRemoving_all_menu(event) {
-    console.log('Проверка выполения функции =>', onRemoving_all_menu.name, event);
+  // function onRemoving_all_menu(event) {
+  //   console.log('Проверка выполения функции =>', onRemoving_all_menu.name, event);
 
-  }
+  // }
 
   return (
     <div
@@ -75,7 +75,7 @@ export default function DashboardHeader(props) {
         <div className={styles.DashboardHeaderRight}>
           <div className={styles.DashboardHeaderUsers}>
             {
-              users.map((user) => (
+              dashboardUsers.map((user) => (
                 <div className={styles.User} key={user.id}>
                   <Notification
                     user={user}

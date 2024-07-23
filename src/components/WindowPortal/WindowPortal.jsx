@@ -13,6 +13,7 @@ export default function WindowPortal(props){
     // console.log(props.children.props.children.owner);
     // console.log(props);
 
+    let dashboardUsers = props.dashboardUsers;
     let idElem = props.idElem;
     let typeElem = props.typeElem;
     let task = props.task;
@@ -49,6 +50,7 @@ export default function WindowPortal(props){
                 typeElem = {typeElem}
                 task = {task}
                 column = {column}
+                dashboardUsers={dashboardUsers}
                 updateFunc = {updateFunc}
                 deleteFunc = {deleteFunc}
             >

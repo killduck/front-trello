@@ -16,6 +16,7 @@ import WindowPortal from "../WindowPortal/WindowPortal";
 
 export default function ColumnContainer(props) {
 
+  let dashboardUsers = props.dashboardUsers;
   let column = props.column;
   let newTextTask = props.newTextTask;
   let setNewTextTask = props.setNewTextTask;
@@ -144,6 +145,7 @@ export default function ColumnContainer(props) {
           typeElem={'column'}
           idElem={column.id}
           column={column}
+          dashboardUsers={dashboardUsers}
           updateFunc={updateColumn}
           deleteFunc={deleteColumn}
         >
@@ -170,6 +172,7 @@ export default function ColumnContainer(props) {
               key={task.id}
               task={task}
               column={column}
+              dashboardUsers={dashboardUsers}
               updateTask={updateTask}
               deleteCard={deleteCard}
             />
