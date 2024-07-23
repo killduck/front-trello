@@ -464,12 +464,13 @@
                     }
                     span{
                         display: block;
-                        background-image: url('../../../public/img/photo_templates_1.jpg');
+                        // background-image: url('../../../public/img/photo_templates_1.jpg');
                         background-size: cover;
                         height: 30px;
                         width: 30px;
                         margin-right: 8px;
                         border-radius: 50%;
+                        background-color: #0052cc;
                     }
                 }
             }
