@@ -189,16 +189,18 @@
     // float: right;
     padding: 0 16px 8px 8px;
     // width: calc(100% - 550px);
-    // width: 200px;
+    width: 200px;
     grid-column: 4 / 5;
     grid-row: 2;
     z-index: 1;
     // background-color: #4c1cb4;
+    position: relative;
+
 
     .addItemsWrap{
         clear: both;
         margin-bottom: 24px;
-        position: relative;
+        // position: relative;
 
         .cardTitle{
             margin-top: 0;
@@ -231,20 +233,8 @@
                 height: 32px;
                 margin-top: 8px;
                 max-width: 300px;
-                // overflow: hidden;
                 padding: 6px 12px;
-                // position: relative; ???
                 font-size: 14px;
-
-
-                // text-decoration: none;
-                // text-overflow: ellipsis;
-                // transition-duration: 85ms;
-                // transition-property: background-color, border-color, box-shadow;
-                // transition-timing-function: ease;
-                // -webkit-user-select: none;
-                // user-select: none;
-                // white-space: nowrap;
             
                 &:active,
                 &:hover {
@@ -281,11 +271,10 @@
             
         }
     }
-
+    
     .actionsWrap{
         clear: both;
         margin-bottom: 24px;
-        // position: relative; ???
 
         .actionsTitle{
             margin-top: 0;
@@ -294,14 +283,47 @@
             font-weight: 600;
             line-height: 20px;
             margin-bottom: -4px;
-        } 
+        }
         .actionsWrap{
             display: flex;
             flex-direction: column;
-            margin-left: 10px;
+            color: #b6c2cf;
 
             .actionDeleteCard{
-                color: rgb(255, 56, 56);
+                background-color: #a1bdd914;
+                border: none;
+                border-radius: 3px;
+                box-shadow: none;
+                box-sizing: border-box;
+                color: #b6c2cf;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+                height: 32px;
+                margin-top: 8px;
+                max-width: 300px;
+                padding: 6px 12px;
+                font-size: 14px;
+            
+                &:active,
+                &:hover {
+                    border: none;
+                    box-shadow: none;
+                    color: #b6c2cf;
+                }
+                &:hover {
+                    background-color: #a6c5e229;
+                    text-decoration: none;
+                }
+                &:active{
+                    background-color: #bfdbf847;
+                    outline: 0;
+                }
+
+                .actionDeleteCardText{
+                    margin-left: 8px;
+                }
             }
         }
     }
@@ -412,11 +434,23 @@
                     li{
                         display: flex;
                         align-items: center;
-                        padding: 4px 8px 4px 4px;
+                        // padding: 4px 8px 4px 4px;
                         height: 40px;
                         width: 100%;
                     }
                 }
+
+                .itemContentDashboardMemberInfo{
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+
+                    .itemContentDashboardMemberName{
+                        flex: 1;
+                        text-align: start;
+                    }
+                }
+
                 .itemContentDashboardMemberImg{
                     // display: flex;
 

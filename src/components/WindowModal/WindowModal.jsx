@@ -118,35 +118,26 @@ export default function WindowModal(props){
 
 
   function chechUserToAdd(user_id){
-    console.log(user_id, cardUsers);
-    
+    // console.log(user_id, cardUsers);
     if(cardUsers.length === 0){
-      console.log('cardUsers.length === 0');
       return true;
     }
     else{
-      cardUsers.forEach(cardUser => {
-        console.log(user_id, cardUser.user_id);
+      let addUser = true;
+
+      cardUsers.forEach((cardUser) => {
+        // console.log(user_id, cardUser.user_id);
         if (user_id === cardUser.user_id){
-          console.log('da');
-          return false;
+          addUser = false;
         }
-        // else{
-        //   console.log('net');
-        //   return false;
-        // }
       });
-
-      return true;
+      // console.log(addUser);
+      return addUser;
     }
-
   }
 
   function addUserToCard( user_id ){
-    console.log(user_id, cardUsers.length);
-    // chechUserToAdd(user_id)
-   
-    
+    // console.log(user_id, cardUsers.length);
     if(chechUserToAdd(user_id)){
       request({
         method:'POST',
@@ -163,9 +154,33 @@ export default function WindowModal(props){
         status:200,
       });
     }
-    
   }
-  // console.log(cardUsers);
+
+  function funcDelCardUser (user_id){
+    // console.log(user_id);
+    cardUsers.forEach(cardUser => {
+      if (user_id === cardUser.user_id){
+        // console.log(user_id, cardUser.user_id);
+        request({
+          method:'POST',
+          url:`card-user-delete/`,
+          callback:(response) => { 
+            if (response.status === 200) {
+              // console.log(response.data);
+              if(response.data){
+                // console.log('ответ пришёл');
+                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.user_id !== user_id);
+                setCardUsers(filteredCardUsers);
+              }
+            }
+          },
+          data: { 'user_id': cardUser.user_id, 'card_id': cardUser.card_id},
+          status:200,
+        });
+      }
+    });
+  }
+
   const headerSection = (
   <>
     <span className={styles.headerIcon}></span>
@@ -367,7 +382,7 @@ export default function WindowModal(props){
                     type="text" 
                     placeholder="Поиск участников" 
                   />
-                  
+                  {(cardUsers.length !== 0) ? (
                   <div className={styles.itemContentCardMembers} >
                     <div className={styles.itemContentCardMembersTitle} >
                       <h4 className={styles.itemContentCardMembersTitle}>Участники карточки</h4>
@@ -377,26 +392,41 @@ export default function WindowModal(props){
                         { cardUsers.map(
                           (cardUser) => 
                             <li key={cardUser.id}>
-                              <div className={styles.itemContentDashboardMemberInfo} >
+                              <Button
+                                className={'delUserFromCard'}
+                                type="dutton"
+                                ariaLabel="Удалить пользователя из карточки"
+                                actionVariable={ cardUser.user_id }
+                                clickAction={ funcDelCardUser }
+                              >
+                                <div className={styles.itemContentDashboardMemberInfo} >
 
-                                <span></span>
-                                <div title={ cardUser.user_data.username }>
-                                  { cardUser.user_data.username }
+                                  <div className={styles.itemContentDashboardMemberImg} >
+                                    <span />
+                                  </div>
+                                  <div className={styles.itemContentDashboardMemberName} title={ cardUser.user_data.username }>
+                                    <span>
+                                      { cardUser.user_data.username }
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <Icons
+                                      class_name={'delUserFromCardIcon'}
+                                      name={'CloseIcon'}
+                                    />
+                                  </div>
                                 </div>
-
-                              </div>
+                              </Button>
                             </li>
                           )
                         }
-                        {/* <li>
-                          <div className={styles.itemContentDashboardMemberInfo} >
-                            <span></span>
-                            <div title="Leo (killduck)">Leo</div>
-                          </div>
-                        </li> */}
                       </ul>
                     </div>
                   </div>
+                  )
+                  :
+                  ("")
+                  }
 
                   <div className={styles.itemContentDashboardMembers} >
                     <div className={styles.itemContentDashboardMembersTitle} >
@@ -417,7 +447,7 @@ export default function WindowModal(props){
                               <div className={styles.itemContentDashboardMemberImg} >
                                 <span />
                               </div>
-                              <div>
+                              <div title={ user.username }>
                                 <span>{user.username}</span>
                               </div>
                             </Button>
@@ -470,19 +500,22 @@ export default function WindowModal(props){
             <h3 className={styles.actionsTitle}>Действия:</h3>
             <div className={styles.actionsWrap}>
               <div className={styles.actionDeleteCard}>
-                Удалить {typeElem === 'column' ? 'колонку' : 'карточку'}
+                
                 <Button
                     // clickAction={deleteColumn}
                     // actionVariable={column.id}
                     // className={'BtnDeleteColumn'}
                     clickAction={deleteFunc}
                     actionVariable={windowData.id}
-                    className={'BtnKebabColumnn'}
+                    className={'BtnDeleteCard'}
                   >
                     <Icons
                       name={'Trash'}
                       class_name={'IconDeletColumnn'}
                     />
+                    <span className={styles.actionDeleteCardText}>
+                      Удалить {typeElem === 'column' ? 'колонку' : 'карточку'}
+                    </span>
                 </Button>
               </div>
             </div>
