@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# игнор файлов рабочего компа
+node.exe
+*.cmd
+npm
+npx
+yarn
+yarn.lock
+yarn.ps1

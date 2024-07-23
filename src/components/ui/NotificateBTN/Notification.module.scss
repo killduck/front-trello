@@ -2,6 +2,9 @@ $color: #161a1d;
 $color1: #9fadbc;
 $color2: #a6c5e229;
 $color3: #1d2125;
+$color4: #2121ff;
+$color5: #454f59;
+$color6: #85B8FF;
 
 .Notificate {
   display: block;
@@ -12,15 +15,26 @@ $color3: #1d2125;
   border-radius: 50%;
   width: 32px;
   height: 32px;
-  color: $color1;
-  background-color: $color3;
+  background-color: $color4;
+  position: relative;
 
   &:hover {
-    background-color: $color2;
+    background-color: $color6;
   }
 
   img {
     width: 100%;
     height: 100%;
   }
+
+  .NotificateUserName {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+}
+
+.HeaderUsers {
+  width: 28px;
+  height: 28px;
 }

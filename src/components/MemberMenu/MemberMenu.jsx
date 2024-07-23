@@ -1,10 +1,15 @@
-
+import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import styles from './MemberMenu.module.scss';
+
 import request from '../../api/request';
 import Button from '../ui/Button/Button';
 
+import styles from './MemberMenu.module.scss';
+
+
 export default function MemberMenu(props) {
+
+    let authorized_user = props.authorized_user;
 
     let swowMenu = props.swowMenu;
 
@@ -28,23 +33,25 @@ export default function MemberMenu(props) {
                             <h2>Учетная запись</h2>
                             <div className={styles.TyNFo3ay3iQKOz}>
                                 <div className={styles.fG5A960F7Q3GJJ}>
-                                    <div className={styles.B1uWdim9Jd0dJ9} title="Leo (killduck)">
-                                        <span aria-label="Leo (killduck)" role="img" title="Leo (killduck)" className={`${styles.DweEFaF5owOe02} ${styles.S7RWiPL9Qgl9P9} ${styles.kFZ3hS99jGmKWk}`} style={{ backgroundImage: "url(&quot;https://trello-members.s3.amazonaws.com/662bd7222422de983bbab209/68699ec7e84b2530faa3447a45c09236/170.png&quot;)", height: "40px", width: "40px", lineHeight: "40px" }}></span>
+                                    <div className={styles.B1uWdim9Jd0dJ9} title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`}>
+                                        <span aria-label={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} role="img" title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} className={`${styles.DweEFaF5owOe02} ${styles.S7RWiPL9Qgl9P9} ${styles.kFZ3hS99jGmKWk}`} style={{ backgroundImage: "", height: "40px", width: "40px", lineHeight: "40px" }}>
+                                            {authorized_user.first_letter}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className={styles.vqeVFoaA8KQnX4} >
-                                    <div className={styles.lzFtVDCea8Z9jO}>Leo</div>
-                                    <div className={styles.Ej7WGzTnvdxL7I}>kildushev@gmail.com</div>
+                                    <div className={styles.lzFtVDCea8Z9jO}>{authorized_user.last_name} {authorized_user.first_name}</div>
+                                    <div className={styles.Ej7WGzTnvdxL7I}>{authorized_user.email}</div>
                                 </div>
                             </div>
                             <nav className={styles.IfckxJ5PbpJuxT}>
                                 <ul>
                                     <li>
-                                        <a className={styles.gJDsPins_eYkBM} href="https://id.atlassian.com/login?prompt=select_account&amp;continue=https%3A%2F%2Ftrello.com%2Fauth%2Fatlassian%2Fcallback&amp;application=trello" data-testid="switch-accounts-link">
+                                        <NavLink to='/login' className={styles.gJDsPins_eYkBM} data-testid="switch-accounts-link">
                                             <span className={styles.LCeoUSr_PkZrP2}>
                                                 <span className={styles.BmRHtH7FIX0jcL}>Переключение аккаунтов</span>
                                             </span>
-                                        </a>
+                                        </NavLink>
                                     </li>
                                     <li>
                                         <a className={styles.gJDsPins_eYkBM} href="https://id.atlassian.com/login?prompt=none&amp;login_hint=kildushev%40gmail.com&amp;continue=https%3A%2F%2Fid.atlassian.com%2Fmanage-profile&amp;application=trello" target="_blank" rel="noreferrer" data-testid="manage-account-link">
@@ -177,9 +184,9 @@ export default function MemberMenu(props) {
                                     <li className={styles.hDigGK0jR2_0pl}></li>
                                     <li>
                                         <Button
-                                             className={styles.gJDsPins_eYkBM}
-                                             data-testid="account-menu-logout"
-                                             clickAction={handleLogout}
+                                            className={styles.gJDsPins_eYkBM}
+                                            data-testid="account-menu-logout"
+                                            clickAction={handleLogout}
                                         >
                                             <span className={styles.LCeoUSr_PkZrP2}>
                                                 <span className={styles.BmRHtH7FIX0jcL}>Выйти</span>

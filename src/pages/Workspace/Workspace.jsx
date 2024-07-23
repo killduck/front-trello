@@ -1,7 +1,7 @@
 import Default from "../../layouts/default/Default";
 import request from "../../api/request";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import styles from "./Workspace.module.scss";
 import Button from "../../components/ui/Button/Button";
@@ -13,28 +13,24 @@ export default function Workspace(props) {
   // console.log(`props => ${props.cardName}`);
   // console.log(props);
 
-  let state = useLocation(); // тут id авторизованного юзера
-  // console.log(state.state['key']);
-  // console.log(state);
-
-
   let [showDashboards, setShowDashboards] = useState(false);
 
   let [dashboards, setDashboards] = useState([]);
+
   let [ShowForm, setShowForm] = useState(false);
 
   useEffect(() => {
     request({
-      method:'GET',
-      url:'dashboards/',
-      callback:(response) => { 
-        if (response.status === 200) { 
+      method: 'GET',
+      url: 'dashboards/',
+      callback: (response) => {
+        if (response.status === 200) {
           requestDashboards(response);
           setShowDashboards(true);
-        } 
+        }
       },
       data: null,
-      status:200,
+      status: 200,
     });
   }, []);
 
@@ -66,155 +62,155 @@ export default function Workspace(props) {
 
   return (
     <>
-    { showDashboards ?
-      (<Default>
-        <div className={styles.Workspace}>
-          <div className={styles.WorkspaceWrap}>
+      {showDashboards ?
+        (<Default>
+          <div className={styles.Workspace}>
+            <div className={styles.WorkspaceWrap}>
 
-            <div className={styles.WorkspaceTitle}>
-              <div className={styles.WorkspaceTitleContent}>
-                <div
-                  className={
-                    ShowForm ?
-                      `${styles.WorkspaceTitleIconLetter} ${styles.ActiveFrame}`
-                      :
-                      styles.WorkspaceTitleIconLetter
-                  }
-                >
-                  <Button
-                    clickAction={onChangeLogo}
-                    className={'BtnWorkspaceTitleIconLetter'}
+              <div className={styles.WorkspaceTitle}>
+                <div className={styles.WorkspaceTitleContent}>
+                  <div
+                    className={
+                      ShowForm ?
+                        `${styles.WorkspaceTitleIconLetter} ${styles.ActiveFrame}`
+                        :
+                        styles.WorkspaceTitleIconLetter
+                    }
                   >
-                    {"Ilya Poletuev's workspace".substring(0, 1).toUpperCase()} {/* потом вместо  Ilya Poletuev.... подставить реальный props */}
-                  </Button>
-                  <div className={
-                    ShowForm ?
-                      styles.ShowBlock
-                      :
-                      styles.HideBlock
-                  }>
-                    <form className={styles.ChangeLogo}>
-                      Заготовка - сменить логотип
-                    </form>
-                  </div>
-                </div>
-
-                <div className={styles.WorkspaceTitleName}>
-                  <div className={styles.Name}>
-                    {"Ilya Poletuev's workspace"} {/* потом вместо  Ilya Poletuev.... подставить реальный props */}
                     <Button
-                      clickAction={onEdite_name_workspace}
-                      className={'BtnWorkspaceTitleNamePencil'}
+                      clickAction={onChangeLogo}
+                      className={'BtnWorkspaceTitleIconLetter'}
                     >
-                      <Icons
-                        name={'Pencil'}
-                        class_name={'WorkspaceTitleNamePencilIcon'}
-                      />
+                      {"Ilya Poletuev's workspace".substring(0, 1).toUpperCase()} {/* потом вместо  Ilya Poletuev.... подставить реальный props */}
                     </Button>
-                  </div>
-                  <div className={styles.VisibilityStatus}>
-                    <Icons
-                      name={'Castle'}
-                      class_name={'WorkspaceTitleVisibilityStatusIcon'}
-                    />
-                    {"Приватная"} {/* потом вместо  Приватная подставить реальный props */}
-                  </div>
-                </div>
-              </div>
-              <div className={styles.WorkspaceTitleButton}>
-                <Button
-                  clickAction={onInvite_users_workspace}
-                  className={'BtnWorkspaceTitleButton'}
-                >
-                  <div className={styles.TitleButtonIcons}>
-                    <Icons
-                      name={'People'}
-                      class_name={'WorkspaceTitleButtonPeopleIcon'}
-                    />
-                  </div>
-                  Пригласите пользователей в рабочее пространство
-                </Button>
-              </div>
-            </div>
-
-            <div className={styles.WorkspaceLine}></div>
-
-            <div className={styles.WorkspaceContent}>
-              <div className={styles.WorkspaceContentTitle}>
-                <h2>Доски</h2>
-              </div>
-
-              <div className={styles.WorkspaceContentSortFilterSearch}>
-                <div className={styles.SortFilter}>
-                  <div>Сортировать по</div>
-                  <div>Фильтр:</div>
-                </div>
-
-                <div className={styles.Search}>
-                  <label>Поиск</label>
-                  <div className={styles.blockSearch}>
-                    <Icons className={styles.Loupe} name={'Loupe'} />
-                    <Input type="text" placeholder="Поиск досок" maxLength="500" />
-                  </div>
-
-                </div>
-              </div>
-
-              <div className={styles.WorkspaceContentDashboards}>
-                <ul className={styles.ListDashboards}>
-
-                  <li>
-                    <div className={styles.DashboardWrap}>
-                      <div className={styles.CreateNewDashboard}>
-                        <Button
-                          clickAction={onCreate_new_dashboard}
-                          className={'BtnCreateNewDashboard'}>
-                          <div>Создать доску</div>
-                          <div>Осталось: {"7"}</div>
-                          <div className={styles.HelpCreateNewDashboard}>
-                            <Icons
-                              name={'QuestionMark'}
-                              class_name={'HelpCreateNewDashboardIcon'}
-                            />
-                            <div className={styles.HelpMessage}>
-                              <p>В бесплатной версии в рабочих пространствах может быть не больше 10 открытых досок. Чтобы снять ограничение, оформите подписку.</p>
-                            </div>
-                          </div>
-                        </Button>
-                      </div>
+                    <div className={
+                      ShowForm ?
+                        styles.ShowBlock
+                        :
+                        styles.HideBlock
+                    }>
+                      <form className={styles.ChangeLogo}>
+                        Заготовка - сменить логотип
+                      </form>
                     </div>
-                  </li>
+                  </div>
 
-                  {
-                    dashboards.map((dashboard) =>
-                      <li key={dashboard.id}>
-                        <Link
-                          to={"dashboard/" + dashboard.id}
-                          className={styles.DashboardWrap}
-                          style={{
-                            backgroundImage: `url(/img/${dashboard.img})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        >
-                          <div className={styles.DashboardCardTitle}>{dashboard.name}</div>
-                        </Link>
-                      </li>
-                    )
-                  }
-
-                </ul>
+                  <div className={styles.WorkspaceTitleName}>
+                    <div className={styles.Name}>
+                      {"Ilya Poletuev's workspace"} {/* потом вместо  Ilya Poletuev.... подставить реальный props */}
+                      <Button
+                        clickAction={onEdite_name_workspace}
+                        className={'BtnWorkspaceTitleNamePencil'}
+                      >
+                        <Icons
+                          name={'Pencil'}
+                          class_name={'WorkspaceTitleNamePencilIcon'}
+                        />
+                      </Button>
+                    </div>
+                    <div className={styles.VisibilityStatus}>
+                      <Icons
+                        name={'Castle'}
+                        class_name={'WorkspaceTitleVisibilityStatusIcon'}
+                      />
+                      {"Приватная"} {/* потом вместо  Приватная подставить реальный props */}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.WorkspaceTitleButton}>
+                  <Button
+                    clickAction={onInvite_users_workspace}
+                    className={'BtnWorkspaceTitleButton'}
+                  >
+                    <div className={styles.TitleButtonIcons}>
+                      <Icons
+                        name={'People'}
+                        class_name={'WorkspaceTitleButtonPeopleIcon'}
+                      />
+                    </div>
+                    Пригласите пользователей в рабочее пространство
+                  </Button>
+                </div>
               </div>
-            </div>
 
+              <div className={styles.WorkspaceLine}></div>
+
+              <div className={styles.WorkspaceContent}>
+                <div className={styles.WorkspaceContentTitle}>
+                  <h2>Доски</h2>
+                </div>
+
+                <div className={styles.WorkspaceContentSortFilterSearch}>
+                  <div className={styles.SortFilter}>
+                    <div>Сортировать по</div>
+                    <div>Фильтр:</div>
+                  </div>
+
+                  <div className={styles.Search}>
+                    <label>Поиск</label>
+                    <div className={styles.blockSearch}>
+                      <Icons className={styles.Loupe} name={'Loupe'} />
+                      <Input type="text" placeholder="Поиск досок" maxLength="500" />
+                    </div>
+
+                  </div>
+                </div>
+
+                <div className={styles.WorkspaceContentDashboards}>
+                  <ul className={styles.ListDashboards}>
+
+                    <li>
+                      <div className={styles.DashboardWrap}>
+                        <div className={styles.CreateNewDashboard}>
+                          <Button
+                            clickAction={onCreate_new_dashboard}
+                            className={'BtnCreateNewDashboard'}>
+                            <div>Создать доску</div>
+                            <div>Осталось: {"7"}</div>
+                            <div className={styles.HelpCreateNewDashboard}>
+                              <Icons
+                                name={'QuestionMark'}
+                                class_name={'HelpCreateNewDashboardIcon'}
+                              />
+                              <div className={styles.HelpMessage}>
+                                <p>В бесплатной версии в рабочих пространствах может быть не больше 10 открытых досок. Чтобы снять ограничение, оформите подписку.</p>
+                              </div>
+                            </div>
+                          </Button>
+                        </div>
+                      </div>
+                    </li>
+
+                    {
+                      dashboards.map((dashboard) =>
+                        <li key={dashboard.id}>
+                          <Link
+                            to={"dashboard/" + dashboard.id}
+                            className={styles.DashboardWrap}
+                            style={{
+                              backgroundImage: `url(/img/${dashboard.img})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center",
+                            }}
+                          >
+                            <div className={styles.DashboardCardTitle}>{dashboard.name}</div>
+                          </Link>
+                        </li>
+                      )
+                    }
+
+                  </ul>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
-      </Default >)
-      :
-      (
-        <Preloader />
-      )
-    }
+        </Default >)
+        :
+        (
+          <Preloader />
+        )
+      }
     </>
   )
 };
