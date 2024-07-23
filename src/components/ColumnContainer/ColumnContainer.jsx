@@ -72,7 +72,7 @@ export default function ColumnContainer(props) {
   }
 
   function createNewTask(columnId) {
-    
+
     let newTask = {
       name: newTextTask,
       column: columnId,
@@ -92,10 +92,10 @@ export default function ColumnContainer(props) {
   function writeNewText(evt) {
     setNewColName((newColName) => (newColName = evt));
   }
-  const closeUpdate =  (evt) => {
+  const closeUpdate = (evt) => {
     if (evt.key === "Enter" && evt.shiftKey || evt.type === "blur") {
 
-      if(newColName !== '' && newColName !== column.name){
+      if (newColName !== '' && newColName !== column.name) {
         updateColumn(column.id, newColName);
         column.name = newColName;
       }
@@ -128,22 +128,22 @@ export default function ColumnContainer(props) {
             {editMode && (
               <input
                 className={styles.EditeColumnTitle}
-                value={ !editMode ? column.name : newColName }
+                value={!editMode ? column.name : newColName}
                 autoFocus
-                onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }
+                onFocus={(evt) => evt.target.selectionStart = evt.target.value.length}
                 placeholder="Введите имя колонки"
-                onBlur={ closeUpdate }
-                onKeyDown={ closeUpdate }
+                onBlur={closeUpdate}
+                onKeyDown={closeUpdate}
                 onChange={(evt) => writeNewText(evt.target.value)} //updateColumn
               />
             )}
           </div>
         </div>
-          
+
         <WindowPortal
           typeElem={'column'}
           idElem={column.id}
-          column = {column}
+          column={column}
           updateFunc={updateColumn}
           deleteFunc={deleteColumn}
         >
@@ -156,7 +156,7 @@ export default function ColumnContainer(props) {
               viewBox={"0 0 24 24"}
             />
           </div>
-          
+
         </WindowPortal>
       </div>
 

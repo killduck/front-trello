@@ -8,7 +8,7 @@ export default function Button(props) {
     let type = props.type;
     let dataTestid = props.dataTestid;
     let ariaLabel = props.ariaLabel;
-    let clickAction = props.clickAction;
+    let clickAction = props.clickAction ?? Function.prototype;
     let actionVariable = props.actionVariable;
     let style = props.style;
 

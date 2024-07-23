@@ -82,7 +82,6 @@
   }
 }
 
-
 .BtnCreateNewColumn {
   display: flex;
   align-items: center;
@@ -100,7 +99,7 @@
     background-color: #a6c5e229;
   }
 }
-.BtnKebabColumnn{
+.BtnKebabColumnn {
   flex-grow: 0;
   flex-shrink: 0;
   margin-bottom: 0px;
@@ -117,14 +116,12 @@
     background-color: #bfdbf847;
     color: #9fadbc;
   }
-  
 }
-
 
 .BtnDeleteColumn {
   padding: 8px;
 }
-.cardWidth{
+.cardWidth {
   width: 100%;
 }
 .BtnDeleteCard {
@@ -190,7 +187,7 @@
     margin-bottom: 8px;
   }
 }
-.BtnLogout{
+.BtnLogout {
   border: none;
   background-color: transparent;
   display: block;
@@ -234,7 +231,9 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition:
+    background 0.1s ease-out 0s,
+    box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
   white-space: nowrap;
   background: #0c66e4;
   cursor: pointer;
@@ -246,15 +245,16 @@
   -webkit-box-pack: center;
   justify-content: center;
   color: #ffffff !important;
-  
-  & > div, span {
+
+  & > div,
+  span {
     -webkit-box-pack: center;
     justify-content: center;
     display: flex !important;
   }
 }
 
-.BtnCardNameEdit{
+.BtnCardNameEdit {
   // display: none;
   position: absolute;
   /* z-index: 10; */
@@ -264,7 +264,7 @@
   border-radius: 8px;
   background-color: #22272b;
 
-  &:hover{
+  &:hover {
     background-color: #454f57;
 
     border: none;
@@ -273,7 +273,7 @@
     text-decoration: none;
   }
 }
-.BtnCardSubscribe{
+.BtnCardSubscribe {
   margin-top: 0;
   background-color: #a1bdd914;
   border: none;
@@ -302,7 +302,7 @@
   display: flex;
 
   &:hover,
-  &:active{
+  &:active {
     border: none;
     box-shadow: none;
     color: #b6c2cf;
@@ -314,10 +314,9 @@
   &:active {
     background-color: #bfdbf847;
     outline: 0;
-
   }
 }
-.btnWindowModal{
+.btnWindowModal {
   // width: 50px;
   // height: 50px;
   display: flex;
@@ -335,10 +334,12 @@
     background-color: #a6c5e229;
   }
 }
+
 .btnSmallWindow{
   padding: 5px;
   width: 100%;
 }
+
 .addUserToCard{
   padding: 4px 8px 4px 4px;
   width: 100%;
@@ -346,10 +347,74 @@
     background-color: #a1bdd914;
   }
 }
+
 .delUserFromCard{
   padding: 4px 8px 4px 4px;
   width: 100%;
   &:hover {
     background-color: #a1bdd914;
+  }
+}
+
+.BtnShare {
+  display: flex;
+  align-items: center;
+  width: 120px;
+  height: 32px;
+  background-color: #dcdfe4;
+  margin: 0 4px;
+  padding: 6px 12px 6px 8px;
+  color: #172b4d;
+}
+
+.BtnCloseUserCard {
+  width: 36px;
+  height: 36px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    filter: brightness(75%);
+    background-color: #85b8ff;
+  }
+}
+
+.BtnUserCardActions {
+  display: block;
+  width: 100%;
+  text-align: left;
+  &:hover {
+    background-color: #a1bdd914;
+  }
+}
+
+.BtnFormShareDashboard {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    filter: brightness(75%);
+  }
+}
+
+.BtnFormShareInput {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: #579dff;
+  margin-left: 10px;
+  color: #1d2125;
+  &:hover {
+    background-color: #85b8ff;
   }
 }

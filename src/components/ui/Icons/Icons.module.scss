@@ -62,7 +62,7 @@
   }
 }
 
-.IconKebabColumnn{
+.IconKebabColumnn {
   width: 16px;
   height: 16px;
   color: #9fadbc;
@@ -81,23 +81,23 @@
   // stroke: #9fadbc;
 }
 
-.google_logo{
+.google_logo {
   width: auto;
   height: auto;
 }
-.microsoft_logo{
+.microsoft_logo {
   width: auto;
   height: auto;
 }
-.apple_logo{
+.apple_logo {
   width: auto;
   height: auto;
 }
-.slack_logo{
+.slack_logo {
   width: auto;
   height: auto;
 }
-.pencil_logo{
+.pencil_logo {
   // display: inline-block;
   // flex-shrink: 0;
   // line-height: 1;
@@ -127,7 +127,7 @@
   margin-right: 2px;
 }
 
-.CardTextPencilLogo{
+.CardTextPencilLogo {
   width: 18px;
   height: 18px;
   fill: currentColor;
@@ -144,15 +144,15 @@
   stroke: #9fadbc;
   stroke-width: 2;
 }
-.btnModalCloseIcon{
-  height: 16px;
-  width: 16px;
+.btnModalCloseIcon {
+  height: 20px;
+  width: 20px;
   line-height: 20px;
   // margin-right: 8px;
   color: #8c9bab;
   font-weight: 500;
 }
-.iconCardSubscribe{
+.iconCardSubscribe {
   margin: 0 6px 0 -6px;
   color: #9fadbc;
   font-size: 16px;
@@ -170,13 +170,13 @@
   text-align: center;
   text-decoration: none;
   // vertical-align: bottom;
-
 }
 
-.iconSelected{
+.iconSelected {
   width: 26px;
   height: 26px;
 }
+
 
 .itemDueDateIcon{
   height: 16px;
@@ -185,10 +185,31 @@
   color: #9fadbc;
   font-weight: 500;
 }
+
 .delUserFromCardIcon{
   height: 14px;
   width: 14px;
   line-height: 20px;
   color: #8c9bab;
   font-weight: 500;
+}
+
+.IconShareDashboard {
+  width: 16px;
+  height: 16px;
+  color: #172b4d;
+}
+
+.IconCloseUserCard {
+  width: 16px;
+  height: 16px;
+  color: #282e33;
+  stroke-width: 2;
+}
+
+.IconCloseFormShare {
+  width: 24px;
+  height: 24px;
+  color: #9fadbc;
+  stroke-width: 2;
 }
