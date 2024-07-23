@@ -103,7 +103,7 @@ export default function KanbanBoard() {
 
     request({
       method: 'POST',
-      url: 'dashboard-user/',
+      url: 'dashboard-user-header/',
       callback: (response) => {
         if (response.status === 200) {
           setUsers(response.data);

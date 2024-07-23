@@ -59,8 +59,7 @@ export default function WindowPortal(props){
                     <Icons
                         class_name={'btnModalCloseIcon'}
                         name={'CloseIcon'}
-                    >
-                    </Icons>
+                    />
                 </Button>
 
             </WindowModal>

@@ -125,11 +125,9 @@
   width: 100%;
 }
 .BtnDeleteCard {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  opacity: 60%;
-  transform: translateY(50%);
+  width: 100%;
+  padding: 0;
+
   &:hover {
     opacity: 100%;
   }
@@ -337,6 +335,27 @@
   }
 }
 
+.btnSmallWindow{
+  padding: 5px;
+  width: 100%;
+}
+
+.addUserToCard{
+  padding: 4px 8px 4px 4px;
+  width: 100%;
+  &:hover {
+    background-color: #a1bdd914;
+  }
+}
+
+.delUserFromCard{
+  padding: 4px 8px 4px 4px;
+  width: 100%;
+  &:hover {
+    background-color: #a1bdd914;
+  }
+}
+
 .BtnShare {
   display: flex;
   align-items: center;
@@ -368,7 +387,6 @@
   display: block;
   width: 100%;
   text-align: left;
-
   &:hover {
     background-color: #a1bdd914;
   }

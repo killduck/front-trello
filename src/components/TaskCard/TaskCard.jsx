@@ -143,9 +143,9 @@ export default function TaskCard(props) {
             <div className={styles.ColorLabel}>
               <div
                 className={styles.ColorLabel_Wrap}
-                onClick={() => { onCard_label() }}
+                // onClick={() => { onCard_label() }}
               >
-                <span
+                {/* <span
                   className={
                     label ?
                       styles.LabelActive
@@ -153,7 +153,7 @@ export default function TaskCard(props) {
                       styles.Label
                   } >
                   Важно
-                </span>
+                </span> */}
               </div>
             </div>
 
