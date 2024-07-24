@@ -18,21 +18,21 @@ export default function WindowModal(props){
   let updateFunc = props.updateFunc;
   let deleteFunc = props.deleteFunc;
 
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
+
+  const [authUser, setAuthUser] = useState(Number);
   let [windowData, setWindowData] = useState({});
   const [startWindowName, setStartWindowName] = useState('');
   let [windowName, setWindowName] = useState('');
   let [newName, setNewNameField] = useState(false);
-
-  let [ membersWindow, setMembersWindow] = useState(false);
-
+  let [membersWindow, setMembersWindow] = useState(false);
   let [cardUsers, setCardUsers] = useState([]);
+  let [subscribe, setSubscribe] = useState(false);
+
 
   // const [mainState, setMainState] = useState(false);
   // let [dashboardUsers, setDashboardUsers] = useState([]);
   // let [newText, setNewTextData] = useState('');
-
-  let [subscribe, setSubscribe] = useState(false);
 
   useEffect(() => {
     request({
@@ -42,10 +42,13 @@ export default function WindowModal(props){
         if (response.status === 200) {
           // console.log(response.data);
           if(response.data){
+            setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
             setStartWindowName(response.data.card[0]['name']);
             setCardUsers(response.data.card_users_data);
+            setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
+            // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
           }
         }
       },
@@ -54,7 +57,9 @@ export default function WindowModal(props){
     });
 
   },[typeElem, idElem]);
-  
+
+  // console.log(cardUsers);
+
   function showTextarea() {
     if(!newName){
       setNewNameField(newName = true);
@@ -98,7 +103,6 @@ export default function WindowModal(props){
     }
   }
 
-
   function chechUserToAdd(user_id){
     // console.log(user_id, cardUsers);
     if(cardUsers.length === 0){
@@ -128,7 +132,8 @@ export default function WindowModal(props){
           if (response.status === 200) {
             // console.log(response.data);
             if(response.data){
-              setCardUsers( [...cardUsers, response.data] );
+              setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
+              setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
             }
           }
         },
@@ -153,6 +158,7 @@ export default function WindowModal(props){
                 // console.log('ответ пришёл');
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
+                setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
               }
             }
           },
@@ -262,7 +268,45 @@ export default function WindowModal(props){
   )
 
   const columnMembers = (
-    "участники в колонке/карточке"
+    <>
+    {(cardUsers.length > 0) ?
+      (
+        <div className={styles.cardDetailNotifications} >
+          <h3 className={styles.cardDetailsTitle}>Участники:</h3>
+            <div className={styles.membersList}>
+            {cardUsers.map(
+              (cardUser) => 
+                <div 
+                  key={cardUser.id} 
+                  className={styles.memberMenu} 
+                  aria-label="Действия с профилем участника Leo"
+                >
+                  <img 
+                    className={styles.memberAvatar} 
+                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/users/Andrey.png'}
+                    // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
+                    alt={`${cardUser.first_name} (${cardUser.username})`}
+                    title={`${cardUser.first_name} (${cardUser.username})`}
+                  />
+                </div>
+              )
+            }   
+            <Button
+              // clickAction={onShowFormAddColumn}
+              className={'btnWindowModalMainColAddUser'}
+            >
+              <Icons
+                name={'AddIcon'}
+                class_name={'IconWindowModalMainColAddUser'}
+              />
+            </Button>
+          </div>
+        </div>
+      )
+      :
+      ("")
+    }
+    </>
   )
 
   const columnLabels = (
@@ -306,7 +350,7 @@ export default function WindowModal(props){
 
           <div  className={styles.cardDescription}>
             Описание:
-            <ReactQuill theme="snow" value={value} onChange={setValue} />
+            {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
             Добавить более подробное описание…
           </div>
           
@@ -419,8 +463,8 @@ export default function WindowModal(props){
                     </div>
                     <div className={styles.itemContentDashboardMember}>
                       <ul>
-                      {dashboardUsers.map
-                        ((user)=> 
+                      {dashboardUsers.map(
+                        (user)=> 
                           <li key={user.id} >
                             <Button
                               className={'addUserToCard'}

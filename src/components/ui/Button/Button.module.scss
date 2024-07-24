@@ -418,3 +418,28 @@
     background-color: #85b8ff;
   }
 }
+
+.btnWindowModalMainColAddUser{
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 16px;
+  background-color: #a1bdd914;
+  color: #b6c2cf;
+  cursor: pointer;
+  margin: 0 8px 8px 0;
+  
+  &:hover {
+    background-color: #a6c5e229;
+    border: none;
+    box-shadow: none;
+    color: #b6c2cf;
+    text-decoration: none;
+  }
+  &:active {
+    background-color: #bfdbf847;
+    border: none;
+    box-shadow: none;
+    color: #b6c2cf;
+    outline: 0;
+  }
+}
