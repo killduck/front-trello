@@ -14,15 +14,11 @@ export default function WindowModal(props){
   let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
   let idElem = Number(props.idElem);
-  // let task = props.task;
   let column = props.column;
   let updateFunc = props.updateFunc;
   let deleteFunc = props.deleteFunc;
 
-  // const [mainState, setMainState] = useState(false);
-
   const [value, setValue] = useState('');
-
   let [windowData, setWindowData] = useState({});
   const [startWindowName, setStartWindowName] = useState('');
   let [windowName, setWindowName] = useState('');
@@ -31,8 +27,9 @@ export default function WindowModal(props){
   let [ membersWindow, setMembersWindow] = useState(false);
 
   let [cardUsers, setCardUsers] = useState([]);
-  // let [dashboardUsers, setDashboardUsers] = useState([]);
 
+  // const [mainState, setMainState] = useState(false);
+  // let [dashboardUsers, setDashboardUsers] = useState([]);
   // let [newText, setNewTextData] = useState('');
 
   let [subscribe, setSubscribe] = useState(false);
@@ -43,11 +40,12 @@ export default function WindowModal(props){
       url:`take-data-${typeElem}/`,
       callback:(response) => { 
         if (response.status === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           if(response.data){
-            setWindowData(response.data[0]);
-            setWindowName(response.data[0]['name']);
-            setStartWindowName(response.data[0]['name']);
+            setWindowData(response.data.card[0]);
+            setWindowName(response.data.card[0]['name']);
+            setStartWindowName(response.data.card[0]['name']);
+            setCardUsers(response.data.card_users_data);
           }
         }
       },
@@ -56,7 +54,7 @@ export default function WindowModal(props){
     });
 
   },[typeElem, idElem]);
-
+  
   function showTextarea() {
     if(!newName){
       setNewNameField(newName = true);
@@ -90,23 +88,6 @@ export default function WindowModal(props){
     }
   }
 
-  // function requestCardUser() {
-  //   request({
-  //     method:'POST',
-  //     url:`card-user/`,
-  //     callback:(response) => { 
-  //       if (response.status === 200) {
-  //         console.log(response.data);
-  //         if(response.data){
-  //           // setDashboardUsers(response.data);
-  //         }
-  //       }
-  //     },
-  //     data: { 'dashboard_id': column.dashboard },
-  //     status:200,
-  //   });
-  // }
-
   function funcMembersWindow(){
     if(membersWindow){
       setMembersWindow(false);
@@ -128,7 +109,7 @@ export default function WindowModal(props){
 
       cardUsers.forEach((cardUser) => {
         // console.log(user_id, cardUser.user_id);
-        if (user_id === cardUser.user_id){
+        if (user_id === cardUser.id){
           addUser = false;
         }
       });
@@ -137,7 +118,7 @@ export default function WindowModal(props){
     }
   }
 
-  function addUserToCard( user_id ){
+  function addUserToCard(user_id){
     // console.log(user_id, cardUsers.length);
     if(chechUserToAdd(user_id)){
       request({
@@ -145,7 +126,7 @@ export default function WindowModal(props){
         url:`card-user-update/`,
         callback:(response) => { 
           if (response.status === 200) {
-            console.log(response.data);
+            // console.log(response.data);
             if(response.data){
               setCardUsers( [...cardUsers, response.data] );
             }
@@ -157,10 +138,10 @@ export default function WindowModal(props){
     }
   }
 
-  function funcDelCardUser (user_id){
+  function funcDelCardUser(user_id){
     // console.log(user_id);
     cardUsers.forEach(cardUser => {
-      if (user_id === cardUser.user_id){
+      if (user_id === cardUser.id){
         // console.log(user_id, cardUser.user_id);
         request({
           method:'POST',
@@ -170,12 +151,12 @@ export default function WindowModal(props){
               // console.log(response.data);
               if(response.data){
                 // console.log('ответ пришёл');
-                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.user_id !== user_id);
+                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
               }
             }
           },
-          data: { 'user_id': cardUser.user_id, 'card_id': cardUser.card_id},
+          data: { 'user_id': cardUser.id, 'card_id': windowData.id},
           status:200,
         });
       }
@@ -338,7 +319,7 @@ export default function WindowModal(props){
         <div className={styles.sidebar}>
           {/* sidebar */}
           <div className={styles.addItemsWrap}>
-            <h3 class={styles.cardTitle}>Добавить на карточку:</h3>
+            <h3 className={styles.cardTitle}>Добавить на карточку:</h3>
             <div className={styles.itemsWrap}>
               
               <div 
@@ -359,7 +340,7 @@ export default function WindowModal(props){
               >
                 {/* <div className={styles.itemHeader}> */}
                 <div className={styles.itemHeader}>
-                  <span class={styles.itemHeaderTitle}>Участники</span>
+                  <span className={styles.itemHeaderTitle}>Участники</span>
                   <div className={styles.iconWrap}>
                     <Button
                         className={'btnSmallWindow'}
@@ -377,12 +358,15 @@ export default function WindowModal(props){
                   </div>
                 </div>
                 <div className={styles.itemContent}>
-                  <input 
-                    className={styles.itemContentInput} 
-                    autoFocus = {true}
-                    type="text" 
-                    placeholder="Поиск участников" 
-                  />
+                  <label htmlFor="Поиск участников">
+                    <input 
+                      id="Поиск участников"
+                      className={styles.itemContentInput} 
+                      autoFocus = {true}
+                      type="text" 
+                      placeholder="Поиск участников" 
+                    />
+                  </label>
                   {(cardUsers.length !== 0) ? (
                   <div className={styles.itemContentCardMembers} >
                     <div className={styles.itemContentCardMembersTitle} >
@@ -397,17 +381,17 @@ export default function WindowModal(props){
                                 className={'delUserFromCard'}
                                 type="dutton"
                                 ariaLabel="Удалить пользователя из карточки"
-                                actionVariable={ cardUser.user_id }
+                                actionVariable={ cardUser.id }
                                 clickAction={ funcDelCardUser }
                               >
                                 <div className={styles.itemContentDashboardMemberInfo} >
 
                                   <div className={styles.itemContentDashboardMemberImg} >
-                                    <span style={{ backgroundImage: cardUser.user_data.img ? `url(/img/users/${cardUser.user_data.img})` : 'url(/img/no_photo1.png)' }} />
+                                    <span style={{ backgroundImage: cardUser.img ? `url(/img/users/${cardUser.img})` : 'url(/img/no_photo1.png)' }} />
                                   </div>
-                                  <div className={styles.itemContentDashboardMemberName} title={ cardUser.user_data.username }>
+                                  <div className={styles.itemContentDashboardMemberName} title={ cardUser.username }>
                                     <span>
-                                      { cardUser.user_data.username }
+                                      { cardUser.username }
                                     </span>
                                   </div>
                                   <div>
