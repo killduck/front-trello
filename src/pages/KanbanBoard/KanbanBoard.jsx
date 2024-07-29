@@ -119,7 +119,7 @@ export default function KanbanBoard() {
 
   // Библиотека @dnd kit
   function onDragStart(event) {
-    console.log('onDragStart');
+    // console.log('onDragStart');
 
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
@@ -133,7 +133,7 @@ export default function KanbanBoard() {
   }
 
   function onDragEnd(event) {
-    console.log('onDragEnd');
+    // console.log('onDragEnd');
 
     setActiveColumn(null);
     setActiveTask(null);
@@ -167,7 +167,7 @@ export default function KanbanBoard() {
 
 
     if (active_order_element === "Task") {
-      console.log('Сортируем карточки');
+      // console.log('Сортируем карточки');
 
       let order_cards = editOrderCards(tasks);
 
@@ -240,7 +240,7 @@ export default function KanbanBoard() {
 
 
   function onDragOver(event) {
-    console.log('onDragOver');
+    // console.log('onDragOver');
 
     const { active, over } = event;
 

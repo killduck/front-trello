@@ -10,6 +10,7 @@ import request from "../../api/request";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import Sidebar from "../Sidebar/Sidebar";
+import UserCard from "../UserCard/UserCard";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -31,6 +32,7 @@ export default function WindowModal(props){
   let [membersWindow, setMembersWindow] = useState(false);
   let [cardUsers, setCardUsers] = useState([]);
   let [subscribe, setSubscribe] = useState(false);
+  let [showUserCard, setShowUserCard] = useState(null);
 
 
   // const [mainState, setMainState] = useState(false);
@@ -172,6 +174,13 @@ export default function WindowModal(props){
     });
   }
 
+  function onUserCard_mw(id_user = null) {
+    showUserCard === id_user ?
+      setShowUserCard(null)
+      :
+      setShowUserCard(id_user)
+  }
+
   const headerSection = (
   <>
     <span className={styles.headerIcon}></span>
@@ -290,7 +299,19 @@ export default function WindowModal(props){
                     // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
                     alt={`${cardUser.first_name} (${cardUser.username})`}
                     title={`${cardUser.first_name} (${cardUser.username})`}
+                    onClick={()=> onUserCard_mw(cardUser.id)}
                   />
+                  {(showUserCard === cardUser.id) ? 
+                    <UserCard
+                      user={cardUser}
+                      clickAction={onUserCard_mw}
+                      class_name={'UserCard_mw'}
+                    />
+                    :
+                    ""
+                  }
+                  
+
                 </div>
               )
             }   

@@ -4,11 +4,8 @@ import styles from "../NotificateBTN/Notification.module.scss";
 export default function Notification(props) {
 
     let user = props.user;
-
     let class_name = props.class_name;
-
     let clickAction = props.clickAction ?? Function.prototype;
-
     let actionVariable = props.actionVariable;
 
     return (
@@ -20,6 +17,9 @@ export default function Notification(props) {
             {props.children}
             <div className={styles.NotificateUserName}>
                 {user.first_letter}
+                {(user.is_superuser)?
+                    (<span className={styles.adminLabel} title="Участник является администратором доски."></span>):("")
+                }
             </div>
         </button>
     )

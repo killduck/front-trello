@@ -5,10 +5,10 @@ import styles from './UserCard.module.scss';
 
 
 export default function UserCard(props) {
-
+  // console.log(props);
   let user = props.user;
-
   let clickAction = props.clickAction;
+  let class_name = props.class_name;
 
   function onAddAdmin(id_user) {
     console.log('Проверка выполения функции =>', onAddAdmin.name, id_user);
@@ -25,7 +25,9 @@ export default function UserCard(props) {
 
 
   return (
-    <div className={styles.UserCard}>
+    <div className={class_name ? `${styles[class_name]}` : `${styles.UserCard}`}>
+    {/* // <div className={`styles.${class_name}`}> */}
+    {/* // <div className={styles.UserCard}> */}
       <div className={styles.UserCardWrap}>
 
         <div className={styles.UserCardButton}>

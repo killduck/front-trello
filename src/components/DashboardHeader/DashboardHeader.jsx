@@ -95,6 +95,7 @@ export default function DashboardHeader(props) {
                     <UserCard
                       user={user}
                       clickAction={onUserCard}
+                      class_name={'UserCard'} 
                     />
                   </div>
                 </div>
