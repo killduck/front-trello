@@ -1,3 +1,8 @@
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
+import request from "../../api/request";
+
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
 
@@ -9,6 +14,24 @@ export default function UserCard(props) {
   let user = props.user;
 
   let clickAction = props.clickAction;
+
+  let { dashboardId } = useParams();
+
+
+  useEffect(() => {
+    request({
+      method: 'POST',
+      url: 'change-role-board/',
+      callback: (response) => {
+
+        console.log('UserCard response>>>', response);
+
+      },
+      data: { 'user': user },
+      status: 200,
+    });
+  }, []);
+
 
   function onAddAdmin(id_user) {
     console.log('Проверка выполения функции =>', onAddAdmin.name, id_user);
