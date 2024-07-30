@@ -34,6 +34,9 @@ export default function WindowModal(props){
   let [subscribe, setSubscribe] = useState(false);
   let [showUserCard, setShowUserCard] = useState(null);
 
+  let [labelsWindow, setLabelsWindow] = useState(false);
+  const [cardLabel, setCardLabel] = useState([]);
+
 
   // const [mainState, setMainState] = useState(false);
   // let [dashboardUsers, setDashboardUsers] = useState([]);
@@ -104,7 +107,15 @@ export default function WindowModal(props){
     }
     else{
       setMembersWindow(membersWindow = true);
-      // requestCardUser();
+    }
+  }
+
+  function funcLabelsWindow() {
+    if(labelsWindow){
+      setLabelsWindow(false);
+    }
+    else{
+      setLabelsWindow(labelsWindow = true);
     }
   }
 
@@ -139,6 +150,7 @@ export default function WindowModal(props){
             if(response.data){
               setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
               setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+              onUserCard(user_id);
             }
           }
         },
@@ -164,6 +176,7 @@ export default function WindowModal(props){
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
                 setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
+
               }
             }
           },
@@ -174,7 +187,7 @@ export default function WindowModal(props){
     });
   }
 
-  function onUserCard_mw(id_user = null) {
+  function onUserCard(id_user = null) {
     showUserCard === id_user ?
       setShowUserCard(null)
       :
@@ -299,13 +312,14 @@ export default function WindowModal(props){
                     // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
                     alt={`${cardUser.first_name} (${cardUser.username})`}
                     title={`${cardUser.first_name} (${cardUser.username})`}
-                    onClick={()=> onUserCard_mw(cardUser.id)}
+                    onClick={()=> onUserCard(cardUser.id)}
                   />
                   {(showUserCard === cardUser.id) ? 
                     <UserCard
                       user={cardUser}
-                      clickAction={onUserCard_mw}
-                      class_name={'UserCard_mw'}
+                      clickAction={onUserCard}
+                      funcDelCardUser = {funcDelCardUser}
+                      class_name={'UserCard'}
                     />
                     :
                     ""
@@ -334,7 +348,32 @@ export default function WindowModal(props){
   )
 
   const columnLabels = (
-    "метки"
+    // "метки"
+    <>
+    {(cardLabel.length > 0) ?
+      (<div className={styles.cardDetailNotifications}>
+        <h3 className={styles.cardDetailsTitle}>Метки</h3>
+        <div className={styles.labelsList} data-testid="card-back-labels-container">
+          <span 
+            className={styles.labelElement} 
+            style={{cardLabel}}
+            tabIndex="0" 
+            aria-label="Цвет: Зелёная, название: «без цвета»" 
+            data-color="green"
+          />
+          <Button
+            clickAction={funcLabelsWindow}
+            className={'btnWindowModalMainColAddLabel'}
+          >
+            <Icons
+              name={'AddIcon'}
+              class_name={'IconWindowModalMainColAddLabel'}
+            />
+          </Button>
+        </div>
+      </div>):""
+    }
+    </> 
   )
 
   const columnDueDate = (
@@ -386,15 +425,18 @@ export default function WindowModal(props){
 
         {/* сайдбар */}
         <Sidebar
-          typeElem = {typeElem}
-          windowData = {windowData}
-          deleteFunc = {deleteFunc}
-          funcAddUserToCard = {funcAddUserToCard}
-          dashboardUsers = {dashboardUsers}
-          funcDelCardUser = {funcDelCardUser}
-          cardUsers = {cardUsers}
-          funcMembersWindow = {funcMembersWindow}
-          membersWindow = {membersWindow}
+          typeElem={typeElem}
+          windowData={windowData}
+          deleteFunc={deleteFunc}
+          funcAddUserToCard={funcAddUserToCard}
+          dashboardUsers={dashboardUsers}
+          funcDelCardUser={funcDelCardUser}
+          cardUsers={cardUsers}
+          funcMembersWindow={funcMembersWindow}
+          membersWindow={membersWindow}
+          funcLabelsWindow={funcLabelsWindow}
+          labelsWindow={labelsWindow}
+
         ></Sidebar>
 
     </div>

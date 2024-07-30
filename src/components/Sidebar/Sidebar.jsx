@@ -4,6 +4,7 @@ import styles from "./Sidebar.module.scss";
 import SidebarMembersWindow from "../SidebarMembersWindow/SidebarMembersWindow";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
+import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 
 export default function Sidebar(props){
 
@@ -16,6 +17,8 @@ export default function Sidebar(props){
   let cardUsers = props.cardUsers;
   let funcMembersWindow = props.funcMembersWindow;
   let membersWindow = props.membersWindow;
+  let funcLabelsWindow = props.funcLabelsWindow;
+  let labelsWindow = props.labelsWindow;
 
 
 
@@ -38,10 +41,8 @@ export default function Sidebar(props){
             <span>Участники</span>
           </div>
           
-          {membersWindow ?
-          
-          (
-            <SidebarMembersWindow
+          {(membersWindow) ?
+          (<SidebarMembersWindow
               typeElem = {typeElem}
               windowData = {windowData}
               dashboardUsers = {dashboardUsers}
@@ -51,20 +52,27 @@ export default function Sidebar(props){
               funcDelCardUser = {funcDelCardUser}
               funcMembersWindow = {funcMembersWindow}
               deleteFunc = {deleteFunc}
-            />
-          )
-          :
-          ("")
+            />):("")
           }
           
 
-          <div className={styles.itemLabels}>
+          <div 
+            className={styles.itemLabels}
+            onClick={ funcLabelsWindow }
+          >
             <Icons  //нужна другая иконка
               name={'icon-date'}
               class_name={'itemDueDateIcon'}
             />
             <span>Метки</span>
+            
           </div>
+          {(labelsWindow) ? 
+          (<SidebarLabelWindow
+          funcLabelsWindow={funcLabelsWindow}
+          labelsWindow={labelsWindow}
+          />):("")
+          }
 
           <div className={styles.itemDueDate}>
             <Icons

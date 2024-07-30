@@ -193,6 +193,41 @@
                     }
                 }
             }
+            .labelsList{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+                .labelElement{
+                    display: inline-block;
+                    position: relative;
+                    box-sizing: border-box;
+                    min-width: 48px;
+                    max-width: 100%;
+                    height: 32px;
+                    margin-bottom: 0;
+                    padding: 0 12px;
+                    overflow: hidden;
+                    border-radius: 3px;
+                    background-color: #216e4e;
+                    color: #baf3db;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 32px;
+                    text-align: left;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                    &:hover {
+                        background-color: #164b35;
+                        cursor: pointer;
+                    }
+                    &:focus {
+                        outline: -webkit-focus-ring-color auto 5px;
+                    }
+                }
+            }
+
+
             .cardDetailsInfo{
                 overflow: hidden;
             }

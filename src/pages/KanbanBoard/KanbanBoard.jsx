@@ -37,7 +37,7 @@ export default function KanbanBoard() {
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState([]);
-
+  
   const [activeColumn, setActiveColumn] = useState(null);
 
   const [activeTask, setActiveTask] = useState(null);
@@ -445,7 +445,7 @@ export default function KanbanBoard() {
       status: 200,
     });
   }
-
+  console.log(tasks);
 
   return (
 

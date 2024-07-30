@@ -27,7 +27,7 @@ export default function TaskCard(props) {
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
 
-  let [label, setLabel] = useState(false);
+  // let [label, setLabel] = useState(false);
 
   const {
     setNodeRef,
@@ -104,15 +104,14 @@ export default function TaskCard(props) {
     );
   }
 
-  function onCard_label() {
-    console.log('Проверка выполения функции =>', onCard_label.name);
-    // TODO Наверное лишнее?
-    label ?
-      setLabel(false)
-      :
-      setLabel(true)
-
-  }
+  // function onCardLabel() {
+  //   console.log('Проверка выполения функции =>', onCardLabel.name);
+  // 
+  //   label ?
+  //     setLabel(false)
+  //     :
+  //     setLabel(true)
+  // }
 
   return (
 
@@ -144,8 +143,9 @@ export default function TaskCard(props) {
 
             <div className={styles.ColorLabel}>
               <div
-                className={styles.ColorLabel_Wrap}
-                // onClick={() => { onCard_label() }}
+                className={styles.ColorLabelWrap}
+                style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
+                // onClick={() => { onCardLabel() }}
               >
                 {/* <span
                   className={
