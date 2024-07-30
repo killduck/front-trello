@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import request from "../../api/request";
 
@@ -17,33 +17,55 @@ export default function UserCard(props) {
 
   let { dashboardId } = useParams();
 
+  let [roleData, setRoleData] = useState({});
+
 
   useEffect(() => {
     request({
       method: 'POST',
-      url: 'change-role-board/',
+      url: 'search-role-board/',
       callback: (response) => {
 
-        console.log('UserCard response>>>', response);
+        setRoleData(response.data)
 
       },
-      data: { 'user': user },
+      data: { 'user_id': user['id'], 'dashboard_id': dashboardId },
       status: 200,
     });
   }, []);
 
 
-  function onAddAdmin(id_user) {
-    console.log('Проверка выполения функции =>', onAddAdmin.name, id_user);
+  function onAddAdmin(user_id) {
+    console.log('Проверка выполения функции =>', onAddAdmin.name, user_id);
+
+    request({
+      method: 'POST',
+      url: 'change-role-board/',
+      callback: (response) => {
+      },
+      data: { 'user_id': user_id, 'dashboard_id': dashboardId,  'action': 'add_admin'},
+      status: 200,
+    });
+
   }
 
-  function onDelAdmin(id_user) {
-    console.log('Проверка выполения функции =>', onDelAdmin.name, id_user);
+  function onDelAdmin(user_id) {
+    console.log('Проверка выполения функции =>', onDelAdmin.name, user_id);
   }
 
 
-  function onLeaveBoard(id_user) {
-    console.log('Проверка выполения функции =>', onLeaveBoard.name, id_user);
+  function onLeaveBoard(user_id) {
+    console.log('Проверка выполения функции =>', onLeaveBoard.name, user_id);
+  }
+
+  function СheckBtnAddAdmin(){
+
+    if (
+      roleData['role_card_user'] !== 'admin' &&
+      roleData['role_auth_user'] === 'admin'
+    ) return true;
+
+    return false;
   }
 
 
@@ -82,6 +104,8 @@ export default function UserCard(props) {
         <hr />
 
         <ul className={styles.UserCardActions} >
+        {
+          СheckBtnAddAdmin() ?
           <li>
             <Button
               className={"BtnUserCardActions"}
@@ -91,6 +115,9 @@ export default function UserCard(props) {
               Добавить на доску как администратора
             </Button>
           </li>
+          :
+          <li/>
+          }
           <li>
             <Button
               className={"BtnUserCardActions"}
@@ -110,6 +137,29 @@ export default function UserCard(props) {
             </Button>
           </li>
         </ul>
+
+        <div style={{fontSize: '12px'}}>
+        <p>
+            <span>user_auth_id = </span>
+            <span>{roleData['user_auth_id']}</span>
+          </p>
+          <p>
+            <span>role_auth_user = </span>
+            <span>{roleData['role_auth_user']}</span>
+          </p>
+          <p>
+            <span>role_card_user = </span>
+            <span>{roleData['role_card_user']}</span>
+          </p>
+          <p>
+            <span>count_admin_on_board = </span>
+            <span>{roleData['count_admin_on_board']}</span>
+          </p>
+          <p>
+            <span>count_admin_on_board = </span>
+            <span>{roleData['count_admin_on_board']}</span>
+          </p>
+        </div>
 
       </div>
     </div>

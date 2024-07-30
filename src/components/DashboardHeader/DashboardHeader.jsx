@@ -21,7 +21,6 @@ export default function DashboardHeader(props) {
 
 
   function onUserCard(id_user = null) {
-    console.log('Проверка выполения функции =>', onUserCard.name, id_user);
 
     showUserCard === id_user ?
       setShowUserCard(null)
@@ -46,8 +45,6 @@ export default function DashboardHeader(props) {
   function SubmitFormShare() {
     console.log('Проверка выполения функции =>', SubmitFormShare.name);
     console.log('email>>>', fieldEmailData);
-
-
   }
 
 
@@ -126,6 +123,7 @@ export default function DashboardHeader(props) {
                   clickAction={onShareDashboard}
                   className={"BtnFormShareDashboard"}
                 >
+
                   <Icons
                     name={'CloseIcon'}
                     class_name={'IconCloseFormShare'}
