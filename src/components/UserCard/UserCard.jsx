@@ -42,8 +42,10 @@ export default function UserCard(props) {
       method: 'POST',
       url: 'change-role-board/',
       callback: (response) => {
+
+        // clickAction(user.id)
       },
-      data: { 'user_id': user_id, 'dashboard_id': dashboardId,  'action': 'add_admin'},
+      data: { 'user_id': user_id, 'dashboard_id': dashboardId, 'action': 'add_admin' },
       status: 200,
     });
 
@@ -58,7 +60,7 @@ export default function UserCard(props) {
     console.log('Проверка выполения функции =>', onLeaveBoard.name, user_id);
   }
 
-  function СheckBtnAddAdmin(){
+  function СheckBtnAddAdmin() {
 
     if (
       roleData['role_card_user'] !== 'admin' &&
@@ -104,19 +106,19 @@ export default function UserCard(props) {
         <hr />
 
         <ul className={styles.UserCardActions} >
-        {
-          СheckBtnAddAdmin() ?
-          <li>
-            <Button
-              className={"BtnUserCardActions"}
-              clickAction={onAddAdmin}
-              actionVariable={user.id}
-            >
-              Добавить на доску как администратора
-            </Button>
-          </li>
-          :
-          <li/>
+          {
+            СheckBtnAddAdmin() ?
+              <li>
+                <Button
+                  className={"BtnUserCardActions"}
+                  clickAction={onAddAdmin}
+                  actionVariable={user.id}
+                >
+                  Добавить на доску как администратора
+                </Button>
+              </li>
+              :
+              <li />
           }
           <li>
             <Button
@@ -138,8 +140,8 @@ export default function UserCard(props) {
           </li>
         </ul>
 
-        <div style={{fontSize: '12px'}}>
-        <p>
+        <div style={{ fontSize: '12px' }}>
+          <p>
             <span>user_auth_id = </span>
             <span>{roleData['user_auth_id']}</span>
           </p>
@@ -156,8 +158,8 @@ export default function UserCard(props) {
             <span>{roleData['count_admin_on_board']}</span>
           </p>
           <p>
-            <span>count_admin_on_board = </span>
-            <span>{roleData['count_admin_on_board']}</span>
+            <span>count_user_on_board = </span>
+            <span>{roleData['count_user_on_board']}</span>
           </p>
         </div>
 
