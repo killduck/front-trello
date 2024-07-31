@@ -52,6 +52,8 @@ export default function KanbanBoard() {
 
   let [name_dashboard, setNameDashboard] = useState('');
 
+  let [updateComponent, setUpdateComponent] = useState(false);
+
   let [users, setUsers] = useState([]);
 
   let { dashboardId } = useParams();
@@ -114,7 +116,7 @@ export default function KanbanBoard() {
     });
 
 
-  }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
+  }, [updateComponent]); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
@@ -455,6 +457,8 @@ export default function KanbanBoard() {
       <DashboardHeader
         dashboardUsers={users}
         name_dashboard={name_dashboard}
+        updateComponent={updateComponent}
+        setUpdateComponent={setUpdateComponent}
       />
       {showPreloder ? (<Preloader />) : ("")}
       {/* <WorkspaceMenu /> */}

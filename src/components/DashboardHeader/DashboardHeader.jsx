@@ -13,13 +13,17 @@ export default function DashboardHeader(props) {
 
   let dashboardUsers = props.dashboardUsers;
 
+  let updateComponent = props.updateComponent;
+
+  let setUpdateComponent = props.setUpdateComponent;
+
   let [showUserCard, setShowUserCard] = useState(null);
 
   let [showFormShare, setShowFormShare] = useState(false);
 
   let [fieldEmailData, setFieldEmailData] = useState("");
 
-  let [updateComponent, setUpdateComponent] = useState(false);
+  // let [updateComponent, setUpdateComponent] = useState(false);
 
 
   function onUserCard(id_user = null) {
@@ -94,8 +98,8 @@ export default function DashboardHeader(props) {
                     <UserCard
                       user={user}
                       clickAction={onUserCard}
-                      updateComponent = {updateComponent}
-                      setUpdateComponent = {setUpdateComponent}
+                      updateComponent={updateComponent}
+                      setUpdateComponent={setUpdateComponent}
 
                     />
                   </div>

@@ -83,13 +83,6 @@ export default function UserCard(props) {
     return false;
   }
 
-  function СheckBtnDelUser() {
-
-    if (roleData['count_user_on_board'] > 1) return true;
-
-    return false;
-  }
-
 
   return (
     <div className={styles.UserCard}>
@@ -173,34 +166,50 @@ export default function UserCard(props) {
               <li />
           }
           {
-            СheckBtnDelUser() ?
+            roleData['count_user_on_board'] > 1 ?
               <li>
-                {roleData['user_auth_id'] === user['id'] ?
-                  <Button
-                    className={"BtnUserCardActions"}
-                    clickAction={onСhangeRole}
-                    actionVariable={'del_user'}
-                  >
-                    Покинуть доску
-                  </Button>
-                  :
+                {
                   roleData['role_auth_user'] === 'admin' ?
-                    <Button
-                      className={"BtnUserCardActions"}
-                      clickAction={onСhangeRole}
-                      actionVariable={'del_user'}
-                    >
-                      Удалить с доски
-                    </Button>
+                    (
+                      roleData['user_auth_id'] === roleData['user_card_id'] ?
+                        (
+                          roleData['count_admin_on_board'] > 1 ?
+                            < Button
+                              className={"BtnUserCardActions"}
+                              clickAction={onСhangeRole}
+                              actionVariable={'del_user'}
+                            >
+                              Покинуть доску
+                            </Button>
+                            :
+                            <></>
+                        )
+                        :
+                        <Button
+                          className={"BtnUserCardActions"}
+                          clickAction={onСhangeRole}
+                          actionVariable={'del_user'}
+                        >
+                          Удалить с доски
+                        </Button>
+                    )
                     :
-                    <></>
+                    roleData['user_auth_id'] === roleData['user_card_id'] ?
+                      < Button
+                        className={"BtnUserCardActions"}
+                        clickAction={onСhangeRole}
+                        actionVariable={'del_user'}
+                      >
+                        Покинуть доску
+                      </Button>
+                      :
+                      <></>
                 }
               </li>
               :
               <li />
           }
         </ul>
-
         {/* <div style={{ fontSize: '12px' }}>
           <p>
             <span>user_auth_id = </span>
@@ -223,8 +232,7 @@ export default function UserCard(props) {
             <span>{roleData['count_user_on_board']}</span>
           </p>
         </div> */}
-
       </div>
-    </div>
+    </div >
   )
 };
