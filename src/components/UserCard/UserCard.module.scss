@@ -32,6 +32,7 @@
       background-repeat: no-repeat;
       background-size: 100% 82px;
       border-radius: 8px;
+      position: relative;
 
       .Logo {
         display: flex;
@@ -45,6 +46,7 @@
         background-color: #2121ff;
         font-size: 40px;
         font-weight: 500;
+        position: relative;
       }
 
       .InfoUserName {
@@ -59,6 +61,10 @@
         .UserName {
           font-size: 12px;
           text-overflow: ellipsis;
+          font-weight: 600;
+          .UserNameRole {
+            color: #fff;
+          }
         }
       }
     }

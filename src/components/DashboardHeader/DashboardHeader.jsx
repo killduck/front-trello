@@ -19,6 +19,8 @@ export default function DashboardHeader(props) {
 
   let [fieldEmailData, setFieldEmailData] = useState("");
 
+  let [updateComponent, setUpdateComponent] = useState(false);
+
 
   function onUserCard(id_user = null) {
 
@@ -92,6 +94,9 @@ export default function DashboardHeader(props) {
                     <UserCard
                       user={user}
                       clickAction={onUserCard}
+                      updateComponent = {updateComponent}
+                      setUpdateComponent = {setUpdateComponent}
+
                     />
                   </div>
                 </div>
