@@ -433,7 +433,7 @@ export default function WindowModal(props){
           funcLabelsWindow={funcLabelsWindow}
           labelsWindow={labelsWindow}
           updateCardLabel={updateCardLabel}
-
+          setCardLabel={setCardLabel}
         ></Sidebar>
 
     </div>

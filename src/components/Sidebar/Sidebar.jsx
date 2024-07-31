@@ -20,7 +20,7 @@ export default function Sidebar(props){
   let funcLabelsWindow = props.funcLabelsWindow;
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
-
+  let setCardLabel = props.setCardLabel;
 
   return (
     
@@ -69,10 +69,11 @@ export default function Sidebar(props){
           </div>
           {(labelsWindow) ? 
           (<SidebarLabelWindow
-          funcLabelsWindow={funcLabelsWindow}
-          labelsWindow={labelsWindow}
-          updateCardLabel={updateCardLabel}
-          windowData={windowData}
+            funcLabelsWindow={funcLabelsWindow}
+            labelsWindow={labelsWindow}
+            updateCardLabel={updateCardLabel}
+            windowData={windowData}
+            setCardLabel={setCardLabel}
           />):("")
           }
 

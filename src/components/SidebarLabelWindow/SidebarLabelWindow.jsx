@@ -11,6 +11,7 @@ export default function SidebarLabelWindow(props){
   let funcLabelsWindow = props.funcLabelsWindow;
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
+  let setCardLabel = props.setCardLabel;
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
@@ -28,7 +29,7 @@ export default function SidebarLabelWindow(props){
             setColoredLabels(response.data);
           }
 
-          if(labelsWindow){
+          if(labelsWindow && windowData.label){
             onTakeColor(windowData.label);
           }
         }
@@ -48,6 +49,8 @@ export default function SidebarLabelWindow(props){
     }
     else{
       setCheckbox(false);
+      updateCardLabel(windowData.id, {'id': null});
+      setCardLabel(false);
     }
   }
 

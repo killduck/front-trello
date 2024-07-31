@@ -448,7 +448,7 @@ export default function KanbanBoard() {
 
   function updateSetCardLabel(id, label) {
     const newTasks = tasks.map((task) => {
-      // console.log(String(id) , name ,task.id);
+      // console.log(String(id) , label );
       if (task.id !== String(id)) {
         return task;
       }
@@ -465,8 +465,9 @@ export default function KanbanBoard() {
       callback: (response) => {
         if (response.status === 200) {
           // console.log(response.data);
-          card_id = response.data[0]['id'];
-          updateSetCardLabel(card_id, label);
+          let new_card_id = response.data[0]['id'];
+          let new_label = response.data[0]['label'];
+          updateSetCardLabel(new_card_id, new_label);
         }
       },
       data: { "card_id": card_id, "label_id": label.id },
