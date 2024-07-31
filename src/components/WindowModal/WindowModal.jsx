@@ -19,10 +19,10 @@ export default function WindowModal(props){
   let typeElem = props.typeElem;
   let idElem = Number(props.idElem);
   let column = props.column;
+  let task = props.task;
   let updateFunc = props.updateFunc;
   let deleteFunc = props.deleteFunc;
-
-  // const [value, setValue] = useState('');
+  let updateCardLabel = props.updateCardLabel;
 
   const [authUser, setAuthUser] = useState(Number);
   let [windowData, setWindowData] = useState({});
@@ -35,12 +35,7 @@ export default function WindowModal(props){
   let [showUserCard, setShowUserCard] = useState(null);
 
   let [labelsWindow, setLabelsWindow] = useState(false);
-  const [cardLabel, setCardLabel] = useState([]);
-
-
-  // const [mainState, setMainState] = useState(false);
-  // let [dashboardUsers, setDashboardUsers] = useState([]);
-  // let [newText, setNewTextData] = useState('');
+  const [cardLabel, setCardLabel] = useState(false);
 
   useEffect(() => {
     request({
@@ -58,15 +53,16 @@ export default function WindowModal(props){
             setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
             // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
           }
+          if(task.label){
+            setCardLabel(true);
+          }
         }
       },
-      data: { 'id': idElem },
+      data: {'id': idElem},
       status:200,
     });
 
-  },[typeElem, idElem]);
-
-  // console.log(cardUsers);
+  },[typeElem, idElem, task]);
 
   function showTextarea() {
     if(!newName){
@@ -150,7 +146,7 @@ export default function WindowModal(props){
             if(response.data){
               setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
               setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
-              onUserCard(user_id);
+              // onUserCard(user_id); // это по ходу лишее, но это не точно.
             }
           }
         },
@@ -348,18 +344,18 @@ export default function WindowModal(props){
   )
 
   const columnLabels = (
-    // "метки"
     <>
-    {(cardLabel.length > 0) ?
+    {(cardLabel) ?
       (<div className={styles.cardDetailNotifications}>
         <h3 className={styles.cardDetailsTitle}>Метки</h3>
         <div className={styles.labelsList} data-testid="card-back-labels-container">
           <span 
             className={styles.labelElement} 
-            style={{cardLabel}}
+            style={{backgroundColor: task.label.color_hex}}
             tabIndex="0" 
-            aria-label="Цвет: Зелёная, название: «без цвета»" 
-            data-color="green"
+            aria-label={`Цвет: ${task.label.name}, название: «без цвета»`}
+            data-color={task.label.name}
+            onClick={funcLabelsWindow}
           />
           <Button
             clickAction={funcLabelsWindow}
@@ -436,6 +432,7 @@ export default function WindowModal(props){
           membersWindow={membersWindow}
           funcLabelsWindow={funcLabelsWindow}
           labelsWindow={labelsWindow}
+          updateCardLabel={updateCardLabel}
 
         ></Sidebar>
 

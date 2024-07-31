@@ -76,7 +76,7 @@ export default function SidebarMembersWindow(props){
         }
       });
     }
-    console.log(searchedUsers.length, evtLength);
+    // console.log(searchedUsers.length, evtLength);
 
     if(searchedUsers.length === 0 && evtLength > 0){
       setShowNoResult(true);

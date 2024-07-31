@@ -208,7 +208,6 @@
                     padding: 0 12px;
                     overflow: hidden;
                     border-radius: 3px;
-                    background-color: #216e4e;
                     color: #baf3db;
                     font-size: 14px;
                     font-weight: 500;
@@ -223,6 +222,7 @@
                     }
                     &:focus {
                         outline: -webkit-focus-ring-color auto 5px;
+                        outline: #85b8ff auto 2px;
                     }
                 }
             }

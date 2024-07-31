@@ -21,7 +21,7 @@ export default function TaskCard(props) {
   let column = props.column;
   let updateTask = props.updateTask;
   let deleteCard = props.deleteCard;
-
+  let updateCardLabel = props.updateCardLabel;
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -136,6 +136,7 @@ export default function TaskCard(props) {
         dashboardUsers={dashboardUsers}
         updateFunc = {updateTask}
         deleteFunc={deleteCard}
+        updateCardLabel={updateCardLabel}
       >
         <div className={styles.TaskCard__Wrap}>
 

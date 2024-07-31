@@ -445,7 +445,35 @@ export default function KanbanBoard() {
       status: 200,
     });
   }
-  console.log(tasks);
+
+  function updateSetCardLabel(id, label) {
+    const newTasks = tasks.map((task) => {
+      // console.log(String(id) , name ,task.id);
+      if (task.id !== String(id)) {
+        return task;
+      }
+      return { ...task, label };
+    });
+    setTasks(newTasks);
+  }
+
+  function updateCardLabel(card_id, label) {
+    // console.log(card_id, label);
+    request({
+      method: "POST",
+      url: 'add-label-to-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          // console.log(response.data);
+          card_id = response.data[0]['id'];
+          updateSetCardLabel(card_id, label);
+        }
+      },
+      data: { "card_id": card_id, "label_id": label.id },
+      status: 200,
+    });
+  }
+  // console.log(tasks);
 
   return (
 
@@ -479,6 +507,7 @@ export default function KanbanBoard() {
                     updateColumn={updateColumn}
                     deleteCard={deleteCard}
                     updateTask={updateTask}
+                    updateCardLabel={updateCardLabel}
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
                   />
@@ -541,6 +570,7 @@ export default function KanbanBoard() {
                   updateColumn={updateColumn}
                   deleteCard={deleteCard}
                   updateTask={updateTask}
+                  updateCardLabel={updateCardLabel}
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
                 />

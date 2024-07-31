@@ -7,7 +7,7 @@ import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 
 export default function Sidebar(props){
-
+  // console.log(props);
   let typeElem = props.typeElem;
   let windowData = props.windowData;
   let deleteFunc = props.deleteFunc;
@@ -19,7 +19,7 @@ export default function Sidebar(props){
   let membersWindow = props.membersWindow;
   let funcLabelsWindow = props.funcLabelsWindow;
   let labelsWindow = props.labelsWindow;
-
+  let updateCardLabel = props.updateCardLabel;
 
 
   return (
@@ -71,6 +71,8 @@ export default function Sidebar(props){
           (<SidebarLabelWindow
           funcLabelsWindow={funcLabelsWindow}
           labelsWindow={labelsWindow}
+          updateCardLabel={updateCardLabel}
+          windowData={windowData}
           />):("")
           }
 
