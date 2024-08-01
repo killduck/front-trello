@@ -31,10 +31,23 @@ $color6: #85B8FF;
     font-size: 18px;
     font-weight: 700;
     color: #fff;
+    position: relative;
   }
 }
 
 .HeaderUsers {
   width: 28px;
   height: 28px;
+}
+
+.adminLabel{
+  // bottom: 0;
+  width: 9px;
+  height: 9px;
+  background-image: url('../../../../public/img/admin_label.png');
+  position: absolute;
+  z-index: 1;
+  // right: -6px;
+  top: 15px;
+  background-size: 100%;
 }

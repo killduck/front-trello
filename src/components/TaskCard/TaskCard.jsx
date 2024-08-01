@@ -21,13 +21,13 @@ export default function TaskCard(props) {
   let column = props.column;
   let updateTask = props.updateTask;
   let deleteCard = props.deleteCard;
-
+  let updateCardLabel = props.updateCardLabel;
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
 
-  let [label, setLabel] = useState(false);
+  // let [label, setLabel] = useState(false);
 
   const {
     setNodeRef,
@@ -104,15 +104,14 @@ export default function TaskCard(props) {
     );
   }
 
-  function onCard_label() {
-    console.log('Проверка выполения функции =>', onCard_label.name);
-    // TODO Наверное лишнее?
-    label ?
-      setLabel(false)
-      :
-      setLabel(true)
-
-  }
+  // function onCardLabel() {
+  //   console.log('Проверка выполения функции =>', onCardLabel.name);
+  // 
+  //   label ?
+  //     setLabel(false)
+  //     :
+  //     setLabel(true)
+  // }
 
   return (
 
@@ -137,6 +136,7 @@ export default function TaskCard(props) {
         dashboardUsers={dashboardUsers}
         updateFunc = {updateTask}
         deleteFunc={deleteCard}
+        updateCardLabel={updateCardLabel}
       >
         <div className={styles.TaskCard__Wrap}>
 
@@ -144,8 +144,9 @@ export default function TaskCard(props) {
 
             <div className={styles.ColorLabel}>
               <div
-                className={styles.ColorLabel_Wrap}
-                // onClick={() => { onCard_label() }}
+                className={styles.ColorLabelWrap}
+                style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
+                // onClick={() => { onCardLabel() }}
               >
                 {/* <span
                   className={

@@ -48,6 +48,13 @@
   color: #fff;
 }
 
+.IconWindowModalMainColAddUser,
+.IconWindowModalMainColAddLabel {
+  width: 20px;
+  height: 20px;
+  color: #9fadbc;
+}
+
 .IconDeletColumnn {
   width: 20px;
   height: 20px;
@@ -177,6 +184,11 @@
   height: 26px;
 }
 
+.iconSelectedLabel {
+  width: 16px;
+  height: 16px;
+}
+
 
 .itemDueDateIcon{
   height: 16px;
@@ -200,6 +212,7 @@
   color: #172b4d;
 }
 
+.IconCloseUserDashboard,
 .IconCloseUserCard {
   width: 16px;
   height: 16px;

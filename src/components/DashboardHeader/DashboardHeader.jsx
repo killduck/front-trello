@@ -4,7 +4,7 @@ import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import styles from './DashboardHeader.module.scss';
-import UserCard from '../UserCard/UserCard';
+import UserDashboard from '../UserDashboard/UserDashboard';
 
 
 export default function DashboardHeader(props) {
@@ -21,7 +21,7 @@ export default function DashboardHeader(props) {
 
 
   function onUserCard(id_user = null) {
-    console.log('Проверка выполения функции =>', onUserCard.name, id_user);
+    // console.log('Проверка выполения функции =>', onUserCard.name, id_user);
 
     showUserCard === id_user ?
       setShowUserCard(null)
@@ -92,9 +92,10 @@ export default function DashboardHeader(props) {
                     }
                     key={user.id}
                   >
-                    <UserCard
+                    <UserDashboard
                       user={user}
                       clickAction={onUserCard}
+                      class_name={'UserDashboard'} 
                     />
                   </div>
                 </div>

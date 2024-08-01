@@ -26,6 +26,8 @@ export default function ColumnContainer(props) {
   let tasks = props.tasks;
   let deleteCard = props.deleteCard;
   let updateTask = props.updateTask;
+  let updateCardLabel = props.updateCardLabel;
+
 
   const [editMode, setEditMode] = useState(false);
 
@@ -175,6 +177,7 @@ export default function ColumnContainer(props) {
               dashboardUsers={dashboardUsers}
               updateTask={updateTask}
               deleteCard={deleteCard}
+              updateCardLabel={updateCardLabel}
             />
           ))}
           <CreateNewBoardItem

@@ -156,6 +156,78 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+            .membersList{
+                display: flex;
+                // align-items: center;
+                // justify-content: center;
+                
+                .memberMenu{
+                    cursor: pointer;
+                    margin: 0 4px 4px 0;
+                    border-radius: 50%;
+                    height: 32px;
+                    position: relative;
+
+                    &:hover {
+                        background-color: #454f59;
+                        color: #b6c2cf;
+                    }
+                    &:active {
+                        background-color: #596773;
+                        color: #b6c2cf;
+                    }
+
+                }
+                .memberAvatar{
+                    border-radius: 50%;
+                    height: 32px;
+                    object-fit: cover;
+                    width: 32px;
+                    background-color: #9fadbc;
+                    border: 1px solid #9fadbc;
+                    &:hover {
+                        opacity: .8;
+                    }
+                    &:active {
+                        opacity: .7;
+                    }
+                }
+            }
+            .labelsList{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+                .labelElement{
+                    display: inline-block;
+                    position: relative;
+                    box-sizing: border-box;
+                    min-width: 48px;
+                    max-width: 100%;
+                    height: 32px;
+                    margin-bottom: 0;
+                    padding: 0 12px;
+                    overflow: hidden;
+                    border-radius: 3px;
+                    color: #baf3db;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 32px;
+                    text-align: left;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                    &:hover {
+                        background-color: #164b35;
+                        cursor: pointer;
+                    }
+                    &:focus {
+                        outline: -webkit-focus-ring-color auto 5px;
+                        outline: #85b8ff auto 2px;
+                    }
+                }
+            }
+
+
             .cardDetailsInfo{
                 overflow: hidden;
             }
@@ -185,298 +257,9 @@
         clear: both;
     }
 }
-.sidebar {
-    // float: right;
-    padding: 0 16px 8px 8px;
-    // width: calc(100% - 550px);
-    width: 200px;
-    grid-column: 4 / 5;
-    grid-row: 2;
-    z-index: 1;
-    // background-color: #4c1cb4;
-    position: relative;
 
-
-    .addItemsWrap{
-        clear: both;
-        margin-bottom: 24px;
-        // position: relative;
-
-        .cardTitle{
-            margin-top: 0;
-            color: #9fadbc;
-            font-size: 12px;
-            font-weight: 600;
-            line-height: 20px;
-            margin-bottom: -4px;
-        }
-        .itemsWrap{
-            display: flex;
-            flex-direction: column;
-            color: #b6c2cf;
-            // margin-left: 10px;
-
-            .itemMembers,
-            .itemLabels,
-            .itemDueDate,
-            .itemAttachments {
-                background-color: #a1bdd914;
-                border: none;
-                border-radius: 3px;
-                box-shadow: none;
-                box-sizing: border-box;
-                color: #b6c2cf;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                font-weight: 500;
-                height: 32px;
-                margin-top: 8px;
-                max-width: 300px;
-                padding: 6px 12px;
-                font-size: 14px;
-            
-                &:active,
-                &:hover {
-                    border: none;
-                    box-shadow: none;
-                    color: #b6c2cf;
-                }
-                &:hover {
-                    background-color: #a6c5e229;
-                    text-decoration: none;
-                }
-                &:active{
-                    background-color: #bfdbf847;
-                    outline: 0;
-                }
-                > span{
-                    margin-left: 8px;
-                }
-            
-            }
-            // .itemMembers{
-                // color: rgb(102, 250, 102);
-                // color: #b6c2cf;
-            // }
-            // .itemLabels{
-                // color: rgb(102, 250, 102);
-            // }
-            // .itemDueDate{
-            //     color: rgb(102, 250, 102);
-            // }
-            // .itemAttachments{
-                // color: rgb(102, 250, 102);
-            // }
-            
-        }
-    }
-    
-    .actionsWrap{
-        clear: both;
-        margin-bottom: 24px;
-
-        .actionsTitle{
-            margin-top: 0;
-            color: #9fadbc;
-            font-size: 12px;
-            font-weight: 600;
-            line-height: 20px;
-            margin-bottom: -4px;
-        }
-        .actionsWrap{
-            display: flex;
-            flex-direction: column;
-            color: #b6c2cf;
-
-            .actionDeleteCard{
-                background-color: #a1bdd914;
-                border: none;
-                border-radius: 3px;
-                box-shadow: none;
-                box-sizing: border-box;
-                color: #b6c2cf;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                font-weight: 500;
-                height: 32px;
-                margin-top: 8px;
-                max-width: 300px;
-                padding: 6px 12px;
-                font-size: 14px;
-            
-                &:active,
-                &:hover {
-                    border: none;
-                    box-shadow: none;
-                    color: #b6c2cf;
-                }
-                &:hover {
-                    background-color: #a6c5e229;
-                    text-decoration: none;
-                }
-                &:active{
-                    background-color: #bfdbf847;
-                    outline: 0;
-                }
-
-                .actionDeleteCardText{
-                    margin-left: 8px;
-                }
-            }
-        }
-    }
-}
 .cardDescription{
     margin-top: 30px;
-}
-
-
-
-.smallWindowWrap{
-    background-color: #282e32;
-    border-radius: 8px;
-    box-shadow: 0px 0px 0px 1px #39424a, 0px 8px 12px #0304045C, 0px 0px 1px 1px #03040480;
-    overflow: hidden;
-    position: absolute;
-    width: 304px;
-    min-height: 30px;
-    cursor: default;
-    right: -7%;
-    top: 60px;
-
-    .itemHeader{
-        align-items: center;
-        display: grid;
-        grid-template-columns: 32px 1fr 32px;
-        padding: 4px 8px;
-        position: relative;
-        text-align: center;
-
-        .itemHeaderTitle{
-            box-sizing: border-box;
-            color: #9fadbc;
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            grid-column: 1 / span 3;
-            grid-row: 1;
-            height: 40px;
-            letter-spacing: -.003em;
-            line-height: 16px;
-            line-height: 40px;
-            margin: 0;
-            overflow: hidden;
-            padding: 0 32px;
-            position: relative;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            z-index: 1;
-        }
-        .iconWrap{
-            border-radius: 8px;
-            color: #626f86;
-            grid-column: 3;
-            grid-row: 1;
-            padding: 3px;
-            z-index: 2;
-        }
-    }
-    .itemContent{
-        overflow-x: hidden;
-        overflow-y: auto;
-        padding: 0 12px 12px;
-
-        input{
-            background-color: #22272b;
-            border: none;
-            border-radius: 3px;
-            box-shadow: inset 0 0 0 1px #738496;
-            box-sizing: border-box;
-            display: block;
-            line-height: 20px;
-            margin-bottom: 12px;
-            outline: none;
-            padding: 8px 12px;
-        }
-        .itemContentInput{
-            margin: 4px 0 12px;
-            width: 100%;
-        }
-
-        .itemContentCardMembers, 
-        .itemContentDashboardMembers{
-            
-
-            .itemContentCardMembersTitle,
-            .itemContentDashboardMembersTitle{
-                display: flex;
-                align-items: center;
-
-                h4{
-                    margin-top: 16px;
-                    color: #9fadbc;
-                    font-size: 12px;
-                    line-height: 16px;
-                    font-weight: 600;
-                }
-            }
-
-            .itemContentDashboardMember{
-                // display: inline-block;
-                // margin-right: 8px;
-                ul{
-                    list-style: none;
-                    margin: 0;
-                    padding: 0;
-
-                    li{
-                        display: flex;
-                        align-items: center;
-                        // padding: 4px 8px 4px 4px;
-                        height: 40px;
-                        width: 100%;
-                    }
-                }
-
-                .itemContentDashboardMemberInfo{
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-
-                    .itemContentDashboardMemberName{
-                        flex: 1;
-                        text-align: start;
-                    }
-                }
-
-                .itemContentDashboardMemberImg{
-                    // display: flex;
-
-                    div{
-                    flex: 1;
-                    margin-right: 8px;
-                    text-align: left;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    }
-                    span{
-                        display: block;
-                        // background-image: url('../../../public/img/photo_templates_1.jpg');
-                        background-size: cover;
-                        height: 30px;
-                        width: 30px;
-                        margin-right: 8px;
-                        border-radius: 50%;
-                        background-color: #0052cc;
-                    }
-                }
-            }
-        }
-
-    }
 }
 
 .iconWrap{
@@ -493,4 +276,4 @@
       display: flex;
       justify-content: center;
     }
-  }
+}

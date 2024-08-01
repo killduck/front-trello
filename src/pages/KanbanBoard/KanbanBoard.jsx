@@ -37,7 +37,7 @@ export default function KanbanBoard() {
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState([]);
-
+  
   const [activeColumn, setActiveColumn] = useState(null);
 
   const [activeTask, setActiveTask] = useState(null);
@@ -119,7 +119,7 @@ export default function KanbanBoard() {
 
   // Библиотека @dnd kit
   function onDragStart(event) {
-    console.log('onDragStart');
+    // console.log('onDragStart');
 
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
@@ -133,7 +133,7 @@ export default function KanbanBoard() {
   }
 
   function onDragEnd(event) {
-    console.log('onDragEnd');
+    // console.log('onDragEnd');
 
     setActiveColumn(null);
     setActiveTask(null);
@@ -167,7 +167,7 @@ export default function KanbanBoard() {
 
 
     if (active_order_element === "Task") {
-      console.log('Сортируем карточки');
+      // console.log('Сортируем карточки');
 
       let order_cards = editOrderCards(tasks);
 
@@ -240,7 +240,7 @@ export default function KanbanBoard() {
 
 
   function onDragOver(event) {
-    console.log('onDragOver');
+    // console.log('onDragOver');
 
     const { active, over } = event;
 
@@ -446,6 +446,35 @@ export default function KanbanBoard() {
     });
   }
 
+  function updateSetCardLabel(id, label) {
+    const newTasks = tasks.map((task) => {
+      // console.log(String(id) , label );
+      if (task.id !== String(id)) {
+        return task;
+      }
+      return { ...task, label };
+    });
+    setTasks(newTasks);
+  }
+
+  function updateCardLabel(card_id, label) {
+    // console.log(card_id, label);
+    request({
+      method: "POST",
+      url: 'add-label-to-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          // console.log(response.data);
+          let new_card_id = response.data[0]['id'];
+          let new_label = response.data[0]['label'];
+          updateSetCardLabel(new_card_id, new_label);
+        }
+      },
+      data: { "card_id": card_id, "label_id": label.id },
+      status: 200,
+    });
+  }
+  // console.log(tasks);
 
   return (
 
@@ -479,6 +508,7 @@ export default function KanbanBoard() {
                     updateColumn={updateColumn}
                     deleteCard={deleteCard}
                     updateTask={updateTask}
+                    updateCardLabel={updateCardLabel}
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
                   />
@@ -541,6 +571,7 @@ export default function KanbanBoard() {
                   updateColumn={updateColumn}
                   deleteCard={deleteCard}
                   updateTask={updateTask}
+                  updateCardLabel={updateCardLabel}
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
                 />

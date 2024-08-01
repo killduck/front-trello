@@ -58,10 +58,10 @@ $text: #172b4d;
         gap: 4px;
         margin-bottom: 4px;
         cursor: pointer;
-        .ColorLabel_Wrap {
+        .ColorLabelWrap {
           display: inline-flex;
           max-width: calc(100% - 4px);
-          background-color: $background_2;
+          // background-color: $background_2;
           border-radius: 4px;
           min-width: 40px;
           min-height: 8px;

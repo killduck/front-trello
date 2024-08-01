@@ -20,7 +20,7 @@ export default function WindowPortal(props){
     let column = props.column;
     let updateFunc = props.updateFunc;
     let deleteFunc = props.deleteFunc;
-
+    let updateCardLabel = props.updateCardLabel;
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -53,6 +53,7 @@ export default function WindowPortal(props){
                 dashboardUsers={dashboardUsers}
                 updateFunc = {updateFunc}
                 deleteFunc = {deleteFunc}
+                updateCardLabel={updateCardLabel}
             >
                 <Button
                     className={'btnWindowModal'}

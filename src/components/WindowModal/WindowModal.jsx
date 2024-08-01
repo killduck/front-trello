@@ -2,11 +2,15 @@
 import styles from "./WindowModal.module.scss"
 
 import { useEffect, useState } from 'react';
+
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+
 import request from "../../api/request";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
+import Sidebar from "../Sidebar/Sidebar";
+import UserCard from "../UserCard/UserCard";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -14,28 +18,24 @@ export default function WindowModal(props){
   let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
   let idElem = Number(props.idElem);
-  // let task = props.task;
   let column = props.column;
+  let task = props.task;
   let updateFunc = props.updateFunc;
   let deleteFunc = props.deleteFunc;
+  let updateCardLabel = props.updateCardLabel;
 
-  // const [mainState, setMainState] = useState(false);
-
-  const [value, setValue] = useState('');
-
+  const [authUser, setAuthUser] = useState(Number);
   let [windowData, setWindowData] = useState({});
   const [startWindowName, setStartWindowName] = useState('');
   let [windowName, setWindowName] = useState('');
   let [newName, setNewNameField] = useState(false);
-
-  let [ membersWindow, setMembersWindow] = useState(false);
-
+  let [membersWindow, setMembersWindow] = useState(false);
   let [cardUsers, setCardUsers] = useState([]);
-  // let [dashboardUsers, setDashboardUsers] = useState([]);
-
-  // let [newText, setNewTextData] = useState('');
-
   let [subscribe, setSubscribe] = useState(false);
+  let [showUserCard, setShowUserCard] = useState(null);
+
+  let [labelsWindow, setLabelsWindow] = useState(false);
+  const [cardLabel, setCardLabel] = useState(false);
 
   useEffect(() => {
     request({
@@ -43,19 +43,26 @@ export default function WindowModal(props){
       url:`take-data-${typeElem}/`,
       callback:(response) => { 
         if (response.status === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           if(response.data){
-            setWindowData(response.data[0]);
-            setWindowName(response.data[0]['name']);
-            setStartWindowName(response.data[0]['name']);
+            setAuthUser(response.data.auth_user);
+            setWindowData(response.data.card[0]);
+            setWindowName(response.data.card[0]['name']);
+            setStartWindowName(response.data.card[0]['name']);
+            setCardUsers(response.data.card_users_data);
+            setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
+            // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+          }
+          if(task.label){
+            setCardLabel(true);
           }
         }
       },
-      data: { 'id': idElem },
+      data: {'id': idElem},
       status:200,
     });
 
-  },[typeElem, idElem]);
+  },[typeElem, idElem, task]);
 
   function showTextarea() {
     if(!newName){
@@ -90,33 +97,23 @@ export default function WindowModal(props){
     }
   }
 
-  // function requestCardUser() {
-  //   request({
-  //     method:'POST',
-  //     url:`card-user/`,
-  //     callback:(response) => { 
-  //       if (response.status === 200) {
-  //         console.log(response.data);
-  //         if(response.data){
-  //           // setDashboardUsers(response.data);
-  //         }
-  //       }
-  //     },
-  //     data: { 'dashboard_id': column.dashboard },
-  //     status:200,
-  //   });
-  // }
-
   function funcMembersWindow(){
     if(membersWindow){
       setMembersWindow(false);
     }
     else{
       setMembersWindow(membersWindow = true);
-      // requestCardUser();
     }
   }
 
+  function funcLabelsWindow() {
+    if(labelsWindow){
+      setLabelsWindow(false);
+    }
+    else{
+      setLabelsWindow(labelsWindow = true);
+    }
+  }
 
   function chechUserToAdd(user_id){
     // console.log(user_id, cardUsers);
@@ -128,7 +125,7 @@ export default function WindowModal(props){
 
       cardUsers.forEach((cardUser) => {
         // console.log(user_id, cardUser.user_id);
-        if (user_id === cardUser.user_id){
+        if (user_id === cardUser.id){
           addUser = false;
         }
       });
@@ -137,7 +134,7 @@ export default function WindowModal(props){
     }
   }
 
-  function addUserToCard( user_id ){
+  function funcAddUserToCard(user_id){
     // console.log(user_id, cardUsers.length);
     if(chechUserToAdd(user_id)){
       request({
@@ -145,9 +142,11 @@ export default function WindowModal(props){
         url:`card-user-update/`,
         callback:(response) => { 
           if (response.status === 200) {
-            console.log(response.data);
+            // console.log(response.data);
             if(response.data){
-              setCardUsers( [...cardUsers, response.data] );
+              setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
+              setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+              // onUserCard(user_id); // это по ходу лишее, но это не точно.
             }
           }
         },
@@ -157,10 +156,10 @@ export default function WindowModal(props){
     }
   }
 
-  function funcDelCardUser (user_id){
+  function funcDelCardUser(user_id){
     // console.log(user_id);
     cardUsers.forEach(cardUser => {
-      if (user_id === cardUser.user_id){
+      if (user_id === cardUser.id){
         // console.log(user_id, cardUser.user_id);
         request({
           method:'POST',
@@ -170,16 +169,25 @@ export default function WindowModal(props){
               // console.log(response.data);
               if(response.data){
                 // console.log('ответ пришёл');
-                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.user_id !== user_id);
+                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
+                setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
+
               }
             }
           },
-          data: { 'user_id': cardUser.user_id, 'card_id': cardUser.card_id},
+          data: { 'user_id': cardUser.id, 'card_id': windowData.id},
           status:200,
         });
       }
     });
+  }
+
+  function onUserCard(id_user = null) {
+    showUserCard === id_user ?
+      setShowUserCard(null)
+      :
+      setShowUserCard(id_user)
   }
 
   const headerSection = (
@@ -281,11 +289,87 @@ export default function WindowModal(props){
   )
 
   const columnMembers = (
-    "участники в колонке/карточке"
+    <>
+    {(cardUsers.length > 0) ?
+      (
+        <div className={styles.cardDetailNotifications} >
+          <h3 className={styles.cardDetailsTitle}>Участники:</h3>
+            <div className={styles.membersList}>
+            {cardUsers.map(
+              (cardUser) => 
+                <div 
+                  key={cardUser.id} 
+                  className={styles.memberMenu} 
+                  aria-label={`Действия с профилем участника ${cardUser.first_name}`}
+                >
+                  <img 
+                    className={styles.memberAvatar} 
+                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/users/Andrey.png'}
+                    // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
+                    alt={`${cardUser.first_name} (${cardUser.username})`}
+                    title={`${cardUser.first_name} (${cardUser.username})`}
+                    onClick={()=> onUserCard(cardUser.id)}
+                  />
+                  {(showUserCard === cardUser.id) ? 
+                    <UserCard
+                      user={cardUser}
+                      clickAction={onUserCard}
+                      funcDelCardUser = {funcDelCardUser}
+                      class_name={'UserCard'}
+                    />
+                    :
+                    ""
+                  }
+                  
+
+                </div>
+              )
+            }   
+            <Button
+              clickAction={funcMembersWindow}
+              className={'btnWindowModalMainColAddUser'}
+            >
+              <Icons
+                name={'AddIcon'}
+                class_name={'IconWindowModalMainColAddUser'}
+              />
+            </Button>
+          </div>
+        </div>
+      )
+      :
+      ("")
+    }
+    </>
   )
 
   const columnLabels = (
-    "метки"
+    <>
+    {(cardLabel) ?
+      (<div className={styles.cardDetailNotifications}>
+        <h3 className={styles.cardDetailsTitle}>Метки</h3>
+        <div className={styles.labelsList} data-testid="card-back-labels-container">
+          <span 
+            className={styles.labelElement} 
+            style={{backgroundColor: task.label.color_hex}}
+            tabIndex="0" 
+            aria-label={`Цвет: ${task.label.name}, название: «без цвета»`}
+            data-color={task.label.name}
+            onClick={funcLabelsWindow}
+          />
+          <Button
+            clickAction={funcLabelsWindow}
+            className={'btnWindowModalMainColAddLabel'}
+          >
+            <Icons
+              name={'AddIcon'}
+              class_name={'IconWindowModalMainColAddLabel'}
+            />
+          </Button>
+        </div>
+      </div>):""
+    }
+    </> 
   )
 
   const columnDueDate = (
@@ -325,7 +409,7 @@ export default function WindowModal(props){
 
           <div  className={styles.cardDescription}>
             Описание:
-            <ReactQuill theme="snow" value={value} onChange={setValue} />
+            {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
             Добавить более подробное описание…
           </div>
           
@@ -334,199 +418,23 @@ export default function WindowModal(props){
           </div>
 
         </div>
+
         {/* сайдбар */}
-        <div className={styles.sidebar}>
-          {/* sidebar */}
-          <div className={styles.addItemsWrap}>
-            <h3 class={styles.cardTitle}>Добавить на карточку:</h3>
-            <div className={styles.itemsWrap}>
-              
-              <div 
-                className={styles.itemMembers}
-                onClick={ funcMembersWindow }
-              >
-                <Icons //нужна другая иконка
-                  name={'icon-date'}
-                  class_name={'itemDueDateIcon'}
-                />
-                <span>Участники</span>
-              </div>
-              
-              {membersWindow ?
-              
-              (<div 
-                className={styles.smallWindowWrap}
-              >
-                {/* <div className={styles.itemHeader}> */}
-                <div className={styles.itemHeader}>
-                  <span class={styles.itemHeaderTitle}>Участники</span>
-                  <div className={styles.iconWrap}>
-                    <Button
-                        className={'btnSmallWindow'}
-                        type="dutton"
-                        ariaLabel="Закрыть окно"
-                        clickAction={ funcMembersWindow }
-                    >
-                      {/* <div className={styles.iconWrap}> */}
-                        <Icons
-                            class_name={'btnModalCloseIcon'}
-                            name={'CloseIcon'}
-                        />
-                      {/* </div> */}
-                    </Button>
-                  </div>
-                </div>
-                <div className={styles.itemContent}>
-                  <input 
-                    className={styles.itemContentInput} 
-                    autoFocus = {true}
-                    type="text" 
-                    placeholder="Поиск участников" 
-                  />
-                  {(cardUsers.length !== 0) ? (
-                  <div className={styles.itemContentCardMembers} >
-                    <div className={styles.itemContentCardMembersTitle} >
-                      <h4 className={styles.itemContentCardMembersTitle}>Участники карточки</h4>
-                    </div>
-                    <div className={styles.itemContentDashboardMember} >
-                      <ul>
-                        { cardUsers.map(
-                          (cardUser) => 
-                            <li key={cardUser.id}>
-                              <Button
-                                className={'delUserFromCard'}
-                                type="dutton"
-                                ariaLabel="Удалить пользователя из карточки"
-                                actionVariable={ cardUser.user_id }
-                                clickAction={ funcDelCardUser }
-                              >
-                                <div className={styles.itemContentDashboardMemberInfo} >
-
-                                  <div className={styles.itemContentDashboardMemberImg} >
-                                    <span style={{ backgroundImage: cardUser.user_data.img ? `url(/img/users/${cardUser.user_data.img})` : 'url(/img/no_photo1.png)' }} />
-                                  </div>
-                                  <div className={styles.itemContentDashboardMemberName} title={ cardUser.user_data.username }>
-                                    <span>
-                                      { cardUser.user_data.username }
-                                    </span>
-                                  </div>
-                                  <div>
-                                    <Icons
-                                      class_name={'delUserFromCardIcon'}
-                                      name={'CloseIcon'}
-                                    />
-                                  </div>
-                                </div>
-                              </Button>
-                            </li>
-                          )
-                        }
-                      </ul>
-                    </div>
-                  </div>
-                  )
-                  :
-                  ("")
-                  }
-
-                  <div className={styles.itemContentDashboardMembers} >
-                    <div className={styles.itemContentDashboardMembersTitle} >
-                      <h4 className={''}>Участники доски</h4>
-                    </div>
-                    <div className={styles.itemContentDashboardMember}>
-                      <ul>
-                      {dashboardUsers.map
-                        ((user)=> 
-                          <li key={user.id} >
-                            <Button
-                              className={'addUserToCard'}
-                              type="dutton"
-                              ariaLabel="Добавить пользователя к карточке"
-                              actionVariable = {user.id}
-                              clickAction = { addUserToCard }
-                            >
-                              <div 
-                                className={styles.itemContentDashboardMemberImg} 
-                              >
-                                <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
-                              </div>
-                              <div title={ user.username }>
-                                <span>{user.username}</span>
-                              </div>
-                            </Button>
-                            
-                          </li>
-                        )
-                      }
-                      </ul>
-                    </div>
-                  </div>
-
-                </div>
-                {/* </div> */}
-              </div>
-              )
-              :
-              ("")
-              }
-              
-
-              <div className={styles.itemLabels}>
-                <Icons  //нужна другая иконка
-                  name={'icon-date'}
-                  class_name={'itemDueDateIcon'}
-                />
-                <span>Метки</span>
-              </div>
-
-              <div className={styles.itemDueDate}>
-                <Icons
-                  name={'icon-date'}
-                  class_name={'itemDueDateIcon'}
-                />
-                <span>Даты</span>
-              </div>
-
-              <div className={styles.itemAttachments}>
-                <Icons  //нужна другая иконка
-                  name={'icon-date'}
-                  class_name={'itemDueDateIcon'}
-                />
-                <span>Прикрепить</span>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div className={styles.actionsWrap}>
-            <h3 className={styles.actionsTitle}>Действия:</h3>
-            <div className={styles.actionsWrap}>
-              <div className={styles.actionDeleteCard}>
-                
-                <Button
-                    // clickAction={deleteColumn}
-                    // actionVariable={column.id}
-                    // className={'BtnDeleteColumn'}
-                    clickAction={deleteFunc}
-                    actionVariable={windowData.id}
-                    className={'BtnDeleteCard'}
-                  >
-                    <Icons
-                      name={'Trash'}
-                      class_name={'IconDeletColumnn'}
-                    />
-                    <span className={styles.actionDeleteCardText}>
-                      Удалить {typeElem === 'column' ? 'колонку' : 'карточку'}
-                    </span>
-                </Button>
-              </div>
-            </div>
-
-          </div>
-
-          
-        </div>
+        <Sidebar
+          typeElem={typeElem}
+          windowData={windowData}
+          deleteFunc={deleteFunc}
+          funcAddUserToCard={funcAddUserToCard}
+          dashboardUsers={dashboardUsers}
+          funcDelCardUser={funcDelCardUser}
+          cardUsers={cardUsers}
+          funcMembersWindow={funcMembersWindow}
+          membersWindow={membersWindow}
+          funcLabelsWindow={funcLabelsWindow}
+          labelsWindow={labelsWindow}
+          updateCardLabel={updateCardLabel}
+          setCardLabel={setCardLabel}
+        ></Sidebar>
 
     </div>
   )

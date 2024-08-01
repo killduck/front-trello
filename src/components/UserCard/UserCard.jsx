@@ -5,27 +5,22 @@ import styles from './UserCard.module.scss';
 
 
 export default function UserCard(props) {
-
+  // console.log(props);
   let user = props.user;
-
   let clickAction = props.clickAction;
+  let funcDelCardUser = props.funcDelCardUser;
+  let class_name = props.class_name;
 
-  function onAddAdmin(id_user) {
-    console.log('Проверка выполения функции =>', onAddAdmin.name, id_user);
+  function onChangeProfile(id_user) {
+    console.log('Проверка выполения функции =>', onChangeProfile.name, id_user);
   }
 
-  function onDelAdmin(id_user) {
-    console.log('Проверка выполения функции =>', onDelAdmin.name, id_user);
+  function onToProfile(id_user) {
+    console.log('Проверка выполения функции =>', onToProfile.name, id_user);
   }
-
-
-  function onLeaveBoard(id_user) {
-    console.log('Проверка выполения функции =>', onLeaveBoard.name, id_user);
-  }
-
 
   return (
-    <div className={styles.UserCard}>
+    <div className={class_name ? `${styles[class_name]}` : `${styles.UserCard}`}>
       <div className={styles.UserCardWrap}>
 
         <div className={styles.UserCardButton}>
@@ -60,30 +55,31 @@ export default function UserCard(props) {
 
         <ul className={styles.UserCardActions} >
           <li>
-            <Button
-              className={"BtnUserCardActions"}
-              clickAction={onAddAdmin}
-              actionVariable={user.id}
-            >
-              Добавить на доску как администратора
-            </Button>
+            {(user.is_superuser)?(
+              <Button
+                className={"BtnUserCardActions"}
+                clickAction={onChangeProfile}
+                actionVariable={user.id}
+              >
+                Изменить профиль
+              </Button>
+            ):(
+              <Button
+                className={"BtnUserCardActions"}
+                clickAction={onToProfile}
+                actionVariable={user.id}
+              >
+                Перейти в профиль
+              </Button>
+            )}
           </li>
           <li>
             <Button
               className={"BtnUserCardActions"}
-              clickAction={onDelAdmin}
+              clickAction={funcDelCardUser}
               actionVariable={user.id}
             >
-              Удалить из администраторов
-            </Button>
-          </li>
-          <li>
-            <Button
-              className={"BtnUserCardActions"}
-              clickAction={onLeaveBoard}
-              actionVariable={user.id}
-            >
-              Покинуть доску
+              Удалить из карточки
             </Button>
           </li>
         </ul>
