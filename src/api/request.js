@@ -11,7 +11,7 @@ export default function request(
     token = 'Token ' + localStorage.getItem('trello_auth')
   }
 
-  // console.log('request>>>', window.location.hostname) // TODO Удалить
+  // console.log('request>>>', window.location.hostname) // TODO Удалить. Тест для деплоя
 
   if (params.method === 'GET') {
     axios
