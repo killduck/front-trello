@@ -37,6 +37,51 @@ export default function WindowModal(props){
   let [labelsWindow, setLabelsWindow] = useState(false);
   const [cardLabel, setCardLabel] = useState(false);
 
+  const [value, setValue] = useState('');
+
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        {
+          color: ["red", "blue", "yellow"],
+        },
+      ],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+    clipboard: {
+      // toggle to add extra line breaks when pasting HTML:
+      matchVisual: false,
+    },
+  };
+ 
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+    "color",
+  ];
+
   useEffect(() => {
     request({
       method:'POST',
@@ -409,7 +454,15 @@ export default function WindowModal(props){
 
           <div  className={styles.cardDescription}>
             Описание:
-            {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
+            <ReactQuill 
+              className={styles.reactQuill}
+              theme="snow"
+              value={value} 
+              onChange={setValue} 
+              placeholder="Введите текст..."
+              modules={modules}
+              formats={formats}
+            />
             Добавить более подробное описание…
           </div>
           

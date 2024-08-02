@@ -4,7 +4,26 @@ body,
   color: #9fadbc;
 }
 
+.ql-toolbar{
+  background-color: #b6c2cf!important;
+  border: none!important;
+  border-bottom: 1px solid #b6c2cf!important;
+  border-radius: 3px 3px 0 0!important;
+}
+.ql-container {
+  min-height: 175px;
+  border: none!important;
+}
+.ql-editor p{
+  color: #ffffff;
+}
+.ql-editor.ql-blank::before{
+  color: #8c9baa!important;
+}
 
+/* .ql-picker-label{
+  color: #b6c2cf;
+} */
 
 
 .App {

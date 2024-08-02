@@ -255,6 +255,18 @@
         position: relative;
         margin-bottom: 24px;
         clear: both;
+
+        .reactQuill{
+            background-color: #22272b;
+            min-height: 175px;
+            margin-left: 40px;
+            border-radius: 3px;
+            box-shadow: 0 0 0 1px inset #738496;
+
+            &:focus-within {
+                box-shadow: 0 0 0 2px #0c66e4;
+            }
+        }
     }
 }
 
