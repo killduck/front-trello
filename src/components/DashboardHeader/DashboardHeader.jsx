@@ -17,8 +17,6 @@ export default function DashboardHeader(props) {
 
   let setUpdateComponent = props.setUpdateComponent;
 
-  // let onRemoving_all_menu = props.onRemoving_all_menu;
-
   let [showUserDashboard, setShowUserDashboard] = useState(null);
 
   let [showFormShare, setShowFormShare] = useState(false);
@@ -35,14 +33,12 @@ export default function DashboardHeader(props) {
   }
 
   function onShareDashboard() {
-    // console.log('Проверка выполения функции =>', onShareDashboard.name);
 
     showFormShare ?
       setShowFormShare(false)
       :
       setShowFormShare(true)
   }
-
 
   function writeEmail(evt) {
     setFieldEmailData((fieldEmailData) => (fieldEmailData = evt));
@@ -59,10 +55,10 @@ export default function DashboardHeader(props) {
 
   // }
 
+
   return (
     <div
       className={styles.DashboardHeader}
-    // onClick={(event) => onRemoving_all_menu(event)}
     >
       <div className={styles.DashboardHeaderWrap}>
 

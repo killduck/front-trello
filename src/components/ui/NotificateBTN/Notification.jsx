@@ -4,11 +4,8 @@ import styles from "../NotificateBTN/Notification.module.scss";
 export default function Notification(props) {
 
     let user = props.user;
-
     let class_name = props.class_name;
-
     let clickAction = props.clickAction ?? Function.prototype;
-
     let actionVariable = props.actionVariable;
 
     return (
