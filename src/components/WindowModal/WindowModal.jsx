@@ -36,32 +36,23 @@ export default function WindowModal(props){
 
   let [labelsWindow, setLabelsWindow] = useState(false);
   const [cardLabel, setCardLabel] = useState(false);
+  
+  let [showReactQuill, setShowReactQuill] = useState(false);
+  
 
   const [value, setValue] = useState('');
 
   const modules = {
     toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        {
-          color: ["red", "blue", "yellow"],
-        },
-      ],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
+      // [{ header: "1" }, { header: "2" },], // { font: [] }
+      [{ header: []}],
+      // [{ size: []}],
+      ["bold", "italic", "underline"], //"strike", "blockquote"
+      [{color: []}],
+      [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image", "video"],
       ["clean"],
     ],
-    clipboard: {
-      // toggle to add extra line breaks when pasting HTML:
-      matchVisual: false,
-    },
   };
  
   const formats = [
@@ -90,17 +81,25 @@ export default function WindowModal(props){
         if (response.status === 200) {
           // console.log(response.data);
           if(response.data){
-            setAuthUser(response.data.auth_user);
-            setWindowData(response.data.card[0]);
-            setWindowName(response.data.card[0]['name']);
-            setStartWindowName(response.data.card[0]['name']);
-            setCardUsers(response.data.card_users_data);
-            setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
-            // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+
+            if(typeElem === 'column'){
+              // этот "if" нужен только для удаления колонок
+              setWindowData(response.data.column[0]);
+            }
+            else{
+              setAuthUser(response.data.auth_user);
+              setWindowData(response.data.card[0]);
+              setWindowName(response.data.card[0]['name']);
+              setStartWindowName(response.data.card[0]['name']);
+              setCardUsers(response.data.card_users_data);
+              setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
+              // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+              if(task.label){
+                setCardLabel(true);
+              }
+            }
           }
-          if(task.label){
-            setCardLabel(true);
-          }
+          
         }
       },
       data: {'id': idElem},
@@ -115,6 +114,26 @@ export default function WindowModal(props){
     }
     else{
       setNewNameField(newName = false);
+    }
+  }
+
+  function funcShowReactQuill(){
+    if(showReactQuill){
+      setShowReactQuill(false);
+    }
+    else{
+      setShowReactQuill(true);
+    }
+  }
+
+  const showReactQuillHandleKeyPress = (evt) => {
+    console.log(evt);
+    if(evt.key === 'Enter' && evt.shiftKey){
+      funcShowReactQuill();
+      // if(windowName !== startWindowName){
+      //   updateFunc(windowData.id, windowName);
+      //   setStartWindowName(windowName);
+      // }
     }
   }
 
@@ -237,7 +256,12 @@ export default function WindowModal(props){
 
   const headerSection = (
   <>
-    <span className={styles.headerIcon}></span>
+    <span className={styles.headerIcon}>
+      <Icons
+        name={'icon-description'}
+        class_name={'IconWindowModalMainColAddLabel'}
+      />
+    </span>
     <div className={styles.headerTitle}>
     
       {(!newName) ?
@@ -452,18 +476,52 @@ export default function WindowModal(props){
             
           </div>
 
-          <div  className={styles.cardDescription}>
-            Описание:
-            <ReactQuill 
-              className={styles.reactQuill}
-              theme="snow"
-              value={value} 
-              onChange={setValue} 
-              placeholder="Введите текст..."
-              modules={modules}
-              formats={formats}
-            />
-            Добавить более подробное описание…
+          <div className={styles.cardDescription}>
+          
+            <div className={styles.cardDescriptionHeader}>
+              <span className={styles.cardDescriptionHeaderIcon}>
+                <Icons
+                  name={'icon-description'}
+                  class_name={'IconWindowModalMainColAddLabel'}
+                />
+              </span>
+              <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
+            </div>
+            {showReactQuill ? (
+              <>
+              <ReactQuill 
+                className={styles.reactQuill}
+                theme="snow"
+                value={value} 
+                onChange={setValue} 
+                placeholder="Введите текст..."
+                modules={modules}
+                formats={formats}
+                onKeyDown={showReactQuillHandleKeyPress}
+                onBlur={showReactQuillHandleKeyPress}
+              />
+              <div className={styles.cardDescriptionButtonWrap}>
+                <Button
+                  className={'cardDescriptionSave'}
+                  // actionVariable={}
+                  // clickAction = {}
+                >Сохранить</Button>
+                <Button
+                  className={'cardDescriptionCancel'}
+                  actionVariable={false}
+                  clickAction = {funcShowReactQuill}
+                >Отмена</Button>
+              </div>
+              </>
+              ):(
+                <p 
+                  className={styles.cardDescriptionStub}
+                  onClick={funcShowReactQuill}
+                >
+                  Добавить более подробное описание…
+                </p>
+              )
+            }
           </div>
           
           <div  className={styles.cardAttachmentsSection}>

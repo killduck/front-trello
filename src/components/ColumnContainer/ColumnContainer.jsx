@@ -11,11 +11,11 @@ import Icons from "../ui/Icons/Icons";
 import TaskCard from "../TaskCard/TaskCard";
 
 import styles from './ColumnContainer.module.scss';
-import WindowPortal from "../WindowPortal/WindowPortal";
+// import WindowPortal from "../WindowPortal/WindowPortal";
 
 
 export default function ColumnContainer(props) {
-
+  console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let column = props.column;
   let newTextTask = props.newTextTask;
@@ -30,8 +30,8 @@ export default function ColumnContainer(props) {
 
 
   const [editMode, setEditMode] = useState(false);
-
   const [showForm, setShowForm] = useState(true);
+  const [showColumnOptions, setShowColumnOptions] = useState(false);
 
   const [newColName, setNewColName] = useState('');
 
@@ -107,6 +107,15 @@ export default function ColumnContainer(props) {
     }
   }
 
+  function funcShowColumnOptions(){
+    if(showColumnOptions){
+      setShowColumnOptions(false);
+    }
+    else{
+      setShowColumnOptions(true);
+    }
+  }
+
   return (
     <div
       ref={setNodeRef}
@@ -143,7 +152,58 @@ export default function ColumnContainer(props) {
           </div>
         </div>
 
-        <WindowPortal
+        <div className={styles.iconWrap}
+          onClick={funcShowColumnOptions}
+        >
+          <Icons
+            name={'three_dots'}
+            class_name={'IconKebabColumnn'}
+            sizeWidth={"24px"}
+            sizeHeight={"24px"}
+            viewBox={"0 0 24 24"}
+          />
+        </div>
+        {(showColumnOptions) ?(
+          <div className={styles.ColumnOptionWindow} >
+            <header className={styles.ColumnOptionWindowHeader}>
+              <h2 className={styles.ColumnOptionWindowHeaderTitle} title="Действия со списком">Действия с колонкой</h2>
+              <span className={styles.ColumnOptionWindowHeaderIcon} onBlur={funcShowColumnOptions}>
+                <Button
+                className={'btnSmallWindow'}
+                type="dutton"
+                ariaLabel="Закрыть окно"
+                clickAction={funcShowColumnOptions}
+                >
+                  <Icons
+                    class_name={'btnModalCloseIcon'}
+                    name={'CloseIcon'}
+                  />
+                </Button>
+              </span>
+            </header>
+
+            <div className={styles.ActionsWrap}>
+              <ul className={styles.ActionsWrapUl}>
+                <li 
+                  className={styles.ActionsWrapLi}
+                  onClick={()=> deleteColumn(column.id)}
+                >
+                  <span>Удалить колонку</span>
+                  <Icons
+                    name={'Trash'}
+                    class_name={'IconDeletColumnn'}
+                  />
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        ):(
+          ""
+        )
+        }
+
+        {/* <WindowPortal
           typeElem={'column'}
           idElem={column.id}
           column={column}
@@ -161,7 +221,7 @@ export default function ColumnContainer(props) {
             />
           </div>
 
-        </WindowPortal>
+        </WindowPortal> */}
       </div>
 
       {/* Column task container */}

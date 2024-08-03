@@ -403,8 +403,7 @@ export default function KanbanBoard() {
   }
 
   function deleteColumn(id) {
-
-    let idColumnDeleted = { id_column: id }
+    let idColumnDeleted = { id_column: id };
 
     request({
       method: "POST",

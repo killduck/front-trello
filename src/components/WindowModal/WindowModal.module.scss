@@ -26,7 +26,7 @@
     .headerIcon{
         left: 16px;
         position: absolute;
-        top: 16px;
+        top: 22px;
         color: #9fadbc;
         height: 32px;
         line-height: 32px;
@@ -44,9 +44,9 @@
         text-decoration: none;
         vertical-align: bottom;
 
-        &::before{
-            content: "\e912";
-        }
+        // &::before{
+        //     content: "\e912";
+        // }
     }
 
     .headerTitle{
@@ -256,6 +256,27 @@
         margin-bottom: 24px;
         clear: both;
 
+        .cardDescriptionHeader{
+            display: flex;
+            position: relative;
+            align-items: center;
+            min-height: 32px;
+            margin: 0 0 4px 40px;
+            padding: 8px 0;
+
+            .cardDescriptionHeaderIcon{
+                position: absolute;
+                top: 9px;
+                left: -36px;
+                color: #9fadbc;
+            }
+
+            .cardDescriptionHeaderTitle{
+                flex: 0 0 auto;
+                margin: 0;
+            }
+        }
+
         .reactQuill{
             background-color: #22272b;
             min-height: 175px;
@@ -265,6 +286,44 @@
 
             &:focus-within {
                 box-shadow: 0 0 0 2px #0c66e4;
+            }
+        }
+
+        .cardDescriptionButtonWrap{
+            margin-top: 8px;
+            margin-left: 40px;
+
+            
+        }
+
+        .cardDescriptionStub{
+            margin-left: 40px;
+            // margin: 0 0 8px;
+            border: none;
+            background-color: #a1bdd914;
+            box-shadow: none;
+            font-weight: 500;
+            display: block;
+            min-height: 55px;
+            padding: 8px 12px;
+            border-radius: 3px;
+            color: #b6c2cf;
+            text-decoration: none;
+            font-size: 14px;
+
+            &:hover {
+                border: none;
+                background-color: #a6c5e229;
+                box-shadow: none;
+                color: #b6c2cf;
+                text-decoration: none;
+            }
+            &:active {
+                border: none;
+                outline: 0;
+                background-color: #bfdbf847;
+                box-shadow: none;
+                color: #b6c2cf;
             }
         }
     }

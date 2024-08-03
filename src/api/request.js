@@ -7,7 +7,7 @@ export default function request(
 ) {
   let token = ''
   if (localStorage.getItem('trello_auth')) {
-    token = 'Token ' + localStorage.getItem('trello_auth')
+    token = 'Token ' + localStorage.getItem('trello_auth');
   }
 
   if (params.method === 'GET') {
@@ -19,12 +19,12 @@ export default function request(
       })
       .then((response) => {
         if (response.status === params.status) {
-          params.callback(response)
+          params.callback(response);
         }
       })
       .catch((error) => {
-        redirect()
-        console.error(error)
+        // redirect();
+        console.error(error);
       })
   }
 
@@ -37,12 +37,12 @@ export default function request(
       })
       .then((response) => {
         if (response.status === params.status) {
-          params.callback(response)
+          params.callback(response);
         }
       })
       .catch((error) => {
-        redirect()
-        console.error(error)
+        // redirect();
+        console.error(error);
       })
   }
 }

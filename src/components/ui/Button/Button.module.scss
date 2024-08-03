@@ -458,3 +458,48 @@
     background-color: #bfdbf847;
   }
 }
+
+.cardDescriptionSave{
+  margin: 0 6px 0 0;
+  border: none;
+  background-color: #579dff;
+  box-shadow: none;
+  color: #1d2125;
+  font-size: 14px;
+
+  &:hover {
+    border: none;
+    background-color: #85b8ff;
+    box-shadow: none;
+    color: #1d2125;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #cce0ff;
+    box-shadow: none;
+    color: #1d2125;
+  }
+}
+
+.cardDescriptionCancel{
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+
+  &:hover {
+    border: none;
+    background-color: #a6c5e229;
+    box-shadow: none;
+    color: #b6c2cf;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #bfdbf847;
+    box-shadow: none;
+    color: #b6c2cf;
+  }
+}
