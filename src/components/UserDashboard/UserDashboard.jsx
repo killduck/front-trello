@@ -1,15 +1,15 @@
 import { useParams } from 'react-router-dom';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import request from "../../api/request";
 
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
 
-import styles from './UserCard.module.scss';
+import styles from './UserDashboard.module.scss';
 
 
-export default function UserCard(props) {
+export default function UserDashboard(props) {
 
   let updateComponent = props.updateComponent;
 
@@ -23,7 +23,6 @@ export default function UserCard(props) {
 
   let [roleData, setRoleData] = useState({});
 
-  // let [updateComponent, setUpdateComponent] = useState(false);
 
 
   useEffect(() => {
@@ -85,23 +84,23 @@ export default function UserCard(props) {
 
 
   return (
-    <div className={styles.UserCard}>
-      <div className={styles.UserCardWrap}>
+    <div className={styles.UserDashboard}>
+      <div className={styles.UserDashboardWrap}>
 
-        <div className={styles.UserCardButton}>
+        <div className={styles.UserDashboardButton}>
           <Button
             clickAction={clickAction}
             actionVariable={user.id}
-            className={"BtnCloseUserCard"}
+            className={"BtnCloseUserDashboard"}
           >
             <Icons
               name={'CloseIcon'}
-              class_name={'IconCloseUserCard'}
+              class_name={'IconCloseUserDashboard'}
             />
           </Button>
         </div>
 
-        <div className={styles.UserCardInfoUser}>
+        <div className={styles.UserDashboardInfoUser}>
           <div className={styles.Logo}>
             <span>{user.first_letter}</span>
             {
@@ -135,12 +134,12 @@ export default function UserCard(props) {
 
         <hr />
 
-        <ul className={styles.UserCardActions} >
+        <ul className={styles.UserDashboardActions} >
           {
             СheckBtnAddAdmin() ?
               <li>
                 <Button
-                  className={"BtnUserCardActions"}
+                  className={"BtnUserDashboardActions"}
                   clickAction={onСhangeRole}
                   actionVariable={'add_admin'}
 
@@ -155,7 +154,7 @@ export default function UserCard(props) {
             СheckBtnDelAdmin() ?
               <li>
                 <Button
-                  className={"BtnUserCardActions"}
+                  className={"BtnUserDashboardActions"}
                   clickAction={onСhangeRole}
                   actionVariable={'del_admin'}
                 >
@@ -175,7 +174,7 @@ export default function UserCard(props) {
                         (
                           roleData['count_admin_on_board'] > 1 ?
                             < Button
-                              className={"BtnUserCardActions"}
+                              className={"BtnUserDashboardActions"}
                               clickAction={onСhangeRole}
                               actionVariable={'del_user'}
                             >
@@ -186,7 +185,7 @@ export default function UserCard(props) {
                         )
                         :
                         <Button
-                          className={"BtnUserCardActions"}
+                          className={"BtnUserDashboardActions"}
                           clickAction={onСhangeRole}
                           actionVariable={'del_user'}
                         >
@@ -196,7 +195,7 @@ export default function UserCard(props) {
                     :
                     roleData['user_auth_id'] === roleData['user_card_id'] ?
                       < Button
-                        className={"BtnUserCardActions"}
+                        className={"BtnUserDashboardActions"}
                         clickAction={onСhangeRole}
                         actionVariable={'del_user'}
                       >

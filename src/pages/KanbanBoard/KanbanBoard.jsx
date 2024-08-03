@@ -26,7 +26,7 @@ import Preloader from "../../components/Preloader/Preloader";
 // import WorkspaceMenu from "../../components/WorkspaceMenu/WorkspaceMenu";
 
 
-export default function KanbanBoard() {
+export default function KanbanBoard(props) {
 
   let [showPreloder, setShowPreloder] = useState(false);
 
@@ -462,7 +462,9 @@ export default function KanbanBoard() {
       />
       {showPreloder ? (<Preloader />) : ("")}
       {/* <WorkspaceMenu /> */}
-      <div className={styles.KanbanBoard}>
+      <div
+        className={styles.KanbanBoard}
+      >
         <DndContext
           sensors={sensors}
           onDragStart={onDragStart}

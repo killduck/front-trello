@@ -4,7 +4,7 @@ import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import styles from './DashboardHeader.module.scss';
-import UserCard from '../UserCard/UserCard';
+import UserDashboard from '../UserDashboard/UserDashboard';
 
 
 export default function DashboardHeader(props) {
@@ -17,25 +17,25 @@ export default function DashboardHeader(props) {
 
   let setUpdateComponent = props.setUpdateComponent;
 
-  let [showUserCard, setShowUserCard] = useState(null);
+  // let onRemoving_all_menu = props.onRemoving_all_menu;
+
+  let [showUserDashboard, setShowUserDashboard] = useState(null);
 
   let [showFormShare, setShowFormShare] = useState(false);
 
   let [fieldEmailData, setFieldEmailData] = useState("");
 
-  // let [updateComponent, setUpdateComponent] = useState(false);
 
+  function onUserDashboard(id_user = null) {
 
-  function onUserCard(id_user = null) {
-
-    showUserCard === id_user ?
-      setShowUserCard(null)
+    showUserDashboard === id_user ?
+      setShowUserDashboard(null)
       :
-      setShowUserCard(id_user)
+      setShowUserDashboard(id_user)
   }
 
   function onShareDashboard() {
-    console.log('Проверка выполения функции =>', onShareDashboard.name);
+    // console.log('Проверка выполения функции =>', onShareDashboard.name);
 
     showFormShare ?
       setShowFormShare(false)
@@ -83,21 +83,21 @@ export default function DashboardHeader(props) {
                   <Notification
                     user={user}
                     class_name={'HeaderUsers'}
-                    clickAction={onUserCard}
+                    clickAction={onUserDashboard}
                     actionVariable={user.id}
                   />
                   <div
                     className={
-                      showUserCard === user.id ?
-                        `${styles.UserCardWrap}`
+                      showUserDashboard === user.id ?
+                        `${styles.UserDashboardWrap}`
                         :
                         styles.DisplayNone
                     }
                     key={user.id}
                   >
-                    <UserCard
+                    <UserDashboard
                       user={user}
-                      clickAction={onUserCard}
+                      clickAction={onUserDashboard}
                       updateComponent={updateComponent}
                       setUpdateComponent={setUpdateComponent}
 

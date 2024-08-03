@@ -23,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # игнор файлов рабочего компа
+.idea
 node.exe
 *.cmd
 npm

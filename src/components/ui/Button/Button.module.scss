@@ -335,12 +335,12 @@
   }
 }
 
-.btnSmallWindow{
+.btnSmallWindow {
   padding: 5px;
   width: 100%;
 }
 
-.addUserToCard{
+.addUserToCard {
   padding: 4px 8px 4px 4px;
   width: 100%;
   &:hover {
@@ -348,7 +348,7 @@
   }
 }
 
-.delUserFromCard{
+.delUserFromCard {
   padding: 4px 8px 4px 4px;
   width: 100%;
   &:hover {
@@ -367,13 +367,14 @@
   color: #172b4d;
 }
 
-.BtnCloseUserCard {
+.BtnCloseUserDashboard {
   width: 36px;
   height: 36px;
   padding: 10px;
   display: flex;
   align-items: center;
   position: absolute;
+  z-index: 999;
   top: 0;
   right: 0;
 
@@ -383,7 +384,7 @@
   }
 }
 
-.BtnUserCardActions {
+.BtnUserDashboardActions {
   display: block;
   width: 100%;
   text-align: left;

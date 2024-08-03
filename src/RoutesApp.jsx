@@ -15,11 +15,14 @@ export default function RoutesApp(props) {
 
     const navigate = useNavigate();
 
+    let htmlClick = props.htmlClick;
+
+
     useEffect(() => {
         if (!localStorage.getItem('trello_auth')) {
             // navigate("/login");
         }
-    },[navigate]);
+    }, [navigate]);
 
     return (
         <div>
@@ -29,19 +32,29 @@ export default function RoutesApp(props) {
                     <Login />
                 } />
                 <Route path="/" element={
-                    <Workspace />
+                    <Workspace
+                        htmlClick={htmlClick}
+                    />
                 } />
                 <Route path="/dashboard/:dashboardId" element={
-                    <KanbanBoard />
+                    <KanbanBoard
+                        htmlClick={htmlClick}
+                    />
                 } />
                 <Route path='/recent' element={
-                    <Recent />
+                    <Recent
+                        htmlClick={htmlClick}
+                    />
                 } />
                 <Route path='/favourites' element={
-                    <Favourites />
+                    <Favourites
+                        htmlClick={htmlClick}
+                    />
                 } />
                 <Route path='/templates' element={
-                    <Templates />
+                    <Templates
+                        htmlClick={htmlClick}
+                    />
                 } />
 
             </Routes>
