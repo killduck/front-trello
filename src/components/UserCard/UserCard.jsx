@@ -6,6 +6,7 @@ import styles from './UserCard.module.scss';
 
 export default function UserCard(props) {
   // console.log(props);
+  let authUser = props.authUser;
   let user = props.user;
   let clickAction = props.clickAction;
   let funcDelCardUser = props.funcDelCardUser;
@@ -55,7 +56,7 @@ export default function UserCard(props) {
 
         <ul className={styles.UserCardActions} >
           <li>
-            {(user.is_superuser)?(
+            {(user.id === authUser)?(
               <Button
                 className={"BtnUserCardActions"}
                 clickAction={onChangeProfile}

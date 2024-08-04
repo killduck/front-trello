@@ -6,16 +6,18 @@ import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
 
 export default function SidebarMembersWindow(props){
-
+  // console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let cardUsers = props.cardUsers;
   let funcAddUserToCard = props.funcAddUserToCard;
   let funcDelCardUser = props.funcDelCardUser;
   let funcMembersWindow = props.funcMembersWindow;
+  let matchSearch = props.matchSearch;
+  let setMatchSearch = props.setMatchSearch;
+  let searchNewCardUser = props.searchNewCardUser;
+  let setSearchNewCardUser = props.setSearchNewCardUser;
 
-  // console.log(dashboardUsers);
-
-  const [searchNewCardUser, setSearchNewCardUser]=useState([]);
+  // const [searchNewCardUser, setSearchNewCardUser]=useState([]);
   const [showNoResult, setShowNoResult]=useState(false);
 
   function funcCheckToAddNewCardUser(dashboardUser, item = null){
@@ -36,9 +38,10 @@ export default function SidebarMembersWindow(props){
 
   function funcSearchNewCardUser(evt){
     // console.log(`funcSearchNewCardUser => ${evt}`);
+    setMatchSearch(evt);
     let  evtLength = evt.length;
     // console.log(evtLength);
-    let searchedUsers = []
+    let searchedUsers = [];
 
     if(evtLength === 0){
       searchedUsers = [];
@@ -235,6 +238,7 @@ export default function SidebarMembersWindow(props){
             autoFocus = {true}
             type="text" 
             placeholder="Поиск участников" 
+            value={matchSearch}
             onChange={(evt) => funcSearchNewCardUser(evt.target.value.trim().toLowerCase())}
           />
         </label>

@@ -31,6 +31,9 @@ export default function WindowModal(props){
   let [newName, setNewNameField] = useState(false);
   let [membersWindow, setMembersWindow] = useState(false);
   let [cardUsers, setCardUsers] = useState([]);
+  const [matchSearch, setMatchSearch]=useState('');
+  let [searchNewCardUser, setSearchNewCardUser]=useState([]);
+
   let [subscribe, setSubscribe] = useState(false);
   let [showUserCard, setShowUserCard] = useState(null);
 
@@ -81,25 +84,16 @@ export default function WindowModal(props){
         if (response.status === 200) {
           // console.log(response.data);
           if(response.data){
-
-            if(typeElem === 'column'){
-              // этот "if" нужен только для удаления колонок
-              setWindowData(response.data.column[0]);
-            }
-            else{
-              setAuthUser(response.data.auth_user);
-              setWindowData(response.data.card[0]);
-              setWindowName(response.data.card[0]['name']);
-              setStartWindowName(response.data.card[0]['name']);
-              setCardUsers(response.data.card_users_data);
-              setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
-              // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
-              if(task.label){
-                setCardLabel(true);
-              }
-            }
+            setAuthUser(response.data.auth_user);
+            setWindowData(response.data.card[0]);
+            setWindowName(response.data.card[0]['name']);
+            setStartWindowName(response.data.card[0]['name']);
+            setCardUsers(response.data.card_users_data);
+            setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
           }
-          
+          if(task.label){
+            setCardLabel(true);
+          }
         }
       },
       data: {'id': idElem},
@@ -206,10 +200,18 @@ export default function WindowModal(props){
         url:`card-user-update/`,
         callback:(response) => { 
           if (response.status === 200) {
-            // console.log(response.data);
+            console.log(response.data);
             if(response.data){
               setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
               setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+              
+              setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
+              console.log(searchNewCardUser);
+              setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
+              
+              // if(searchNewCardUser.length === 0){
+              //   setMatchSearch('');
+              // }
               // onUserCard(user_id); // это по ходу лишее, но это не точно.
             }
           }
@@ -381,6 +383,7 @@ export default function WindowModal(props){
                   />
                   {(showUserCard === cardUser.id) ? 
                     <UserCard
+                      authUser={authUser}
                       user={cardUser}
                       clickAction={onUserCard}
                       funcDelCardUser = {funcDelCardUser}
@@ -545,6 +548,10 @@ export default function WindowModal(props){
           labelsWindow={labelsWindow}
           updateCardLabel={updateCardLabel}
           setCardLabel={setCardLabel}
+          matchSearch={matchSearch}
+          setMatchSearch={setMatchSearch}
+          searchNewCardUser={searchNewCardUser}
+          setSearchNewCardUser={setSearchNewCardUser}
         ></Sidebar>
 
     </div>

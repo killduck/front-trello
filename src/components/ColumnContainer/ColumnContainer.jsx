@@ -11,11 +11,9 @@ import Icons from "../ui/Icons/Icons";
 import TaskCard from "../TaskCard/TaskCard";
 
 import styles from './ColumnContainer.module.scss';
-// import WindowPortal from "../WindowPortal/WindowPortal";
-
 
 export default function ColumnContainer(props) {
-  console.log(props);
+  // console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let column = props.column;
   let newTextTask = props.newTextTask;
@@ -202,26 +200,6 @@ export default function ColumnContainer(props) {
           ""
         )
         }
-
-        {/* <WindowPortal
-          typeElem={'column'}
-          idElem={column.id}
-          column={column}
-          dashboardUsers={dashboardUsers}
-          updateFunc={updateColumn}
-          deleteFunc={deleteColumn}
-        >
-          <div className={styles.iconWrap}>
-            <Icons
-              name={'three_dots'}
-              class_name={'IconKebabColumnn'}
-              sizeWidth={"24px"}
-              sizeHeight={"24px"}
-              viewBox={"0 0 24 24"}
-            />
-          </div>
-
-        </WindowPortal> */}
       </div>
 
       {/* Column task container */}

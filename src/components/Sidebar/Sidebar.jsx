@@ -21,6 +21,10 @@ export default function Sidebar(props){
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
   let setCardLabel = props.setCardLabel;
+  let matchSearch = props.matchSearch;
+  let setMatchSearch = props.setMatchSearch;
+  let searchNewCardUser = props.searchNewCardUser;
+  let setSearchNewCardUser = props.setSearchNewCardUser;
 
   return (
     
@@ -52,6 +56,10 @@ export default function Sidebar(props){
               funcDelCardUser = {funcDelCardUser}
               funcMembersWindow = {funcMembersWindow}
               deleteFunc = {deleteFunc}
+              matchSearch={matchSearch}
+              setMatchSearch={setMatchSearch}
+              searchNewCardUser={searchNewCardUser}
+              setSearchNewCardUser={setSearchNewCardUser}
             />):("")
           }
           
