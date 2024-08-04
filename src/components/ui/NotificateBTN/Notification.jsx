@@ -17,9 +17,6 @@ export default function Notification(props) {
             {props.children}
             <div className={styles.NotificateUserName}>
                 {user.first_letter}
-                {(user.is_superuser)?
-                    (<span className={styles.adminLabel} title="Участник является администратором доски."></span>):("")
-                }
             </div>
         </button>
     )

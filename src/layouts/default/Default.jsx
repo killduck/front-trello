@@ -7,9 +7,6 @@ export default function Default(props) {
 
   let backGroundImage = props.backGroundImage;
 
-
-
-
   return (
     <div>
       <Header />

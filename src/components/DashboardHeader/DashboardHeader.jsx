@@ -13,31 +13,32 @@ export default function DashboardHeader(props) {
 
   let dashboardUsers = props.dashboardUsers;
 
-  let [showUserCard, setShowUserCard] = useState(null);
+  let updateComponent = props.updateComponent;
+
+  let setUpdateComponent = props.setUpdateComponent;
+
+  let [showUserDashboard, setShowUserDashboard] = useState(null);
 
   let [showFormShare, setShowFormShare] = useState(false);
 
   let [fieldEmailData, setFieldEmailData] = useState("");
 
 
-  function onUserCard(id_user = null) {
-    // console.log('Проверка выполения функции =>', onUserCard.name, id_user);
+  function onUserDashboard(id_user = null) {
 
-    showUserCard === id_user ?
-      setShowUserCard(null)
+    showUserDashboard === id_user ?
+      setShowUserDashboard(null)
       :
-      setShowUserCard(id_user)
+      setShowUserDashboard(id_user)
   }
 
   function onShareDashboard() {
-    console.log('Проверка выполения функции =>', onShareDashboard.name);
 
     showFormShare ?
       setShowFormShare(false)
       :
       setShowFormShare(true)
   }
-
 
   function writeEmail(evt) {
     setFieldEmailData((fieldEmailData) => (fieldEmailData = evt));
@@ -46,8 +47,6 @@ export default function DashboardHeader(props) {
   function SubmitFormShare() {
     console.log('Проверка выполения функции =>', SubmitFormShare.name);
     console.log('email>>>', fieldEmailData);
-
-
   }
 
 
@@ -56,10 +55,10 @@ export default function DashboardHeader(props) {
 
   // }
 
+
   return (
     <div
       className={styles.DashboardHeader}
-    // onClick={(event) => onRemoving_all_menu(event)}
     >
       <div className={styles.DashboardHeaderWrap}>
 
@@ -80,13 +79,13 @@ export default function DashboardHeader(props) {
                   <Notification
                     user={user}
                     class_name={'HeaderUsers'}
-                    clickAction={onUserCard}
+                    clickAction={onUserDashboard}
                     actionVariable={user.id}
                   />
                   <div
                     className={
-                      showUserCard === user.id ?
-                        `${styles.UserCardWrap}`
+                      showUserDashboard === user.id ?
+                        `${styles.UserDashboardWrap}`
                         :
                         styles.DisplayNone
                     }
@@ -94,8 +93,10 @@ export default function DashboardHeader(props) {
                   >
                     <UserDashboard
                       user={user}
-                      clickAction={onUserCard}
-                      class_name={'UserDashboard'} 
+                      clickAction={onUserDashboard}
+                      updateComponent={updateComponent}
+                      setUpdateComponent={setUpdateComponent}
+
                     />
                   </div>
                 </div>
@@ -127,6 +128,7 @@ export default function DashboardHeader(props) {
                   clickAction={onShareDashboard}
                   className={"BtnFormShareDashboard"}
                 >
+
                   <Icons
                     name={'CloseIcon'}
                     class_name={'IconCloseFormShare'}
