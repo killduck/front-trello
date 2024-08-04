@@ -26,7 +26,7 @@ import Preloader from "../../components/Preloader/Preloader";
 // import WorkspaceMenu from "../../components/WorkspaceMenu/WorkspaceMenu";
 
 
-export default function KanbanBoard() {
+export default function KanbanBoard(props) {
 
   let [showPreloder, setShowPreloder] = useState(false);
 
@@ -51,6 +51,8 @@ export default function KanbanBoard() {
   let [backGroundImage, setBackGroundImage] = useState('');
 
   let [name_dashboard, setNameDashboard] = useState('');
+
+  let [updateComponent, setUpdateComponent] = useState(false);
 
   let [users, setUsers] = useState([]);
 
@@ -114,7 +116,7 @@ export default function KanbanBoard() {
     });
 
 
-  }, [dashboardId]); //TODO ES Lint просит добавить dashboardId
+  }, [updateComponent]); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
@@ -483,10 +485,14 @@ export default function KanbanBoard() {
       <DashboardHeader
         dashboardUsers={users}
         name_dashboard={name_dashboard}
+        updateComponent={updateComponent}
+        setUpdateComponent={setUpdateComponent}
       />
       {showPreloder ? (<Preloader />) : ("")}
       {/* <WorkspaceMenu /> */}
-      <div className={styles.KanbanBoard}>
+      <div
+        className={styles.KanbanBoard}
+      >
         <DndContext
           sensors={sensors}
           onDragStart={onDragStart}

@@ -13,6 +13,9 @@ export default function Workspace(props) {
   // console.log(`props => ${props.cardName}`);
   // console.log(props);
 
+  let htmlClick = props.htmlClick;
+
+
   let [showDashboards, setShowDashboards] = useState(false);
 
   let [dashboards, setDashboards] = useState([]);
