@@ -3,6 +3,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import Workspace from './pages/Workspace/Workspace';
 import Recent from './pages/Recent/Recent';
 import Favourites from './pages/Favourites/Favourites';
+import StatusCodes404 from './pages/StatusCodes404/StatusCodes404';
 import Templates from './pages/Templates/Templates';
 
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
@@ -55,6 +56,9 @@ export default function RoutesApp(props) {
                     <Templates
                         htmlClick={htmlClick}
                     />
+                } />
+                <Route path='/404' element={
+                    <StatusCodes404 />
                 } />
 
             </Routes>

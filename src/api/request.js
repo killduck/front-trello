@@ -44,6 +44,10 @@ export default function request(
         }
       })
       .catch((error) => {
+        // if (error.response.status === 401) {
+        //   console.log('Ошибка авторизации')
+        // }
+
         redirect()
         console.error(error)
       })
