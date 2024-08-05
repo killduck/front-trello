@@ -13,8 +13,7 @@ export default function SimpleSlider(props) {
 
   let baseUrl = props.baseUrl;
 
-
-  let number_slide_random = Math.floor(Math.random() * (list_slides.length - 0 + 1) + 0);
+  let number_slide_random = Math.floor(Math.random() * (list_slides.length - 0) + 0);
 
 
   let settings = {

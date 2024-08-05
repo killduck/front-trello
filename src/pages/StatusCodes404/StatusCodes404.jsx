@@ -37,11 +37,11 @@ export default function StatusCodes404(props) {
 
         <div className={styles.StatusCodes404__Title}>
           <div>
-            <div>Oops!...We Did It Again!</div>
+            <div>Oops!...You Did It Again!</div>
           </div>
           <div>
             <span>404 Page not found</span>
-            </div>
+          </div>
         </div>
 
         <div className={styles.StatusCodes404__BntRedirect}>
@@ -54,7 +54,7 @@ export default function StatusCodes404(props) {
               name={'ArrowsDoubleLeft'}
               class_name={'IconRedirectWorkspace'}
             />
-            <span>Вернуться назад</span>
+            <span>Вернуться на рабочее пространство</span>
           </Button>
         </div>
 

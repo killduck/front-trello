@@ -50,10 +50,32 @@ export default function UserDashboard(props) {
       url: 'change-role-board/',
       callback: (response) => {
 
-        if (response.status === 200) setUpdateComponent(true);
+        if (response.status === 200) {
+
+          setUpdateComponent(true);
+
+          if (action === 'del_user') DelUserCard(user['id'], dashboardId);
+        }
+
+
 
       },
       data: { 'user_id': user['id'], 'dashboard_id': dashboardId, 'action': action },
+      status: 200,
+    });
+
+  }
+
+  function DelUserCard(user_id, dashboard_id) {
+    console.log('DelUserCard>>>', user_id, dashboard_id);
+
+    request({
+      method: 'POST',
+      url: 'test/',
+      callback: (response) => {
+
+      },
+      data: { 'user_id': user_id, 'dashboard_id': dashboard_id },
       status: 200,
     });
 
@@ -63,7 +85,6 @@ export default function UserDashboard(props) {
   function СheckBtnAddAdmin() {
 
     if (
-
       roleData['role_card_user'] !== 'admin' &&
       roleData['role_auth_user'] === 'admin'
     ) return true;
