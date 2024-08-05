@@ -1,10 +1,47 @@
 .StatusCodes404 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 100px;
-  .SimpleSlider {
-    width: 600px;
-    // margin: 0 auto;
+  max-width: 850px;
+  margin: 0 auto;
+
+  .StatusCodes404_Wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+
+    .StatusCodes404__Title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      font-size: 30px;
+      font-weight: 600;
+      color: #9fadbc;
+      margin-bottom: 15px;
+      padding: 0 65px;
+
+      &>div {
+        margin: 5px 0;
+      }
+
+      div:first-child {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      // div:nth-child(2) {
+      //   width: 100%;
+      //   display: flex;
+      //   justify-content: center;
+      // }
+
+    }
+
+    .StatusCodes404__Slider {
+      width: 690px;
+    }
+
   }
 }

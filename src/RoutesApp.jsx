@@ -60,6 +60,9 @@ export default function RoutesApp(props) {
                 <Route path='/404' element={
                     <StatusCodes404 />
                 } />
+                <Route path='/:alias' element={
+                    <StatusCodes404 />
+                } />
 
             </Routes>
 

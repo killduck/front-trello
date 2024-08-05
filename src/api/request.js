@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { URL_API, URL_ENDPOINT } from './config'
-import redirect from './redirect'
+import { redirect, redirect_status404 } from './redirect'
 
 export default function request(
   params = { method: 'GET', url: '', callback: '', data: null, status: 200 }
@@ -28,6 +28,14 @@ export default function request(
       .catch((error) => {
         redirect()
         console.error(error)
+
+        if (error.response.status === 401) {
+          console.log('Ошибка авторизации')
+          redirect();
+          return;
+        }
+
+        redirect_status404();
       })
   }
 
@@ -44,12 +52,15 @@ export default function request(
         }
       })
       .catch((error) => {
-        // if (error.response.status === 401) {
-        //   console.log('Ошибка авторизации')
-        // }
+        console.error(error);
 
-        redirect()
-        console.error(error)
+        if (error.response.status === 401) {
+          console.log('Ошибка авторизации')
+          redirect();
+          return;
+        }
+
+        redirect_status404();
       })
   }
 }
