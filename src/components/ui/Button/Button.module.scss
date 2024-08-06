@@ -504,3 +504,18 @@
     color: #b6c2cf;
   }
 }
+
+.BtnCardDescriptionChange{
+  background-color: #a1bdd914;
+  color: #b6c2cf;
+
+  &:hover {
+    background-color: #a6c5e229;
+    color: #b6c2cf;
+  }
+  &:active {
+    outline: 0;
+    background-color: #bfdbf847;
+    color: #b6c2cf;
+  }
+}

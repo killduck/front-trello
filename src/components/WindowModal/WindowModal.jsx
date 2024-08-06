@@ -123,9 +123,16 @@ export default function WindowModal(props){
   }
 
   function saveNewReactQuillText(){
-    if(value !== cardDescription){
-      console.log(value, cardDescription);
+    if(value === '<p><br></p><p><br></p>'){
+      setValue(value = null);
+    }
 
+    if(cardDescription === value){
+      funcShowReactQuill();
+      return;
+    }
+
+    if(value !== cardDescription){
       request({
         method:'POST',
         url:'add-card-description/',
@@ -142,27 +149,12 @@ export default function WindowModal(props){
         status:200,
       });
     }
+    funcShowReactQuill();
   }
 
   function showReactQuillHandleKeyPress(evt){
-    console.log(evt, value);
     if(evt.key === 'Enter' && evt.shiftKey){
-      console.log(value, cardDescription);
-      if(value === '<p><br></p><p><br></p>'){
-        setValue(value = null);
-        console.log('tut');
-      }
-      console.log(value, cardDescription);
-
-      if(cardDescription === value){
-        console.log('ура');
-        funcShowReactQuill();
-        return;
-      }
-
-      console.log('ура___');
       saveNewReactQuillText();
-      funcShowReactQuill();
     }
   }
 
@@ -482,8 +474,6 @@ export default function WindowModal(props){
     "дата"
   )
 
-  let elements = document.querySelectorAll('ql-editor');
-  
   return (
     <div className={styles.wrap} >
         {props.children}
@@ -525,6 +515,17 @@ export default function WindowModal(props){
                 />
               </span>
               <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
+              {!showReactQuill ? (
+                <div class={styles.cardDescriptionHeaderBtn}>
+                  <Button 
+                    className={'BtnCardDescriptionChange'}
+                    clickAction = {funcShowReactQuill}
+                  >Изменить</Button>
+                </div>
+                )
+                :
+                ("")
+              }
             </div>
             {showReactQuill ? 
             (
@@ -539,13 +540,12 @@ export default function WindowModal(props){
                   formats={formats}
                   onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
                   onBlur={(evt)=>showReactQuillHandleKeyPress(evt)}
-                  // onFocus={editor}
                 />
                 <div className={styles.cardDescriptionButtonWrap}>
                   <Button
                     className={'cardDescriptionSave'}
                     // actionVariable={}
-                    // clickAction = {}
+                    clickAction = {saveNewReactQuillText}
                   >Сохранить</Button>
                   <Button
                     className={'cardDescriptionCancel'}
