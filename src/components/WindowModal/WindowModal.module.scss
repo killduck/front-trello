@@ -285,14 +285,14 @@
         }
 
         .reactQuill{
-            background-color: #22272b;
+            background-color: #1d2125;
             min-height: 175px;
             margin-left: 40px;
             border-radius: 3px;
-            box-shadow: 0 0 0 1px inset #738496;
+            box-shadow: 0 0 0 1px #738496;
 
             &:focus-within {
-                box-shadow: 0 0 0 2px #0c66e4;
+                box-shadow: 0 0 0 2px #579dff;
             }
         }
 

@@ -1,5 +1,6 @@
 
-import styles from "./WindowModal.module.scss"
+import styles from "./WindowModal.module.scss";
+import "./windowQuill.css";
 
 import { useEffect, useState } from 'react';
 
