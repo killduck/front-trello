@@ -26,6 +26,7 @@ export default function TaskCard(props) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
+  const [DNDIsOn, setDNDIsOn] = useState(true);
 
   // let [label, setLabel] = useState(false);
 
@@ -104,90 +105,139 @@ export default function TaskCard(props) {
     );
   }
 
-  // function onCardLabel() {
-  //   console.log('Проверка выполения функции =>', onCardLabel.name);
-  // 
-  //   label ?
-  //     setLabel(false)
-  //     :
-  //     setLabel(true)
-  // }
-
   return (
+    <>
+      {DNDIsOn ? 
+        <div
+          ref={setNodeRef}
+          style={style}
+          {...attributes}
+          {...listeners}
+          onMouseEnter={() => {
+            setMouseIsOver(true);
+          }}
+          onMouseLeave={() => {
+            setMouseIsOver(false);
+          }}
+          className={styles.TaskCard}
+          onClick={() => setDNDIsOn(false)}
+        >
+        
+    
+        <WindowPortal
+          typeElem = {'card'}
+          idElem = {task.id}
+          task = {task}
+          column = {column}
+          dashboardUsers={dashboardUsers}
+          updateFunc = {updateTask}
+          deleteFunc={deleteCard}
+          updateCardLabel={updateCardLabel}
+        >
+          <div className={styles.TaskCard__Wrap}>
 
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      onMouseEnter={() => {
-        setMouseIsOver(true);
-      }}
-      onMouseLeave={() => {
-        setMouseIsOver(false);
-      }}
-      className={styles.TaskCard}
-    >
-      <WindowPortal
-        typeElem = {'card'}
-        idElem = {task.id}
-        task = {task}
-        column = {column}
-        dashboardUsers={dashboardUsers}
-        updateFunc = {updateTask}
-        deleteFunc={deleteCard}
-        updateCardLabel={updateCardLabel}
-      >
-        <div className={styles.TaskCard__Wrap}>
+            <div className={styles.CardView}>
 
-          <div className={styles.CardView}>
+              <div className={styles.ColorLabel}>
+                <div
+                  className={styles.ColorLabelWrap}
+                  style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
+                  // onClick={() => { onCardLabel() }}
+                >
+                  {/* <span
+                    className={
+                      label ?
+                        styles.LabelActive
+                        :
+                        styles.Label
+                    } >
+                    Важно
+                  </span> */}
+                </div>
+              </div>
 
-            <div className={styles.ColorLabel}>
-              <div
-                className={styles.ColorLabelWrap}
-                style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
-                // onClick={() => { onCardLabel() }}
-              >
-                {/* <span
-                  className={
-                    label ?
-                      styles.LabelActive
-                      :
-                      styles.Label
-                  } >
-                  Важно
-                </span> */}
+              {/* <a className={styles.CardText} href="#">
+                {task.name}
+              </a> */}
+              <span className={styles.CardText} >
+                {task.name}
+              </span>
+              <div className={styles.cardIcon}>
+                {mouseIsOver && (
+                  <Button
+                    type={"button"}
+                    ariaLabel={"Изменить карточку"}
+                    className={"BtnCardNameEdit"}
+                    clickAction={toggleEditMode}
+
+                  >
+                    <Icons
+                      name={'pencil-colorless'}
+                      class_name={'CardTextPencilLogo'}
+                    />   
+                  </Button>
+                )}
+              </div>
+              
+
+            </div>
+          </div>
+        </WindowPortal>
+      </div>
+      :
+      (
+        <div
+          className={styles.TaskCard}
+        >
+        
+    
+        <WindowPortal
+          typeElem = {'card'}
+          idElem = {task.id}
+          task = {task}
+          column = {column}
+          dashboardUsers={dashboardUsers}
+          updateFunc = {updateTask}
+          deleteFunc={deleteCard}
+          updateCardLabel={updateCardLabel}
+          setDNDIsOn={setDNDIsOn}
+        >
+          <div className={styles.TaskCard__Wrap}>
+
+            <div className={styles.CardView}>
+
+              <div className={styles.ColorLabel}>
+                <div
+                  className={styles.ColorLabelWrap}
+                  style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
+                />
+              </div>
+              <span className={styles.CardText} >
+                {task.name}
+              </span>
+              <div className={styles.cardIcon}>
+                {mouseIsOver && (
+                  <Button
+                    type={"button"}
+                    ariaLabel={"Изменить карточку"}
+                    className={"BtnCardNameEdit"}
+                    clickAction={toggleEditMode}
+
+                  >
+                    <Icons
+                      name={'pencil-colorless'}
+                      class_name={'CardTextPencilLogo'}
+                    />   
+                  </Button>
+                )}
               </div>
             </div>
-
-            {/* <a className={styles.CardText} href="#">
-              {task.name}
-            </a> */}
-            <span className={styles.CardText} >
-              {task.name}
-            </span>
-            <div className={styles.cardIcon}>
-              {mouseIsOver && (
-                <Button
-                  type={"button"}
-                  ariaLabel={"Изменить карточку"}
-                  className={"BtnCardNameEdit"}
-                  clickAction={toggleEditMode}
-
-                >
-                  <Icons
-                    name={'pencil-colorless'}
-                    class_name={'CardTextPencilLogo'}
-                  />   
-                </Button>
-              )}
-            </div>
-            
-
           </div>
-        </div>
-      </WindowPortal>
-    </div>
+        </WindowPortal>
+      </div>
+      )
+    }
+    </>
 
   );
 }

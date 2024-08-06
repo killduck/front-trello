@@ -14,7 +14,7 @@ body,
   min-height: 175px;
   border: none!important;
 }
-.ql-editor p{
+.ql-editor{
   color: #ffffff;
 }
 .ql-editor.ql-blank::before{

@@ -11,6 +11,7 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import Sidebar from "../Sidebar/Sidebar";
 import UserCard from "../UserCard/UserCard";
+import { Interweave } from "interweave";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -41,9 +42,8 @@ export default function WindowModal(props){
   const [cardLabel, setCardLabel] = useState(false);
   
   let [showReactQuill, setShowReactQuill] = useState(false);
-  
-
-  const [value, setValue] = useState('');
+  let [value, setValue] = useState('');
+  const [cardDescription, setCardDescription] = useState('');
 
   const modules = {
     toolbar: [
@@ -79,7 +79,7 @@ export default function WindowModal(props){
   useEffect(() => {
     request({
       method:'POST',
-      url:`take-data-${typeElem}/`,
+      url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
           // console.log(response.data);
@@ -90,6 +90,8 @@ export default function WindowModal(props){
             setStartWindowName(response.data.card[0]['name']);
             setCardUsers(response.data.card_users_data);
             setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
+            setValue(response.data.card[0]['description']); 
+            setCardDescription(response.data.card[0]['description']); 
           }
           if(task.label){
             setCardLabel(true);
@@ -120,19 +122,51 @@ export default function WindowModal(props){
     }
   }
 
-  const showReactQuillHandleKeyPress = (evt) => {
-    console.log(evt);
+  function saveNewReactQuillText(){
+    if(value !== cardDescription){
+      console.log(value, cardDescription);
+
+      request({
+        method:'POST',
+        url:'add-card-description/',
+        callback:(response) => { 
+          if (response.status === 200) {
+            console.log(response.data);
+            if(response.data){
+              setValue(response.data[0].description);
+              setCardDescription(response.data[0].description);
+            }
+          }
+        },
+        data: {'card_id': windowData.id,'description': value},
+        status:200,
+      });
+    }
+  }
+
+  function showReactQuillHandleKeyPress(evt){
+    console.log(evt, value);
     if(evt.key === 'Enter' && evt.shiftKey){
+      console.log(value, cardDescription);
+      if(value === '<p><br></p><p><br></p>'){
+        setValue(value = null);
+        console.log('tut');
+      }
+      console.log(value, cardDescription);
+
+      if(cardDescription === value){
+        console.log('ура');
+        funcShowReactQuill();
+        return;
+      }
+
+      console.log('ура___');
+      saveNewReactQuillText();
       funcShowReactQuill();
-      // if(windowName !== startWindowName){
-      //   updateFunc(windowData.id, windowName);
-      //   setStartWindowName(windowName);
-      // }
     }
   }
 
   function writeNewText(evt) {
-    // console.log(evt);
     setWindowName((prev) => (prev = evt));
   }
 
@@ -447,7 +481,9 @@ export default function WindowModal(props){
   const columnDueDate = (
     "дата"
   )
-   
+
+  let elements = document.querySelectorAll('ql-editor');
+  
   return (
     <div className={styles.wrap} >
         {props.children}
@@ -490,41 +526,58 @@ export default function WindowModal(props){
               </span>
               <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
             </div>
-            {showReactQuill ? (
+            {showReactQuill ? 
+            (
               <>
-              <ReactQuill 
-                className={styles.reactQuill}
-                theme="snow"
-                value={value} 
-                onChange={setValue} 
-                placeholder="Введите текст..."
-                modules={modules}
-                formats={formats}
-                onKeyDown={showReactQuillHandleKeyPress}
-                onBlur={showReactQuillHandleKeyPress}
-              />
-              <div className={styles.cardDescriptionButtonWrap}>
-                <Button
-                  className={'cardDescriptionSave'}
-                  // actionVariable={}
-                  // clickAction = {}
-                >Сохранить</Button>
-                <Button
-                  className={'cardDescriptionCancel'}
-                  actionVariable={false}
-                  clickAction = {funcShowReactQuill}
-                >Отмена</Button>
-              </div>
+                <ReactQuill 
+                  className={styles.reactQuill}
+                  theme="snow"
+                  value={value ? value : ''} 
+                  onChange={setValue} 
+                  placeholder="Введите текст..."
+                  modules={modules}
+                  formats={formats}
+                  onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
+                  onBlur={(evt)=>showReactQuillHandleKeyPress(evt)}
+                  // onFocus={editor}
+                />
+                <div className={styles.cardDescriptionButtonWrap}>
+                  <Button
+                    className={'cardDescriptionSave'}
+                    // actionVariable={}
+                    // clickAction = {}
+                  >Сохранить</Button>
+                  <Button
+                    className={'cardDescriptionCancel'}
+                    actionVariable={false}
+                    clickAction = {funcShowReactQuill}
+                  >Отмена</Button>
+                </div>
               </>
-              ):(
-                <p 
-                  className={styles.cardDescriptionStub}
-                  onClick={funcShowReactQuill}
-                >
-                  Добавить более подробное описание…
-                </p>
-              )
-            }
+            )
+            :
+            (
+              <>
+                {cardDescription ? 
+                  (
+                    <div 
+                      className={styles.cardDescriptionStub}
+                      onClick={funcShowReactQuill} 
+                      // dangerouslySetInnerHTML={{ __html: cardDescription }} 
+                    >
+                      <Interweave content={cardDescription}></Interweave>
+                    </div>
+                  ):(
+                    <p 
+                      className={styles.cardDescriptionStub}
+                      onClick={funcShowReactQuill}
+                    >
+                      Добавить более подробное описание…
+                    </p>
+                  )
+                }
+              </>
+            )}
           </div>
           
           <div  className={styles.cardAttachmentsSection}>
