@@ -25,8 +25,6 @@ export default function UserDashboard(props) {
 
   let [roleData, setRoleData] = useState({});
 
-  console.log('updateComponent>>>', updateComponent);
-
 
   useEffect(() => {
     request({
