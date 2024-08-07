@@ -11,8 +11,6 @@ export default function request(
     token = 'Token ' + localStorage.getItem('trello_auth')
   }
 
-  // console.log('request>>>', window.location.hostname) // TODO Удалить. Тест для деплоя
-
   if (params.method === 'GET') {
     axios
       .get(URL_API + URL_ENDPOINT + params.url, {
@@ -26,10 +24,9 @@ export default function request(
         }
       })
       .catch((error) => {
-        redirect()
         console.error(error)
 
-        if (error.response.status === 401) {
+        if (error.response.status === 401 || error.response.status === 400) {
           console.log('Ошибка авторизации')
           redirect();
           return;
@@ -54,7 +51,7 @@ export default function request(
       .catch((error) => {
         console.error(error);
 
-        if (error.response.status === 401) {
+        if (error.response.status === 401 || error.response.status === 400) {
           console.log('Ошибка авторизации')
           redirect();
           return;
