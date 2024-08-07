@@ -133,6 +133,7 @@ export default function ColumnContainer(props) {
         >
           <div
             className={styles.ColumnTitle}
+            title={`колонка: "${column.name}"`}
           >
             {!editMode && column.name}
             {editMode && (

@@ -6,7 +6,7 @@ import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
 
 export default function SidebarMembersWindow(props){
-  // console.log(props);
+  console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let cardUsers = props.cardUsers;
   let funcAddUserToCard = props.funcAddUserToCard;
@@ -111,7 +111,19 @@ export default function SidebarMembersWindow(props){
                     <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
                   </div>
                   <div title={ user.username }>
-                    <span>{user.username}</span>
+                    <span>
+                      {
+                        ((user.first_name && user.last_name) ? 
+                          (`${user.first_name} ${user.last_name}`) 
+                          : 
+                          (user.first_name ? 
+                            user.first_name 
+                            : 
+                            user.username
+                          )
+                        )
+                      }
+                    </span>
                   </div>
                 </Button>
                 
@@ -151,7 +163,17 @@ export default function SidebarMembersWindow(props){
                         </div>
                         <div className={styles.itemContentDashboardMemberName} title={ cardUser.username }>
                           <span>
-                            { cardUser.username }
+                            {
+                              ((cardUser.first_name && cardUser.last_name) ? 
+                                (`${cardUser.first_name} ${cardUser.last_name}`) 
+                                : 
+                                (cardUser.first_name ? 
+                                  cardUser.first_name 
+                                  : 
+                                  cardUser.username
+                                )
+                              )
+                            }
                           </span>
                         </div>
                         <div>
@@ -196,7 +218,19 @@ export default function SidebarMembersWindow(props){
                   <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
                 </div>
                 <div title={ user.username }>
-                  <span>{user.username}</span>
+                  <span>
+                    {
+                      ((user.first_name && user.last_name) ? 
+                        (`${user.first_name} ${user.last_name}`) 
+                        : 
+                        (user.first_name ? 
+                          user.first_name 
+                          : 
+                          user.username
+                        )
+                      )
+                    }
+                  </span>
                 </div>
               </Button>
               

@@ -56,7 +56,18 @@ export default function UserCard(props) {
 
           <div className={styles.InfoUserName}>
             <div className={styles.LastFirstName}>
-              {user.last_name} {user.first_name}
+              {/* {user.last_name} {user.first_name} */}
+              {
+                ((user.first_name && user.last_name) ? 
+                  (`${user.first_name} ${user.last_name}`) 
+                  : 
+                  (user.first_name ? 
+                    user.first_name 
+                    : 
+                    "( . )( . )"
+                  )
+                )
+              }
             </div>
             <div className={styles.UserName}>
               @{user.username}

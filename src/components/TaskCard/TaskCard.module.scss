@@ -27,12 +27,9 @@ $text: #172b4d;
   .TaskCard__Wrap {
     min-height: 40px;
     position: relative;
-
     background-color: $background;
     border-radius: 8px;
-    // box-shadow:
-    //   $shadow-raised,
-    //   0px 1px 1px $shadow_1 0px 0px 1px $shadow_2;
+    box-shadow: 1px 1px 1px 0px #738496;
     color: $color_card_text;
     cursor: pointer;
     scroll-margin: 8px;
@@ -110,9 +107,11 @@ $text: #172b4d;
         // overflow-wrap: break-word;
         overflow-x: hidden;
         overflow-y: auto;
-        white-space: normal;
         font-size: 14px;
         text-align: start;
+        text-overflow: ellipsis;
+        width: 80%;
+        white-space: nowrap;
       }
     }
 

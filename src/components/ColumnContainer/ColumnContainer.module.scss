@@ -29,8 +29,8 @@
 }
 
 .Column {
-  // background: #101204;
-  background: rgba(0, 0, 0, .5);
+  // background: linear-gradient(#1012041a 10%, #101204 90%);
+  background: linear-gradient(200deg, rgba(16, 18, 4, 0.1019607843) 10%, #101204 90%);
   width: 272px;
   height: 430px; //TODO 500px в идеале height: 100%;
   min-height: 100px;
@@ -40,6 +40,7 @@
   flex-direction: column;
   position: relative;
   border: 1px solid #101204;
+  box-shadow: 1px 1px 1px 0px #738496;
 
   .ColumnOptionWindow{
     position: absolute;
@@ -178,6 +179,10 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
     .EditeColumnTitle {
       background: #000;

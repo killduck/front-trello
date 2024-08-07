@@ -159,7 +159,7 @@ export default function TaskCard(props) {
               {/* <a className={styles.CardText} href="#">
                 {task.name}
               </a> */}
-              <span className={styles.CardText} >
+              <span className={styles.CardText} title={`карточка: "${task.name}"`}>
                 {task.name}
               </span>
               <div className={styles.cardIcon}>
@@ -212,7 +212,7 @@ export default function TaskCard(props) {
                   style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
                 />
               </div>
-              <span className={styles.CardText} >
+              <span className={styles.CardText} title={task.name}>
                 {task.name}
               </span>
               <div className={styles.cardIcon}>
