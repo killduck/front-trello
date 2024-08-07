@@ -26,7 +26,6 @@ export default function StatusCodes404(props) {
   ];
 
   function onRedirectWorkspace() {
-    console.log('Проверка выполения функции =>', onRedirectWorkspace.name);
     navigate("/");
   }
 
