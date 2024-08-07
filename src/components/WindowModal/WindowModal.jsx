@@ -400,14 +400,22 @@ export default function WindowModal(props){
                   className={styles.memberMenu} 
                   aria-label={`Действия с профилем участника ${cardUser.first_name}`}
                 >
-                  <img 
+                  {cardUser.img ?
+                  (<img 
                     className={styles.memberAvatar} 
-                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/users/Andrey.png'}
+                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo1.png'}
                     // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
                     alt={`${cardUser.first_name} (${cardUser.username})`}
                     title={`${cardUser.first_name} (${cardUser.username})`}
                     onClick={()=> onUserCard(cardUser.id)}
-                  />
+                  />)
+                  :
+                  (<span 
+                    className={styles.memberAvatarSpan} 
+                    title={`${cardUser.first_name} (${cardUser.username})`}
+                    onClick={()=> onUserCard(cardUser.id)}
+                  >{cardUser.first_letter}</span>)
+                  }
                   {(showUserCard === cardUser.id) ? 
                     <UserCard
                       authUser={authUser}
@@ -517,7 +525,7 @@ export default function WindowModal(props){
               </span>
               <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
               {!showReactQuill ? (
-                <div class={styles.cardDescriptionHeaderBtn}>
+                <div className={styles.cardDescriptionHeaderBtn}>
                   <Button 
                     className={'BtnCardDescriptionChange'}
                     clickAction = {funcShowReactQuill}

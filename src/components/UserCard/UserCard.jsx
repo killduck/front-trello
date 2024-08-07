@@ -39,7 +39,19 @@ export default function UserCard(props) {
 
         <div className={styles.UserCardInfoUser}>
           <div className={styles.Logo}>
-            <span>{user.first_letter}</span>
+            {user.img ?
+            (<img
+              className={styles.memberAvatar} 
+              src={user.img ? `/img/users/${user.img}` : user.first_letter} 
+              alt={`${user.first_name} (${user.username})`} 
+              title={`${user.first_name} (${user.username})`} 
+            />)
+            :
+            (<span 
+              className={styles.memberAvatarSpan} 
+              title={`${user.first_name} (${user.username})`}
+            >{user.first_letter}</span>)
+            }
           </div>
 
           <div className={styles.InfoUserName}>

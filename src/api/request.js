@@ -26,7 +26,7 @@ export default function request(
         }
       })
       .catch((error) => {
-        // redirect();
+        redirect();
         console.error(error);
       })
   }
@@ -44,7 +44,7 @@ export default function request(
         }
       })
       .catch((error) => {
-        // redirect();
+        redirect();
         console.error(error);
       })
   }
