@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0");
+
+
+:root {
+  --size-arrow: 50px;
+  --size-width: 50px;
+  --size-height: 50px;
+}
+
+.slick-prev {
+  left: -55px;
+}
+
+.slick-next {
+  right: -55px;
+}
+
+.slick-prev,
+.slick-next {
+  width: var(--size-width);
+  height: var(--size-height);
+  &:hover::before {
+    color: #fff;
+  }
+}
+
+.slick-prev:before {
+  content: "\e5e0";
+  padding-left: 10px;
+}
+
+.slick-next:before {
+  content: "\e5e1";
+}
+
+.slick-prev::before,
+.slick-next::before {
+  font-size: var(--size-arrow);
+  color: #9fadbc;
+  /* background-color: #8ec5ff; */
+  opacity: 1;
+  font-family: 'Material Symbols Outlined';
+  width: var(--size-width);
+  height: var(--size-height);
+  display: flex;
+  align-items: center;
+  line-height: normal;
+}
