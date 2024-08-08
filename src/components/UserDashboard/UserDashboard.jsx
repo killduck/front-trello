@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import request from "../../api/request";
@@ -11,6 +11,8 @@ import styles from './UserDashboard.module.scss';
 
 export default function UserDashboard(props) {
 
+  const navigate = useNavigate();
+
   let updateComponent = props.updateComponent;
 
   let setUpdateComponent = props.setUpdateComponent;
@@ -22,7 +24,6 @@ export default function UserDashboard(props) {
   let { dashboardId } = useParams();
 
   let [roleData, setRoleData] = useState({});
-
 
 
   useEffect(() => {
@@ -50,8 +51,19 @@ export default function UserDashboard(props) {
       url: 'change-role-board/',
       callback: (response) => {
 
-        if (response.status === 200) setUpdateComponent(true);
+        if (response.status === 200) {
 
+          setUpdateComponent(true);
+
+          if (action === 'del_user') {
+            DelUserCard(user['id'], dashboardId)
+
+            if (user['id'] === roleData['user_auth_id']) {
+              navigate("/")
+            }
+
+          };
+        }
       },
       data: { 'user_id': user['id'], 'dashboard_id': dashboardId, 'action': action },
       status: 200,
@@ -59,11 +71,29 @@ export default function UserDashboard(props) {
 
   }
 
+  function DelUserCard(user_id, dashboard_id) {
+
+    request({
+      method: 'POST',
+      url: 'card-user-delete/',
+      callback: (response) => {
+
+        if (response.status === 200) {
+          setUpdateComponent(true);
+        }
+      },
+      data: {
+        'user_id': user_id,
+        'dashboard_id': dashboard_id
+      },
+      status: 200,
+    });
+  }
+
 
   function СheckBtnAddAdmin() {
 
     if (
-
       roleData['role_card_user'] !== 'admin' &&
       roleData['role_auth_user'] === 'admin'
     ) return true;

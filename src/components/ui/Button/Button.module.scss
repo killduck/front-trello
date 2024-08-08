@@ -520,3 +520,16 @@
     color: #b6c2cf;
   }
 }
+.BtnRedirectWorkspace {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: #0c66e4;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 10px;
+  &:hover {
+    opacity: 0.70;
+  }
+}
