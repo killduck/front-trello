@@ -18,8 +18,6 @@ $text: #172b4d;
   display: flex;
   flex-direction: column;
   position: relative; // ???
-  // height: 100px;
-  // min-height: 100px;
   row-gap: 8px;
   scroll-margin: 80px;
   width: 100%;
@@ -42,12 +40,10 @@ $text: #172b4d;
     .CardView {
       display: flex;
       flex-direction: column;
-
       display: flow-root;
       position: relative;
       padding: 8px 12px 4px;
       min-height: 34px;
-      // z-index: 10;
 
       .ColorLabel {
         display: flex;
@@ -58,13 +54,10 @@ $text: #172b4d;
         .ColorLabelWrap {
           display: inline-flex;
           max-width: calc(100% - 4px);
-          // background-color: $background_2;
           border-radius: 4px;
           min-width: 40px;
           min-height: 8px;
-
           position: relative;
-          // z-index: 999;
 
           &:hover {
             color: #000000;
@@ -78,13 +71,11 @@ $text: #172b4d;
             display: inline-block;
             position: relative;
             margin-bottom: 0;
-
             padding: 0 8px;
             min-width: 56px;
             max-width: 56%;
             height: 16px;
             box-sizing: border-box;
-
             color: $color_label;
             line-height: 16px;
             font-size: 12px;
@@ -130,8 +121,6 @@ $text: #172b4d;
   align-items: center;
   position: relative;
   text-align: left;
-  // height: 100px;
-  // min-height: 100px;
   padding: 5px;
   background-color: rgb(75, 70, 96);
   border-radius: 5px;
@@ -141,12 +130,10 @@ $text: #172b4d;
 
   .EditFocus {
     width: 100%;
-    // height: 90%;
     resize: none;
     border-style: none;
     border-radius: 4px;
     background-color: transparent;
-    // color: #fff;
     border: 1px solid red;
     &:focus {
       outline: 2px solid transparent;
@@ -156,7 +143,6 @@ $text: #172b4d;
 }
 
 .DraggingCard {
-  // background-color: rgb(224, 222, 233);
   display: flex;
   align-items: center;
   position: relative;

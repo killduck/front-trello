@@ -1,11 +1,12 @@
 
 import styles from "./WindowModal.module.scss";
-import "./windowQuill.css";
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import ReactQuill from 'react-quill';
+// import ReactQuill from 'react-quill'; // старый, нужно будет стереть, но пусть пока будет.
+import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css';
+import "./windowQuill.css";
 
 import request from "../../api/request";
 import Button from "../ui/Button/Button";
@@ -48,9 +49,7 @@ export default function WindowModal(props){
 
   const modules = {
     toolbar: [
-      // [{ header: "1" }, { header: "2" },], // { font: [] }
       [{ header: []}],
-      // [{ size: []}],
       ["bold", "italic", "underline"], //"strike", "blockquote"
       [{color: []}],
       [{ list: "ordered" }, { list: "bullet" }],
@@ -59,31 +58,12 @@ export default function WindowModal(props){
     ],
   };
  
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "video",
-    "color",
-  ];
-
   useEffect(() => {
     request({
       method:'POST',
       url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
-          // console.log(response.data);
           if(response.data){
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
@@ -139,7 +119,6 @@ export default function WindowModal(props){
         url:'add-card-description/',
         callback:(response) => { 
           if (response.status === 200) {
-            console.log(response.data);
             if(response.data){
               setValue(response.data[0].description);
               setCardDescription(response.data[0].description);
@@ -201,7 +180,6 @@ export default function WindowModal(props){
   }
 
   function chechUserToAdd(user_id){
-    // console.log(user_id, cardUsers);
     if(cardUsers.length === 0){
       return true;
     }
@@ -209,37 +187,27 @@ export default function WindowModal(props){
       let addUser = true;
 
       cardUsers.forEach((cardUser) => {
-        // console.log(user_id, cardUser.user_id);
         if (user_id === cardUser.id){
           addUser = false;
         }
       });
-      // console.log(addUser);
       return addUser;
     }
   }
 
   function funcAddUserToCard(user_id){
-    // console.log(user_id, cardUsers.length);
     if(chechUserToAdd(user_id)){
       request({
         method:'POST',
         url:`card-user-update/`,
         callback:(response) => { 
           if (response.status === 200) {
-            console.log(response.data);
             if(response.data){
               setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
               setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
               
               setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
-              console.log(searchNewCardUser);
               setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
-              
-              // if(searchNewCardUser.length === 0){
-              //   setMatchSearch('');
-              // }
-              // onUserCard(user_id); // это по ходу лишее, но это не точно.
             }
           }
         },
@@ -250,22 +218,17 @@ export default function WindowModal(props){
   }
 
   function funcDelCardUser(user_id){
-    // console.log(user_id);
     cardUsers.forEach(cardUser => {
       if (user_id === cardUser.id){
-        // console.log(user_id, cardUser.user_id);
         request({
           method:'POST',
           url:`card-user-delete/`,
           callback:(response) => { 
             if (response.status === 200) {
-              // console.log(response.data);
               if(response.data){
-                // console.log('ответ пришёл');
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
                 setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
-
               }
             }
           },
@@ -282,6 +245,24 @@ export default function WindowModal(props){
       :
       setShowUserCard(id_user)
   }
+
+  const useFocusAndSetRef = (ref) => {
+    ref = useCallback(
+      (node) => {
+        if (node !== null) {
+          ref.current = node; // it is not done on it's own
+          const len = node.unprivilegedEditor.getLength();
+          const selection = { index: len, length: len };
+          node.setEditorSelection(node.editor, selection);
+        }
+      },
+      [ref]
+    );
+    return ref;
+  };
+
+  let editorRef;
+  editorRef = useFocusAndSetRef(editorRef);
 
   const headerSection = (
   <>
@@ -539,16 +520,17 @@ export default function WindowModal(props){
             {showReactQuill ? 
             (
               <>
-                <ReactQuill 
+                <ReactQuill
                   className={styles.reactQuill}
                   theme="snow"
                   value={value ? value : ''} 
                   onChange={setValue} 
                   placeholder="Введите текст..."
                   modules={modules}
-                  formats={formats}
                   onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
                   onBlur={(evt)=>showReactQuillHandleKeyPress(evt)}
+                  autoFocus
+                  ref={editorRef}
                 />
                 <div className={styles.cardDescriptionButtonWrap}>
                   <Button

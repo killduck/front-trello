@@ -209,10 +209,10 @@
   .FormCreateCard {
     form {
       width: 100%;
-      padding: 0;
+      padding: 7px;
       border-radius: 8px;
       textarea {
-        border-radius: 8px;
+        border-radius: 4px;
         min-height: 36px;
         max-height: 160px;
         margin: 0;
@@ -235,8 +235,6 @@
 .none {
   display: none;
 }
-
-
 
 .ColumnCardsWrap::-webkit-scrollbar {
   width: 8px;

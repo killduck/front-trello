@@ -1,7 +1,7 @@
 .ql-toolbar{
-  background-color: #223950;
   border: none!important;
   border-radius: 3px 3px 0 0;
+  background-color: #1d2125;
 }
 .ql-container {
   background-color: #22272b;
@@ -14,6 +14,9 @@
 }
 .ql-editor{
   color: #b6c2cf;
+  min-height: 175px;
+  cursor: pointer;
+  box-shadow: inset 0 2px 0px 0 #2c333a;
 }
 .ql-editor.ql-blank::before{
   color: #8c9baa;
