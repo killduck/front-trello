@@ -28,6 +28,8 @@ export default function WindowModal(props){
   let updateCardLabel = props.updateCardLabel;
 
   const [authUser, setAuthUser] = useState(Number);
+  const [authUserData, setAuthUserData] = useState(Number);
+
   let [windowData, setWindowData] = useState({});
   const [startWindowName, setStartWindowName] = useState('');
   let [windowName, setWindowName] = useState('');
@@ -46,6 +48,8 @@ export default function WindowModal(props){
   let [showReactQuill, setShowReactQuill] = useState(false);
   let [value, setValue] = useState('');
   const [cardDescription, setCardDescription] = useState('');
+
+  let [activityDetailsShow, setActivityDetailsShow] = useState(false);
 
   const modules = {
     toolbar: [
@@ -73,6 +77,7 @@ export default function WindowModal(props){
             setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
             setValue(response.data.card[0]['description']); 
             setCardDescription(response.data.card[0]['description']); 
+            setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
           }
           if(task.label){
             setCardLabel(true);
@@ -83,7 +88,7 @@ export default function WindowModal(props){
       status:200,
     });
 
-  },[typeElem, idElem, task]);
+  },[typeElem, idElem, task, dashboardUsers]);
 
   function showTextarea() {
     if(!newName){
@@ -264,6 +269,16 @@ export default function WindowModal(props){
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
 
+
+  function funcActivityDetailsShow(){
+    if(activityDetailsShow){
+    setActivityDetailsShow(false);
+    }
+    else{
+      setActivityDetailsShow(true);
+    }
+  }
+
   const headerSection = (
   <>
     <span className={styles.headerIcon}>
@@ -384,7 +399,7 @@ export default function WindowModal(props){
                   {cardUser.img ?
                   (<img 
                     className={styles.memberAvatar} 
-                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo1.png'}
+                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo.png'}
                     // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
                     alt={`${cardUser.first_name} (${cardUser.username})`}
                     title={`${cardUser.first_name} (${cardUser.username})`}
@@ -571,8 +586,128 @@ export default function WindowModal(props){
             )}
           </div>
           
-          <div  className={styles.cardAttachmentsSection}>
-            Действия (Тут же: показать подробности, напишите комментарий…)
+
+
+          <div  className={styles.cardActivity}>
+            <div className={styles.cardActivityWrap} data-testid="card-back-activity">
+              <div className={styles.cardActivityHeader}>
+                <Icons
+                  name={'icon-description'}
+                  class_name={'IconWindowModalMainColActivity'}
+                />
+                <h3 className={styles.cardActivityHeaderTitle}>Действия</h3>
+                <div className={styles.cardActivityHeaderBtns}>
+                  {activityDetailsShow ? 
+                    <Button 
+                      className = {'BtnCardActivity'}
+                      clickAction = {funcActivityDetailsShow}
+                    >Показать подробности</Button>
+                    :
+                    <Button 
+                      className = {'BtnCardActivity'}
+                      clickAction = {funcActivityDetailsShow}
+                    >Скрыть подробности</Button>
+                  }
+                </div>
+              </div>
+              <div className={styles.cardActivityNewComment}>
+                <div className={styles.cardActivityMemberAvatar}>
+                  {authUserData.img ?
+                    (<img 
+                      className={styles.cardActivityMemberAvatarImg} 
+                      src={authUserData.img ? `/img/users/${authUserData.img}` : '/img/no_photo1.png'}
+                      // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
+                      alt={`${authUserData.first_name} (${authUserData.username})`}
+                      title={`${authUserData.first_name} (${authUserData.username})`}
+                      // onClick={()=> onUserCard(authUserData.id)}
+                    />
+                    )
+                    :
+                    (<span 
+                      className={styles.cardActivityMemberAvatarSpan} 
+                      title={`${authUserData.first_name} (${authUserData.username})`}
+                      // onClick={()=> onUserCard(authUserData.id)}
+                    >{authUserData.first_letter}</span>
+                    )
+                  }
+                </div>
+                {/* <div className="js-new-comment-react-root"> */}
+                  {/* <div className="js-react-root"> */}
+                    {/* <div aria-live="polite" role="region"></div> */}
+                    {/* <div className="c3OsZHKSpXeMAD"> */}
+                      <input 
+                        className={styles.cardActivityNewCommentInput} 
+                        type="text" 
+                        placeholder="Напишите комментарий…" 
+                        // data-testid="card-back-new-comment-input-skeleton" 
+                        // aria-placeholder="Напишите комментарий…" 
+                        aria-label="Написать комментарий" 
+                        readOnly 
+                        value="" 
+                      />
+                    {/* </div> */}
+                  {/* </div> */}
+                {/* </div> */}
+              </div>
+              <div className="js-list-actions mod-card-back">
+                <div className="phenom mod-comment-type">
+                  <div className="phenom-creator">
+                    <div className="member js-show-mem-menu js-member-avatar-root" idmember="662bd7222422de983bbab209">
+                      <div className="js-react-root">
+                        <button className="B1uWdim9Jd0dJ9 Y73NuAT7seZfmx bxgKMAm3lq5BpA SEj5vUdI3VvxDc" type="button" data-testid="action-view-member-avatar" title="Leo (killduck)">
+                          <span aria-label="Leo (killduck)" role="img" title="Leo (killduck)" className="DweEFaF5owOe02 u0XUHdMJe85h0q S7RWiPL9Qgl9P9 kFZ3hS99jGmKWk" style={{backgroundImage: "url(&quot;https://trello-members.s3.amazonaws.com/662bd7222422de983bbab209/68699ec7e84b2530faa3447a45c09236/170.png&quot;)", height: "32px", width: "32px", lineHeight: "32px"}}></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="phenom-desc">
+                    <span className="inline-member js-show-mem-menu" idmember="662bd7222422de983bbab209">
+                      <span className="u-font-weight-bold">Leo</span>
+                    </span> 
+                    <span className="inline-spacer"> </span>
+                    <span className="phenom-date quiet">
+                      <a className="date js-hide-on-sending js-highlight-link past" dt="2024-08-02T13:38:12.367Z" href="/c/MVBbEJOn/1-%D0%BD%D0%B0-%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC-leo#comment-66ace14448665e344c76001c" data-date="Fri Aug 02 2024 16:38:12 GMT+0300 (Москва, стандартное время)" title="2 августа 2024 г., 16:38">2 авг. 2024 г., 16:38</a>
+                    </span>
+                    <div className="comment-container">
+                      <div className="action-comment can-edit can-view-video markeddown js-comment is-comments-rewrite" dir="auto">
+                        <div className="current-comment js-friendly-links js-open-card">
+                          <p>фыв</p>
+                        </div>
+                        <div className="js-edit-comment-react-root"></div>
+                      </div>
+                    </div>
+                    <div className="js-embed-previews"></div>
+                    <div className="hide unfurled-comment comment-preview"></div>
+                  </div>
+                  <div className="phenom-reactions">
+                    <div className="js-reaction-piles reaction-piles-container last">
+                      <div className="reaction-piles reaction-piles-empty">
+                        <span className="inline-add-reaction meta-add-reaction quiet">
+                          <span className="reactions-add">
+                            <span title="Добавить реакцию" className="icon-sm icon-add-reaction reactions-add-icon"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                    <div className="phenom-meta quiet">
+                      <span className="js-spinner hide">
+                        <span className="spinner spinner--inline mod-left small"></span> Отправка…&nbsp;
+                      </span>
+                      <span className="js-hide-on-sending middle">
+                        <button className="js-edit-action" >Изменить</button> 
+                        • 
+                        <button className="js-confirm-delete-action" >Удалить</button>
+                        <span className="edits-warning quiet"> • В этом поле есть несохранённые изменения.</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
+              <p>
+                <button className="nch-button hide js-show-all-actions" >Показать все действия…</button>
+              </p>
+            </div>
           </div>
 
         </div>
