@@ -405,8 +405,7 @@ export default function KanbanBoard(props) {
   }
 
   function deleteColumn(id) {
-
-    let idColumnDeleted = { id_column: id }
+    let idColumnDeleted = { id_column: id };
 
     request({
       method: "POST",
@@ -530,9 +529,9 @@ export default function KanbanBoard(props) {
                 dir="auto"
                 maxLength="512"
                 autoComplete="off"
-                name="Ввести заголовок списка"
-                placeholder="Ввести заголовок списка"
-                aria-label="Ввести заголовок списка"
+                name="Ввести заголовок колонки"
+                placeholder="Ввести заголовок колонки"
+                aria-label="Ввести заголовок колонки"
                 data-testid="list-name-textarea"
                 autoFocus={showForm ? false : true}
                 hideElAction={setShowForm}

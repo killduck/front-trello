@@ -1,16 +1,19 @@
 
-import styles from "./WindowModal.module.scss"
+import styles from "./WindowModal.module.scss";
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import ReactQuill from 'react-quill';
+// import ReactQuill from 'react-quill'; // старый, нужно будет стереть, но пусть пока будет.
+import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css';
+import "./windowQuill.css";
 
 import request from "../../api/request";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import Sidebar from "../Sidebar/Sidebar";
 import UserCard from "../UserCard/UserCard";
+import { Interweave } from "interweave";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -31,19 +34,36 @@ export default function WindowModal(props){
   let [newName, setNewNameField] = useState(false);
   let [membersWindow, setMembersWindow] = useState(false);
   let [cardUsers, setCardUsers] = useState([]);
+  const [matchSearch, setMatchSearch]=useState('');
+  let [searchNewCardUser, setSearchNewCardUser]=useState([]);
+
   let [subscribe, setSubscribe] = useState(false);
   let [showUserCard, setShowUserCard] = useState(null);
 
   let [labelsWindow, setLabelsWindow] = useState(false);
   const [cardLabel, setCardLabel] = useState(false);
+  
+  let [showReactQuill, setShowReactQuill] = useState(false);
+  let [value, setValue] = useState('');
+  const [cardDescription, setCardDescription] = useState('');
 
+  const modules = {
+    toolbar: [
+      [{ header: []}],
+      ["bold", "italic", "underline"], //"strike", "blockquote"
+      [{color: []}],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+  };
+ 
   useEffect(() => {
     request({
       method:'POST',
-      url:`take-data-${typeElem}/`,
+      url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
-          // console.log(response.data);
           if(response.data){
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
@@ -51,7 +71,8 @@ export default function WindowModal(props){
             setStartWindowName(response.data.card[0]['name']);
             setCardUsers(response.data.card_users_data);
             setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
-            // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+            setValue(response.data.card[0]['description']); 
+            setCardDescription(response.data.card[0]['description']); 
           }
           if(task.label){
             setCardLabel(true);
@@ -73,8 +94,51 @@ export default function WindowModal(props){
     }
   }
 
+  function funcShowReactQuill(){
+    if(showReactQuill){
+      setShowReactQuill(false);
+    }
+    else{
+      setShowReactQuill(true);
+    }
+  }
+
+  function saveNewReactQuillText(){
+    if(value === '<p><br></p><p><br></p>'){
+      setValue(value = null);
+    }
+
+    if(cardDescription === value){
+      funcShowReactQuill();
+      return;
+    }
+
+    if(value !== cardDescription){
+      request({
+        method:'POST',
+        url:'add-card-description/',
+        callback:(response) => { 
+          if (response.status === 200) {
+            if(response.data){
+              setValue(response.data[0].description);
+              setCardDescription(response.data[0].description);
+            }
+          }
+        },
+        data: {'card_id': windowData.id,'description': value},
+        status:200,
+      });
+    }
+    funcShowReactQuill();
+  }
+
+  function showReactQuillHandleKeyPress(evt){
+    if(evt.key === 'Enter' && evt.shiftKey){
+      saveNewReactQuillText();
+    }
+  }
+
   function writeNewText(evt) {
-    // console.log(evt);
     setWindowName((prev) => (prev = evt));
   }
 
@@ -116,7 +180,6 @@ export default function WindowModal(props){
   }
 
   function chechUserToAdd(user_id){
-    // console.log(user_id, cardUsers);
     if(cardUsers.length === 0){
       return true;
     }
@@ -124,29 +187,27 @@ export default function WindowModal(props){
       let addUser = true;
 
       cardUsers.forEach((cardUser) => {
-        // console.log(user_id, cardUser.user_id);
         if (user_id === cardUser.id){
           addUser = false;
         }
       });
-      // console.log(addUser);
       return addUser;
     }
   }
 
   function funcAddUserToCard(user_id){
-    // console.log(user_id, cardUsers.length);
     if(chechUserToAdd(user_id)){
       request({
         method:'POST',
         url:`card-user-update/`,
         callback:(response) => { 
           if (response.status === 200) {
-            // console.log(response.data);
             if(response.data){
               setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
               setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
-              // onUserCard(user_id); // это по ходу лишее, но это не точно.
+              
+              setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
+              setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
             }
           }
         },
@@ -157,22 +218,17 @@ export default function WindowModal(props){
   }
 
   function funcDelCardUser(user_id){
-    // console.log(user_id);
     cardUsers.forEach(cardUser => {
       if (user_id === cardUser.id){
-        // console.log(user_id, cardUser.user_id);
         request({
           method:'POST',
           url:`card-user-delete/`,
           callback:(response) => { 
             if (response.status === 200) {
-              // console.log(response.data);
               if(response.data){
-                // console.log('ответ пришёл');
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
                 setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
-
               }
             }
           },
@@ -190,9 +246,32 @@ export default function WindowModal(props){
       setShowUserCard(id_user)
   }
 
+  const useFocusAndSetRef = (ref) => {
+    ref = useCallback(
+      (node) => {
+        if (node !== null) {
+          ref.current = node; // it is not done on it's own
+          const len = node.unprivilegedEditor.getLength();
+          const selection = { index: len, length: len };
+          node.setEditorSelection(node.editor, selection);
+        }
+      },
+      [ref]
+    );
+    return ref;
+  };
+
+  let editorRef;
+  editorRef = useFocusAndSetRef(editorRef);
+
   const headerSection = (
   <>
-    <span className={styles.headerIcon}></span>
+    <span className={styles.headerIcon}>
+      <Icons
+        name={'icon-description'}
+        class_name={'IconWindowModalMainColAddLabel'}
+      />
+    </span>
     <div className={styles.headerTitle}>
     
       {(!newName) ?
@@ -302,16 +381,25 @@ export default function WindowModal(props){
                   className={styles.memberMenu} 
                   aria-label={`Действия с профилем участника ${cardUser.first_name}`}
                 >
-                  <img 
+                  {cardUser.img ?
+                  (<img 
                     className={styles.memberAvatar} 
-                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/users/Andrey.png'}
+                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo1.png'}
                     // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
                     alt={`${cardUser.first_name} (${cardUser.username})`}
                     title={`${cardUser.first_name} (${cardUser.username})`}
                     onClick={()=> onUserCard(cardUser.id)}
-                  />
+                  />)
+                  :
+                  (<span 
+                    className={styles.memberAvatarSpan} 
+                    title={`${cardUser.first_name} (${cardUser.username})`}
+                    onClick={()=> onUserCard(cardUser.id)}
+                  >{cardUser.first_letter}</span>)
+                  }
                   {(showUserCard === cardUser.id) ? 
                     <UserCard
+                      authUser={authUser}
                       user={cardUser}
                       clickAction={onUserCard}
                       funcDelCardUser = {funcDelCardUser}
@@ -375,7 +463,7 @@ export default function WindowModal(props){
   const columnDueDate = (
     "дата"
   )
-   
+
   return (
     <div className={styles.wrap} >
         {props.children}
@@ -407,10 +495,80 @@ export default function WindowModal(props){
             
           </div>
 
-          <div  className={styles.cardDescription}>
-            Описание:
-            {/* <ReactQuill theme="snow" value={value} onChange={setValue} /> */}
-            Добавить более подробное описание…
+          <div className={styles.cardDescription}>
+          
+            <div className={styles.cardDescriptionHeader}>
+              <span className={styles.cardDescriptionHeaderIcon}>
+                <Icons
+                  name={'icon-description'}
+                  class_name={'IconWindowModalMainColAddLabel'}
+                />
+              </span>
+              <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
+              {!showReactQuill ? (
+                <div className={styles.cardDescriptionHeaderBtn}>
+                  <Button 
+                    className={'BtnCardDescriptionChange'}
+                    clickAction = {funcShowReactQuill}
+                  >Изменить</Button>
+                </div>
+                )
+                :
+                ("")
+              }
+            </div>
+            {showReactQuill ? 
+            (
+              <>
+                <ReactQuill
+                  className={styles.reactQuill}
+                  theme="snow"
+                  value={value ? value : ''} 
+                  onChange={setValue} 
+                  placeholder="Введите текст..."
+                  modules={modules}
+                  onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
+                  onBlur={(evt)=>showReactQuillHandleKeyPress(evt)}
+                  autoFocus
+                  ref={editorRef}
+                />
+                <div className={styles.cardDescriptionButtonWrap}>
+                  <Button
+                    className={'cardDescriptionSave'}
+                    // actionVariable={}
+                    clickAction = {saveNewReactQuillText}
+                  >Сохранить</Button>
+                  <Button
+                    className={'cardDescriptionCancel'}
+                    actionVariable={false}
+                    clickAction = {funcShowReactQuill}
+                  >Отмена</Button>
+                </div>
+              </>
+            )
+            :
+            (
+              <>
+                {cardDescription ? 
+                  (
+                    <div 
+                      className={styles.cardDescriptionStub}
+                      onClick={funcShowReactQuill} 
+                      // dangerouslySetInnerHTML={{ __html: cardDescription }} 
+                    >
+                      <Interweave content={cardDescription}></Interweave>
+                    </div>
+                  ):(
+                    <p 
+                      className={styles.cardDescriptionStub}
+                      onClick={funcShowReactQuill}
+                    >
+                      Добавить более подробное описание…
+                    </p>
+                  )
+                }
+              </>
+            )}
           </div>
           
           <div  className={styles.cardAttachmentsSection}>
@@ -434,6 +592,10 @@ export default function WindowModal(props){
           labelsWindow={labelsWindow}
           updateCardLabel={updateCardLabel}
           setCardLabel={setCardLabel}
+          matchSearch={matchSearch}
+          setMatchSearch={setMatchSearch}
+          searchNewCardUser={searchNewCardUser}
+          setSearchNewCardUser={setSearchNewCardUser}
         ></Sidebar>
 
     </div>

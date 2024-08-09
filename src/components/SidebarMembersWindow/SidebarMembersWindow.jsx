@@ -6,16 +6,18 @@ import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
 
 export default function SidebarMembersWindow(props){
-
+  console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let cardUsers = props.cardUsers;
   let funcAddUserToCard = props.funcAddUserToCard;
   let funcDelCardUser = props.funcDelCardUser;
   let funcMembersWindow = props.funcMembersWindow;
+  let matchSearch = props.matchSearch;
+  let setMatchSearch = props.setMatchSearch;
+  let searchNewCardUser = props.searchNewCardUser;
+  let setSearchNewCardUser = props.setSearchNewCardUser;
 
-  // console.log(dashboardUsers);
-
-  const [searchNewCardUser, setSearchNewCardUser]=useState([]);
+  // const [searchNewCardUser, setSearchNewCardUser]=useState([]);
   const [showNoResult, setShowNoResult]=useState(false);
 
   function funcCheckToAddNewCardUser(dashboardUser, item = null){
@@ -36,9 +38,10 @@ export default function SidebarMembersWindow(props){
 
   function funcSearchNewCardUser(evt){
     // console.log(`funcSearchNewCardUser => ${evt}`);
+    setMatchSearch(evt);
     let  evtLength = evt.length;
     // console.log(evtLength);
-    let searchedUsers = []
+    let searchedUsers = [];
 
     if(evtLength === 0){
       searchedUsers = [];
@@ -108,7 +111,19 @@ export default function SidebarMembersWindow(props){
                     <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
                   </div>
                   <div title={ user.username }>
-                    <span>{user.username}</span>
+                    <span>
+                      {
+                        ((user.first_name && user.last_name) ? 
+                          (`${user.first_name} ${user.last_name}`) 
+                          : 
+                          (user.first_name ? 
+                            user.first_name 
+                            : 
+                            user.username
+                          )
+                        )
+                      }
+                    </span>
                   </div>
                 </Button>
                 
@@ -148,7 +163,17 @@ export default function SidebarMembersWindow(props){
                         </div>
                         <div className={styles.itemContentDashboardMemberName} title={ cardUser.username }>
                           <span>
-                            { cardUser.username }
+                            {
+                              ((cardUser.first_name && cardUser.last_name) ? 
+                                (`${cardUser.first_name} ${cardUser.last_name}`) 
+                                : 
+                                (cardUser.first_name ? 
+                                  cardUser.first_name 
+                                  : 
+                                  cardUser.username
+                                )
+                              )
+                            }
                           </span>
                         </div>
                         <div>
@@ -193,7 +218,19 @@ export default function SidebarMembersWindow(props){
                   <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
                 </div>
                 <div title={ user.username }>
-                  <span>{user.username}</span>
+                  <span>
+                    {
+                      ((user.first_name && user.last_name) ? 
+                        (`${user.first_name} ${user.last_name}`) 
+                        : 
+                        (user.first_name ? 
+                          user.first_name 
+                          : 
+                          user.username
+                        )
+                      )
+                    }
+                  </span>
                 </div>
               </Button>
               
@@ -235,6 +272,7 @@ export default function SidebarMembersWindow(props){
             autoFocus = {true}
             type="text" 
             placeholder="Поиск участников" 
+            value={matchSearch}
             onChange={(evt) => funcSearchNewCardUser(evt.target.value.trim().toLowerCase())}
           />
         </label>

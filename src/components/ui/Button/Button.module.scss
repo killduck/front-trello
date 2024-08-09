@@ -377,6 +377,7 @@
   z-index: 999;
   top: 0;
   right: 0;
+  border-radius: 0 12px;
 
   &:hover {
     filter: brightness(75%);
@@ -460,6 +461,65 @@
   }
 }
 
+.cardDescriptionSave{
+  margin: 0 6px 0 0;
+  border: none;
+  background-color: #579dff;
+  box-shadow: none;
+  color: #1d2125;
+  font-size: 14px;
+
+  &:hover {
+    border: none;
+    background-color: #85b8ff;
+    box-shadow: none;
+    color: #1d2125;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #cce0ff;
+    box-shadow: none;
+    color: #1d2125;
+  }
+}
+
+.cardDescriptionCancel{
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+
+  &:hover {
+    border: none;
+    background-color: #a6c5e229;
+    box-shadow: none;
+    color: #b6c2cf;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #bfdbf847;
+    box-shadow: none;
+    color: #b6c2cf;
+  }
+}
+
+.BtnCardDescriptionChange{
+  background-color: #a1bdd914;
+  color: #b6c2cf;
+
+  &:hover {
+    background-color: #a6c5e229;
+    color: #b6c2cf;
+  }
+  &:active {
+    outline: 0;
+    background-color: #bfdbf847;
+    color: #b6c2cf;
+  }
+}
 .BtnRedirectWorkspace {
   display: flex;
   align-items: center;

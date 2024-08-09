@@ -21,6 +21,7 @@ export default function WindowPortal(props){
     let updateFunc = props.updateFunc;
     let deleteFunc = props.deleteFunc;
     let updateCardLabel = props.updateCardLabel;
+    let setDNDIsOn = props.setDNDIsOn;
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -30,6 +31,7 @@ export default function WindowPortal(props){
 
     const closeModal = () => {
         setModalIsOpen(false);
+        setDNDIsOn(true);
     };
 
     const closeModalHandle = (evt) => {
