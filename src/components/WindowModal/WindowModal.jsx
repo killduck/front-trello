@@ -46,10 +46,13 @@ export default function WindowModal(props){
   const [cardLabel, setCardLabel] = useState(false);
   
   let [showReactQuill, setShowReactQuill] = useState(false);
-  let [value, setValue] = useState('');
+  let [valueDescription, setValueDescription] = useState('');
   const [cardDescription, setCardDescription] = useState('');
 
   let [activityDetailsShow, setActivityDetailsShow] = useState(false);
+  let [activityEditorShow, setActivityEditorShow] = useState(false);
+  let [valueEditor, setValueEditor] = useState('');
+  const [cardActivity, setCardActivity] = useState('<p>asd</p><p><br></p>');
 
   const modules = {
     toolbar: [
@@ -75,7 +78,7 @@ export default function WindowModal(props){
             setStartWindowName(response.data.card[0]['name']);
             setCardUsers(response.data.card_users_data);
             setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
-            setValue(response.data.card[0]['description']); 
+            setValueDescription(response.data.card[0]['description']); 
             setCardDescription(response.data.card[0]['description']); 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
           }
@@ -109,28 +112,28 @@ export default function WindowModal(props){
   }
 
   function saveNewReactQuillText(){
-    if(value === '<p><br></p><p><br></p>'){
-      setValue(value = null);
+    if(valueDescription === '<p><br></p><p><br></p>'){
+      setValueDescription(valueDescription = null);
     }
 
-    if(cardDescription === value){
+    if(cardDescription === valueDescription){
       funcShowReactQuill();
       return;
     }
 
-    if(value !== cardDescription){
+    if(valueDescription !== cardDescription){
       request({
         method:'POST',
         url:'add-card-description/',
         callback:(response) => { 
           if (response.status === 200) {
             if(response.data){
-              setValue(response.data[0].description);
+              setValueDescription(response.data[0].description);
               setCardDescription(response.data[0].description);
             }
           }
         },
-        data: {'card_id': windowData.id,'description': value},
+        data: {'card_id': windowData.id,'description': valueDescription},
         status:200,
       });
     }
@@ -269,13 +272,61 @@ export default function WindowModal(props){
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
 
+  function saveActivityReactQuillText(){
+    if(valueEditor === '<p><br></p><p><br></p>'){
+      setValueEditor(valueEditor = null);
+      console.log(valueEditor);
+    } 
+
+    if(cardActivity === valueEditor){
+      console.log(valueEditor, cardActivity);
+      funcActivityEditorShow();
+      return;
+    }
+
+    if(valueEditor !== cardActivity){
+      console.log(valueEditor, cardActivity);
+      request({
+        method:'POST',
+        url:'add-card-activity/',
+        callback:(response) => { 
+          if (response.status === 200) {
+            if(response.data){
+              setValueEditor(response.data[0].activity);
+              setCardActivity(response.data[0].activity);
+            }
+          }
+        },
+        data: {'card_id': windowData.id,'description': valueEditor},
+        status:200,
+      });
+    }
+    funcActivityEditorShow();
+  }
+  console.log(valueEditor);
+
+  function showActivityReactQuillHandleKeyPress(evt){
+    // console.log(evt);
+    if(evt.key === 'Enter' && evt.shiftKey){
+      saveActivityReactQuillText();
+    }
+  }
 
   function funcActivityDetailsShow(){
     if(activityDetailsShow){
-    setActivityDetailsShow(false);
+      setActivityDetailsShow(false);
     }
     else{
       setActivityDetailsShow(true);
+    }
+  }
+
+  function funcActivityEditorShow(){
+    if(activityEditorShow){
+      setActivityEditorShow(false);
+    }
+    else{
+      setActivityEditorShow(true);
     }
   }
 
@@ -537,9 +588,10 @@ export default function WindowModal(props){
               <>
                 <ReactQuill
                   className={styles.reactQuill}
+                  style={{marginLeft: "40px"}}
                   theme="snow"
-                  value={value ? value : ''} 
-                  onChange={setValue} 
+                  value={valueDescription ? valueDescription : ''} 
+                  onChange={setValueDescription} 
                   placeholder="Введите текст..."
                   modules={modules}
                   onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
@@ -547,7 +599,10 @@ export default function WindowModal(props){
                   autoFocus
                   ref={editorRef}
                 />
-                <div className={styles.cardDescriptionButtonWrap}>
+                <div 
+                  className={styles.cardDescriptionButtonWrap}
+                  style={{marginLeft: "40px"}}
+                >
                   <Button
                     className={'cardDescriptionSave'}
                     // actionVariable={}
@@ -612,42 +667,59 @@ export default function WindowModal(props){
               </div>
               <div className={styles.cardActivityNewComment}>
                 <div className={styles.cardActivityMemberAvatar}>
-                  {authUserData.img ?
-                    (<img 
+                  {authUserData.img ?(
+                    <img 
                       className={styles.cardActivityMemberAvatarImg} 
                       src={authUserData.img ? `/img/users/${authUserData.img}` : '/img/no_photo1.png'}
-                      // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
                       alt={`${authUserData.first_name} (${authUserData.username})`}
                       title={`${authUserData.first_name} (${authUserData.username})`}
                       // onClick={()=> onUserCard(authUserData.id)}
                     />
-                    )
-                    :
-                    (<span 
+                    ):(
+                    <span 
                       className={styles.cardActivityMemberAvatarSpan} 
                       title={`${authUserData.first_name} (${authUserData.username})`}
                       // onClick={()=> onUserCard(authUserData.id)}
                     >{authUserData.first_letter}</span>
-                    )
-                  }
+                  )}
                 </div>
-                {/* <div className="js-new-comment-react-root"> */}
-                  {/* <div className="js-react-root"> */}
-                    {/* <div aria-live="polite" role="region"></div> */}
-                    {/* <div className="c3OsZHKSpXeMAD"> */}
-                      <input 
-                        className={styles.cardActivityNewCommentInput} 
-                        type="text" 
-                        placeholder="Напишите комментарий…" 
-                        // data-testid="card-back-new-comment-input-skeleton" 
-                        // aria-placeholder="Напишите комментарий…" 
-                        aria-label="Написать комментарий" 
-                        readOnly 
-                        value="" 
-                      />
-                    {/* </div> */}
-                  {/* </div> */}
-                {/* </div> */}
+                {!activityEditorShow ? (
+                  <input 
+                    className={styles.cardActivityNewCommentInput} 
+                    type="text" 
+                    placeholder="Напишите комментарий…" 
+                    aria-label="Написать комментарий" 
+                    readOnly 
+                    value={""} 
+                    onClick={funcActivityEditorShow}
+                  />
+                  ):(
+                  <div>
+                    <ReactQuill
+                      className={styles.reactQuill}
+                      theme="snow"
+                      value={valueEditor ? valueEditor : ''} 
+                      onChange={setValueEditor} 
+                      placeholder="Напишите комментарий..."
+                      modules={modules}
+                      onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
+                      onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
+                      ref={editorRef}
+                    />
+                    <div className={styles.cardEditorButtonWrap}>
+                      <Button
+                        className={'cardEditorSave'}
+                        // actionVariable={}
+                        // clickAction = {saveNewReactQuillEditorText}
+                      >Сохранить</Button>
+                      <Button
+                        className={'cardDescriptionCancel'}
+                        actionVariable={false}
+                        clickAction = {funcActivityEditorShow}
+                      >Отмена</Button>
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="js-list-actions mod-card-back">
                 <div className="phenom mod-comment-type">

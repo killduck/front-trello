@@ -286,53 +286,103 @@
             }
         }
 
-        .reactQuill{
-            background-color: #1d2125;
-            min-height: 175px;
-            margin-left: 40px;
-            border-radius: 3px;
-            box-shadow: 0 0 0 1px #738496;
+        // .reactQuill{
+        //     background-color: #1d2125;
+        //     min-height: 175px;
+        //     margin-left: 40px;
+        //     border-radius: 3px;
+        //     box-shadow: 0 0 0 1px #738496;
 
-            &:focus-within {
-                box-shadow: 0 0 0 2px #579dff;
-            }
-        }
+        //     &:focus-within {
+        //         box-shadow: 0 0 0 2px #579dff;
+        //     }
+        // }
 
-        .cardDescriptionButtonWrap{
-            margin-top: 8px;
-            margin-left: 40px;
-        }
+        // .cardDescriptionButtonWrap{
+        //     margin-top: 8px;
+        //     margin-left: 40px;
+        // }
 
-        .cardDescriptionStub{
-            margin-left: 40px;
-            border: none;
-            background-color: #a1bdd914;
-            box-shadow: none;
-            font-weight: 500;
-            display: block;
-            min-height: 55px;
-            padding: 8px 12px;
-            border-radius: 3px;
-            color: #b6c2cf;
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
+        // .cardDescriptionStub{
+        //     margin-left: 40px;
+        //     border: none;
+        //     background-color: #a1bdd914;
+        //     box-shadow: none;
+        //     font-weight: 500;
+        //     display: block;
+        //     min-height: 55px;
+        //     padding: 8px 12px;
+        //     border-radius: 3px;
+        //     color: #b6c2cf;
+        //     text-decoration: none;
+        //     font-size: 14px;
+        //     cursor: pointer;
 
-            &:hover {
-                border: none;
-                background-color: #a6c5e229;
-                box-shadow: none;
-                color: #b6c2cf;
-                text-decoration: none;
-            }
-            &:active {
-                border: none;
-                outline: 0;
-                background-color: #bfdbf847;
-                box-shadow: none;
-                color: #b6c2cf;
-            }
-        }
+        //     &:hover {
+        //         border: none;
+        //         background-color: #a6c5e229;
+        //         box-shadow: none;
+        //         color: #b6c2cf;
+        //         text-decoration: none;
+        //     }
+        //     &:active {
+        //         border: none;
+        //         outline: 0;
+        //         background-color: #bfdbf847;
+        //         box-shadow: none;
+        //         color: #b6c2cf;
+        //     }
+        // }
+    }
+}
+
+.reactQuill{
+    background-color: #1d2125;
+    // min-height: 175px;
+    height: max-content;
+    // margin-left: 40px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px #738496;
+
+    &:focus-within {
+        box-shadow: 0 0 0 2px #579dff;
+    }
+}
+
+.cardEditorButtonWrap,
+.cardDescriptionButtonWrap{
+    margin-top: 8px;
+    // margin-left: 40px;
+}
+
+.cardDescriptionStub{
+    margin-left: 40px;
+    border: none;
+    background-color: #a1bdd914;
+    box-shadow: none;
+    font-weight: 500;
+    display: block;
+    min-height: 55px;
+    padding: 8px 12px;
+    border-radius: 3px;
+    color: #b6c2cf;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover {
+        border: none;
+        background-color: #a6c5e229;
+        box-shadow: none;
+        color: #b6c2cf;
+        text-decoration: none;
+    }
+    &:active {
+        border: none;
+        outline: 0;
+        background-color: #bfdbf847;
+        box-shadow: none;
+        color: #b6c2cf;
     }
 }
 
@@ -433,7 +483,6 @@
             .cardActivityNewCommentInput{
                 box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
                 border-radius: 8px;
-
                 box-sizing: border-box;
                 border: none;
                 outline: none;
@@ -445,10 +494,10 @@
                 transition-duration: 85ms;
                 transition-timing-function: ease;
                 padding: 8px 12px;
-                border-radius: 3px;
                 background-color: #22272b;
                 width: 100%;
                 margin-bottom: 0;
+                cursor: pointer;
             }
         }
     }
