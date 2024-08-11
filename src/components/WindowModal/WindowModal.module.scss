@@ -411,13 +411,15 @@
                 font-size: 16px;
                 line-height: 20px;
                 font-weight: 600;
+                cursor: default;
             }
         }
 
         .cardActivityNewComment{
             // margin: 0 0 8px 40px;
             display: flex;
-            margin-bottom: 8px;
+            // margin-bottom: 8px;
+            padding: 8px 0;
             position: relative;
 
             .cardActivityMemberAvatar{
@@ -480,6 +482,15 @@
                 }
             }
 
+            .cardActivityNewCommentContent{
+                width: 100%;
+                padding-left: 6px;
+            }
+
+            .cardActivityMemberCommentAction{
+                font-size: 14px;
+            }
+
             .cardActivityNewCommentInput{
                 box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
                 border-radius: 8px;
@@ -498,6 +509,35 @@
                 width: 100%;
                 margin-bottom: 0;
                 cursor: pointer;
+            }
+
+            .cardActivityMemberName{
+                font-weight: 700;
+                font-size: 14px;
+                margin-right: 6px;
+                cursor: default;
+            }
+
+            .cardActivityMemberCommentDate{
+                font-size: 11px;
+                line-height: 14px;
+                margin: 0 0 6px;
+                min-width: 105px;
+                color: #9fadbc;
+                cursor: default;
+            }
+            .cardActivityCommentSending{
+                font-size: 12px;
+            
+                .cardActivityCommentSendingImg{
+                    background-image: url("../../../public/send_icon.svg");
+                    background-size: 18px 18px;
+                    height: 18px;
+                    width: 18px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: 3px;
+                }
             }
         }
     }

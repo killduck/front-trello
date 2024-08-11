@@ -50,7 +50,8 @@ export default function WindowModal(props){
   const [cardDescription, setCardDescription] = useState('');
 
   let [activityDetailsShow, setActivityDetailsShow] = useState(false);
-  let [activityEditorShow, setActivityEditorShow] = useState(false);
+  let [activityEditorShow, setActivityEditorShow] = useState(null);
+  let [cardActivityComments, setCardActivityComments] = useState([]);
   let [valueEditor, setValueEditor] = useState('');
   const [cardActivity, setCardActivity] = useState('<p>asd</p><p><br></p>');
 
@@ -72,6 +73,7 @@ export default function WindowModal(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
+            console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -81,6 +83,8 @@ export default function WindowModal(props){
             setValueDescription(response.data.card[0]['description']); 
             setCardDescription(response.data.card[0]['description']); 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
+            setCardActivityComments(response.data.card[0].activity);
+            console.log(response.data.card[0].activity);
           }
           if(task.label){
             setCardLabel(true);
@@ -273,6 +277,7 @@ export default function WindowModal(props){
   editorRef = useFocusAndSetRef(editorRef);
 
   function saveActivityReactQuillText(){
+    console.log(saveActivityReactQuillText.name);
     if(valueEditor === '<p><br></p><p><br></p>'){
       setValueEditor(valueEditor = null);
       console.log(valueEditor);
@@ -321,12 +326,13 @@ export default function WindowModal(props){
     }
   }
 
-  function funcActivityEditorShow(){
-    if(activityEditorShow){
-      setActivityEditorShow(false);
+  function funcActivityEditorShow(comment_id = null){
+    console.log('asd', comment_id)
+    if(activityEditorShow === comment_id){
+      setActivityEditorShow(null);
     }
     else{
-      setActivityEditorShow(true);
+      setActivityEditorShow(comment_id);
     }
   }
 
@@ -665,6 +671,7 @@ export default function WindowModal(props){
                   }
                 </div>
               </div>
+
               <div className={styles.cardActivityNewComment}>
                 <div className={styles.cardActivityMemberAvatar}>
                   {authUserData.img ?(
@@ -683,7 +690,7 @@ export default function WindowModal(props){
                     >{authUserData.first_letter}</span>
                   )}
                 </div>
-                {!activityEditorShow ? (
+                {(activityEditorShow !== 'newComment') ? (
                   <input 
                     className={styles.cardActivityNewCommentInput} 
                     type="text" 
@@ -691,7 +698,7 @@ export default function WindowModal(props){
                     aria-label="Написать комментарий" 
                     readOnly 
                     value={""} 
-                    onClick={funcActivityEditorShow}
+                    onClick={ ()=>funcActivityEditorShow('newComment') }
                   />
                   ):(
                   <div>
@@ -710,71 +717,125 @@ export default function WindowModal(props){
                       <Button
                         className={'cardEditorSave'}
                         // actionVariable={}
-                        // clickAction = {saveNewReactQuillEditorText}
+                        clickAction = {saveActivityReactQuillText}
                       >Сохранить</Button>
                       <Button
                         className={'cardDescriptionCancel'}
-                        actionVariable={false}
+                        actionVariable={null}
                         clickAction = {funcActivityEditorShow}
                       >Отмена</Button>
                     </div>
                   </div>
                 )}
               </div>
-              <div className="js-list-actions mod-card-back">
-                <div className="phenom mod-comment-type">
-                  <div className="phenom-creator">
-                    <div className="member js-show-mem-menu js-member-avatar-root" idmember="662bd7222422de983bbab209">
-                      <div className="js-react-root">
-                        <button className="B1uWdim9Jd0dJ9 Y73NuAT7seZfmx bxgKMAm3lq5BpA SEj5vUdI3VvxDc" type="button" data-testid="action-view-member-avatar" title="Leo (killduck)">
-                          <span aria-label="Leo (killduck)" role="img" title="Leo (killduck)" className="DweEFaF5owOe02 u0XUHdMJe85h0q S7RWiPL9Qgl9P9 kFZ3hS99jGmKWk" style={{backgroundImage: "url(&quot;https://trello-members.s3.amazonaws.com/662bd7222422de983bbab209/68699ec7e84b2530faa3447a45c09236/170.png&quot;)", height: "32px", width: "32px", lineHeight: "32px"}}></span>
-                        </button>
-                      </div>
-                    </div>
+              
+              {cardActivityComments.map((comment) => 
+                <div className={styles.cardActivityNewComment} key={comment.id}>
+                  <div className={styles.cardActivityMemberAvatar}>
+                    {comment.author.img ?(
+                      <img 
+                        className={styles.cardActivityMemberAvatarImg} 
+                        src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
+                        alt={`${comment.author.first_name} (${comment.author.username})`}
+                        title={`${comment.author.first_name} (${comment.author.username})`}
+                        onClick={()=> onUserCard(comment.author.id)}
+                      />
+                      ):(
+                      <span 
+                        className={styles.cardActivityMemberAvatarSpan}  
+                        title={`${comment.author.first_name} (${comment.author.username})`}
+                        onClick={()=> onUserCard(comment.author.id)}
+                      >{comment.author.first_letter}</span>
+                    )}
                   </div>
-                  <div className="phenom-desc">
-                    <span className="inline-member js-show-mem-menu" idmember="662bd7222422de983bbab209">
-                      <span className="u-font-weight-bold">Leo</span>
+                  <div className={styles.cardActivityNewCommentContent}>
+                    <span className={styles.cardActivityMemberName} title={comment.author.first_name}>
+                      {comment.author.first_name} {comment.author.last_name}
                     </span> 
-                    <span className="inline-spacer"> </span>
-                    <span className="phenom-date quiet">
-                      <a className="date js-hide-on-sending js-highlight-link past" dt="2024-08-02T13:38:12.367Z" href="/c/MVBbEJOn/1-%D0%BD%D0%B0-%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC-leo#comment-66ace14448665e344c76001c" data-date="Fri Aug 02 2024 16:38:12 GMT+0300 (Москва, стандартное время)" title="2 августа 2024 г., 16:38">2 авг. 2024 г., 16:38</a>
-                    </span>
-                    <div className="comment-container">
-                      <div className="action-comment can-edit can-view-video markeddown js-comment is-comments-rewrite" dir="auto">
-                        <div className="current-comment js-friendly-links js-open-card">
-                          <p>фыв</p>
-                        </div>
-                        <div className="js-edit-comment-react-root"></div>
-                      </div>
-                    </div>
-                    <div className="js-embed-previews"></div>
-                    <div className="hide unfurled-comment comment-preview"></div>
-                  </div>
-                  <div className="phenom-reactions">
-                    <div className="js-reaction-piles reaction-piles-container last">
-                      <div className="reaction-piles reaction-piles-empty">
-                        <span className="inline-add-reaction meta-add-reaction quiet">
-                          <span className="reactions-add">
-                            <span title="Добавить реакцию" className="icon-sm icon-add-reaction reactions-add-icon"></span>
+                    {comment.comment === null ?
+                      (
+                        <>
+                          <span className={styles.cardActivityMemberCommentAction}>
+                            {comment.action}
                           </span>
-                        </span>
-                      </div>
-                    </div>
-                    <div className="phenom-meta quiet">
-                      <span className="js-spinner hide">
-                        <span className="spinner spinner--inline mod-left small"></span> Отправка…&nbsp;
-                      </span>
-                      <span className="js-hide-on-sending middle">
-                        <button className="js-edit-action" >Изменить</button> 
-                        • 
-                        <button className="js-confirm-delete-action" >Удалить</button>
-                        <span className="edits-warning quiet"> • В этом поле есть несохранённые изменения.</span>
-                      </span>
-                    </div>
+                          <p className={styles.cardActivityMemberCommentDate}
+                            data-date={comment.date} 
+                            title={comment.date} 
+                          >
+                            {comment.date}
+                          </p>
+                        </>
+                      ):(
+                        <>
+                          <span className={styles.cardActivityMemberCommentDate}
+                            data-date={comment.date} 
+                            title={comment.date} 
+                          >
+                            {comment.date}
+                          </span>
+                          {(activityEditorShow !== comment.id) ? (
+                            <input 
+                              className={styles.cardActivityNewCommentInput} 
+                              type="text" 
+                              placeholder={comment.comment} 
+                              aria-label={comment.comment} 
+                              readOnly 
+                              value={""} 
+                              onClick={ ()=>funcActivityEditorShow(comment.id) }
+                            />
+                            ):(
+                            <div>
+                              <ReactQuill
+                                className={styles.reactQuill}
+                                theme="snow"
+                                value={valueEditor ? valueEditor : comment.comment} 
+                                onChange={setValueEditor} 
+                                placeholder={comment.comment}
+                                modules={modules}
+                                onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
+                                onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
+                                ref={editorRef}
+                              />
+                              <div className={styles.cardEditorButtonWrap}>
+                                <Button
+                                  className={'cardEditorSave'}
+                                  // actionVariable={}
+                                  clickAction = {saveActivityReactQuillText}
+                                >Сохранить</Button>
+                                <Button
+                                  className={'cardDescriptionCancel'}
+                                  actionVariable={null}
+                                  clickAction = {funcActivityEditorShow}
+                                >Отмена</Button>
+                              </div>
+                            </div>
+                          )}
+                          {activityEditorShow !== comment.id ? (
+                            <div>
+                              {/* <span className={styles.cardActivityCommentSending}>
+                                <span className={styles.cardActivityCommentSendingImg}></span> Отправка…&nbsp;
+                              </span> */}
+                              <span className={styles.cardEditorButtonWrap}>
+                                <Button
+                                    className={'cardActivityCommentUpdate'}
+                                    actionVariable={comment.id}
+                                    clickAction = {funcActivityEditorShow}
+                                >Изменить</Button>
+                                • 
+                                <Button
+                                    className={'cardActivityCommentDelete'}
+                                    // actionVariable={}
+                                    // clickAction = {changeActivityReactQuillText}
+                                >Удалить</Button>
+                              </span>
+                            </div>):("")
+                          }
+                        </>
+                      )
+                    }
                   </div>
                 </div>
-              </div>
+              )}
               <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
               <p>
                 <button className="nch-button hide js-show-all-actions" >Показать все действия…</button>
