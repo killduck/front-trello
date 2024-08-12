@@ -53,7 +53,7 @@ export default function WindowModal(props){
   let [activityEditorShow, setActivityEditorShow] = useState(null);
   let [cardActivityComments, setCardActivityComments] = useState([]);
   let [valueEditor, setValueEditor] = useState('');
-  const [cardActivity, setCardActivity] = useState('<p>asd</p><p><br></p>');
+  const [cardActivity, setCardActivity] = useState('<p><br></p>');
 
   const modules = {
     toolbar: [
@@ -83,7 +83,7 @@ export default function WindowModal(props){
             setValueDescription(response.data.card[0]['description']); 
             setCardDescription(response.data.card[0]['description']); 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
-            setCardActivityComments(response.data.card[0].activity);
+            setCardActivityComments(response.data.card[0].activity.reverse());
             console.log(response.data.card[0].activity);
           }
           if(task.label){
@@ -116,7 +116,8 @@ export default function WindowModal(props){
   }
 
   function saveNewReactQuillText(){
-    if(valueDescription === '<p><br></p><p><br></p>'){
+    if(valueDescription === '<p><br></p>'){
+      // <p><br></p><p><br></p>
       setValueDescription(valueDescription = null);
     }
 
@@ -276,15 +277,16 @@ export default function WindowModal(props){
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
 
-  function saveActivityReactQuillText(){
-    console.log(saveActivityReactQuillText.name);
-    if(valueEditor === '<p><br></p><p><br></p>'){
+  function saveActivityReactQuillText(date){
+    console.log(saveActivityReactQuillText.name, date);
+    if(valueEditor === '<p><br></p>'){
       setValueEditor(valueEditor = null);
       console.log(valueEditor);
     } 
 
     if(cardActivity === valueEditor){
       console.log(valueEditor, cardActivity);
+      setValueEditor(valueEditor = null)
       funcActivityEditorShow();
       return;
     }
@@ -297,12 +299,13 @@ export default function WindowModal(props){
         callback:(response) => { 
           if (response.status === 200) {
             if(response.data){
-              setValueEditor(response.data[0].activity);
-              setCardActivity(response.data[0].activity);
+              console.log(response.data);
+              setCardActivityComments(response.data);
+              setValueEditor('');
             }
           }
         },
-        data: {'card_id': windowData.id,'description': valueEditor},
+        data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim().slice(0, -11),},
         status:200,
       });
     }
@@ -310,10 +313,10 @@ export default function WindowModal(props){
   }
   console.log(valueEditor);
 
-  function showActivityReactQuillHandleKeyPress(evt){
-    // console.log(evt);
+  function showActivityReactQuillHandleKeyPress(evt, date){
+    console.log(evt, date);
     if(evt.key === 'Enter' && evt.shiftKey){
-      saveActivityReactQuillText();
+      saveActivityReactQuillText(date);
     }
   }
 
@@ -326,13 +329,14 @@ export default function WindowModal(props){
     }
   }
 
-  function funcActivityEditorShow(comment_id = null){
+  function funcActivityEditorShow(comment_id = null, commentStartValue){
     console.log('asd', comment_id)
     if(activityEditorShow === comment_id){
       setActivityEditorShow(null);
     }
     else{
       setActivityEditorShow(comment_id);
+      setCardActivity(commentStartValue);
     }
   }
 
@@ -698,7 +702,7 @@ export default function WindowModal(props){
                     aria-label="Написать комментарий" 
                     readOnly 
                     value={""} 
-                    onClick={ ()=>funcActivityEditorShow('newComment') }
+                    onClick={ ()=>funcActivityEditorShow('newComment', '') }
                   />
                   ):(
                   <div>
@@ -709,14 +713,14 @@ export default function WindowModal(props){
                       onChange={setValueEditor} 
                       placeholder="Напишите комментарий..."
                       modules={modules}
-                      onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
-                      onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
+                      onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
+                      onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
                       ref={editorRef}
                     />
                     <div className={styles.cardEditorButtonWrap}>
                       <Button
                         className={'cardEditorSave'}
-                        // actionVariable={}
+                        actionVariable={'no'}
                         clickAction = {saveActivityReactQuillText}
                       >Сохранить</Button>
                       <Button
@@ -730,110 +734,153 @@ export default function WindowModal(props){
               </div>
               
               {cardActivityComments.map((comment) => 
-                <div className={styles.cardActivityNewComment} key={comment.id}>
-                  <div className={styles.cardActivityMemberAvatar}>
-                    {comment.author.img ?(
-                      <img 
-                        className={styles.cardActivityMemberAvatarImg} 
-                        src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
-                        alt={`${comment.author.first_name} (${comment.author.username})`}
-                        title={`${comment.author.first_name} (${comment.author.username})`}
-                        onClick={()=> onUserCard(comment.author.id)}
-                      />
-                      ):(
-                      <span 
-                        className={styles.cardActivityMemberAvatarSpan}  
-                        title={`${comment.author.first_name} (${comment.author.username})`}
-                        onClick={()=> onUserCard(comment.author.id)}
-                      >{comment.author.first_letter}</span>
-                    )}
-                  </div>
-                  <div className={styles.cardActivityNewCommentContent}>
-                    <span className={styles.cardActivityMemberName} title={comment.author.first_name}>
-                      {comment.author.first_name} {comment.author.last_name}
-                    </span> 
-                    {comment.comment === null ?
-                      (
-                        <>
-                          <span className={styles.cardActivityMemberCommentAction}>
-                            {comment.action}
-                          </span>
-                          <p className={styles.cardActivityMemberCommentDate}
-                            data-date={comment.date} 
-                            title={comment.date} 
-                          >
-                            {comment.date}
-                          </p>
-                        </>
-                      ):(
-                        <>
-                          <span className={styles.cardActivityMemberCommentDate}
-                            data-date={comment.date} 
-                            title={comment.date} 
-                          >
-                            {comment.date}
-                          </span>
-                          {(activityEditorShow !== comment.id) ? (
-                            <input 
-                              className={styles.cardActivityNewCommentInput} 
-                              type="text" 
-                              placeholder={comment.comment} 
-                              aria-label={comment.comment} 
-                              readOnly 
-                              value={""} 
-                              onClick={ ()=>funcActivityEditorShow(comment.id) }
-                            />
-                            ):(
-                            <div>
-                              <ReactQuill
-                                className={styles.reactQuill}
-                                theme="snow"
-                                value={valueEditor ? valueEditor : comment.comment} 
-                                onChange={setValueEditor} 
-                                placeholder={comment.comment}
-                                modules={modules}
-                                onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
-                                onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt)}
-                                ref={editorRef}
-                              />
-                              <div className={styles.cardEditorButtonWrap}>
-                                <Button
-                                  className={'cardEditorSave'}
-                                  // actionVariable={}
-                                  clickAction = {saveActivityReactQuillText}
-                                >Сохранить</Button>
-                                <Button
-                                  className={'cardDescriptionCancel'}
-                                  actionVariable={null}
-                                  clickAction = {funcActivityEditorShow}
-                                >Отмена</Button>
-                              </div>
+                <div key={comment.id}>
+                {comment.comment === null ?
+                  (
+                    <>
+                      {!activityDetailsShow ?
+                        (
+                          <div className={styles.cardActivityNewComment} key={comment.id}>
+                            <div className={styles.cardActivityMemberAvatar}>
+                              {comment.author.img ?(
+                                <img 
+                                  className={styles.cardActivityMemberAvatarImg} 
+                                  src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
+                                  alt={`${comment.author.first_name} (${comment.author.username})`}
+                                  title={`${comment.author.first_name} (${comment.author.username})`}
+                                  onClick={()=> onUserCard(comment.author.id)}
+                                />
+                                ):(
+                                <span 
+                                  className={styles.cardActivityMemberAvatarSpan}  
+                                  title={`${comment.author.first_name} (${comment.author.username})`}
+                                  onClick={()=> onUserCard(comment.author.id)}
+                                >{comment.author.first_letter}</span>
+                              )}
                             </div>
-                          )}
-                          {activityEditorShow !== comment.id ? (
-                            <div>
-                              {/* <span className={styles.cardActivityCommentSending}>
-                                <span className={styles.cardActivityCommentSendingImg}></span> Отправка…&nbsp;
-                              </span> */}
-                              <span className={styles.cardEditorButtonWrap}>
-                                <Button
-                                    className={'cardActivityCommentUpdate'}
-                                    actionVariable={comment.id}
-                                    clickAction = {funcActivityEditorShow}
-                                >Изменить</Button>
-                                • 
-                                <Button
-                                    className={'cardActivityCommentDelete'}
-                                    // actionVariable={}
-                                    // clickAction = {changeActivityReactQuillText}
-                                >Удалить</Button>
+                            <div className={styles.cardActivityNewCommentContent}>
+                              <span className={styles.cardActivityMemberName} title={comment.author.first_name}>
+                                {comment.author.first_name} {comment.author.last_name}
+                              </span> 
+                              <span className={styles.cardActivityMemberCommentAction}>
+                                {/* {comment.action}  */}
+                                <Interweave content={comment.action}></Interweave>
                               </span>
-                            </div>):("")
-                          }
-                        </>
-                      )
-                    }
-                  </div>
+                              <p className={styles.cardActivityMemberCommentDate}
+                                data-date={comment.date} 
+                                title={comment.date} 
+                              >
+                                {comment.date}
+                              </p>
+                            </div>
+                          </div>
+                        )
+                        :
+                        ("")
+                      }
+                    </>
+                  )
+                  :
+                  (
+                    <div className={styles.cardActivityNewComment} key={comment.id}>
+                      <div className={styles.cardActivityMemberAvatar}>
+                        {comment.author.img ?(
+                          <img 
+                            className={styles.cardActivityMemberAvatarImg} 
+                            src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
+                            alt={`${comment.author.first_name} (${comment.author.username})`}
+                            title={`${comment.author.first_name} (${comment.author.username})`}
+                            onClick={()=> onUserCard(comment.author.id)}
+                          />
+                          ):(
+                          <span 
+                            className={styles.cardActivityMemberAvatarSpan}  
+                            title={`${comment.author.first_name} (${comment.author.username})`}
+                            onClick={()=> onUserCard(comment.author.id)}
+                          >{comment.author.first_letter}</span>
+                        )}
+                      </div>
+                      <div className={styles.cardActivityNewCommentContent}>
+                        <span className={styles.cardActivityMemberName} title={comment.author.first_name}>
+                          {comment.author.first_name} {comment.author.last_name}
+                        </span> 
+                        <span className={styles.cardActivityMemberCommentDate}
+                          data-date={comment.date} 
+                          title={comment.date} 
+                        >
+                          {comment.date}
+                        </span>
+                        {(activityEditorShow !== comment.id) ? (
+                          // <input 
+                          //   className={styles.cardActivityNewCommentInput} 
+                          //   type="text" 
+                          //   // placeholder={comment.comment} 
+                          //   // aria-label={comment.comment} 
+                          //   placeholder={<Interweave content={comment.comment}></Interweave>}
+                          //   aria-label={<Interweave content={comment.comment}></Interweave>}
+                          //   readOnly 
+                          //   value={""} 
+                          //   onClick={ ()=>funcActivityEditorShow(comment.id, comment.comment) }
+                          // />
+                          <div
+                            className={styles.cardActivityNewCommentInput} 
+                            type="text" 
+                            readOnly 
+                            onClick={ ()=>funcActivityEditorShow(comment.id, comment.comment) } 
+                          >
+                            <Interweave content={comment.comment}></Interweave>
+                          </div>
+                          ):(
+                          <div>
+                            <ReactQuill
+                              className={styles.reactQuill}
+                              theme="snow"
+                              value={valueEditor ? valueEditor : comment.comment} 
+                              onChange={setValueEditor} 
+                              placeholder={comment.comment}
+                              modules={modules}
+                              onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
+                              onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
+                              ref={editorRef}
+                            />
+                            <div className={styles.cardEditorButtonWrap}>
+                              <Button
+                                className={'cardEditorSave'}
+                                actionVariable={comment.date}
+                                clickAction = {saveActivityReactQuillText}
+                              >Сохранить</Button>
+                              <Button
+                                className={'cardDescriptionCancel'}
+                                actionVariable={null}
+                                clickAction = {funcActivityEditorShow}
+                              >Отмена</Button>
+                            </div>
+                          </div>
+                        )}
+                        {activityEditorShow !== comment.id ? (
+                          <div>
+                            {/* <span className={styles.cardActivityCommentSending}>
+                              <span className={styles.cardActivityCommentSendingImg}></span> Отправка…&nbsp;
+                            </span> */}
+                            <span className={styles.cardEditorButtonWrap}>
+                              <Button
+                                  className={'cardActivityCommentUpdate'}
+                                  actionVariable={comment.id}
+                                  clickAction = {funcActivityEditorShow}
+                              >Изменить</Button>
+                              • 
+                              <Button
+                                  className={'cardActivityCommentDelete'}
+                                  // actionVariable={}
+                                  // clickAction = {changeActivityReactQuillText}
+                              >Удалить</Button>
+                            </span>
+                          </div>):("")
+                        }
+                      </div>
+                    </div>
+                  )
+                }
                 </div>
               )}
               <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
