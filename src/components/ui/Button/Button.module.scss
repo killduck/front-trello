@@ -484,11 +484,15 @@
     box-shadow: none;
     color: #1d2125;
   }
+  &:disabled{
+    color: #1d2125;
+    background-color: rgb(77, 77, 77);
+  }
 }
 
 .cardDescriptionCancel{
   border: none;
-  background-color: transparent;
+  background-color: rgba(161, 189, 217, 0.0784313725);
   box-shadow: none;
 
   &:hover {

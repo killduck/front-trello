@@ -54,6 +54,7 @@ export default function WindowModal(props){
   let [cardActivityComments, setCardActivityComments] = useState([]);
   let [valueEditor, setValueEditor] = useState('');
   const [cardActivity, setCardActivity] = useState('<p><br></p>');
+  const [processActivity, setProcessActivity] = useState(false);
 
   const modules = {
     toolbar: [
@@ -277,8 +278,31 @@ export default function WindowModal(props){
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
 
-  function saveActivityReactQuillText(date){
-    console.log(saveActivityReactQuillText.name, date);
+  function onDelActivityReactQuillComment(comment_data){
+    // console.log(comment_id);
+    setProcessActivity(comment_data.date);
+    request({
+      method:'POST',
+      url:'del-card-activity/',
+      callback:(response) => { 
+
+        setTimeout(() => {
+
+          if (response.status === 200) {
+            setProcessActivity(false);
+            setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id));
+          }
+
+        }, 5000);
+
+      },
+      data: {'comment_id': comment_data.id},
+      status:200,
+    });
+  }
+
+  function onSaveActivityReactQuillComment(date){
+    console.log(onSaveActivityReactQuillComment.name, date);
     if(valueEditor === '<p><br></p>'){
       setValueEditor(valueEditor = null);
       console.log(valueEditor);
@@ -293,19 +317,27 @@ export default function WindowModal(props){
 
     if(valueEditor !== cardActivity){
       console.log(valueEditor, cardActivity);
+      setProcessActivity(date);
       request({
         method:'POST',
         url:'add-card-activity/',
         callback:(response) => { 
-          if (response.status === 200) {
-            if(response.data){
-              console.log(response.data);
-              setCardActivityComments(response.data);
-              setValueEditor('');
+
+          setTimeout(() => {
+            
+            if (response.status === 200) {
+              setProcessActivity(false);
+              if(response.data){
+                console.log(response.data);
+                setCardActivityComments(response.data);
+                setValueEditor('');
+              }
             }
-          }
+
+          }, 10000);
+
         },
-        data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim().slice(0, -11),},
+        data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim(),}, //valueEditor.trim().slice(0, -11)
         status:200,
       });
     }
@@ -316,7 +348,7 @@ export default function WindowModal(props){
   function showActivityReactQuillHandleKeyPress(evt, date){
     console.log(evt, date);
     if(evt.key === 'Enter' && evt.shiftKey){
-      saveActivityReactQuillText(date);
+      onSaveActivityReactQuillComment(date);
     }
   }
 
@@ -337,6 +369,7 @@ export default function WindowModal(props){
     else{
       setActivityEditorShow(comment_id);
       setCardActivity(commentStartValue);
+      setValueEditor(commentStartValue);
     }
   }
 
@@ -602,7 +635,7 @@ export default function WindowModal(props){
                   theme="snow"
                   value={valueDescription ? valueDescription : ''} 
                   onChange={setValueDescription} 
-                  placeholder="Введите текст..."
+                  placeholder={"Введите текст..."}
                   modules={modules}
                   onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
                   onBlur={(evt)=>showReactQuillHandleKeyPress(evt)}
@@ -634,7 +667,6 @@ export default function WindowModal(props){
                     <div 
                       className={styles.cardDescriptionStub}
                       onClick={funcShowReactQuill} 
-                      // dangerouslySetInnerHTML={{ __html: cardDescription }} 
                     >
                       <Interweave content={cardDescription}></Interweave>
                     </div>
@@ -695,15 +727,32 @@ export default function WindowModal(props){
                   )}
                 </div>
                 {(activityEditorShow !== 'newComment') ? (
-                  <input 
-                    className={styles.cardActivityNewCommentInput} 
-                    type="text" 
-                    placeholder="Напишите комментарий…" 
-                    aria-label="Написать комментарий" 
-                    readOnly 
-                    value={""} 
-                    onClick={ ()=>funcActivityEditorShow('newComment', '') }
-                  />
+                  <div className={styles.cardActivityNewCommentContent}>
+                    <input 
+                      className={
+                        processActivity !== 'no' ? 
+                        styles.cardActivityNewCommentInput
+                        :
+                        `${styles.cardActivityNewCommentInput} ${styles.cardActivityNewCommentInputGradient}`
+                      } 
+                      type="text" 
+                      placeholder={"Напишите комментарий…"}
+                      aria-label="Написать комментарий" 
+                      readOnly 
+                      value={""} 
+                      onClick={ ()=>funcActivityEditorShow('newComment', '') }
+                    />
+                    
+                    {processActivity === 'no' ?
+                    <span className={styles.cardActivityCommentSending}>
+                      <span className={styles.cardActivityCommentSendingImg}></span> В процессе…&nbsp;
+                    </span>
+                    :
+                    ""
+                    }
+                        
+                    
+                  </div>
                   ):(
                   <div>
                     <ReactQuill
@@ -711,7 +760,7 @@ export default function WindowModal(props){
                       theme="snow"
                       value={valueEditor ? valueEditor : ''} 
                       onChange={setValueEditor} 
-                      placeholder="Напишите комментарий..."
+                      placeholder={"Напишите комментарий..."}
                       modules={modules}
                       onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
                       onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
@@ -721,7 +770,7 @@ export default function WindowModal(props){
                       <Button
                         className={'cardEditorSave'}
                         actionVariable={'no'}
-                        clickAction = {saveActivityReactQuillText}
+                        clickAction = {onSaveActivityReactQuillComment}
                       >Сохранить</Button>
                       <Button
                         className={'cardDescriptionCancel'}
@@ -837,7 +886,7 @@ export default function WindowModal(props){
                               theme="snow"
                               value={valueEditor ? valueEditor : comment.comment} 
                               onChange={setValueEditor} 
-                              placeholder={comment.comment}
+                              placeholder={"Напишите комментарий..."}
                               modules={modules}
                               onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
                               onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
@@ -847,7 +896,8 @@ export default function WindowModal(props){
                               <Button
                                 className={'cardEditorSave'}
                                 actionVariable={comment.date}
-                                clickAction = {saveActivityReactQuillText}
+                                clickAction = {onSaveActivityReactQuillComment}
+                                disabled={valueEditor === '<p><br></p>'}
                               >Сохранить</Button>
                               <Button
                                 className={'cardDescriptionCancel'}
@@ -859,9 +909,13 @@ export default function WindowModal(props){
                         )}
                         {activityEditorShow !== comment.id ? (
                           <div>
-                            {/* <span className={styles.cardActivityCommentSending}>
-                              <span className={styles.cardActivityCommentSendingImg}></span> Отправка…&nbsp;
-                            </span> */}
+                            {processActivity === comment.date?
+                            <span className={styles.cardActivityCommentSending}>
+                              <span className={styles.cardActivityCommentSendingImg}></span> В процессе…&nbsp;
+                            </span>
+                            :
+                            ""
+                            }
                             <span className={styles.cardEditorButtonWrap}>
                               <Button
                                   className={'cardActivityCommentUpdate'}
@@ -871,8 +925,8 @@ export default function WindowModal(props){
                               • 
                               <Button
                                   className={'cardActivityCommentDelete'}
-                                  // actionVariable={}
-                                  // clickAction = {changeActivityReactQuillText}
+                                  actionVariable={comment}
+                                  clickAction = {onDelActivityReactQuillComment}
                               >Удалить</Button>
                             </span>
                           </div>):("")

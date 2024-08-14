@@ -511,6 +511,25 @@
                 cursor: pointer;
             }
 
+            .cardActivityNewCommentInputGradient {
+                background: linear-gradient(45deg, #22272b, #616161, #22272b);
+                background-size: 200% 800%;
+                animation: newCommentGradient 2s ease infinite;
+                z-index: 10;
+            }
+            
+            @keyframes newCommentGradient {
+                0% {
+                    background-position: 50% 0%;
+                }
+                50% {
+                    background-position: 50% 100%;
+                }
+                100% {
+                    background-position: 50% 0%;
+                }
+            }
+
             .cardActivityMemberName{
                 font-weight: 700;
                 font-size: 14px;
