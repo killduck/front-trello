@@ -515,7 +515,7 @@
                 background: linear-gradient(45deg, #22272b, #616161, #22272b);
                 background-size: 200% 800%;
                 animation: newCommentGradient 2s ease infinite;
-                z-index: 10;
+                cursor: default;
             }
             
             @keyframes newCommentGradient {

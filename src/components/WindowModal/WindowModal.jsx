@@ -56,6 +56,45 @@ export default function WindowModal(props){
   const [cardActivity, setCardActivity] = useState('<p><br></p>');
   const [processActivity, setProcessActivity] = useState(false);
 
+  // let [onFrames, setOnFrames] = useState(
+  //   {
+  //     'membersWindow': membersWindow,
+  //     'labelsWindow': labelsWindow,
+  //     'showReactQuill': showReactQuill,
+  //     'showUserCard': showUserCard,
+  //     'activityEditorShow': activityEditorShow,
+  //   }
+  // );
+
+  // function onRemoving_onFrames(name_state = null, value) {
+  //   let state_switch = {};
+  //   for (let key in onFrames) {
+  //     // console.log(onFrames, key, name_state);
+  //     if (name_state === key) {
+  //       // console.log(onFrames, onFrames[key], key, name_state, value);
+  //       onFrames[key] ?
+  //         state_switch[key] = false
+  //         :
+  //         state_switch[key] = value
+  //     }
+  //     else {
+  //       state_switch[key] = false;
+  //     }
+  //     console.log(onFrames, onFrames[key], key, name_state, state_switch);
+  //   }
+  //   setOnFrames(state_switch);
+  // }
+
+  function onRemoving_onFrames(){
+    setNewNameField(false); 
+    setMembersWindow(false); 
+    setLabelsWindow(false); 
+    setShowReactQuill(false); 
+    setShowUserCard(null); 
+    setActivityEditorShow(null); 
+  }
+  console.log(showUserCard);
+
   const modules = {
     toolbar: [
       [{ header: []}],
@@ -74,7 +113,7 @@ export default function WindowModal(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            console.log(response.data);
+            // console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -85,7 +124,7 @@ export default function WindowModal(props){
             setCardDescription(response.data.card[0]['description']); 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
             setCardActivityComments(response.data.card[0].activity.reverse());
-            console.log(response.data.card[0].activity);
+            // console.log(response.data.card[0].activity);
           }
           if(task.label){
             setCardLabel(true);
@@ -99,6 +138,8 @@ export default function WindowModal(props){
   },[typeElem, idElem, task, dashboardUsers]);
 
   function showTextarea() {
+    onRemoving_onFrames();
+
     if(!newName){
       setNewNameField(newName = true);
     }
@@ -108,6 +149,8 @@ export default function WindowModal(props){
   }
 
   function funcShowReactQuill(){
+    onRemoving_onFrames();
+
     if(showReactQuill){
       setShowReactQuill(false);
     }
@@ -167,6 +210,8 @@ export default function WindowModal(props){
   }
 
   function funcSubscribe(){
+    onRemoving_onFrames();
+
     if(subscribe){
       setSubscribe(false);
     }
@@ -176,6 +221,8 @@ export default function WindowModal(props){
   }
 
   function funcMembersWindow(){
+    onRemoving_onFrames();
+
     if(membersWindow){
       setMembersWindow(false);
     }
@@ -185,6 +232,8 @@ export default function WindowModal(props){
   }
 
   function funcLabelsWindow() {
+    onRemoving_onFrames();
+
     if(labelsWindow){
       setLabelsWindow(false);
     }
@@ -225,7 +274,7 @@ export default function WindowModal(props){
             }
           }
         },
-        data: { 'user_id': user_id, 'card_id': windowData.id},
+        data: {'auth_user': authUser, 'user_id': user_id, 'card_id': windowData.id},
         status:200,
       });
     }
@@ -246,7 +295,7 @@ export default function WindowModal(props){
               }
             }
           },
-          data: { 'user_id': cardUser.id, 'card_id': windowData.id},
+          data: {'auth_user': authUser, 'user_id': cardUser.id, 'card_id': windowData.id},
           status:200,
         });
       }
@@ -254,6 +303,8 @@ export default function WindowModal(props){
   }
 
   function onUserCard(id_user = null) {
+    onRemoving_onFrames();
+
     showUserCard === id_user ?
       setShowUserCard(null)
       :
@@ -293,7 +344,7 @@ export default function WindowModal(props){
             setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id));
           }
 
-        }, 5000);
+        }, 2000);
 
       },
       data: {'comment_id': comment_data.id},
@@ -334,7 +385,7 @@ export default function WindowModal(props){
               }
             }
 
-          }, 10000);
+          }, 2000);
 
         },
         data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim(),}, //valueEditor.trim().slice(0, -11)
@@ -343,7 +394,6 @@ export default function WindowModal(props){
     }
     funcActivityEditorShow();
   }
-  console.log(valueEditor);
 
   function showActivityReactQuillHandleKeyPress(evt, date){
     console.log(evt, date);
@@ -353,6 +403,8 @@ export default function WindowModal(props){
   }
 
   function funcActivityDetailsShow(){
+    onRemoving_onFrames();
+
     if(activityDetailsShow){
       setActivityDetailsShow(false);
     }
@@ -362,6 +414,8 @@ export default function WindowModal(props){
   }
 
   function funcActivityEditorShow(comment_id = null, commentStartValue){
+    onRemoving_onFrames();
+    
     console.log('asd', comment_id)
     if(activityEditorShow === comment_id){
       setActivityEditorShow(null);
@@ -498,6 +552,7 @@ export default function WindowModal(props){
                     alt={`${cardUser.first_name} (${cardUser.username})`}
                     title={`${cardUser.first_name} (${cardUser.username})`}
                     onClick={()=> onUserCard(cardUser.id)}
+                    // onClick={()=> onRemoving_onFrames('showUserCard', cardUser.id)}
                   />)
                   :
                   (<span 
@@ -740,7 +795,7 @@ export default function WindowModal(props){
                       aria-label="Написать комментарий" 
                       readOnly 
                       value={""} 
-                      onClick={ ()=>funcActivityEditorShow('newComment', '') }
+                      onClick={ (processActivity !== 'no') ? ()=>funcActivityEditorShow('newComment', '') : null }
                     />
                     
                     {processActivity === 'no' ?
@@ -872,10 +927,15 @@ export default function WindowModal(props){
                           //   onClick={ ()=>funcActivityEditorShow(comment.id, comment.comment) }
                           // />
                           <div
-                            className={styles.cardActivityNewCommentInput} 
+                            className={
+                              processActivity !== comment.date ? 
+                              styles.cardActivityNewCommentInput
+                              :
+                              `${styles.cardActivityNewCommentInput} ${styles.cardActivityNewCommentInputGradient}`
+                            } 
                             type="text" 
                             readOnly 
-                            onClick={ ()=>funcActivityEditorShow(comment.id, comment.comment) } 
+                            onClick={ (processActivity !== comment.date) ? ()=>funcActivityEditorShow(comment.id, comment.comment) : null } 
                           >
                             <Interweave content={comment.comment}></Interweave>
                           </div>
@@ -909,26 +969,27 @@ export default function WindowModal(props){
                         )}
                         {activityEditorShow !== comment.id ? (
                           <div>
-                            {processActivity === comment.date?
-                            <span className={styles.cardActivityCommentSending}>
-                              <span className={styles.cardActivityCommentSendingImg}></span> В процессе…&nbsp;
-                            </span>
-                            :
-                            ""
-                            }
-                            <span className={styles.cardEditorButtonWrap}>
-                              <Button
-                                  className={'cardActivityCommentUpdate'}
-                                  actionVariable={comment.id}
-                                  clickAction = {funcActivityEditorShow}
-                              >Изменить</Button>
-                              • 
-                              <Button
-                                  className={'cardActivityCommentDelete'}
-                                  actionVariable={comment}
-                                  clickAction = {onDelActivityReactQuillComment}
-                              >Удалить</Button>
-                            </span>
+                            {processActivity === comment.date ? 
+                              (
+                              <span className={styles.cardActivityCommentSending}>
+                                <span className={styles.cardActivityCommentSendingImg}></span> В процессе…&nbsp;
+                              </span>
+                              ):(
+                              <span className={styles.cardEditorButtonWrap}>
+                                <Button
+                                    className={'cardActivityCommentUpdate'}
+                                    actionVariable={comment.id}
+                                    clickAction = {funcActivityEditorShow}
+                                >Изменить</Button>
+                                • 
+                                <Button
+                                    className={'cardActivityCommentDelete'}
+                                    actionVariable={comment}
+                                    clickAction = {onDelActivityReactQuillComment}
+                                >Удалить</Button>
+                              </span>
+                              )
+                            } 
                           </div>):("")
                         }
                       </div>
@@ -937,10 +998,10 @@ export default function WindowModal(props){
                 }
                 </div>
               )}
-              <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
+              {/* <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
               <p>
                 <button className="nch-button hide js-show-all-actions" >Показать все действия…</button>
-              </p>
+              </p> */}
             </div>
           </div>
 
