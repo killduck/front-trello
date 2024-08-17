@@ -4,7 +4,7 @@ import styles from "./WindowModal.module.scss";
 import { useCallback, useEffect, useState } from 'react';
 
 // import ReactQuill from 'react-quill'; // старый, нужно будет стереть, но пусть пока будет.
-import ReactQuill from 'react-quill-new';
+// import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css';
 import "./windowQuill.css";
 
@@ -13,7 +13,9 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import Sidebar from "../Sidebar/Sidebar";
 import UserCard from "../UserCard/UserCard";
-import { Interweave } from "interweave";
+// import { Interweave } from "interweave";
+import WindowModalDescription from "../WindowModalDescription/WindowModalDescription";
+import WindowModalActivity from "../WindowModalActivity/WindowModalActivity";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -167,6 +169,7 @@ export default function WindowModal(props){
 
   function showReactQuillHandleKeyPress(evt){
     if(evt.key === 'Enter' && evt.shiftKey){
+      setValueDescription(valueDescription = valueDescription.trim().slice(0, -11));
       saveNewReactQuillText();
     }
   }
@@ -329,7 +332,7 @@ export default function WindowModal(props){
   }
 
   function onSaveActivityReactQuillComment(date){
-    console.log(onSaveActivityReactQuillComment.name, date);
+    // console.log(onSaveActivityReactQuillComment.name, date);
     if(valueEditor === '<p><br></p>'){
       setValueEditor(valueEditor = null);
       console.log(valueEditor);
@@ -343,7 +346,7 @@ export default function WindowModal(props){
     }
 
     if(valueEditor !== cardActivity){
-      console.log(valueEditor, cardActivity);
+      // console.log(valueEditor, cardActivity);
       setProcessActivity(date);
       request({
         method:'POST',
@@ -352,7 +355,7 @@ export default function WindowModal(props){
           if (response.status === 200) {
             setProcessActivity(false);
             if(response.data){
-              console.log(response.data);
+              // console.log(response.data);
               setCardActivityComments(response.data);
               setValueEditor('');
             }
@@ -366,8 +369,9 @@ export default function WindowModal(props){
   }
 
   function showActivityReactQuillHandleKeyPress(evt, date){
-    console.log(evt, date);
+    // console.log(evt, date);
     if(evt.key === 'Enter' && evt.shiftKey){
+      setValueEditor(valueEditor = valueEditor.trim().slice(0, -11));
       onSaveActivityReactQuillComment(date);
     }
   }
@@ -385,8 +389,7 @@ export default function WindowModal(props){
 
   function funcActivityEditorShow(comment_id = null, commentStartValue){
     onRemoving_onFrames();
-    
-    console.log('asd', comment_id)
+    // console.log('asd', comment_id)
     if(activityEditorShow === comment_id){
       setActivityEditorShow(null);
     }
@@ -628,352 +631,36 @@ export default function WindowModal(props){
             </div>
             
           </div>
-
-          <div className={styles.cardDescription}>
           
-            <div className={styles.cardDescriptionHeader}>
-              <span className={styles.cardDescriptionHeaderIcon}>
-                <Icons
-                  name={'icon-description'}
-                  class_name={'IconWindowModalMainColAddLabel'}
-                />
-              </span>
-              <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
-              {!showReactQuill ? (
-                <div className={styles.cardDescriptionHeaderBtn}>
-                  <Button 
-                    className={'BtnCardDescriptionChange'}
-                    clickAction = {funcShowReactQuill}
-                  >Изменить</Button>
-                </div>
-                )
-                :
-                ("")
-              }
-            </div>
-            {showReactQuill ? 
-            (
-              <>
-                <ReactQuill
-                  className={styles.reactQuill}
-                  style={{marginLeft: "40px"}}
-                  theme="snow"
-                  value={valueDescription ? valueDescription : ''} 
-                  onChange={setValueDescription} 
-                  placeholder={"Введите текст..."}
-                  modules={modules}
-                  onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
-                  onBlur={(evt)=>showReactQuillHandleKeyPress(evt)}
-                  autoFocus
-                  ref={editorRef}
-                />
-                <div 
-                  className={styles.cardDescriptionButtonWrap}
-                  style={{marginLeft: "40px"}}
-                >
-                  <Button
-                    className={'cardDescriptionSave'}
-                    // actionVariable={}
-                    clickAction = {saveNewReactQuillText}
-                  >Сохранить</Button>
-                  <Button
-                    className={'cardDescriptionCancel'}
-                    actionVariable={false}
-                    clickAction = {funcShowReactQuill}
-                  >Отмена</Button>
-                </div>
-              </>
-            )
-            :
-            (
-              <>
-                {cardDescription ? 
-                  (
-                    <div 
-                      className={styles.cardDescriptionStub}
-                      onClick={funcShowReactQuill} 
-                    >
-                      <Interweave content={cardDescription}></Interweave>
-                    </div>
-                  ):(
-                    <p 
-                      className={styles.cardDescriptionStub}
-                      onClick={funcShowReactQuill}
-                    >
-                      Добавить более подробное описание…
-                    </p>
-                  )
-                }
-              </>
-            )}
-          </div>
-          
+          <WindowModalDescription 
+            showReactQuill={showReactQuill}
+            funcShowReactQuill={funcShowReactQuill}
+            valueDescription={valueDescription}
+            setValueDescription={setValueDescription}
+            modules={modules}
+            showReactQuillHandleKeyPress={showReactQuillHandleKeyPress}
+            editorRef={editorRef}
+            saveNewReactQuillText={saveNewReactQuillText}
+            cardDescription={cardDescription}
+          />
 
-
-          <div  className={styles.cardActivity}>
-            <div className={styles.cardActivityWrap} data-testid="card-back-activity">
-              <div className={styles.cardActivityHeader}>
-                <Icons
-                  name={'icon-description'}
-                  class_name={'IconWindowModalMainColActivity'}
-                />
-                <h3 className={styles.cardActivityHeaderTitle}>Действия</h3>
-                <div className={styles.cardActivityHeaderBtns}>
-                  {activityDetailsShow ? 
-                    <Button 
-                      className = {'BtnCardActivity'}
-                      clickAction = {funcActivityDetailsShow}
-                    >Показать подробности</Button>
-                    :
-                    <Button 
-                      className = {'BtnCardActivity'}
-                      clickAction = {funcActivityDetailsShow}
-                    >Скрыть подробности</Button>
-                  }
-                </div>
-              </div>
-
-              <div className={styles.cardActivityNewComment}>
-                <div className={styles.cardActivityMemberAvatar}>
-                  {authUserData.img ?(
-                    <img 
-                      className={styles.cardActivityMemberAvatarImg} 
-                      src={authUserData.img ? `/img/users/${authUserData.img}` : '/img/no_photo1.png'}
-                      alt={`${authUserData.first_name} (${authUserData.username})`}
-                      title={`${authUserData.first_name} (${authUserData.username})`}
-                      // onClick={()=> onUserCard(authUserData.id)}
-                    />
-                    ):(
-                    <span 
-                      className={styles.cardActivityMemberAvatarSpan} 
-                      title={`${authUserData.first_name} (${authUserData.username})`}
-                      // onClick={()=> onUserCard(authUserData.id)}
-                    >{authUserData.first_letter}</span>
-                  )}
-                </div>
-                {(activityEditorShow !== 'newComment') ? (
-                  <div className={styles.cardActivityNewCommentContent}>
-                    <input 
-                      className={
-                        processActivity !== 'no' ? 
-                        styles.cardActivityNewCommentInput
-                        :
-                        `${styles.cardActivityNewCommentInput} ${styles.cardActivityNewCommentInputGradient}`
-                      } 
-                      type="text" 
-                      placeholder={"Напишите комментарий…"}
-                      aria-label="Написать комментарий" 
-                      readOnly 
-                      value={""} 
-                      onClick={ (processActivity !== 'no') ? ()=>funcActivityEditorShow('newComment', '') : null }
-                    />
-                    
-                    {processActivity === 'no' ?
-                    <span className={styles.cardActivityCommentSending}>
-                      <span className={styles.cardActivityCommentSendingImg}></span> В процессе…&nbsp;
-                    </span>
-                    :
-                    ""
-                    }
-                        
-                    
-                  </div>
-                  ):(
-                  <div>
-                    <ReactQuill
-                      className={styles.reactQuill}
-                      theme="snow"
-                      value={valueEditor ? valueEditor : ''} 
-                      onChange={setValueEditor} 
-                      placeholder={"Напишите комментарий..."}
-                      modules={modules}
-                      onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
-                      onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
-                      ref={editorRef}
-                    />
-                    <div className={styles.cardEditorButtonWrap}>
-                      <Button
-                        className={'cardEditorSave'}
-                        actionVariable={'no'}
-                        clickAction = {onSaveActivityReactQuillComment}
-                      >Сохранить</Button>
-                      <Button
-                        className={'cardDescriptionCancel'}
-                        actionVariable={null}
-                        clickAction = {funcActivityEditorShow}
-                      >Отмена</Button>
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              {cardActivityComments.map((comment) => 
-                <div key={comment.id}>
-                {comment.comment === null ?
-                  (
-                    <>
-                      {!activityDetailsShow ?
-                        (
-                          <div className={styles.cardActivityNewComment} key={comment.id}>
-                            <div className={styles.cardActivityMemberAvatar}>
-                              {comment.author.img ?(
-                                <img 
-                                  className={styles.cardActivityMemberAvatarImg} 
-                                  src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
-                                  alt={`${comment.author.first_name} (${comment.author.username})`}
-                                  title={`${comment.author.first_name} (${comment.author.username})`}
-                                  onClick={()=> onUserCard(comment.author.id)}
-                                />
-                                ):(
-                                <span 
-                                  className={styles.cardActivityMemberAvatarSpan}  
-                                  title={`${comment.author.first_name} (${comment.author.username})`}
-                                  onClick={()=> onUserCard(comment.author.id)}
-                                >{comment.author.first_letter}</span>
-                              )}
-                            </div>
-                            <div className={styles.cardActivityNewCommentContent}>
-                              <span className={styles.cardActivityMemberName} title={comment.author.first_name}>
-                                {comment.author.first_name} {comment.author.last_name}
-                              </span> 
-                              <span className={styles.cardActivityMemberCommentAction}>
-                                {/* {comment.action}  */}
-                                <Interweave content={comment.action}></Interweave>
-                              </span>
-                              <p className={styles.cardActivityMemberCommentDate}
-                                data-date={comment.date} 
-                                title={comment.date} 
-                              >
-                                {comment.date}
-                              </p>
-                            </div>
-                          </div>
-                        )
-                        :
-                        ("")
-                      }
-                    </>
-                  )
-                  :
-                  (
-                    <div className={styles.cardActivityNewComment} key={comment.id}>
-                      <div className={styles.cardActivityMemberAvatar}>
-                        {comment.author.img ?(
-                          <img 
-                            className={styles.cardActivityMemberAvatarImg} 
-                            src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
-                            alt={`${comment.author.first_name} (${comment.author.username})`}
-                            title={`${comment.author.first_name} (${comment.author.username})`}
-                            onClick={()=> onUserCard(comment.author.id)}
-                          />
-                          ):(
-                          <span 
-                            className={styles.cardActivityMemberAvatarSpan}  
-                            title={`${comment.author.first_name} (${comment.author.username})`}
-                            onClick={()=> onUserCard(comment.author.id)}
-                          >{comment.author.first_letter}</span>
-                        )}
-                      </div>
-                      <div className={styles.cardActivityNewCommentContent}>
-                        <span className={styles.cardActivityMemberName} title={comment.author.first_name}>
-                          {comment.author.first_name} {comment.author.last_name}
-                        </span> 
-                        <span className={styles.cardActivityMemberCommentDate}
-                          data-date={comment.date} 
-                          title={comment.date} 
-                        >
-                          {comment.date}
-                        </span>
-                        {(activityEditorShow !== comment.id) ? (
-                          // <input 
-                          //   className={styles.cardActivityNewCommentInput} 
-                          //   type="text" 
-                          //   // placeholder={comment.comment} 
-                          //   // aria-label={comment.comment} 
-                          //   placeholder={<Interweave content={comment.comment}></Interweave>}
-                          //   aria-label={<Interweave content={comment.comment}></Interweave>}
-                          //   readOnly 
-                          //   value={""} 
-                          //   onClick={ ()=>funcActivityEditorShow(comment.id, comment.comment) }
-                          // />
-                          <div
-                            className={
-                              processActivity !== comment.date ? 
-                              styles.cardActivityNewCommentInput
-                              :
-                              `${styles.cardActivityNewCommentInput} ${styles.cardActivityNewCommentInputGradient}`
-                            } 
-                            type="text" 
-                            readOnly 
-                            onClick={ (processActivity !== comment.date) ? ()=>funcActivityEditorShow(comment.id, comment.comment) : null } 
-                          >
-                            <Interweave content={comment.comment}></Interweave>
-                          </div>
-                          ):(
-                          <div>
-                            <ReactQuill
-                              className={styles.reactQuill}
-                              theme="snow"
-                              value={valueEditor ? valueEditor : comment.comment} 
-                              onChange={setValueEditor} 
-                              placeholder={"Напишите комментарий..."}
-                              modules={modules}
-                              onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
-                              onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
-                              ref={editorRef}
-                            />
-                            <div className={styles.cardEditorButtonWrap}>
-                              <Button
-                                className={'cardEditorSave'}
-                                actionVariable={comment.date}
-                                clickAction = {onSaveActivityReactQuillComment}
-                                disabled={valueEditor === '<p><br></p>'}
-                              >Сохранить</Button>
-                              <Button
-                                className={'cardDescriptionCancel'}
-                                actionVariable={null}
-                                clickAction = {funcActivityEditorShow}
-                              >Отмена</Button>
-                            </div>
-                          </div>
-                        )}
-                        {activityEditorShow !== comment.id ? (
-                          <div>
-                            {processActivity === comment.date ? 
-                              (
-                              <span className={styles.cardActivityCommentSending}>
-                                <span className={styles.cardActivityCommentSendingImg}></span> В процессе…&nbsp;
-                              </span>
-                              ):(
-                              <span className={styles.cardEditorButtonWrap}>
-                                <Button
-                                    className={'cardActivityCommentUpdate'}
-                                    actionVariable={comment.id}
-                                    clickAction = {funcActivityEditorShow}
-                                >Изменить</Button>
-                                • 
-                                <Button
-                                    className={'cardActivityCommentDelete'}
-                                    actionVariable={comment}
-                                    clickAction = {onDelActivityReactQuillComment}
-                                >Удалить</Button>
-                              </span>
-                              )
-                            } 
-                          </div>):("")
-                        }
-                      </div>
-                    </div>
-                  )
-                }
-                </div>
-              )}
-              {/* <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
-              <p>
-                <button className="nch-button hide js-show-all-actions" >Показать все действия…</button>
-              </p> */}
-            </div>
-          </div>
+          <WindowModalActivity
+            authUserData={authUserData}
+            activityDetailsShow={activityDetailsShow}
+            activityEditorShow={activityEditorShow}
+            processActivity={processActivity}
+            valueEditor={valueEditor}
+            setValueEditor={setValueEditor}
+            cardActivityComments={cardActivityComments}
+            modules={modules}
+            editorRef={editorRef}
+            funcActivityDetailsShow={funcActivityDetailsShow}
+            funcActivityEditorShow={funcActivityEditorShow}
+            showActivityReactQuillHandleKeyPress={showActivityReactQuillHandleKeyPress}
+            onSaveActivityReactQuillComment={onSaveActivityReactQuillComment}
+            onDelActivityReactQuillComment={onDelActivityReactQuillComment}
+            onUserCard={onUserCard}
+          />
 
         </div>
 

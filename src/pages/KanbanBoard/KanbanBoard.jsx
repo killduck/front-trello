@@ -68,7 +68,7 @@ export default function KanbanBoard(props) {
 
 
   useEffect(() => {
-    console.log(updateComponent);
+    // console.log(updateComponent);
     request({
       method: 'POST',
       url: 'dashboards/',
