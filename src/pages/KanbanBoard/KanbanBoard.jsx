@@ -68,7 +68,7 @@ export default function KanbanBoard(props) {
 
 
   useEffect(() => {
-
+    console.log(updateComponent);
     request({
       method: 'POST',
       url: 'dashboards/',
@@ -94,6 +94,8 @@ export default function KanbanBoard(props) {
 
           setTasks(data_card);
 
+          setUpdateComponent(false);
+
         }
         else {
           console.log("редирект");
@@ -116,7 +118,7 @@ export default function KanbanBoard(props) {
     });
 
 
-  }, [updateComponent]); //TODO ES Lint просит добавить dashboardId
+  }, [updateComponent, dashboardId]); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
@@ -335,6 +337,8 @@ export default function KanbanBoard(props) {
       setTasks([...tasks, cardToAdd]);
 
       setNewTextTask('Новая задача');
+
+      setUpdateComponent(true);
     }
 
   }
@@ -440,6 +444,8 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           requestSuccessDeletCard(response, id);
           setShowPreloder(false);
+
+          setUpdateComponent(true); 
         }
       },
       data: idCardDeleted,

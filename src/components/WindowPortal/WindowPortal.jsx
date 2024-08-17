@@ -56,6 +56,7 @@ export default function WindowPortal(props){
                 updateFunc = {updateFunc}
                 deleteFunc = {deleteFunc}
                 updateCardLabel={updateCardLabel}
+                closeModal={closeModal}
             >
                 <Button
                     className={'btnWindowModal'}

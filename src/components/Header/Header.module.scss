@@ -90,7 +90,7 @@ $transition_hover: all 0.3s ease;
   display: flex;
   max-height: 48px;
   padding: 8px;
-
+  width: 100%;
   border-bottom: 1px solid $border;
   backdrop-filter: blur(6px);
 
@@ -194,6 +194,10 @@ $transition_hover: all 0.3s ease;
         margin: 0 4px;
 
         display: flex;
+
+        // @media (min-width: 950px) {
+          
+        // }
 
         .MenuWorkspace {
           position: relative;

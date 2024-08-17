@@ -25,6 +25,12 @@ export default function Sidebar(props){
   let setMatchSearch = props.setMatchSearch;
   let searchNewCardUser = props.searchNewCardUser;
   let setSearchNewCardUser = props.setSearchNewCardUser;
+  let closeModal = props.closeModal;
+
+  function onDeleteCard(window_id){
+    closeModal();
+    deleteFunc(window_id);
+  }
 
   return (
     
@@ -55,7 +61,7 @@ export default function Sidebar(props){
               funcAddUserToCard = {funcAddUserToCard}
               funcDelCardUser = {funcDelCardUser}
               funcMembersWindow = {funcMembersWindow}
-              deleteFunc = {deleteFunc}
+              // deleteFunc = {deleteFunc}
               matchSearch={matchSearch}
               setMatchSearch={setMatchSearch}
               searchNewCardUser={searchNewCardUser}
@@ -114,7 +120,7 @@ export default function Sidebar(props){
                 // clickAction={deleteColumn}
                 // actionVariable={column.id}
                 // className={'BtnDeleteColumn'}
-                clickAction={deleteFunc}
+                clickAction={onDeleteCard}
                 actionVariable={windowData.id}
                 className={'BtnDeleteCard'}
               >

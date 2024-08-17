@@ -26,6 +26,7 @@ export default function WindowModal(props){
   let updateFunc = props.updateFunc;
   let deleteFunc = props.deleteFunc;
   let updateCardLabel = props.updateCardLabel;
+  let closeModal = props.closeModal;
 
   const [authUser, setAuthUser] = useState(Number);
   const [authUserData, setAuthUserData] = useState(Number);
@@ -56,34 +57,7 @@ export default function WindowModal(props){
   const [cardActivity, setCardActivity] = useState('<p><br></p>');
   const [processActivity, setProcessActivity] = useState(false);
 
-  // let [onFrames, setOnFrames] = useState(
-  //   {
-  //     'membersWindow': membersWindow,
-  //     'labelsWindow': labelsWindow,
-  //     'showReactQuill': showReactQuill,
-  //     'showUserCard': showUserCard,
-  //     'activityEditorShow': activityEditorShow,
-  //   }
-  // );
-
-  // function onRemoving_onFrames(name_state = null, value) {
-  //   let state_switch = {};
-  //   for (let key in onFrames) {
-  //     // console.log(onFrames, key, name_state);
-  //     if (name_state === key) {
-  //       // console.log(onFrames, onFrames[key], key, name_state, value);
-  //       onFrames[key] ?
-  //         state_switch[key] = false
-  //         :
-  //         state_switch[key] = value
-  //     }
-  //     else {
-  //       state_switch[key] = false;
-  //     }
-  //     console.log(onFrames, onFrames[key], key, name_state, state_switch);
-  //   }
-  //   setOnFrames(state_switch);
-  // }
+  let [updateValue, setUpdateValue] = useState(false);
 
   function onRemoving_onFrames(){
     setNewNameField(false); 
@@ -93,7 +67,6 @@ export default function WindowModal(props){
     setShowUserCard(null); 
     setActivityEditorShow(null); 
   }
-  console.log(showUserCard);
 
   const modules = {
     toolbar: [
@@ -125,6 +98,7 @@ export default function WindowModal(props){
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
             setCardActivityComments(response.data.card[0].activity.reverse());
             // console.log(response.data.card[0].activity);
+            setUpdateValue(false);
           }
           if(task.label){
             setCardLabel(true);
@@ -135,7 +109,7 @@ export default function WindowModal(props){
       status:200,
     });
 
-  },[typeElem, idElem, task, dashboardUsers]);
+  },[typeElem, idElem, task, dashboardUsers, updateValue]);
 
   function showTextarea() {
     onRemoving_onFrames();
@@ -179,6 +153,8 @@ export default function WindowModal(props){
             if(response.data){
               setValueDescription(response.data[0].description);
               setCardDescription(response.data[0].description);
+
+              setUpdateValue(true);
             }
           }
         },
@@ -205,6 +181,8 @@ export default function WindowModal(props){
       if(windowName !== startWindowName){
         updateFunc(windowData.id, windowName);
         setStartWindowName(windowName);
+
+        setUpdateValue(true);
       }
     }
   }
@@ -271,6 +249,8 @@ export default function WindowModal(props){
               
               setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
               setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
+
+              setUpdateValue(true);
             }
           }
         },
@@ -292,6 +272,8 @@ export default function WindowModal(props){
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
                 setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
+
+                setUpdateValue(true);
               }
             }
           },
@@ -301,7 +283,7 @@ export default function WindowModal(props){
       }
     });
   }
-
+  // console.log(updateValue);
   function onUserCard(id_user = null) {
     onRemoving_onFrames();
 
@@ -336,16 +318,10 @@ export default function WindowModal(props){
       method:'POST',
       url:'del-card-activity/',
       callback:(response) => { 
-
-        setTimeout(() => {
-
-          if (response.status === 200) {
-            setProcessActivity(false);
-            setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id));
-          }
-
-        }, 2000);
-
+        if (response.status === 200) {
+          setProcessActivity(false);
+          setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id));
+        }
       },
       data: {'comment_id': comment_data.id},
       status:200,
@@ -373,20 +349,14 @@ export default function WindowModal(props){
         method:'POST',
         url:'add-card-activity/',
         callback:(response) => { 
-
-          setTimeout(() => {
-            
-            if (response.status === 200) {
-              setProcessActivity(false);
-              if(response.data){
-                console.log(response.data);
-                setCardActivityComments(response.data);
-                setValueEditor('');
-              }
+          if (response.status === 200) {
+            setProcessActivity(false);
+            if(response.data){
+              console.log(response.data);
+              setCardActivityComments(response.data);
+              setValueEditor('');
             }
-
-          }, 2000);
-
+          }
         },
         data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim(),}, //valueEditor.trim().slice(0, -11)
         status:200,
@@ -1026,6 +996,7 @@ export default function WindowModal(props){
           setMatchSearch={setMatchSearch}
           searchNewCardUser={searchNewCardUser}
           setSearchNewCardUser={setSearchNewCardUser}
+          closeModal={closeModal}
         ></Sidebar>
 
     </div>
