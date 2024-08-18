@@ -14,7 +14,6 @@ export default function WindowModalCardMember(props){
   let onUserCard = props.onUserCard;
 
   return (
-    
     <>
       {(cardUsers.length > 0) ?
         (
@@ -32,11 +31,9 @@ export default function WindowModalCardMember(props){
                     (<img 
                       className={styles.memberAvatar} 
                       src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo.png'}
-                      // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
                       alt={`${cardUser.first_name} (${cardUser.username})`}
                       title={`${cardUser.first_name} (${cardUser.username})`}
                       onClick={()=> onUserCard(cardUser.id)}
-                      // onClick={()=> onRemoving_onFrames('showUserCard', cardUser.id)}
                     />)
                     :
                     (<span 
@@ -77,7 +74,6 @@ export default function WindowModalCardMember(props){
         ("")
       }
     </>
-    
   )
 };
 

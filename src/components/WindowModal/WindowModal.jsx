@@ -89,7 +89,7 @@ export default function WindowModal(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            console.log(response.data);
+            // console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -336,11 +336,11 @@ export default function WindowModal(props){
     // console.log(onSaveActivityReactQuillComment.name, date);
     if(valueEditor === '<p><br></p>'){
       setValueEditor(valueEditor = null);
-      console.log(valueEditor);
+      // console.log(valueEditor);
     } 
 
     if(cardActivity === valueEditor){
-      console.log(valueEditor, cardActivity);
+      // console.log(valueEditor, cardActivity);
       setValueEditor(valueEditor = null)
       funcActivityEditorShow();
       return;
@@ -425,7 +425,6 @@ export default function WindowModal(props){
           <div className={styles.cardDetails} >
             
             <div className={styles.cardDetailItem}>
-              {/* {columnMembers} */}
               <WindowModalCardMember
                 cardUsers={cardUsers}
                 authUser={authUser}
@@ -437,7 +436,6 @@ export default function WindowModal(props){
             </div>
 
             <div className={styles.cardDetailItem}>
-              {/* {columnLabels} */}
               <WindowModalCardLabel
                 task={task}
                 cardLabel={cardLabel}
@@ -490,7 +488,6 @@ export default function WindowModal(props){
 
         </div>
 
-        {/* сайдбар */}
         <Sidebar
           typeElem={typeElem}
           windowData={windowData}
