@@ -9,13 +9,14 @@ import 'react-quill/dist/quill.snow.css';
 import "./windowQuill.css";
 
 import request from "../../api/request";
-import Button from "../ui/Button/Button";
-import Icons from "../ui/Icons/Icons";
 import Sidebar from "../Sidebar/Sidebar";
-import UserCard from "../UserCard/UserCard";
 // import { Interweave } from "interweave";
 import WindowModalDescription from "../WindowModalDescription/WindowModalDescription";
 import WindowModalActivity from "../WindowModalActivity/WindowModalActivity";
+import WindowModalSubscribe from "../WindowModalSubscribe/WindowModalSubscribe";
+import WindowModalHeaderSection from "../WindowModalHeaderSection/WindowModalHeaderSection";
+import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
+import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -88,7 +89,7 @@ export default function WindowModal(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            // console.log(response.data);
+            console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -400,203 +401,6 @@ export default function WindowModal(props){
     }
   }
 
-  const headerSection = (
-  <>
-    <span className={styles.headerIcon}>
-      <Icons
-        name={'icon-description'}
-        class_name={'IconWindowModalMainColAddLabel'}
-      />
-    </span>
-    <div className={styles.headerTitle}>
-    
-      {(!newName) ?
-      (
-      <h2 onClick={ showTextarea } >
-        { windowName }
-      </h2>
-      )
-      :
-      (
-      <textarea 
-        autoFocus
-        onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
-        onChange={(evt) => writeNewText(evt.target.value)}
-        onKeyDown={windowNameHandleKeyPress}
-        onBlur={windowNameHandleKeyPress}
-
-        className={''} 
-        dir="auto" 
-        data-testid="card-back-title-input" 
-        data-autosize="true"
-        value={ windowName }
-        placeholder="введите название"
-        style={{overflow: "hidden", overflowWrap: "break-word", height: "35.8889px"}} 
-      />
-      )
-      }
-
-    </div>
-    <div className={styles.columnTitle}> {/* "window-header-inline-content quiet js-current-list" */}
-      <p className={styles.columnTitleName}>В колонке "{column.name}".</p>
-      {subscribe ?
-      (<span>
-        <Icons
-          name={'eye-open'}
-          className={''}
-          sizeWidth={"14"}
-          sizeHeight={"14"}
-        /> 
-      </span>) : "" } 
-    </div>
-  </>
-  )
-
-  const elementSubscribe = (
-    <div className={styles.cardDetailNotifications} >
-      <h3  className={styles.cardDetailsTitle}>
-        Уведомления
-      </h3>
-      
-      { (!subscribe) ?
-      (
-      <Button
-        className = {'BtnCardSubscribe'}
-        ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
-        clickAction = {funcSubscribe}
-      >
-        
-        <Icons
-          name={'eye-open'}
-          class_name={'iconCardSubscribe'}
-          sizeWidth={"14"}
-          sizeHeight={"14"}
-        /> 
-        <span>Подписаться</span>
-      </Button>
-      )
-      :
-      (
-      <Button
-        className = {'BtnCardSubscribe'}
-        ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
-        clickAction = {funcSubscribe}
-        style={{paddingRight: "32px", width: "138px"}}
-      >
-        <Icons
-          name={'eye-open'}
-          class_name={'iconCardSubscribe'}
-          sizeWidth={"14"}
-          sizeHeight={"14"}
-        /> 
-        <span className={styles.cardDetailsInfo}>Вы подписаны</span>
-        <span style={{paddingLeft: "5px"}}>...</span>
-        <span className={styles.simbolSubscribed}>
-          <Icons 
-            name={'selected'}
-            class_name={'iconSelected'}
-          />
-        </span>
-      </Button>
-      )
-    }
-    </div>
-  )
-
-  const columnMembers = (
-    <>
-    {(cardUsers.length > 0) ?
-      (
-        <div className={styles.cardDetailNotifications} >
-          <h3 className={styles.cardDetailsTitle}>Участники:</h3>
-            <div className={styles.membersList}>
-            {cardUsers.map(
-              (cardUser) => 
-                <div 
-                  key={cardUser.id} 
-                  className={styles.memberMenu} 
-                  aria-label={`Действия с профилем участника ${cardUser.first_name}`}
-                >
-                  {cardUser.img ?
-                  (<img 
-                    className={styles.memberAvatar} 
-                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo.png'}
-                    // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
-                    alt={`${cardUser.first_name} (${cardUser.username})`}
-                    title={`${cardUser.first_name} (${cardUser.username})`}
-                    onClick={()=> onUserCard(cardUser.id)}
-                    // onClick={()=> onRemoving_onFrames('showUserCard', cardUser.id)}
-                  />)
-                  :
-                  (<span 
-                    className={styles.memberAvatarSpan} 
-                    title={`${cardUser.first_name} (${cardUser.username})`}
-                    onClick={()=> onUserCard(cardUser.id)}
-                  >{cardUser.first_letter}</span>)
-                  }
-                  {(showUserCard === cardUser.id) ? 
-                    <UserCard
-                      authUser={authUser}
-                      user={cardUser}
-                      clickAction={onUserCard}
-                      funcDelCardUser = {funcDelCardUser}
-                      class_name={'UserCard'}
-                    />
-                    :
-                    ""
-                  }
-                  
-
-                </div>
-              )
-            }   
-            <Button
-              clickAction={funcMembersWindow}
-              className={'btnWindowModalMainColAddUser'}
-            >
-              <Icons
-                name={'AddIcon'}
-                class_name={'IconWindowModalMainColAddUser'}
-              />
-            </Button>
-          </div>
-        </div>
-      )
-      :
-      ("")
-    }
-    </>
-  )
-
-  const columnLabels = (
-    <>
-    {(cardLabel) ?
-      (<div className={styles.cardDetailNotifications}>
-        <h3 className={styles.cardDetailsTitle}>Метки</h3>
-        <div className={styles.labelsList} data-testid="card-back-labels-container">
-          <span 
-            className={styles.labelElement} 
-            style={{backgroundColor: task.label.color_hex}}
-            tabIndex="0" 
-            aria-label={`Цвет: ${task.label.name}, название: «без цвета»`}
-            data-color={task.label.name}
-            onClick={funcLabelsWindow}
-          />
-          <Button
-            clickAction={funcLabelsWindow}
-            className={'btnWindowModalMainColAddLabel'}
-          >
-            <Icons
-              name={'AddIcon'}
-              class_name={'IconWindowModalMainColAddLabel'}
-            />
-          </Button>
-        </div>
-      </div>):""
-    }
-    </> 
-  )
-
   const columnDueDate = (
     "дата"
   )
@@ -606,24 +410,46 @@ export default function WindowModal(props){
         {props.children}
 
         {/* header */}
-        <div className={styles.header}>
-          { headerSection }
-        </div>
+        <WindowModalHeaderSection
+          newName ={newName}
+          windowName={windowName}
+          subscribe={subscribe}
+          column={column}
+          showTextarea={showTextarea}
+          writeNewText={writeNewText}
+          windowNameHandleKeyPress={windowNameHandleKeyPress}
+        />
 
         {/* главная колонка */}
         <div className={styles.mainCol}>
-
           <div className={styles.cardDetails} >
+            
             <div className={styles.cardDetailItem}>
-              {columnMembers}
+              {/* {columnMembers} */}
+              <WindowModalCardMember
+                cardUsers={cardUsers}
+                authUser={authUser}
+                showUserCard={showUserCard}
+                funcMembersWindow={funcMembersWindow}
+                funcDelCardUser={funcDelCardUser}
+                onUserCard={onUserCard}
+              />
             </div>
 
             <div className={styles.cardDetailItem}>
-              {columnLabels}
+              {/* {columnLabels} */}
+              <WindowModalCardLabel
+                task={task}
+                cardLabel={cardLabel}
+                funcLabelsWindow={funcLabelsWindow}
+              />
             </div>
 
             <div className={styles.cardDetailItem}>
-              {elementSubscribe}
+              <WindowModalSubscribe
+                subscribe={subscribe}
+                funcSubscribe={funcSubscribe}
+              ></WindowModalSubscribe>
             </div>
 
             <div className={styles.cardDetailItem}>

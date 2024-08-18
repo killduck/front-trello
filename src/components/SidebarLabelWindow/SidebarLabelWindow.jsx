@@ -37,7 +37,7 @@ export default function SidebarLabelWindow(props){
       data: {},
       status:200,
     });
-  },[labelsWindow, windowData]);
+  },[]);
 
 
   function onTakeColor(label){

@@ -118,7 +118,7 @@ export default function KanbanBoard(props) {
     });
 
 
-  }, [updateComponent, dashboardId]); //TODO ES Lint просит добавить dashboardId
+  }, [updateComponent]); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
