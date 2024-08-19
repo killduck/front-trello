@@ -5,7 +5,7 @@ import RoutesApp from './RoutesApp'
 import { useState } from 'react'
 
 function App() {
-  console.log('hostname>>>', window.location.hostname) // TODO Удалить. Тест для деплоя
+  // console.log('hostname>>>', window.location.hostname) // TODO Удалить. Тест для деплоя
   let [htmlClick, setHtmlClick] = useState('')
 
   function onClickTargetHTML(event) {
