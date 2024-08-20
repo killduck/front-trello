@@ -188,7 +188,12 @@ export default function UserDashboard(props) {
                   clickAction={onСhangeRole}
                   actionVariable={'del_admin'}
                 >
-                  Удалить из администраторов
+                  {
+                    roleData['user_auth_id'] === roleData['user_card_id'] ?
+                    "Уйти из администраторов"
+                    :
+                    "Удалить из администраторов"
+                  }
                 </Button>
               </li>
               :
