@@ -461,6 +461,7 @@
   }
 }
 
+.cardEditorSave,
 .cardDescriptionSave{
   margin: 0 6px 0 0;
   border: none;
@@ -483,11 +484,15 @@
     box-shadow: none;
     color: #1d2125;
   }
+  &:disabled{
+    color: #1d2125;
+    background-color: rgb(77, 77, 77);
+  }
 }
 
 .cardDescriptionCancel{
   border: none;
-  background-color: transparent;
+  background-color: rgba(161, 189, 217, 0.0784313725);
   box-shadow: none;
 
   &:hover {
@@ -532,4 +537,25 @@
   &:hover {
     opacity: 0.70;
   }
+}
+
+.BtnCardActivity{
+  background-color: #a1bdd914;
+  color: #b6c2cf;
+
+  &:hover {
+    background-color: #a6c5e229;
+    color: #b6c2cf;
+  }
+  &:active {
+    outline: 0;
+    background-color: #bfdbf847;
+    color: #b6c2cf;
+  }
+}
+.cardActivityCommentUpdate,
+.cardActivityCommentDelete{
+  font-size: 12px;
+  padding: 0 6px;
+  text-decoration: underline;
 }

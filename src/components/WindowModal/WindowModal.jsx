@@ -4,16 +4,19 @@ import styles from "./WindowModal.module.scss";
 import { useCallback, useEffect, useState } from 'react';
 
 // import ReactQuill from 'react-quill'; // старый, нужно будет стереть, но пусть пока будет.
-import ReactQuill from 'react-quill-new';
+// import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css';
 import "./windowQuill.css";
 
 import request from "../../api/request";
-import Button from "../ui/Button/Button";
-import Icons from "../ui/Icons/Icons";
 import Sidebar from "../Sidebar/Sidebar";
-import UserCard from "../UserCard/UserCard";
-import { Interweave } from "interweave";
+// import { Interweave } from "interweave";
+import WindowModalDescription from "../WindowModalDescription/WindowModalDescription";
+import WindowModalActivity from "../WindowModalActivity/WindowModalActivity";
+import WindowModalSubscribe from "../WindowModalSubscribe/WindowModalSubscribe";
+import WindowModalHeaderSection from "../WindowModalHeaderSection/WindowModalHeaderSection";
+import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
+import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -26,8 +29,11 @@ export default function WindowModal(props){
   let updateFunc = props.updateFunc;
   let deleteFunc = props.deleteFunc;
   let updateCardLabel = props.updateCardLabel;
+  let closeModal = props.closeModal;
 
   const [authUser, setAuthUser] = useState(Number);
+  const [authUserData, setAuthUserData] = useState(Number);
+
   let [windowData, setWindowData] = useState({});
   const [startWindowName, setStartWindowName] = useState('');
   let [windowName, setWindowName] = useState('');
@@ -44,8 +50,26 @@ export default function WindowModal(props){
   const [cardLabel, setCardLabel] = useState(false);
   
   let [showReactQuill, setShowReactQuill] = useState(false);
-  let [value, setValue] = useState('');
+  let [valueDescription, setValueDescription] = useState('');
   const [cardDescription, setCardDescription] = useState('');
+
+  let [activityDetailsShow, setActivityDetailsShow] = useState(false);
+  let [activityEditorShow, setActivityEditorShow] = useState(null);
+  let [cardActivityComments, setCardActivityComments] = useState([]);
+  let [valueEditor, setValueEditor] = useState('');
+  const [cardActivity, setCardActivity] = useState('<p><br></p>');
+  const [processActivity, setProcessActivity] = useState(false);
+
+  let [updateValue, setUpdateValue] = useState(false);
+
+  function onRemoving_onFrames(){
+    setNewNameField(false); 
+    setMembersWindow(false); 
+    setLabelsWindow(false); 
+    setShowReactQuill(false); 
+    setShowUserCard(null); 
+    setActivityEditorShow(null); 
+  }
 
   const modules = {
     toolbar: [
@@ -65,14 +89,19 @@ export default function WindowModal(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
+            // console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
             setStartWindowName(response.data.card[0]['name']);
             setCardUsers(response.data.card_users_data);
             setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
-            setValue(response.data.card[0]['description']); 
+            setValueDescription(response.data.card[0]['description']); 
             setCardDescription(response.data.card[0]['description']); 
+            setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
+            setCardActivityComments(response.data.card[0].activity.reverse());
+            // console.log(response.data.card[0].activity);
+            setUpdateValue(false);
           }
           if(task.label){
             setCardLabel(true);
@@ -83,9 +112,11 @@ export default function WindowModal(props){
       status:200,
     });
 
-  },[typeElem, idElem, task]);
+  },[typeElem, idElem, task, dashboardUsers, updateValue]);
 
   function showTextarea() {
+    onRemoving_onFrames();
+
     if(!newName){
       setNewNameField(newName = true);
     }
@@ -95,6 +126,8 @@ export default function WindowModal(props){
   }
 
   function funcShowReactQuill(){
+    onRemoving_onFrames();
+
     if(showReactQuill){
       setShowReactQuill(false);
     }
@@ -104,28 +137,31 @@ export default function WindowModal(props){
   }
 
   function saveNewReactQuillText(){
-    if(value === '<p><br></p><p><br></p>'){
-      setValue(value = null);
+    if(valueDescription === '<p><br></p>'){
+      // <p><br></p><p><br></p>
+      setValueDescription(valueDescription = null);
     }
 
-    if(cardDescription === value){
+    if(cardDescription === valueDescription){
       funcShowReactQuill();
       return;
     }
 
-    if(value !== cardDescription){
+    if(valueDescription !== cardDescription){
       request({
         method:'POST',
         url:'add-card-description/',
         callback:(response) => { 
           if (response.status === 200) {
             if(response.data){
-              setValue(response.data[0].description);
+              setValueDescription(response.data[0].description);
               setCardDescription(response.data[0].description);
+
+              setUpdateValue(true);
             }
           }
         },
-        data: {'card_id': windowData.id,'description': value},
+        data: {'card_id': windowData.id,'description': valueDescription},
         status:200,
       });
     }
@@ -134,6 +170,7 @@ export default function WindowModal(props){
 
   function showReactQuillHandleKeyPress(evt){
     if(evt.key === 'Enter' && evt.shiftKey){
+      setValueDescription(valueDescription = valueDescription.trim().slice(0, -11));
       saveNewReactQuillText();
     }
   }
@@ -148,11 +185,15 @@ export default function WindowModal(props){
       if(windowName !== startWindowName){
         updateFunc(windowData.id, windowName);
         setStartWindowName(windowName);
+
+        setUpdateValue(true);
       }
     }
   }
 
   function funcSubscribe(){
+    onRemoving_onFrames();
+
     if(subscribe){
       setSubscribe(false);
     }
@@ -162,6 +203,8 @@ export default function WindowModal(props){
   }
 
   function funcMembersWindow(){
+    onRemoving_onFrames();
+
     if(membersWindow){
       setMembersWindow(false);
     }
@@ -171,6 +214,8 @@ export default function WindowModal(props){
   }
 
   function funcLabelsWindow() {
+    onRemoving_onFrames();
+
     if(labelsWindow){
       setLabelsWindow(false);
     }
@@ -208,10 +253,12 @@ export default function WindowModal(props){
               
               setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
               setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
+
+              setUpdateValue(true);
             }
           }
         },
-        data: { 'user_id': user_id, 'card_id': windowData.id},
+        data: {'auth_user': authUser, 'user_id': user_id, 'card_id': windowData.id},
         status:200,
       });
     }
@@ -229,17 +276,21 @@ export default function WindowModal(props){
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
                 setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
+
+                setUpdateValue(true);
               }
             }
           },
-          data: { 'user_id': cardUser.id, 'card_id': windowData.id},
+          data: {'auth_user': authUser, 'user_id': cardUser.id, 'card_id': windowData.id},
           status:200,
         });
       }
     });
   }
-
+  // console.log(updateValue);
   function onUserCard(id_user = null) {
+    onRemoving_onFrames();
+
     showUserCard === id_user ?
       setShowUserCard(null)
       :
@@ -264,201 +315,91 @@ export default function WindowModal(props){
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
 
-  const headerSection = (
-  <>
-    <span className={styles.headerIcon}>
-      <Icons
-        name={'icon-description'}
-        class_name={'IconWindowModalMainColAddLabel'}
-      />
-    </span>
-    <div className={styles.headerTitle}>
-    
-      {(!newName) ?
-      (
-      <h2 onClick={ showTextarea } >
-        { windowName }
-      </h2>
-      )
-      :
-      (
-      <textarea 
-        autoFocus
-        onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
-        onChange={(evt) => writeNewText(evt.target.value)}
-        onKeyDown={windowNameHandleKeyPress}
-        onBlur={windowNameHandleKeyPress}
+  function onDelActivityReactQuillComment(comment_data){
+    // console.log(comment_id);
+    setProcessActivity(comment_data.date);
+    request({
+      method:'POST',
+      url:'del-card-activity/',
+      callback:(response) => { 
+        if (response.status === 200) {
+          setProcessActivity(false);
+          setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id));
+        }
+      },
+      data: {'comment_id': comment_data.id},
+      status:200,
+    });
+  }
 
-        className={''} 
-        dir="auto" 
-        data-testid="card-back-title-input" 
-        data-autosize="true"
-        value={ windowName }
-        placeholder="введите название"
-        style={{overflow: "hidden", overflowWrap: "break-word", height: "35.8889px"}} 
-      />
-      )
-      }
+  function onSaveActivityReactQuillComment(date){
+    // console.log(onSaveActivityReactQuillComment.name, date);
+    if(valueEditor === '<p><br></p>'){
+      setValueEditor(valueEditor = null);
+      // console.log(valueEditor);
+    } 
 
-    </div>
-    <div className={styles.columnTitle}> {/* "window-header-inline-content quiet js-current-list" */}
-      <p className={styles.columnTitleName}>В колонке "{column.name}".</p>
-      {subscribe ?
-      (<span>
-        <Icons
-          name={'eye-open'}
-          className={''}
-          sizeWidth={"14"}
-          sizeHeight={"14"}
-        /> 
-      </span>) : "" } 
-    </div>
-  </>
-  )
-
-  const elementSubscribe = (
-    <div className={styles.cardDetailNotifications} >
-      <h3  className={styles.cardDetailsTitle}>
-        Уведомления
-      </h3>
-      
-      { (!subscribe) ?
-      (
-      <Button
-        className = {'BtnCardSubscribe'}
-        ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
-        clickAction = {funcSubscribe}
-      >
-        
-        <Icons
-          name={'eye-open'}
-          class_name={'iconCardSubscribe'}
-          sizeWidth={"14"}
-          sizeHeight={"14"}
-        /> 
-        <span>Подписаться</span>
-      </Button>
-      )
-      :
-      (
-      <Button
-        className = {'BtnCardSubscribe'}
-        ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
-        clickAction = {funcSubscribe}
-        style={{paddingRight: "32px", width: "138px"}}
-      >
-        <Icons
-          name={'eye-open'}
-          class_name={'iconCardSubscribe'}
-          sizeWidth={"14"}
-          sizeHeight={"14"}
-        /> 
-        <span className={styles.cardDetailsInfo}>Вы подписаны</span>
-        <span style={{paddingLeft: "5px"}}>...</span>
-        <span className={styles.simbolSubscribed}>
-          <Icons 
-            name={'selected'}
-            class_name={'iconSelected'}
-          />
-        </span>
-      </Button>
-      )
+    if(cardActivity === valueEditor){
+      // console.log(valueEditor, cardActivity);
+      setValueEditor(valueEditor = null)
+      funcActivityEditorShow();
+      return;
     }
-    </div>
-  )
 
-  const columnMembers = (
-    <>
-    {(cardUsers.length > 0) ?
-      (
-        <div className={styles.cardDetailNotifications} >
-          <h3 className={styles.cardDetailsTitle}>Участники:</h3>
-            <div className={styles.membersList}>
-            {cardUsers.map(
-              (cardUser) => 
-                <div 
-                  key={cardUser.id} 
-                  className={styles.memberMenu} 
-                  aria-label={`Действия с профилем участника ${cardUser.first_name}`}
-                >
-                  {cardUser.img ?
-                  (<img 
-                    className={styles.memberAvatar} 
-                    src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo1.png'}
-                    // srcSet="/img/no_photo.png 1x, /img/no_photo.png 2x" 
-                    alt={`${cardUser.first_name} (${cardUser.username})`}
-                    title={`${cardUser.first_name} (${cardUser.username})`}
-                    onClick={()=> onUserCard(cardUser.id)}
-                  />)
-                  :
-                  (<span 
-                    className={styles.memberAvatarSpan} 
-                    title={`${cardUser.first_name} (${cardUser.username})`}
-                    onClick={()=> onUserCard(cardUser.id)}
-                  >{cardUser.first_letter}</span>)
-                  }
-                  {(showUserCard === cardUser.id) ? 
-                    <UserCard
-                      authUser={authUser}
-                      user={cardUser}
-                      clickAction={onUserCard}
-                      funcDelCardUser = {funcDelCardUser}
-                      class_name={'UserCard'}
-                    />
-                    :
-                    ""
-                  }
-                  
-
-                </div>
-              )
-            }   
-            <Button
-              clickAction={funcMembersWindow}
-              className={'btnWindowModalMainColAddUser'}
-            >
-              <Icons
-                name={'AddIcon'}
-                class_name={'IconWindowModalMainColAddUser'}
-              />
-            </Button>
-          </div>
-        </div>
-      )
-      :
-      ("")
+    if(valueEditor !== cardActivity){
+      // console.log(valueEditor, cardActivity);
+      setProcessActivity(date);
+      request({
+        method:'POST',
+        url:'add-card-activity/',
+        callback:(response) => { 
+          if (response.status === 200) {
+            setProcessActivity(false);
+            if(response.data){
+              // console.log(response.data);
+              setCardActivityComments(response.data);
+              setValueEditor('');
+            }
+          }
+        },
+        data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim(),}, //valueEditor.trim().slice(0, -11)
+        status:200,
+      });
     }
-    </>
-  )
+    funcActivityEditorShow();
+  }
 
-  const columnLabels = (
-    <>
-    {(cardLabel) ?
-      (<div className={styles.cardDetailNotifications}>
-        <h3 className={styles.cardDetailsTitle}>Метки</h3>
-        <div className={styles.labelsList} data-testid="card-back-labels-container">
-          <span 
-            className={styles.labelElement} 
-            style={{backgroundColor: task.label.color_hex}}
-            tabIndex="0" 
-            aria-label={`Цвет: ${task.label.name}, название: «без цвета»`}
-            data-color={task.label.name}
-            onClick={funcLabelsWindow}
-          />
-          <Button
-            clickAction={funcLabelsWindow}
-            className={'btnWindowModalMainColAddLabel'}
-          >
-            <Icons
-              name={'AddIcon'}
-              class_name={'IconWindowModalMainColAddLabel'}
-            />
-          </Button>
-        </div>
-      </div>):""
+  function showActivityReactQuillHandleKeyPress(evt, date){
+    // console.log(evt, date);
+    if(evt.key === 'Enter' && evt.shiftKey){
+      setValueEditor(valueEditor = valueEditor.trim().slice(0, -11));
+      onSaveActivityReactQuillComment(date);
     }
-    </> 
-  )
+  }
+
+  function funcActivityDetailsShow(){
+    onRemoving_onFrames();
+
+    if(activityDetailsShow){
+      setActivityDetailsShow(false);
+    }
+    else{
+      setActivityDetailsShow(true);
+    }
+  }
+
+  function funcActivityEditorShow(comment_id = null, commentStartValue){
+    onRemoving_onFrames();
+    // console.log('asd', comment_id)
+    if(activityEditorShow === comment_id){
+      setActivityEditorShow(null);
+    }
+    else{
+      setActivityEditorShow(comment_id);
+      setCardActivity(commentStartValue);
+      setValueEditor(commentStartValue);
+    }
+  }
 
   const columnDueDate = (
     "дата"
@@ -469,24 +410,44 @@ export default function WindowModal(props){
         {props.children}
 
         {/* header */}
-        <div className={styles.header}>
-          { headerSection }
-        </div>
+        <WindowModalHeaderSection
+          newName ={newName}
+          windowName={windowName}
+          subscribe={subscribe}
+          column={column}
+          showTextarea={showTextarea}
+          writeNewText={writeNewText}
+          windowNameHandleKeyPress={windowNameHandleKeyPress}
+        />
 
         {/* главная колонка */}
         <div className={styles.mainCol}>
-
           <div className={styles.cardDetails} >
+            
             <div className={styles.cardDetailItem}>
-              {columnMembers}
+              <WindowModalCardMember
+                cardUsers={cardUsers}
+                authUser={authUser}
+                showUserCard={showUserCard}
+                funcMembersWindow={funcMembersWindow}
+                funcDelCardUser={funcDelCardUser}
+                onUserCard={onUserCard}
+              />
             </div>
 
             <div className={styles.cardDetailItem}>
-              {columnLabels}
+              <WindowModalCardLabel
+                task={task}
+                cardLabel={cardLabel}
+                funcLabelsWindow={funcLabelsWindow}
+              />
             </div>
 
             <div className={styles.cardDetailItem}>
-              {elementSubscribe}
+              <WindowModalSubscribe
+                subscribe={subscribe}
+                funcSubscribe={funcSubscribe}
+              ></WindowModalSubscribe>
             </div>
 
             <div className={styles.cardDetailItem}>
@@ -494,90 +455,39 @@ export default function WindowModal(props){
             </div>
             
           </div>
+          
+          <WindowModalDescription 
+            showReactQuill={showReactQuill}
+            funcShowReactQuill={funcShowReactQuill}
+            valueDescription={valueDescription}
+            setValueDescription={setValueDescription}
+            modules={modules}
+            showReactQuillHandleKeyPress={showReactQuillHandleKeyPress}
+            editorRef={editorRef}
+            saveNewReactQuillText={saveNewReactQuillText}
+            cardDescription={cardDescription}
+          />
 
-          <div className={styles.cardDescription}>
-          
-            <div className={styles.cardDescriptionHeader}>
-              <span className={styles.cardDescriptionHeaderIcon}>
-                <Icons
-                  name={'icon-description'}
-                  class_name={'IconWindowModalMainColAddLabel'}
-                />
-              </span>
-              <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
-              {!showReactQuill ? (
-                <div className={styles.cardDescriptionHeaderBtn}>
-                  <Button 
-                    className={'BtnCardDescriptionChange'}
-                    clickAction = {funcShowReactQuill}
-                  >Изменить</Button>
-                </div>
-                )
-                :
-                ("")
-              }
-            </div>
-            {showReactQuill ? 
-            (
-              <>
-                <ReactQuill
-                  className={styles.reactQuill}
-                  theme="snow"
-                  value={value ? value : ''} 
-                  onChange={setValue} 
-                  placeholder="Введите текст..."
-                  modules={modules}
-                  onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
-                  onBlur={(evt)=>showReactQuillHandleKeyPress(evt)}
-                  autoFocus
-                  ref={editorRef}
-                />
-                <div className={styles.cardDescriptionButtonWrap}>
-                  <Button
-                    className={'cardDescriptionSave'}
-                    // actionVariable={}
-                    clickAction = {saveNewReactQuillText}
-                  >Сохранить</Button>
-                  <Button
-                    className={'cardDescriptionCancel'}
-                    actionVariable={false}
-                    clickAction = {funcShowReactQuill}
-                  >Отмена</Button>
-                </div>
-              </>
-            )
-            :
-            (
-              <>
-                {cardDescription ? 
-                  (
-                    <div 
-                      className={styles.cardDescriptionStub}
-                      onClick={funcShowReactQuill} 
-                      // dangerouslySetInnerHTML={{ __html: cardDescription }} 
-                    >
-                      <Interweave content={cardDescription}></Interweave>
-                    </div>
-                  ):(
-                    <p 
-                      className={styles.cardDescriptionStub}
-                      onClick={funcShowReactQuill}
-                    >
-                      Добавить более подробное описание…
-                    </p>
-                  )
-                }
-              </>
-            )}
-          </div>
-          
-          <div  className={styles.cardAttachmentsSection}>
-            Действия (Тут же: показать подробности, напишите комментарий…)
-          </div>
+          <WindowModalActivity
+            authUserData={authUserData}
+            activityDetailsShow={activityDetailsShow}
+            activityEditorShow={activityEditorShow}
+            processActivity={processActivity}
+            valueEditor={valueEditor}
+            setValueEditor={setValueEditor}
+            cardActivityComments={cardActivityComments}
+            modules={modules}
+            editorRef={editorRef}
+            funcActivityDetailsShow={funcActivityDetailsShow}
+            funcActivityEditorShow={funcActivityEditorShow}
+            showActivityReactQuillHandleKeyPress={showActivityReactQuillHandleKeyPress}
+            onSaveActivityReactQuillComment={onSaveActivityReactQuillComment}
+            onDelActivityReactQuillComment={onDelActivityReactQuillComment}
+            onUserCard={onUserCard}
+          />
 
         </div>
 
-        {/* сайдбар */}
         <Sidebar
           typeElem={typeElem}
           windowData={windowData}
@@ -596,6 +506,7 @@ export default function WindowModal(props){
           setMatchSearch={setMatchSearch}
           searchNewCardUser={searchNewCardUser}
           setSearchNewCardUser={setSearchNewCardUser}
+          closeModal={closeModal}
         ></Sidebar>
 
     </div>

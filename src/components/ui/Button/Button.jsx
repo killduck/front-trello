@@ -20,6 +20,7 @@ export default function Button(props) {
             aria-label={ariaLabel}
             style={style}
             onClick={() => clickAction(actionVariable)}
+            disabled={props.disabled}
         >
             {props.children}
         </button>

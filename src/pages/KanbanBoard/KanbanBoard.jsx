@@ -68,7 +68,6 @@ export default function KanbanBoard(props) {
 
 
   useEffect(() => {
-
     request({
       method: 'POST',
       url: 'dashboards/',
@@ -93,6 +92,8 @@ export default function KanbanBoard(props) {
           );
 
           setTasks(data_card);
+
+          setUpdateComponent(false);
 
         }
         else {
@@ -141,12 +142,10 @@ export default function KanbanBoard(props) {
     setActiveTask(null);
 
     const { active, over } = event;
-
     const active_order_element = active.data.current?.type;
 
-
     if (active_order_element === "Column") {
-      console.log('Сортируем колонки');
+      // console.log('Сортируем колонки');
 
       if (!over) return;
 
@@ -161,7 +160,11 @@ export default function KanbanBoard(props) {
       request({
         method: "POST",
         url: 'swap-columns/',
-        callback: (response) => { },
+        callback: (response) => { 
+          if(response.status === 200){ 
+            setUpdateComponent(true); 
+          } 
+        },
         data: { columns, dashboardId },
         status: 200,
       });
@@ -173,15 +176,19 @@ export default function KanbanBoard(props) {
 
       let order_cards = editOrderCards(tasks);
 
-      request({
-        method: "POST",
-        url: 'swap-cards/',
-        callback: (response) => { },
-        data: { order_cards, dashboardId },
-        status: 200,
-      });
-    }
-  }
+      request({ 
+        method: "POST", 
+        url: 'swap-cards/', 
+        callback: (response) => { 
+          if(response.status === 200){ 
+            setUpdateComponent(true); 
+          } 
+        }, 
+        data: {order_cards, dashboardId, 'active_id': active.id}, 
+        status: 200, 
+      }); 
+    } 
+  } 
 
   function editOrderColumns(active, over) {
     const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
@@ -266,7 +273,7 @@ export default function KanbanBoard(props) {
           tasks[activeIndex].column = tasks[overIndex].column;
 
           if (tasks[overIndex].column === columnBug) {
-            console.log('>>>проверяем проблемное место #1');
+            // console.log('>>>проверяем проблемное место #1');
             return arrayMove(tasks, activeIndex, overIndex);  // пытаемся решить проблему пермещения карточки на 1ое место в 1ую колонку
           }
 
@@ -335,13 +342,14 @@ export default function KanbanBoard(props) {
       setTasks([...tasks, cardToAdd]);
 
       setNewTextTask('Новая задача');
+
+      setUpdateComponent(true);
     }
 
   }
 
   function updateSetColumns(id, name) {
     const newColumns = columns.map((col) => {
-      // console.log(id, name ,col.id);
       if (col.id !== id) {
         return col;
       }
@@ -351,8 +359,6 @@ export default function KanbanBoard(props) {
   }
 
   function updateColumn(id, name) {
-    // console.log(id, name);
-    // console.log('мы_тут');
     request({
       method: "POST",
       url: `new-data-column/`,
@@ -369,7 +375,6 @@ export default function KanbanBoard(props) {
 
   function updateSetTasks(id, name) {
     const newTasks = tasks.map((task) => {
-      // console.log(String(id) , name ,task.id);
       if (task.id !== String(id)) {
         return task;
       }
@@ -379,7 +384,6 @@ export default function KanbanBoard(props) {
   }
 
   function updateTask(id, name) {
-    // console.log(id, name);
     request({
       method: "POST",
       url: `new-data-card/`,
@@ -440,6 +444,8 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           requestSuccessDeletCard(response, id);
           setShowPreloder(false);
+
+          setUpdateComponent(true); 
         }
       },
       data: idCardDeleted,
@@ -449,7 +455,6 @@ export default function KanbanBoard(props) {
 
   function updateSetCardLabel(id, label) {
     const newTasks = tasks.map((task) => {
-      // console.log(String(id) , label );
       if (task.id !== String(id)) {
         return task;
       }
@@ -459,13 +464,11 @@ export default function KanbanBoard(props) {
   }
 
   function updateCardLabel(card_id, label) {
-    // console.log(card_id, label);
     request({
       method: "POST",
       url: 'add-label-to-card/',
       callback: (response) => {
         if (response.status === 200) {
-          // console.log(response.data);
           let new_card_id = response.data[0]['id'];
           let new_label = response.data[0]['label'];
           updateSetCardLabel(new_card_id, new_label);
@@ -475,7 +478,6 @@ export default function KanbanBoard(props) {
       status: 200,
     });
   }
-  // console.log(tasks);
 
   return (
 

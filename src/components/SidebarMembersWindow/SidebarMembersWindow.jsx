@@ -6,7 +6,7 @@ import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
 
 export default function SidebarMembersWindow(props){
-  console.log(props);
+  // console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let cardUsers = props.cardUsers;
   let funcAddUserToCard = props.funcAddUserToCard;
