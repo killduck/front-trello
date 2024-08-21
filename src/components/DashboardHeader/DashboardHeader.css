@@ -1,0 +1,20 @@
+.css-b62m3t-container {
+  & .css-13cymwt-control {
+    width: 250px;
+    min-height: 40px;
+    background-color: #ffffff00;
+    color: #9fadbc
+  }
+
+
+  & .css-t3ipsp-control {
+    width: 250px;
+    min-height: 40px;
+    background-color: #ffffff00;
+    color: #9fadbc
+  }
+
+  & .css-19bb58m {
+    color: #9fadbc;
+  }
+}

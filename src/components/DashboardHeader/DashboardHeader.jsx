@@ -4,7 +4,10 @@ import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import styles from './DashboardHeader.module.scss';
+import './DashboardHeader.css';
 import UserDashboard from '../UserDashboard/UserDashboard';
+
+import Select from 'react-select';
 
 
 export default function DashboardHeader(props) {
@@ -22,6 +25,22 @@ export default function DashboardHeader(props) {
   let [showFormShare, setShowFormShare] = useState(false);
 
   let [fieldEmailData, setFieldEmailData] = useState("");
+
+  let [selectedOption, setSelectedOption] = useState(null);
+
+  let [optionList, setOptionList] = useState(
+    [
+      { user_name: "red", email: "Rad" },
+      { user_name: "green", email: "Green" },
+      { user_name: "yellow", email: "Yellow" },
+      { user_name: "blue", email: "Blue" },
+      { user_name: "white", email: "White" },
+    ]
+  );
+
+  const components = {
+    DropdownIndicator: null,
+  };
 
 
   function onUserDashboard(id_user = null) {
@@ -47,6 +66,7 @@ export default function DashboardHeader(props) {
   function SubmitFormShare() {
     console.log('Проверка выполения функции =>', SubmitFormShare.name);
     console.log('email>>>', fieldEmailData);
+    console.log('email>>>', selectedOption);
   }
 
 
@@ -54,6 +74,12 @@ export default function DashboardHeader(props) {
   //   console.log('Проверка выполения функции =>', onRemoving_all_menu.name, event);
 
   // }
+
+  function handleSelect(data) {
+    console.log(data);
+
+    setSelectedOption(data);
+  }
 
 
   return (
@@ -136,11 +162,23 @@ export default function DashboardHeader(props) {
                 </Button>
               </div>
               <form id="form-sharedashboard" className={styles.FormShareInput}>
-                <input
+                {/* <input
                   type="email"
                   value={(fieldEmailData) ? fieldEmailData : ""}
                   onChange={(evt) => writeEmail(evt.target.value)}
+                /> */}
+                <Select
+                  placeholder="поиск пользователя"
+                  components={components}
+                  options={optionList}
+                  value={selectedOption}
+                  onChange={handleSelect}
+                  openMenuOnClick={false}
+                  isMulti
+                  getOptionValue={option => option.user_name}
+                  getOptionLabel={option => option.email}
                 />
+
                 <Button
                   id="form-sharedashboard"
                   type="button"
