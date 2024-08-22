@@ -8,6 +8,9 @@ import './DashboardHeader.css';
 import UserDashboard from '../UserDashboard/UserDashboard';
 
 import Select from 'react-select';
+import AsyncSelect from 'react-select/async'
+
+import request from "../../api/request";
 
 
 export default function DashboardHeader(props) {
@@ -67,6 +70,15 @@ export default function DashboardHeader(props) {
     console.log('Проверка выполения функции =>', SubmitFormShare.name);
     console.log('email>>>', fieldEmailData);
     console.log('email>>>', selectedOption);
+
+    // request({
+    //   method: 'POST',
+    //   url: 'test-mail/',
+    //   callback: (response) => {
+    //   },
+    //   data: {},
+    //   status: 200,
+    // });
   }
 
 
@@ -178,6 +190,18 @@ export default function DashboardHeader(props) {
                   getOptionValue={option => option.user_name}
                   getOptionLabel={option => option.email}
                 />
+                {/* <AsyncSelect
+                  placeholder="поиск пользователя"
+                  components={components}
+                  options={optionList}
+                  value={selectedOption}
+                  // onChange={handleSelect}
+                  onChange={setSelectedOption}
+                  openMenuOnClick={false}
+                  isMulti
+                  getOptionValue={option => option.user_name}
+                  getOptionLabel={option => option.email}
+                /> */}
 
                 <Button
                   id="form-sharedashboard"
