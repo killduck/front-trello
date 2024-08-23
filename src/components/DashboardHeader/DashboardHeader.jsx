@@ -33,11 +33,11 @@ export default function DashboardHeader(props) {
 
   let [optionList, setOptionList] = useState(
     [
-      { user_name: "red", email: "Rad" },
-      { user_name: "green", email: "Green" },
-      { user_name: "yellow", email: "Yellow" },
-      { user_name: "blue", email: "Blue" },
-      { user_name: "white", email: "White" },
+      { username: "red", email: "Rad" },
+      { username: "green", email: "Green" },
+      { username: "yellow", email: "Yellow" },
+      { username: "blue", email: "Blue" },
+      { username: "white", email: "White" },
     ]
   );
 
@@ -179,17 +179,19 @@ export default function DashboardHeader(props) {
                   value={(fieldEmailData) ? fieldEmailData : ""}
                   onChange={(evt) => writeEmail(evt.target.value)}
                 /> */}
-                <Select
-                  placeholder="поиск пользователя"
-                  components={components}
-                  options={optionList}
-                  value={selectedOption}
-                  onChange={handleSelect}
-                  openMenuOnClick={false}
-                  isMulti
-                  getOptionValue={option => option.user_name}
-                  getOptionLabel={option => option.email}
-                />
+                <div>
+                  <Select
+                    placeholder="поиск пользователя"
+                    components={components}
+                    options={optionList}
+                    value={selectedOption}
+                    onChange={handleSelect}
+                    openMenuOnClick={false}
+                    isMulti
+                    getOptionValue={option => option.username}
+                    getOptionLabel={option => option.email}
+                  />
+                </div>
                 {/* <AsyncSelect
                   placeholder="поиск пользователя"
                   components={components}
