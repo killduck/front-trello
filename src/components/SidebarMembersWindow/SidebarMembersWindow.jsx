@@ -100,7 +100,7 @@ export default function SidebarMembersWindow(props){
               <li key={user.id} >
                 <Button
                   className={'addUserToCard'}
-                  type="dutton"
+                  type="button"
                   ariaLabel="Добавить пользователя к карточке"
                   actionVariable = {user.id}
                   clickAction = {funcAddUserToCard}
@@ -151,7 +151,7 @@ export default function SidebarMembersWindow(props){
                   <li key={cardUser.id}>
                     <Button
                       className={'delUserFromCard'}
-                      type="dutton"
+                      type="button"
                       ariaLabel="Удалить пользователя из карточки"
                       actionVariable={ cardUser.id }
                       clickAction={ funcDelCardUser }
@@ -207,7 +207,7 @@ export default function SidebarMembersWindow(props){
             <li key={user.id} >
               <Button
                 className={'addUserToCard'}
-                type="dutton"
+                type="button"
                 ariaLabel="Добавить пользователя к карточке"
                 actionVariable = {user.id}
                 clickAction = { funcAddUserToCard }
@@ -251,7 +251,7 @@ export default function SidebarMembersWindow(props){
         <div className={styles.iconWrap}>
           <Button
               className={'btnSmallWindow'}
-              type="dutton"
+              type="button"
               ariaLabel="Закрыть окно"
               clickAction={ funcMembersWindow }
           >

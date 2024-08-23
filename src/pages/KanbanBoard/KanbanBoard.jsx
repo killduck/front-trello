@@ -184,7 +184,7 @@ export default function KanbanBoard(props) {
             setUpdateComponent(true); 
           } 
         }, 
-        data: {order_cards, dashboardId, 'active_id': active.id}, 
+        data: {order_cards, dashboardId, 'card_id': active.id}, 
         status: 200, 
       }); 
     } 

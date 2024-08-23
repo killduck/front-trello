@@ -61,7 +61,7 @@ export default function SidebarLabelWindow(props){
         <div className={styles.iconWrap}>
           <Button
               className={'btnSmallWindow'}
-              type="dutton"
+              type="button"
               ariaLabel="Закрыть окно"
               clickAction={funcLabelsWindow}
           >

@@ -60,12 +60,17 @@ export default function WindowModal(props){
   const [cardActivity, setCardActivity] = useState('<p><br></p>');
   const [processActivity, setProcessActivity] = useState(false);
 
+  let [dueDateWindow, setDueDateWindow] = useState(false);
+  
+
   let [updateValue, setUpdateValue] = useState(false);
 
   function onRemoving_onFrames(){
     setNewNameField(false); 
     setMembersWindow(false); 
     setLabelsWindow(false); 
+    setDueDateWindow(false); 
+
     setShowReactQuill(false); 
     setShowUserCard(null); 
     setActivityEditorShow(null); 
@@ -401,6 +406,17 @@ export default function WindowModal(props){
     }
   }
 
+  function funcDueDateWindow(){
+    onRemoving_onFrames();
+
+    if(dueDateWindow){
+      setDueDateWindow(false);
+    }
+    else{
+      setDueDateWindow(dueDateWindow = true);
+    }
+  }
+
   const columnDueDate = (
     "дата"
   )
@@ -507,6 +523,9 @@ export default function WindowModal(props){
           searchNewCardUser={searchNewCardUser}
           setSearchNewCardUser={setSearchNewCardUser}
           closeModal={closeModal}
+          funcDueDateWindow={funcDueDateWindow} 
+          dueDateWindow={dueDateWindow}
+          
         ></Sidebar>
 
     </div>

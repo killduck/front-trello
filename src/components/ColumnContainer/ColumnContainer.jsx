@@ -169,7 +169,7 @@ export default function ColumnContainer(props) {
               <span className={styles.ColumnOptionWindowHeaderIcon} onBlur={funcShowColumnOptions}>
                 <Button
                 className={'btnSmallWindow'}
-                type="dutton"
+                type="button"
                 ariaLabel="Закрыть окно"
                 clickAction={funcShowColumnOptions}
                 >

@@ -5,9 +5,10 @@ import SidebarMembersWindow from "../SidebarMembersWindow/SidebarMembersWindow";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
+import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 
 export default function Sidebar(props){
-  // console.log(props);
+  console.log(props);
   let typeElem = props.typeElem;
   let windowData = props.windowData;
   let deleteFunc = props.deleteFunc;
@@ -26,6 +27,10 @@ export default function Sidebar(props){
   let searchNewCardUser = props.searchNewCardUser;
   let setSearchNewCardUser = props.setSearchNewCardUser;
   let closeModal = props.closeModal;
+
+  let funcDueDateWindow = props.funcDueDateWindow; 
+  let dueDateWindow = props.dueDateWindow; 
+
 
   function onDeleteCard(window_id){
     closeModal();
@@ -91,13 +96,25 @@ export default function Sidebar(props){
           />):("")
           }
 
-          <div className={styles.itemDueDate}>
+          <div 
+            className={styles.itemDueDate}
+            onClick={ funcDueDateWindow }
+          >
             <Icons
               name={'icon-date'}
               class_name={'itemDueDateIcon'}
             />
             <span>Даты</span>
           </div>
+          {(dueDateWindow) ? 
+          (<SidebarDueDate
+            funcDueDateWindow={funcDueDateWindow}
+            dueDateWindow={dueDateWindow}
+            // updateCardLabel={updateCardLabel}
+            // windowData={windowData}
+            // setCardLabel={setCardLabel}
+          />):("")
+          }
 
           <div className={styles.itemAttachments}>
             <Icons  //нужна другая иконка
