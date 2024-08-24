@@ -27,9 +27,8 @@
 }
 
 .react-datepicker-wrapper {
-    /* &:hidden{
-        display: none;
-    } */
+    position: absolute;
+    top: 350px;
 }
 .react-datepicker-popper {
     position: initial!important;
@@ -38,6 +37,7 @@
 .react-datepicker-popper > svg{
     display: none;    
 }
-..react-datepicker__navigation-icon::before {
+.react-datepicker__navigation-icon::before {
     border-width: 1px 1px 0 0;
 }
+/* .react-datepicker__navigation-icon--next::before */

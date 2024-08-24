@@ -79,3 +79,9 @@ https://quilljs.com/docs/installation
 
 React modal:
 https://reactcommunity.org/react-modal/examples/should_close_on_overlay_click/
+
+Date Picker:
+    Link npm:
+        https://www.npmjs.com/package/react-datepicker?activeTab=readme
+    customise:
+        https://github.com/Hacker0x01/react-datepicker/blob/main/docs/datepicker.md
