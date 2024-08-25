@@ -19,21 +19,56 @@ export default function SidebarDueDate(props){
 
   // const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
+  console.log(startDate);
   // const [endDate, setEndDate] = useState('');
+  // let [dateTime, setDateTime] = useState(String);
+  let [newDate, setNewDate] = useState(String);
+
+
   function takeDate(){
-    let month = startDate.getMonth() + 1;
+    let month = startDate.getMonth();
     let year = startDate.getFullYear();
     let date = startDate.getDate();
-    return `${date}.${month}.${year}`
+
+    // let hours = startDate.getHours();
+    // let Minutes = startDate.getMinutes();
+
+    
+    return `${date}.${month+1}.${year}`;
   }
   
 
   const handleChange = (date) => {
     // const [startDate, endDate] = range;
+    setNewDate('');
     setCheckbox(true);
     setStartDate(date);
     // setEndDate(endDate);
   };
+
+  function createNewDate(evt){
+    // let date = {
+    //   "date": "",
+    //   "month": "",
+    //   "year": "",
+    // }
+    console.log(evt.target.value);
+    setNewDate(newDate = evt.target.value);
+    console.log(newDate.split('.'));
+    let arrDate = newDate.split('.');
+    console.log(arrDate);
+    // date['date'] = arrDate[0];
+    // date['month'] = arrDate[1];
+    // date['year'] = arrDate[2];
+    console.log(startDate);
+    // console.log(`${date}.${month}.${year}`);
+    startDate.setDate(arrDate[0]);
+    startDate.setMonth(Number(arrDate[1]) -1);
+    startDate.setFullYear(arrDate[2]);
+
+    console.log(startDate);
+    // handleChange(startDate);
+  }
   
   registerLocale('ru', ru);
 
@@ -87,7 +122,7 @@ export default function SidebarDueDate(props){
             selected={startDate}
             onChange={(date) => handleChange(date)}
             startDate={startDate}
-            minDate={new Date()}
+            // minDate={new Date()}
             // endDate={endDate}
             // selectsRange
             // showTimeSelect
@@ -99,7 +134,7 @@ export default function SidebarDueDate(props){
             timeInputLabel=""
             dateFormat="d.m.yyyy h:mm aa"
             // timeFormat="HH:mm"
-            // todayButton="Сегодня"
+            todayButton="Сегодня"
 
           >
             <div className={styles.dueDateItemWrap}>
@@ -127,41 +162,13 @@ export default function SidebarDueDate(props){
                 type="text" placeholder="Д.М.ГГГГ" 
                 aria-placeholder="Д.М.ГГГГ" 
                 name="date" 
-                value={checkbox ? takeDate() : ""}  
+                onChange={(evt)=>createNewDate(evt)}
+                value={checkbox ? newDate ? newDate : takeDate() : ""}  
                 disabled={checkbox ? "" : true}
               />
             </div>
           </DatePicker>
         </div>
-
-        {/* <div className={styles.dueDateItemWrap}>
-          <label className={styles.dueDateItem}>
-            <input className={styles.dueDateItemInput} type="checkbox" />
-            
-            <span className={styles.dueDateItemCheckboxWrap}>
-              <span 
-                className={`${styles.dueDateItemCheckbox} ${checkbox ? styles.checked : "" }`}
-                onClick={onDeteWindow}
-              >
-                <Icons 
-                  name={'selected_label'}
-                  class_name={'iconSelectedLabel'}
-                  fill={"#1d2125"}
-                />
-              </span>
-            </span>
-          </label>
-          <input 
-            className={styles.dueDateTextInput} 
-            type="text" placeholder="Д.М.ГГГГ" 
-            aria-placeholder="Д.М.ГГГГ" 
-            name="date" 
-            value={checkbox ? startDate : ""}  
-            disabled={checkbox ? "" : true}
-          />
-        </div> */}
-
-
 
         <div className={styles.cardEditorButtonWrap}>
           <Button

@@ -8,7 +8,7 @@ import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 
 export default function Sidebar(props){
-  console.log(props);
+  // console.log(props);
   let typeElem = props.typeElem;
   let windowData = props.windowData;
   let deleteFunc = props.deleteFunc;
