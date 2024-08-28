@@ -62,7 +62,7 @@ export default function WindowModal(props){
   const [processActivity, setProcessActivity] = useState(false);
 
   let [dueDateWindow, setDueDateWindow] = useState(false);
-  
+  let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
 
   let [updateValue, setUpdateValue] = useState(false);
 
@@ -94,8 +94,9 @@ export default function WindowModal(props){
       url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
+          // console.log(response);
           if(response.data){
-            console.log(response.data);
+            // console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -106,6 +107,7 @@ export default function WindowModal(props){
             setCardDescription(response.data.card[0]['description']); 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
             setCardActivityComments(response.data.card[0].activity.reverse());
+            setDueDateCheckbox(response.data.card[0]['execute']);
             // console.log(response.data.card[0].activity);
             setUpdateValue(false);
           }
@@ -467,8 +469,10 @@ export default function WindowModal(props){
               <WindowModalDueDate
                 windowData={windowData} 
                 dueDateWindow={dueDateWindow} 
+                dueDateCheckbox={dueDateCheckbox}
+                setDueDateCheckbox={setDueDateCheckbox}
                 funcDueDateWindow={funcDueDateWindow} 
-                // funcSubscribe={funcSubscribe}
+                setUpdateValue={setUpdateValue}
               />
             </div>
             

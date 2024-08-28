@@ -1,30 +1,50 @@
-import { useState } from "react";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalDueDate.module.scss";
 import Button from "../ui/Button/Button";
-
+import request from "../../api/request";
 
 export default function WindowModalDueDate(props){
-  console.log(props);
+  // console.log(props);
 
   let windowData = props.windowData; 
-  let dueDateWindow = props.dueDateWindow; 
+  // let dueDateWindow = props.dueDateWindow; 
   let funcDueDateWindow = props.funcDueDateWindow; 
 
-  const [checkbox, setCheckbox] = useState(true);
+  let dueDateCheckbox = props.dueDateCheckbox;
+  let setDueDateCheckbox = props.setDueDateCheckbox;
+
+  let setUpdateValue = props.setUpdateValue; 
+
+
+  function sendExecute(card_execute){
+    request({
+      method:'POST',
+      url:'add-card-due-date-execute/',
+      callback:(response) => { 
+        if (response.status === 200) {
+          if(response.data){
+            setUpdateValue(true);
+          }
+        }
+      },
+      data: {'card_id': windowData.id, 'card_execute': card_execute},
+      status:200,
+    });
+  } 
 
   function onDeteWindow(){
-    if(!checkbox){
-      setCheckbox(true);
+    if(dueDateCheckbox){
+      setDueDateCheckbox(dueDateCheckbox = false);
     }
     else{
-      setCheckbox(false);
+      setDueDateCheckbox(dueDateCheckbox = true);
     }
+    sendExecute(dueDateCheckbox);
   }
 
   return (
     <>
-      {windowData.date_end ?
+    {windowData.date_end ?
       <div className={styles.cardDetailNotifications}>
         <h3 className={styles.cardDetailsTitle}>Срок</h3>
         <div className={styles.dueDateItemWrap}>
@@ -34,7 +54,7 @@ export default function WindowModalDueDate(props){
             
             <span className={styles.dueDateItemCheckboxWrap}>
               <span 
-                className={`${styles.dueDateItemCheckbox} ${checkbox ? styles.checked : "" }`}
+                className={`${styles.dueDateItemCheckbox} ${dueDateCheckbox ? styles.checked : "" }`}
                 onClick={onDeteWindow}
               >
                 <Icons 
@@ -59,8 +79,8 @@ export default function WindowModalDueDate(props){
               <span>
                 {new Date(windowData.date_end).toLocaleString("ru", {month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'})}
               </span>
-              {checkbox ? 
-                <span class={styles.itemDueDateExecute}>Выполнить</span>
+              {dueDateCheckbox ? 
+                <span className={styles.itemDueDateExecute}>Выполнить</span>
                 :
                 ""
               }
@@ -78,4 +98,3 @@ export default function WindowModalDueDate(props){
     </>
   )
 };
-

@@ -18,13 +18,13 @@ export default function SidebarDueDate(props){
   // console.log(new Date(windowData_date_end));
   let funcDueDateWindow = props.funcDueDateWindow; 
   let setUpdateValue = props.setUpdateValue;
-  let dueDateWindow = props.dueDateWindow; 
+  // let dueDateWindow = props.dueDateWindow; 
 
   const [checkbox, setCheckbox] = useState(true);
 
   // const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState(windowData_date_end ? new Date(windowData_date_end) : new Date());
-  console.log(startDate);
+  // console.log(startDate);
   // const [endDate, setEndDate] = useState();
   let [arrDate, setArrDate] = useState([]);
   let [newDate, setNewDate] = useState(String);
@@ -65,7 +65,6 @@ export default function SidebarDueDate(props){
     console.log(evt, evt.target.value);
     
     setNewDate(newDate = evt.target.value);
-    // console.log(newDate.split('.'));
     setArrDate(arrDate = newDate.split('.'));
     console.log(arrDate, arrDate.length);
 
@@ -96,14 +95,9 @@ export default function SidebarDueDate(props){
   function onDeteWindow(){
     if(!checkbox){
       setCheckbox(true);
-      // setColoredLabel_id(label.id);
-      // console.log(windowData.id, label);
-      // updateCardLabel(windowData.id, label);
     }
     else{
       setCheckbox(false);
-      // updateCardLabel(windowData.id, {'id': null});
-      // setCardLabel(false);
     }
   }
 
@@ -119,6 +113,7 @@ export default function SidebarDueDate(props){
     let end_minutes = startDate.getMinutes();
 
     let chekking_date_format = new Date(end_year,end_month-1,end_day,end_hours,end_minutes,'00');
+    console.log(chekking_date_format);
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
     // console.log(`${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`);
     
@@ -133,15 +128,36 @@ export default function SidebarDueDate(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            console.log(response.data);
-            console.log(new Date(response.data[0].date_end));
-            setStartDate(new Date(response.data[0].date_end));
+            // console.log(response.data);
+            // console.log(new Date(response.data[0].date_end));
             // funcDueDateWindow(false);
+            setStartDate(new Date(response.data[0].date_end));
             setUpdateValue(true);
           }
         }
       },
       data: {'card_id': windowData.id, 'start_date_time': sendind_start_date, 'end_date_time': sendind_end_date},
+      status:200,
+    });
+
+  }
+
+  function onDelDueDate(){
+
+    request({
+      method:'POST',
+      url:'del-card-due-date/',
+      callback:(response) => { 
+        if (response.status === 200) {
+          if(response.data){
+            // console.log(response.data);
+            setCheckbox(false);
+            setUpdateValue(true);
+            setStartDate(new Date())
+          }
+        }
+      },
+      data: {'card_id': windowData.id},
       status:200,
     });
 
@@ -233,14 +249,14 @@ export default function SidebarDueDate(props){
             className={'dueDateCancel'} 
             // actionVariable={null}
             clickAction = {funcEraseDates}
-          >Сброс</Button>
+          >Сброс даты</Button>
           
           <div className={styles.actionDeleteCard}>
             <Button
                 // clickAction={deleteColumn}
                 // actionVariable={column.id}
                 // className={'BtnDeleteColumn'}
-                // clickAction={onDeleteCard}
+                clickAction={onDelDueDate}
                 // actionVariable={windowData.id}
                 className={'BtnDeleteDueDate'}
               >
