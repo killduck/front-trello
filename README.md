@@ -81,7 +81,9 @@ React modal:
 https://reactcommunity.org/react-modal/examples/should_close_on_overlay_click/
 
 Date Picker:
+    Link:
+        https://reactdatepicker.com/#example-calendar-start-day
     Link npm:
         https://www.npmjs.com/package/react-datepicker?activeTab=readme
-    customise:
+    Customise:
         https://github.com/Hacker0x01/react-datepicker/blob/main/docs/datepicker.md

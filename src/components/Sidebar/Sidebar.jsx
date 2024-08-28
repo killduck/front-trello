@@ -30,6 +30,7 @@ export default function Sidebar(props){
 
   let funcDueDateWindow = props.funcDueDateWindow; 
   let dueDateWindow = props.dueDateWindow; 
+  let setUpdateValue = props.setUpdateValue;
 
 
   function onDeleteCard(window_id){
@@ -108,11 +109,10 @@ export default function Sidebar(props){
           </div>
           {(dueDateWindow) ? 
           (<SidebarDueDate
+            windowData={windowData}
             funcDueDateWindow={funcDueDateWindow}
             dueDateWindow={dueDateWindow}
-            // updateCardLabel={updateCardLabel}
-            // windowData={windowData}
-            // setCardLabel={setCardLabel}
+            setUpdateValue={setUpdateValue}
           />):("")
           }
 
@@ -146,7 +146,7 @@ export default function Sidebar(props){
                   class_name={'IconDeletColumnn'}
                 />
                 <span className={styles.actionDeleteCardText}>
-                  Удалить {typeElem === 'column' ? 'колонку' : 'карточку'}
+                  Удалить {typeElem === 'card' ? 'карточку' : '...'}
                 </span>
             </Button>
           </div>

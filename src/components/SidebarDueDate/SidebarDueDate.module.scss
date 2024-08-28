@@ -9,7 +9,7 @@
     height: max-content;
     min-height: 30px;
     cursor: default;
-    top: 0;
+    top: -30px;
     right: 200px;
     padding: 12px;
 
@@ -48,6 +48,7 @@
             grid-row: 1;
             padding: 3px;
             z-index: 2;
+            display: flex;
         }
     }
 
@@ -185,4 +186,44 @@
 .dueDateItemTittle{
     width: 100%;
     margin-bottom: 5px;
+}
+
+
+.actionDeleteCard{
+    background-color: #a1bdd914;
+    border: none;
+    border-radius: 3px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #b6c2cf;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    height: 32px;
+    margin-top: 8px;
+    max-width: 300px;
+    padding: 6px 12px;
+    font-size: 14px;
+
+    &:active,
+    &:hover {
+        border: none;
+        box-shadow: none;
+        color: #b6c2cf;
+    }
+    &:hover {
+        background-color: #a6c5e229;
+        text-decoration: none;
+        color: #ff6f6f;
+    }
+    &:active{
+        background-color: #bfdbf847;
+        outline: 0;
+        color: #b6c2cf;
+    }
+
+    .actionDeleteCardText{
+        margin-right: 8px;
+    }
 }

@@ -17,6 +17,7 @@ import WindowModalSubscribe from "../WindowModalSubscribe/WindowModalSubscribe";
 import WindowModalHeaderSection from "../WindowModalHeaderSection/WindowModalHeaderSection";
 import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
 import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
+import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -94,7 +95,7 @@ export default function WindowModal(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            // console.log(response.data);
+            console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -417,10 +418,6 @@ export default function WindowModal(props){
     }
   }
 
-  const columnDueDate = (
-    "дата"
-  )
-
   return (
     <div className={styles.wrap} >
         {props.children}
@@ -463,11 +460,16 @@ export default function WindowModal(props){
               <WindowModalSubscribe
                 subscribe={subscribe}
                 funcSubscribe={funcSubscribe}
-              ></WindowModalSubscribe>
+              />
             </div>
 
             <div className={styles.cardDetailItem}>
-              {columnDueDate}
+              <WindowModalDueDate
+                windowData={windowData} 
+                dueDateWindow={dueDateWindow} 
+                funcDueDateWindow={funcDueDateWindow} 
+                // funcSubscribe={funcSubscribe}
+              />
             </div>
             
           </div>
@@ -525,6 +527,7 @@ export default function WindowModal(props){
           closeModal={closeModal}
           funcDueDateWindow={funcDueDateWindow} 
           dueDateWindow={dueDateWindow}
+          setUpdateValue={setUpdateValue}
           
         ></Sidebar>
 
