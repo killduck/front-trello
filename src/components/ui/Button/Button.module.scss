@@ -124,9 +124,12 @@
 .cardWidth {
   width: 100%;
 }
-.BtnDeleteCard {
+
+.BtnDeleteCard,
+.BtnDeleteDueDate {
   width: 100%;
   padding: 0;
+  justify-content: center;
 
   &:hover {
     opacity: 100%;
@@ -558,4 +561,51 @@
   font-size: 12px;
   padding: 0 6px;
   text-decoration: underline;
+}
+
+.dueDateSave{
+  margin-bottom: 8px;
+  border: none;
+  background-color: #579dff;
+  box-shadow: none;
+  color: #1d2125;
+  font-size: 14px;
+  justify-content: center;
+
+  &:hover {
+    border: none;
+    background-color: #85b8ff;
+    box-shadow: none;
+    color: #1d2125;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #cce0ff;
+    box-shadow: none;
+    color: #1d2125;
+  }
+}
+
+.dueDateCancel{
+  border: none;
+  background-color: rgba(161, 189, 217, 0.0784313725);
+  box-shadow: none;
+  justify-content: center;
+
+  &:hover {
+    border: none;
+    background-color: #a6c5e229;
+    box-shadow: none;
+    color: #b6c2cf;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #bfdbf847;
+    box-shadow: none;
+    color: #b6c2cf;
+  }
 }

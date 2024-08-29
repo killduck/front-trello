@@ -7,7 +7,7 @@
     width: 304px;
     min-height: 30px;
     cursor: default;
-    top: 0;
+    top: -30px;
     right: 200px;
 
     .itemHeader{
@@ -45,6 +45,7 @@
             grid-row: 1;
             padding: 3px;
             z-index: 2;
+            display: flex;
         }
     }
 

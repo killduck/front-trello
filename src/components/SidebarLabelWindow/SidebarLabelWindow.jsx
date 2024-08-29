@@ -24,11 +24,9 @@ export default function SidebarLabelWindow(props){
       url:'label-data',
       callback:(response) => { 
         if (response.status === 200) {
-          // console.log(response.data);
           if(response.data){
             setColoredLabels(response.data);
           }
-
           if(labelsWindow && windowData.label){
             onTakeColor(windowData.label);
           }
@@ -44,7 +42,6 @@ export default function SidebarLabelWindow(props){
     if(!checkbox){
       setCheckbox(true);
       setColoredLabel_id(label.id);
-      // console.log(windowData.id, label);
       updateCardLabel(windowData.id, label);
     }
     else{
@@ -61,7 +58,7 @@ export default function SidebarLabelWindow(props){
         <div className={styles.iconWrap}>
           <Button
               className={'btnSmallWindow'}
-              type="dutton"
+              type="button"
               ariaLabel="Закрыть окно"
               clickAction={funcLabelsWindow}
           >

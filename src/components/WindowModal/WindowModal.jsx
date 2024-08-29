@@ -17,6 +17,7 @@ import WindowModalSubscribe from "../WindowModalSubscribe/WindowModalSubscribe";
 import WindowModalHeaderSection from "../WindowModalHeaderSection/WindowModalHeaderSection";
 import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
 import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
+import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -60,12 +61,17 @@ export default function WindowModal(props){
   const [cardActivity, setCardActivity] = useState('<p><br></p>');
   const [processActivity, setProcessActivity] = useState(false);
 
+  let [dueDateWindow, setDueDateWindow] = useState(false);
+  let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
+
   let [updateValue, setUpdateValue] = useState(false);
 
   function onRemoving_onFrames(){
     setNewNameField(false); 
     setMembersWindow(false); 
     setLabelsWindow(false); 
+    setDueDateWindow(false); 
+
     setShowReactQuill(false); 
     setShowUserCard(null); 
     setActivityEditorShow(null); 
@@ -88,6 +94,7 @@ export default function WindowModal(props){
       url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
+          // console.log(response);
           if(response.data){
             // console.log(response.data);
             setAuthUser(response.data.auth_user);
@@ -100,6 +107,7 @@ export default function WindowModal(props){
             setCardDescription(response.data.card[0]['description']); 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
             setCardActivityComments(response.data.card[0].activity.reverse());
+            setDueDateCheckbox(response.data.card[0]['execute']);
             // console.log(response.data.card[0].activity);
             setUpdateValue(false);
           }
@@ -401,9 +409,16 @@ export default function WindowModal(props){
     }
   }
 
-  const columnDueDate = (
-    "дата"
-  )
+  function funcDueDateWindow(){
+    onRemoving_onFrames();
+
+    if(dueDateWindow){
+      setDueDateWindow(false);
+    }
+    else{
+      setDueDateWindow(dueDateWindow = true);
+    }
+  }
 
   return (
     <div className={styles.wrap} >
@@ -447,11 +462,18 @@ export default function WindowModal(props){
               <WindowModalSubscribe
                 subscribe={subscribe}
                 funcSubscribe={funcSubscribe}
-              ></WindowModalSubscribe>
+              />
             </div>
 
             <div className={styles.cardDetailItem}>
-              {columnDueDate}
+              <WindowModalDueDate
+                windowData={windowData} 
+                dueDateWindow={dueDateWindow} 
+                dueDateCheckbox={dueDateCheckbox}
+                setDueDateCheckbox={setDueDateCheckbox}
+                funcDueDateWindow={funcDueDateWindow} 
+                setUpdateValue={setUpdateValue}
+              />
             </div>
             
           </div>
@@ -507,6 +529,10 @@ export default function WindowModal(props){
           searchNewCardUser={searchNewCardUser}
           setSearchNewCardUser={setSearchNewCardUser}
           closeModal={closeModal}
+          funcDueDateWindow={funcDueDateWindow} 
+          dueDateWindow={dueDateWindow}
+          setUpdateValue={setUpdateValue}
+          
         ></Sidebar>
 
     </div>
