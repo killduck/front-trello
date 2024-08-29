@@ -7,7 +7,6 @@ export default function WindowModalDueDate(props){
   // console.log(props);
 
   let windowData = props.windowData; 
-  // let dueDateWindow = props.dueDateWindow; 
   let funcDueDateWindow = props.funcDueDateWindow; 
 
   let dueDateCheckbox = props.dueDateCheckbox;

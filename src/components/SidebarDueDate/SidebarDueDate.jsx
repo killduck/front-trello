@@ -15,17 +15,13 @@ export default function SidebarDueDate(props){
   // console.log(props);
   let windowData = props.windowData;
   let windowData_date_end = windowData.date_end;
-  // console.log(new Date(windowData_date_end));
   let funcDueDateWindow = props.funcDueDateWindow; 
   let setUpdateValue = props.setUpdateValue;
-  // let dueDateWindow = props.dueDateWindow; 
 
   const [checkbox, setCheckbox] = useState(true);
 
   // const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState(windowData_date_end ? new Date(windowData_date_end) : new Date());
-  // console.log(startDate);
-  // const [endDate, setEndDate] = useState();
   let [arrDate, setArrDate] = useState([]);
   let [newDate, setNewDate] = useState(String);
 
@@ -51,35 +47,24 @@ export default function SidebarDueDate(props){
   };
 
   function newStartDate(){
-    console.log('tut');
-    console.log(startDate);
     startDate.setDate(arrDate[0]);
     startDate.setMonth(Number(arrDate[1]) -1);
     startDate.setFullYear(arrDate[2]);
-    
     setStartDate(startDate);
-    console.log(startDate);
   }
 
   function takeInputDateValue(evt){
-    console.log(evt, evt.target.value);
-    
     setNewDate(newDate = evt.target.value);
     setArrDate(arrDate = newDate.split('.'));
-    console.log(arrDate, arrDate.length);
 
     if(arrDate.length === 3){
       newStartDate();
     }
-    console.log(startDate);
   }
 
   function createNewDate(evt){
-    console.log(evt);
     if(evt.key === "Enter" && evt.shiftKey || evt.type === "blur"){
-      console.log('tut');
       if(arrDate.length === 3){
-        console.log('tut');
         newStartDate();
       }
     }
@@ -105,7 +90,6 @@ export default function SidebarDueDate(props){
     let sendind_end_date = '';
     let sendind_start_date = '';
 
-    // console.log(startDate);
     let end_day = startDate.getDate();
     let end_month = startDate.getMonth()+1;
     let end_year = startDate.getFullYear();
@@ -113,7 +97,7 @@ export default function SidebarDueDate(props){
     let end_minutes = startDate.getMinutes();
 
     let chekking_date_format = new Date(end_year,end_month-1,end_day,end_hours,end_minutes,'00');
-    console.log(chekking_date_format);
+    // console.log(chekking_date_format);
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
     // console.log(`${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`);
     
@@ -128,9 +112,6 @@ export default function SidebarDueDate(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            // console.log(response.data);
-            // console.log(new Date(response.data[0].date_end));
-            // funcDueDateWindow(false);
             setStartDate(new Date(response.data[0].date_end));
             setUpdateValue(true);
           }
@@ -150,7 +131,6 @@ export default function SidebarDueDate(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            // console.log(response.data);
             setCheckbox(false);
             setUpdateValue(true);
             setStartDate(new Date())
