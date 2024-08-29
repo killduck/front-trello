@@ -114,6 +114,7 @@ export default function SidebarDueDate(props){
           if(response.data){
             setStartDate(new Date(response.data[0].date_end));
             setUpdateValue(true);
+            funcDueDateWindow();
           }
         }
       },
@@ -133,7 +134,7 @@ export default function SidebarDueDate(props){
           if(response.data){
             setCheckbox(false);
             setUpdateValue(true);
-            setStartDate(new Date())
+            setStartDate(new Date());
           }
         }
       },
