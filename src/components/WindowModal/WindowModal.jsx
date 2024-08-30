@@ -43,6 +43,9 @@ export default function WindowModal(props){
   let [cardUsers, setCardUsers] = useState([]);
   const [matchSearch, setMatchSearch]=useState('');
   let [searchNewCardUser, setSearchNewCardUser]=useState([]);
+  const [showPreloderAddMember, setShowPreloderAddMember] = useState(false);
+  const [showPreloderDelMember, setShowPreloderDelMember] = useState(false);
+
 
   let [subscribe, setSubscribe] = useState(false);
   let [showUserCard, setShowUserCard] = useState(null);
@@ -249,6 +252,10 @@ export default function WindowModal(props){
   }
 
   function funcAddUserToCard(user_id){
+    if(showPreloderAddMember){
+      return;
+    }
+    setShowPreloderAddMember(user_id);
     if(chechUserToAdd(user_id)){
       request({
         method:'POST',
@@ -256,6 +263,8 @@ export default function WindowModal(props){
         callback:(response) => { 
           if (response.status === 200) {
             if(response.data){
+              setShowPreloderAddMember(false);
+              
               setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
               setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
               
@@ -273,6 +282,10 @@ export default function WindowModal(props){
   }
 
   function funcDelCardUser(user_id){
+    if(showPreloderDelMember){
+      return;
+    } 
+    setShowPreloderDelMember(user_id);
     cardUsers.forEach(cardUser => {
       if (user_id === cardUser.id){
         request({
@@ -281,6 +294,8 @@ export default function WindowModal(props){
           callback:(response) => { 
             if (response.status === 200) {
               if(response.data){
+                setShowPreloderDelMember(false);
+
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
                 setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
@@ -532,6 +547,8 @@ export default function WindowModal(props){
           funcDueDateWindow={funcDueDateWindow} 
           dueDateWindow={dueDateWindow}
           setUpdateValue={setUpdateValue}
+          showPreloderAddMember={showPreloderAddMember}
+          showPreloderDelMember={showPreloderDelMember}
           
         ></Sidebar>
 

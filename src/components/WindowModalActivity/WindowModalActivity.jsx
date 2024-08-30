@@ -200,17 +200,6 @@ export default function WindowModalActivity(props){
                     {comment.date}
                   </span>
                   {(activityEditorShow !== comment.id) ? (
-                    // <input 
-                    //   className={styles.cardActivityNewCommentInput} 
-                    //   type="text" 
-                    //   // placeholder={comment.comment} 
-                    //   // aria-label={comment.comment} 
-                    //   placeholder={<Interweave content={comment.comment}></Interweave>}
-                    //   aria-label={<Interweave content={comment.comment}></Interweave>}
-                    //   readOnly 
-                    //   value={""} 
-                    //   onClick={ ()=>funcActivityEditorShow(comment.id, comment.comment) }
-                    // />
                     <div
                       className={
                         processActivity !== comment.date ? 

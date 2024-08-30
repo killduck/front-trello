@@ -16,6 +16,8 @@ export default function SidebarMembersWindow(props){
   let setMatchSearch = props.setMatchSearch;
   let searchNewCardUser = props.searchNewCardUser;
   let setSearchNewCardUser = props.setSearchNewCardUser;
+  let showPreloderAddMember = props.showPreloderAddMember;
+  let showPreloderDelMember = props.showPreloderDelMember;
 
   // const [searchNewCardUser, setSearchNewCardUser]=useState([]);
   const [showNoResult, setShowNoResult]=useState(false);
@@ -148,13 +150,13 @@ export default function SidebarMembersWindow(props){
             <ul>
               { cardUsers.map(
                 (cardUser) => 
-                  <li key={cardUser.id}>
+                  <li key={cardUser.id} className={showPreloderDelMember === cardUser.id ? styles.cardActivityNewCommentInputGradient: ""}>
                     <Button
                       className={'delUserFromCard'}
-                      type="button"
+                      type={showPreloderDelMember ? "text" : "button"}
                       ariaLabel="Удалить пользователя из карточки"
-                      actionVariable={ cardUser.id }
-                      clickAction={ funcDelCardUser }
+                      actionVariable={cardUser.id}
+                      clickAction={funcDelCardUser}
                     >
                       <div className={styles.itemContentDashboardMemberInfo} >
 
@@ -204,13 +206,13 @@ export default function SidebarMembersWindow(props){
         <ul>
         {dashboardUsers.map(
           (user)=> 
-            <li key={user.id} >
+            <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardActivityNewCommentInputGradient: ""}>
               <Button
                 className={'addUserToCard'}
-                type="button"
+                type={showPreloderAddMember ? "text" : "button"}
                 ariaLabel="Добавить пользователя к карточке"
-                actionVariable = {user.id}
-                clickAction = { funcAddUserToCard }
+                actionVariable={user.id}
+                clickAction={funcAddUserToCard}
               >
                 <div 
                   className={styles.itemContentDashboardMemberImg} 
