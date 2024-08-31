@@ -18,6 +18,8 @@ export default function Sidebar(props){
   let cardUsers = props.cardUsers;
   let funcMembersWindow = props.funcMembersWindow;
   let membersWindow = props.membersWindow;
+  let showPreloderAddMember = props.showPreloderAddMember;
+  let showPreloderDelMember = props.showPreloderDelMember;
   let funcLabelsWindow = props.funcLabelsWindow;
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
@@ -67,6 +69,8 @@ export default function Sidebar(props){
               funcAddUserToCard = {funcAddUserToCard}
               funcDelCardUser = {funcDelCardUser}
               funcMembersWindow = {funcMembersWindow}
+              showPreloderAddMember={showPreloderAddMember}
+              showPreloderDelMember={showPreloderDelMember}
               // deleteFunc = {deleteFunc}
               matchSearch={matchSearch}
               setMatchSearch={setMatchSearch}

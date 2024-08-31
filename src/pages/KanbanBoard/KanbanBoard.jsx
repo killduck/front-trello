@@ -28,7 +28,7 @@ import Preloader from "../../components/Preloader/Preloader";
 
 export default function KanbanBoard(props) {
 
-  let [showPreloder, setShowPreloder] = useState(false);
+  let [showPreloder, setShowPreloder] = useState(true);
 
   const [columns, setColumns] = useState([]);
 
@@ -72,7 +72,7 @@ export default function KanbanBoard(props) {
       method: 'POST',
       url: 'dashboards/',
       callback: (response) => {
-        setShowPreloder(true);
+        // setShowPreloder(true);
         if (response.status === 200) {
           setShowPreloder(false);
           let dashboard = response.data; //нужный дашборд
@@ -480,7 +480,9 @@ export default function KanbanBoard(props) {
   }
 
   return (
-
+    <>
+    {showPreloder ? 
+    (<Preloader />) : (
     <Default
       backGroundImage={{ backgroundImage: `url(/img/${backGroundImage})` }}
     >
@@ -490,7 +492,7 @@ export default function KanbanBoard(props) {
         updateComponent={updateComponent}
         setUpdateComponent={setUpdateComponent}
       />
-      {showPreloder ? (<Preloader />) : ("")}
+      
       {/* <WorkspaceMenu /> */}
       <div
         className={styles.KanbanBoard}
@@ -595,8 +597,8 @@ export default function KanbanBoard(props) {
           )}
         </DndContext>
       </div >
-    </Default >
-
+    </Default >)}
+    </>
   );
 
 }
