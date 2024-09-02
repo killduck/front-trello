@@ -59,7 +59,7 @@ export default function WindowModal(props){
   let [valueDescription, setValueDescription] = useState('');
   const [cardDescription, setCardDescription] = useState('');
 
-  let [activityDetailsShow, setActivityDetailsShow] = useState(false);
+  let [activityDetailsShow, setActivityDetailsShow] = useState(true);
   let [activityEditorShow, setActivityEditorShow] = useState(null);
   let [cardActivityComments, setCardActivityComments] = useState([]);
   let [valueEditor, setValueEditor] = useState('');
@@ -76,7 +76,6 @@ export default function WindowModal(props){
     setMembersWindow(false); 
     setLabelsWindow(false); 
     setDueDateWindow(false); 
-
     setShowReactQuill(false); 
     setShowUserCard(null); 
     setActivityEditorShow(null); 
