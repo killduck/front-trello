@@ -31,6 +31,8 @@ export default function WindowModal(props){
   let deleteFunc = props.deleteFunc;
   let updateCardLabel = props.updateCardLabel;
   let closeModal = props.closeModal;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
 
   const [authUser, setAuthUser] = useState(Number);
   const [authUserData, setAuthUserData] = useState(Number);
@@ -57,7 +59,7 @@ export default function WindowModal(props){
   let [valueDescription, setValueDescription] = useState('');
   const [cardDescription, setCardDescription] = useState('');
 
-  let [activityDetailsShow, setActivityDetailsShow] = useState(false);
+  let [activityDetailsShow, setActivityDetailsShow] = useState(true);
   let [activityEditorShow, setActivityEditorShow] = useState(null);
   let [cardActivityComments, setCardActivityComments] = useState([]);
   let [valueEditor, setValueEditor] = useState('');
@@ -74,7 +76,6 @@ export default function WindowModal(props){
     setMembersWindow(false); 
     setLabelsWindow(false); 
     setDueDateWindow(false); 
-
     setShowReactQuill(false); 
     setShowUserCard(null); 
     setActivityEditorShow(null); 
@@ -549,6 +550,8 @@ export default function WindowModal(props){
           setUpdateValue={setUpdateValue}
           showPreloderAddMember={showPreloderAddMember}
           showPreloderDelMember={showPreloderDelMember}
+          showPreloderLabel={showPreloderLabel}
+          setShowPreloderLabel={setShowPreloderLabel}
           
         ></Sidebar>
 

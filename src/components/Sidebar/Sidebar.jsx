@@ -24,6 +24,8 @@ export default function Sidebar(props){
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
   let setCardLabel = props.setCardLabel;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
   let matchSearch = props.matchSearch;
   let setMatchSearch = props.setMatchSearch;
   let searchNewCardUser = props.searchNewCardUser;
@@ -98,6 +100,8 @@ export default function Sidebar(props){
             updateCardLabel={updateCardLabel}
             windowData={windowData}
             setCardLabel={setCardLabel}
+            showPreloderLabel={showPreloderLabel}
+            setShowPreloderLabel={setShowPreloderLabel}
           />):("")
           }
 
