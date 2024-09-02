@@ -48,6 +48,8 @@ export default function KanbanBoard(props) {
 
   const [newTextTask, setNewTextTask] = useState('Новая задача');
 
+  const [showPreloderLabel, setShowPreloderLabel] = useState(false);
+
   let [backGroundImage, setBackGroundImage] = useState('');
 
   let [name_dashboard, setNameDashboard] = useState('');
@@ -464,6 +466,9 @@ export default function KanbanBoard(props) {
   }
 
   function updateCardLabel(card_id, label) {
+    if(showPreloderLabel){
+      return;
+    }
     request({
       method: "POST",
       url: 'add-label-to-card/',
@@ -472,6 +477,7 @@ export default function KanbanBoard(props) {
           let new_card_id = response.data[0]['id'];
           let new_label = response.data[0]['label'];
           updateSetCardLabel(new_card_id, new_label);
+          setShowPreloderLabel(false);
         }
       },
       data: { "card_id": card_id, "label_id": label.id },
@@ -520,6 +526,8 @@ export default function KanbanBoard(props) {
                     updateCardLabel={updateCardLabel}
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
+                    showPreloderLabel={showPreloderLabel}
+                    setShowPreloderLabel={setShowPreloderLabel}
                   />
                 ))}
               </SortableContext>
@@ -583,6 +591,8 @@ export default function KanbanBoard(props) {
                   updateCardLabel={updateCardLabel}
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
+                  showPreloderLabel={showPreloderLabel}
+                  setShowPreloderLabel={setShowPreloderLabel}
                 />
               )}
               {activeTask && (

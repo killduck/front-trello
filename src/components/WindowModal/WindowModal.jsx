@@ -31,6 +31,8 @@ export default function WindowModal(props){
   let deleteFunc = props.deleteFunc;
   let updateCardLabel = props.updateCardLabel;
   let closeModal = props.closeModal;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
 
   const [authUser, setAuthUser] = useState(Number);
   const [authUserData, setAuthUserData] = useState(Number);
@@ -549,6 +551,8 @@ export default function WindowModal(props){
           setUpdateValue={setUpdateValue}
           showPreloderAddMember={showPreloderAddMember}
           showPreloderDelMember={showPreloderDelMember}
+          showPreloderLabel={showPreloderLabel}
+          setShowPreloderLabel={setShowPreloderLabel}
           
         ></Sidebar>
 

@@ -25,6 +25,8 @@ export default function ColumnContainer(props) {
   let deleteCard = props.deleteCard;
   let updateTask = props.updateTask;
   let updateCardLabel = props.updateCardLabel;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
 
 
   const [editMode, setEditMode] = useState(false);
@@ -217,6 +219,8 @@ export default function ColumnContainer(props) {
               updateTask={updateTask}
               deleteCard={deleteCard}
               updateCardLabel={updateCardLabel}
+              showPreloderLabel={showPreloderLabel}
+              setShowPreloderLabel={setShowPreloderLabel}
             />
           ))}
           <CreateNewBoardItem

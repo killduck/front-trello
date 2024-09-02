@@ -22,6 +22,8 @@ export default function TaskCard(props) {
   let updateTask = props.updateTask;
   let deleteCard = props.deleteCard;
   let updateCardLabel = props.updateCardLabel;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -133,6 +135,8 @@ export default function TaskCard(props) {
           updateFunc = {updateTask}
           deleteFunc={deleteCard}
           updateCardLabel={updateCardLabel}
+          showPreloderLabel={showPreloderLabel}
+          setShowPreloderLabel={setShowPreloderLabel}
         >
           <div className={styles.TaskCard__Wrap}>
 
@@ -201,6 +205,8 @@ export default function TaskCard(props) {
           deleteFunc={deleteCard}
           updateCardLabel={updateCardLabel}
           setDNDIsOn={setDNDIsOn}
+          showPreloderLabel={showPreloderLabel}
+          setShowPreloderLabel={setShowPreloderLabel}
         >
           <div className={styles.TaskCard__Wrap}>
 

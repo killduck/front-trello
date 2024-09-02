@@ -12,6 +12,8 @@ export default function SidebarLabelWindow(props){
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
   let setCardLabel = props.setCardLabel;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
@@ -39,6 +41,11 @@ export default function SidebarLabelWindow(props){
 
 
   function onTakeColor(label){
+    if(showPreloderLabel){
+      return;
+    }
+    
+    setShowPreloderLabel(label.id);
     if(!checkbox){
       setCheckbox(true);
       setColoredLabel_id(label.id);
@@ -73,9 +80,12 @@ export default function SidebarLabelWindow(props){
         <ul className={styles.labelList}>
         {coloredLabels.map((coloredLabel) => (
             <li key={coloredLabel.id}>
-              <label className={styles.labelItem}>
+              <label className={
+                `${styles.labelItem} 
+                ${showPreloderLabel ? styles.labelItemWait : ""} 
+                ${showPreloderLabel === coloredLabel.id ? styles.cardActivityNewCommentInputGradient: ""}` 
+              }>
                 <input className={styles.labelItemInput} type="checkbox"/>
-                
                 <span className={styles.labelItemCheckboxWrap}>
                   <span 
                     className={`${styles.labelItemCheckbox} ${(checkbox && coloredLabel_id === coloredLabel.id) ? styles.checked : "" }`}
@@ -94,7 +104,7 @@ export default function SidebarLabelWindow(props){
                   <div className={styles.labelItemColorDiv}>
                     <span 
                       className={styles.labelItemColorSpan}
-                      style={{backgroundColor: coloredLabel.color_hex}} 
+                      style={(showPreloderLabel === coloredLabel.id) ? {} : {backgroundColor: coloredLabel.color_hex}} 
                       // onClick={onTakeColor}
                       onClick={() => onTakeColor(coloredLabel)}
 
