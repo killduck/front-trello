@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
@@ -8,7 +8,6 @@ import './DashboardHeader.css';
 import UserDashboard from '../UserDashboard/UserDashboard';
 
 import Select from 'react-select';
-import AsyncSelect from 'react-select/async'
 
 import request from "../../api/request";
 
@@ -27,19 +26,11 @@ export default function DashboardHeader(props) {
 
   let [showFormShare, setShowFormShare] = useState(false);
 
-  let [fieldEmailData, setFieldEmailData] = useState("");
+  let [fieldData, setFieldData] = useState("");
 
   let [selectedOption, setSelectedOption] = useState(null);
 
-  let [optionList, setOptionList] = useState(
-    [
-      { username: "red", email: "Rad" },
-      { username: "green", email: "Green" },
-      { username: "yellow", email: "Yellow" },
-      { username: "blue", email: "Blue" },
-      { username: "white", email: "White" },
-    ]
-  );
+  let [optionList, setOptionList] = useState([]);
 
   const components = {
     DropdownIndicator: null,
@@ -62,23 +53,38 @@ export default function DashboardHeader(props) {
       setShowFormShare(true)
   }
 
+
+  useEffect(() => {
+    request({
+      method: 'POST',
+      url: 'invit-board/select-users/',
+      callback: (response) => {
+        setOptionList(response.data);
+      },
+      data: { fieldData },
+      status: 200,
+    });
+  }, [fieldData]);
+
   function writeEmail(evt) {
-    setFieldEmailData((fieldEmailData) => (fieldEmailData = evt));
+    setFieldData((fieldData) => (fieldData = evt));
+    console.log('writeEmail>>>', evt);
   }
 
-  function SubmitFormShare() {
-    console.log('Проверка выполения функции =>', SubmitFormShare.name);
-    console.log('email>>>', fieldEmailData);
-    console.log('email>>>', selectedOption);
 
-    // request({
-    //   method: 'POST',
-    //   url: 'test-mail/',
-    //   callback: (response) => {
-    //   },
-    //   data: {},
-    //   status: 200,
-    // });
+  function SubmitFormShare() {
+
+    request({
+      method: 'POST',
+      url: 'invit-board/invit-users/',
+      callback: (response) => {
+      },
+      data: { selectedOption },
+      status: 200,
+    });
+
+    onShareDashboard();
+    setSelectedOption(null);
   }
 
 
@@ -88,8 +94,6 @@ export default function DashboardHeader(props) {
   // }
 
   function handleSelect(data) {
-    console.log(data);
-
     setSelectedOption(data);
   }
 
@@ -179,7 +183,7 @@ export default function DashboardHeader(props) {
                   value={(fieldEmailData) ? fieldEmailData : ""}
                   onChange={(evt) => writeEmail(evt.target.value)}
                 /> */}
-                <div>
+                <div onChange={(evt) => writeEmail(evt.target.value)}>
                   <Select
                     placeholder="поиск пользователя"
                     components={components}
@@ -190,19 +194,13 @@ export default function DashboardHeader(props) {
                     isMulti
                     getOptionValue={option => option.username}
                     getOptionLabel={option => option.email}
+                    noOptionsMessage={() => "Пользователи не найдены"}
                   />
                 </div>
                 {/* <AsyncSelect
                   placeholder="поиск пользователя"
                   components={components}
-                  options={optionList}
-                  value={selectedOption}
-                  // onChange={handleSelect}
-                  onChange={setSelectedOption}
-                  openMenuOnClick={false}
-                  isMulti
-                  getOptionValue={option => option.user_name}
-                  getOptionLabel={option => option.email}
+                  loadOptions={promiseOptions}
                 /> */}
 
                 <Button
