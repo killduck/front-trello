@@ -101,6 +101,21 @@
             transition-timing-function: ease;
             display: flex;
             margin-bottom: 15px;
+
+            &:hover {
+                border: none;
+                background-color: #a6c5e229;
+                box-shadow: none;
+                color: #b6c2cf;
+                text-decoration: none;
+                }
+            &:active {
+                border: none;
+                outline: 0;
+                background-color: #bfdbf847;
+                box-shadow: none;
+                color: #b6c2cf;
+            }
         }
         .attachmentFileInput{
             display: none;

@@ -3,6 +3,7 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
+import { useState } from "react";
 
 
 export default function WindowModalActivity(props){
@@ -22,6 +23,10 @@ export default function WindowModalActivity(props){
   let onSaveActivityReactQuillComment = props.onSaveActivityReactQuillComment;
   let onDelActivityReactQuillComment= props.onDelActivityReactQuillComment;
   let onUserCard = props.onUserCard;
+  let onDelWindow = props.onDelWindow;
+  let delWindow = props.delWindow; 
+  // let setDelWindow = props.setDelWindow; 
+
 
   return (
     
@@ -258,8 +263,8 @@ export default function WindowModalActivity(props){
                           • 
                           <Button
                               className={'cardActivityCommentDelete'}
-                              actionVariable={comment}
-                              clickAction = {onDelActivityReactQuillComment}
+                              actionVariable={comment.id}
+                              clickAction = {onDelWindow}
                           >Удалить</Button>
                         </span>
                         )
@@ -267,6 +272,39 @@ export default function WindowModalActivity(props){
                     </div>):("")
                   }
                 </div>
+                {delWindow === comment.id ? 
+                  (<div className={styles.smallWindowWrap}>
+                    <header className={styles.itemHeader}>
+                      <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удаление комментария</h2>
+                      
+                      <div className={styles.iconWrap}>
+                        <Button
+                            className={'btnSmallWindow'}
+                            type="button"
+                            ariaLabel="Закрыть окно"
+                            clickAction={onDelWindow} //onDelActivityReactQuillComment
+                        >
+                          <Icons
+                              class_name={'btnModalCloseIcon'}
+                              name={'CloseIcon'}
+                          />
+                        </Button>
+                      </div>
+                    </header>
+                    <div className={styles.delButtonWrap}>
+                      <p className={styles.delButtonWrapText}>
+                          Комментарий удаляется навсегда. Отмена невозможна.
+                      </p>
+                      <Button
+                        className={'btnDelComment'}
+                        type="button"
+                        ariaLabel="Удалить комментарий"
+                        actionVariable={comment}
+                        clickAction={onDelActivityReactQuillComment} 
+                      >Удалить комментарий</Button>
+                    </div>
+                  </div>):("")
+                }
               </div>
             )
           }

@@ -609,3 +609,25 @@
     color: #b6c2cf;
   }
 }
+.btnDelComment{
+  background-color: #f87168;
+  border: none;
+  box-shadow: none;
+  color: #1d2125;
+  width: 100%;
+  justify-content: center;
+}
+.BtnCardAttachment{
+  background-color: #a1bdd914;
+  color: #b6c2cf;
+
+  &:hover {
+    background-color: #a6c5e229;
+    color: #b6c2cf;
+  }
+  &:active {
+    outline: 0;
+    background-color: #bfdbf847;
+    color: #b6c2cf;
+  }
+}

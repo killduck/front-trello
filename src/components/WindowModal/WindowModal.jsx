@@ -66,6 +66,7 @@ export default function WindowModal(props){
   let [valueEditor, setValueEditor] = useState('');
   const [cardActivity, setCardActivity] = useState('<p><br></p>');
   const [processActivity, setProcessActivity] = useState(false);
+  const [delWindow, setDelWindow] = useState(false); 
 
   let [dueDateWindow, setDueDateWindow] = useState(false);
   let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
@@ -343,8 +344,18 @@ export default function WindowModal(props){
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
 
+  function onDelWindow(comment_id){ 
+    if(delWindow){
+      setDelWindow(false);
+    }
+    else{
+      setDelWindow(comment_id);
+    }
+  }
+
   function onDelActivityReactQuillComment(comment_data){
     // console.log(comment_id);
+    setDelWindow(false);
     setProcessActivity(comment_data.date);
     request({
       method:'POST',
@@ -510,7 +521,8 @@ export default function WindowModal(props){
           </div>
 
           <WindowModalAttachment 
-          
+            funcAttachmentWindow={funcAttachmentWindow}
+
           />
           
           <WindowModalDescription 
@@ -541,6 +553,9 @@ export default function WindowModal(props){
             onSaveActivityReactQuillComment={onSaveActivityReactQuillComment}
             onDelActivityReactQuillComment={onDelActivityReactQuillComment}
             onUserCard={onUserCard}
+            onDelWindow={onDelWindow} 
+            delWindow={delWindow} 
+            setDelWindow={setDelWindow} 
           />
 
         </div>

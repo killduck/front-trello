@@ -45,9 +45,9 @@ export default function SidebarAttachmentWindow(props){
           <div className={styles.attachmentLinkWrap}>
             <form data-testid="link-picker" className={styles.attachmentLinkForm}>
               <span id="search-recent-links-field-description" className={styles.attachmentLinkFindResult}>Предложения будут появляться по мере ввода текста в поле</span>
-              <label id="url-uid3-label" for="url-uid3" className={styles.attachmentLinkLabel}>Найдите или вставьте ссылку</label>
+              <label id="url-uid3-label" htmlFor="url-uid3" className={styles.attachmentLinkLabel}>Найдите или вставьте ссылку</label>
               <div role="presentation" data-ds--text-field--container="true" data-testid="link-url-container" className={styles.attachmentLinkInputWrap}>
-                <input className={styles.attachmentLinkInput} aria-describedby="search-recent-links-field-description" aria-labelledby="url-uid3-label" id="url-uid3" autocomplete="off" aria-readonly="false" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="link-picker-search-list" aria-activedescendant="" data-ds--text-field--input="true" data-testid="link-url" name="url" placeholder="Выполните поиск недавних ссылок или вставьте новую" value="" />
+                <input className={styles.attachmentLinkInput} aria-describedby="search-recent-links-field-description" aria-labelledby="url-uid3-label" id="url-uid3" autoComplete="off" aria-readonly="false" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="link-picker-search-list" aria-activedescendant="" data-ds--text-field--input="true" data-testid="link-url" name="url" placeholder="Выполните поиск недавних ссылок или вставьте новую" value="" readOnly/>
               </div>
             </form>
           </div>
@@ -65,7 +65,7 @@ export default function SidebarAttachmentWindow(props){
             >Отмена</Button>
           </div>
         </div>
-        
+
       </div>
     </>
   )
