@@ -145,112 +145,112 @@ export default function SidebarDueDate(props){
 
   return (
 
-      <div className={styles.smallWindowWrap}>
+    <div className={styles.smallWindowWrap}>
 
-        <header className={styles.itemHeader}>
-          <h2 className={styles.itemHeaderTitle} title="Метки">Даты</h2>
-          <div className={styles.iconWrap}>
-            <Button
-                className={'btnSmallWindow'}
-                type="button"
-                ariaLabel="Закрыть окно"
-                clickAction={funcDueDateWindow}
-            >
-              <Icons
-                  class_name={'btnModalCloseIcon'}
-                  name={'CloseIcon'}
-              />
-            </Button>
-          </div>
-        </header>
-        <div className={styles.dueDateWrap}>
-          {/* SidebarDueDate */}
-          <DatePicker
-            inline
-            className={styles.DatePicker}
-            showPopperArrow = {false}
-            selected={startDate}
-            onChange={(date) => handleChange(date)}
-            startDate={startDate}
-            // minDate={new Date()}
-            // endDate={endDate}
-            // selectsRange
-            // showTimeSelect
-            showTimeInput={checkbox? true : false}
-            // timeClassName={checked}
-            locale='ru'
-            timeInputLabel=""
-            dateFormat="d.m.yyyy h:mm aa"
-            todayButton="Сегодня"
+      <header className={styles.itemHeader}>
+        <h2 className={styles.itemHeaderTitle} title="Метки">Даты</h2>
+        <div className={styles.iconWrap}>
+          <Button
+              className={'btnSmallWindow'}
+              type="button"
+              ariaLabel="Закрыть окно"
+              clickAction={funcDueDateWindow}
           >
-            <div className={styles.dueDateItemWrap}>
-              <label className={styles.dueDateItemTittle}>
-                Срок
-              </label>
-              <label className={styles.dueDateItem}>
-                <input className={styles.dueDateItemInput} type="checkbox" />
-                
-                <span className={styles.dueDateItemCheckboxWrap}>
-                  <span 
-                    className={`${styles.dueDateItemCheckbox} ${checkbox ? styles.checked : "" }`}
-                    onClick={onDeteWindow}
-                  >
-                    <Icons 
-                      name={'selected_label'}
-                      class_name={'iconSelectedLabel'}
-                      fill={"#1d2125"}
-                    />
-                  </span>
-                </span>
-              </label>
-              <input 
-                className={styles.dueDateTextInput} 
-                type="text" placeholder="дд.мм.гггг" 
-                aria-placeholder="дд.мм.гггг" 
-                name="date" 
-                onChange={(evt)=>takeInputDateValue(evt)}
-                onKeyDown={(evt)=>createNewDate(evt)}
-                onBlur={(evt)=>createNewDate(evt)}
-                value={checkbox ? newDate ? newDate : takeDate() : ""}  
-                disabled={checkbox ? "" : true}
-              />
-            </div>
-          </DatePicker>
+            <Icons
+                class_name={'btnModalCloseIcon'}
+                name={'CloseIcon'}
+            />
+          </Button>
         </div>
-
-        <div className={styles.cardEditorButtonWrap}>
-          <Button
-            className={'dueDateSave'} 
-            // actionVariable={'no'}
-            clickAction = {onSaveDueDate}
-          >Сохранить</Button>
-
-          <Button
-            className={'dueDateCancel'} 
-            // actionVariable={null}
-            clickAction = {funcEraseDates}
-          >Сброс даты</Button>
-          
-          <div className={styles.actionDeleteCard}>
-            <Button
-                // clickAction={deleteColumn}
-                // actionVariable={column.id}
-                // className={'BtnDeleteColumn'}
-                clickAction={onDelDueDate}
-                // actionVariable={windowData.id}
-                className={'BtnDeleteDueDate'}
-              >
-                <span className={styles.actionDeleteCardText}>
-                  Удалить дату
+      </header>
+      <div className={styles.dueDateWrap}>
+        {/* SidebarDueDate */}
+        <DatePicker
+          inline
+          className={styles.DatePicker}
+          showPopperArrow = {false}
+          selected={startDate}
+          onChange={(date) => handleChange(date)}
+          startDate={startDate}
+          // minDate={new Date()}
+          // endDate={endDate}
+          // selectsRange
+          // showTimeSelect
+          showTimeInput={checkbox? true : false}
+          // timeClassName={checked}
+          locale='ru'
+          timeInputLabel=""
+          dateFormat="d.m.yyyy h:mm aa"
+          todayButton="Сегодня"
+        >
+          <div className={styles.dueDateItemWrap}>
+            <label className={styles.dueDateItemTittle}>
+              Срок
+            </label>
+            <label className={styles.dueDateItem}>
+              <input className={styles.dueDateItemInput} type="checkbox" />
+              
+              <span className={styles.dueDateItemCheckboxWrap}>
+                <span 
+                  className={`${styles.dueDateItemCheckbox} ${checkbox ? styles.checked : "" }`}
+                  onClick={onDeteWindow}
+                >
+                  <Icons 
+                    name={'selected_label'}
+                    class_name={'iconSelectedLabel'}
+                    fill={"#1d2125"}
+                  />
                 </span>
-                <Icons
-                  name={'Trash'}
-                  class_name={'IconDeletColumnn'}
-                />
-            </Button>
+              </span>
+            </label>
+            <input 
+              className={styles.dueDateTextInput} 
+              type="text" placeholder="дд.мм.гггг" 
+              aria-placeholder="дд.мм.гггг" 
+              name="date" 
+              onChange={(evt)=>takeInputDateValue(evt)}
+              onKeyDown={(evt)=>createNewDate(evt)}
+              onBlur={(evt)=>createNewDate(evt)}
+              value={checkbox ? newDate ? newDate : takeDate() : ""}  
+              disabled={checkbox ? "" : true}
+            />
           </div>
+        </DatePicker>
+      </div>
 
+      <div className={styles.cardEditorButtonWrap}>
+        <Button
+          className={'dueDateSave'} 
+          // actionVariable={'no'}
+          clickAction = {onSaveDueDate}
+        >Сохранить</Button>
+
+        <Button
+          className={'dueDateCancel'} 
+          // actionVariable={null}
+          clickAction = {funcEraseDates}
+        >Сброс даты</Button>
+        
+        <div className={styles.actionDeleteCard}>
+          <Button
+              // clickAction={deleteColumn}
+              // actionVariable={column.id}
+              // className={'BtnDeleteColumn'}
+              clickAction={onDelDueDate}
+              // actionVariable={windowData.id}
+              className={'BtnDeleteDueDate'}
+            >
+              <span className={styles.actionDeleteCardText}>
+                Удалить дату
+              </span>
+              <Icons
+                name={'Trash'}
+                class_name={'IconDeletColumnn'}
+              />
+          </Button>
         </div>
+
+      </div>
 
     </div>
   )

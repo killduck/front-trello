@@ -1,0 +1,191 @@
+.smallWindowWrap{
+    background-color: #282e32;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px 1px #39424a, 0px 8px 12px #0304045C, 0px 0px 1px 1px #03040480;
+    overflow: hidden;
+    position: absolute;
+    width: 304px;
+    // height: max-content;
+    height: max-content;
+    min-height: 30px;
+    cursor: default;
+    top: -30px;
+    right: 200px;
+    padding: 12px;
+
+    .itemHeader{
+        align-items: center;
+        display: grid;
+        grid-template-columns: 32px 1fr 32px;
+        padding: 4px 8px;
+        position: relative;
+        text-align: center;
+        
+        .itemHeaderTitle{
+            box-sizing: border-box;
+            color: #9fadbc;
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            grid-column: 1 / span 3;
+            grid-row: 1;
+            height: 40px;
+            letter-spacing: -.003em;
+            line-height: 16px;
+            line-height: 40px;
+            margin: 0;
+            overflow: hidden;
+            padding: 0 32px;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            z-index: 1;
+        }
+        .iconWrap{
+            border-radius: 8px;
+            color: #626f86;
+            grid-column: 3;
+            grid-row: 1;
+            padding: 3px;
+            z-index: 2;
+            display: flex;
+        }
+    }
+
+    .attachmentWrap{
+        max-height: 648px;
+        // min-height: 300px;
+        min-height: fit-content;
+        padding-top: 0;
+        -webkit-overflow-scrolling: touch;
+        // padding: 12px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        
+        .attachmentFileTitile{
+            color: #b6c2cf;
+            margin-block: 0px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: -0.003em;
+            line-height: 16px;
+        }
+        .attachmentFileDescription{
+            margin: 8px 0 12px;
+            padding: 2px;
+            color: #8c9bab;
+            font-size: 12px;
+        }
+        .attachmentFileLabel{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            font-display: swap;
+            display: inline-flex;
+            box-sizing: border-box;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            border-radius: 3px;
+            text-decoration: none;
+            white-space: normal;
+            cursor: pointer;
+            border: none;
+            background-color: #a1bdd914;
+            box-shadow: none;
+            color: #b6c2cf;
+            font-weight: 500;
+            transition-property: background-color, border-color, box-shadow;
+            transition-duration: 85ms;
+            transition-timing-function: ease;
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .attachmentFileInput{
+            display: none;
+        }
+        .attachmentLine{
+            margin: 8px 0;
+            background-color: #a6c5e229;
+            border: 0;
+            height: 1px;
+            padding: 0;
+            width: 100%;
+        }
+
+        .attachmentLinkWrap{
+            display: flex;
+            width: 280px;
+
+            .attachmentLinkForm{
+                width: 100%;
+                padding: 0;
+
+                .attachmentLinkFindResult{
+                    width: 1px;
+                    height: 1px;
+                    padding: 0px;
+                    position: absolute;
+                    border: 0px;
+                    clip: rect(1px, 1px, 1px, 1px);
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+
+                .attachmentLinkLabel{
+                    font-size: 14px;
+                }
+                .attachmentLinkInputWrap{
+                    -webkit-box-align: center;
+                    align-items: center;
+                    background-color: #22272b;
+                    border-color: #738496;
+                    color: #b6c2cf;
+                    cursor: text;
+                    border-radius: 3px;
+                    border-width: 1px;
+                    padding: 1px 0;
+                    border-style: solid;
+                    box-sizing: border-box;
+                    display: flex;
+                    flex: 1 1 100%;
+                    // font: var(--ds-font-body, normal 400 14px / 20px ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, system-ui, "Helvetica Neue", sans-serif);
+                    -webkit-box-pack: justify;
+                    justify-content: space-between;
+                    max-width: 100%;
+                    overflow: hidden;
+                    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+                    overflow-wrap: break-word;
+                    vertical-align: top;
+                    pointer-events: auto;
+
+                    .attachmentLinkInput{
+                        padding: 4px 6px;
+                        margin: unset;
+                        box-shadow: unset;
+                        text-overflow: ellipsis;
+
+                        background-color: #00000000;
+                        border: 0px;
+                        box-sizing: border-box;
+                        color: inherit;
+                        cursor: inherit;
+                        font: normal 400 14px / 20px ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, system-ui, "Helvetica Neue", sans-serif;
+                        min-width: 0px;
+                        outline: none;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.attachmentFileWrap{
+    padding: 8px 12px 12px;
+}
+
+.cardEditorButtonWrap{
+    margin-top: 16px;
+}

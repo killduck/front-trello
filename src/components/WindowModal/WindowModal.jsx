@@ -18,6 +18,7 @@ import WindowModalHeaderSection from "../WindowModalHeaderSection/WindowModalHea
 import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
 import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
 import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
+import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -69,6 +70,8 @@ export default function WindowModal(props){
   let [dueDateWindow, setDueDateWindow] = useState(false);
   let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
 
+  let [attachmentWindow, setAttachmentWindow] = useState(false); 
+
   let [updateValue, setUpdateValue] = useState(false);
 
   function onRemoving_onFrames(){
@@ -79,6 +82,7 @@ export default function WindowModal(props){
     setShowReactQuill(false); 
     setShowUserCard(null); 
     setActivityEditorShow(null); 
+    setAttachmentWindow(false);
   }
 
   const modules = {
@@ -436,6 +440,17 @@ export default function WindowModal(props){
     }
   }
 
+  function funcAttachmentWindow(){ 
+    onRemoving_onFrames();
+
+    if(attachmentWindow){
+      setAttachmentWindow(false);
+    }
+    else{
+      setAttachmentWindow(attachmentWindow = true);
+    }
+  }
+
   return (
     <div className={styles.wrap} >
         {props.children}
@@ -493,6 +508,10 @@ export default function WindowModal(props){
             </div>
             
           </div>
+
+          <WindowModalAttachment 
+          
+          />
           
           <WindowModalDescription 
             showReactQuill={showReactQuill}
@@ -552,6 +571,8 @@ export default function WindowModal(props){
           showPreloderDelMember={showPreloderDelMember}
           showPreloderLabel={showPreloderLabel}
           setShowPreloderLabel={setShowPreloderLabel}
+          attachmentWindow={attachmentWindow} 
+          funcAttachmentWindow={funcAttachmentWindow}
           
         ></Sidebar>
 

@@ -6,6 +6,7 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
+import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmentWindow";
 
 export default function Sidebar(props){
   // console.log(props);
@@ -34,8 +35,11 @@ export default function Sidebar(props){
 
   let funcDueDateWindow = props.funcDueDateWindow; 
   let dueDateWindow = props.dueDateWindow; 
-  let setUpdateValue = props.setUpdateValue;
 
+  let attachmentWindow = props.attachmentWindow;
+  let funcAttachmentWindow = props.funcAttachmentWindow;
+
+  let setUpdateValue = props.setUpdateValue;
 
   function onDeleteCard(window_id){
     closeModal();
@@ -124,13 +128,24 @@ export default function Sidebar(props){
           />):("")
           }
 
-          <div className={styles.itemAttachments}>
-            <Icons  //нужна другая иконка
-              name={'icon-date'}
-              class_name={'itemDueDateIcon'}
+          <div 
+            className={styles.itemAttachment} 
+            onClick={ funcAttachmentWindow }
+          >
+            <Icons 
+              name={'icon-attachment'}
+              class_name={'iconAttachment'}
             />
-            <span>Прикрепить</span>
+            <span>Вложение</span>
           </div>
+          {(attachmentWindow) ? 
+          (<SidebarAttachmentWindow
+            windowData={windowData}
+            funcAttachmentWindow={funcAttachmentWindow}
+            attachmentWindow={attachmentWindow}
+            setUpdateValue={setUpdateValue}
+          />):("")
+          }
 
         </div>
 
