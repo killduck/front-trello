@@ -21,7 +21,7 @@ import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
 
 export default function WindowModal(props){
-  // console.log(props);
+  console.log(props);
 
   let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
@@ -74,6 +74,74 @@ export default function WindowModal(props){
   let [attachmentWindow, setAttachmentWindow] = useState(false); 
 
   let [updateValue, setUpdateValue] = useState(false);
+  
+  const [addFiles, setAddFiles] = useState([]);
+  const [dragActive, setDragActive] = useState(false);
+
+
+  const handleChangeAddFiles = (evt) => {
+    evt.preventDefault();
+    // console.log(evt);
+    if(evt.target.files && evt.target.files[0]){
+      setAddFiles(...addFiles, evt.target.files);
+    }
+  }
+  console.log(addFiles);
+
+  const handleDragAddFiles = (evt) => {
+    evt.preventDefault();
+    setDragActive(true);
+  }
+  const handleDragLeaveAddFiles = (evt) => {
+    evt.preventDefault();
+    setDragActive(false);
+  }
+  const handleDragDropAddFiles = (evt) => {
+    evt.preventDefault();
+    // console.log(evt);
+    setAttachmentWindow(true);
+    setDragActive(false);
+    if(evt.dataTransfer.files && evt.dataTransfer.files[0]){
+      setAddFiles(...addFiles, evt.dataTransfer.files);
+    }
+  }
+
+  const handleAddFilesReset = (evt) => {
+    // evt.preventDefault();
+    console.log('проверка сброса >>> setAddFiles');
+    setAddFiles([]);
+  }
+
+  const handleAddFilesSubmit = (evt) => {
+    // evt.preventDefault();
+    console.log('проверка добавления >>> setAddFiles');
+    const formData = new FormData();
+    Array.from(addFiles).forEach((file) => {
+      console.log(file);
+      formData.append("file", file.name);
+    });
+    console.log(formData);
+
+    request({
+      method: 'POST',
+      url: 'add-files-to-card/',
+      callback: (response) => {
+
+        if (response.status === 200) {
+          console.log(response.data);
+          // setAddFiles(response.data);
+        }
+
+      },
+      data: { 'card_id': idElem, 'files': formData },
+      status: 200,
+    });
+  }
+
+
+  console.log(addFiles);
+
+
 
   function onRemoving_onFrames(){
     setNewNameField(false); 
@@ -455,6 +523,7 @@ export default function WindowModal(props){
     onRemoving_onFrames();
 
     if(attachmentWindow){
+      setAddFiles([]);
       setAttachmentWindow(false);
     }
     else{
@@ -463,7 +532,15 @@ export default function WindowModal(props){
   }
 
   return (
-    <div className={styles.wrap} >
+    <div 
+      className={`${styles.wrap} ${dragActive ? styles.dragging : ""}`} 
+      onDragEnter={handleDragAddFiles}
+      onDragOver={handleDragAddFiles}
+      onDragLeave={handleDragLeaveAddFiles}
+      onDrop={handleDragDropAddFiles}
+      onReset={handleAddFilesReset}
+      onSubmit={handleAddFilesSubmit}
+    >
         {props.children}
 
         {/* header */}
@@ -522,7 +599,7 @@ export default function WindowModal(props){
 
           <WindowModalAttachment 
             funcAttachmentWindow={funcAttachmentWindow}
-
+            handleChangeAddFiles={handleChangeAddFiles}
           />
           
           <WindowModalDescription 
@@ -588,6 +665,11 @@ export default function WindowModal(props){
           setShowPreloderLabel={setShowPreloderLabel}
           attachmentWindow={attachmentWindow} 
           funcAttachmentWindow={funcAttachmentWindow}
+
+          handleChangeAddFiles={handleChangeAddFiles}
+          addFiles={addFiles}
+          handleAddFilesReset={handleAddFilesReset}
+          handleAddFilesSubmit={handleAddFilesSubmit}
           
         ></Sidebar>
 

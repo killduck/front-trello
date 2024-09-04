@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalAttachment.module.scss";
@@ -7,6 +8,19 @@ export default function WindowModalAttachment(props){
 
 
   let funcAttachmentWindow = props.funcAttachmentWindow;
+  // let handleChangeAddFiles = props.handleChangeAddFiles;
+   
+
+  let [showCardOptions, setShowCardOptions] = useState(false);
+
+  function funcShowAttachmentContentCardOptions(file_id){
+    if(showCardOptions){
+      setShowCardOptions(false);
+    }
+    else{
+      setShowCardOptions(showCardOptions = file_id);
+    }
+  }
 
   return (
     <div>
@@ -42,18 +56,32 @@ export default function WindowModalAttachment(props){
                       />
                       Подключено
                     </span>
-                    <Button 
-                      className={'btnDelAttachment'}
-                      // clickAction={funcShowAttachmentContentCardOptions}
-                    >
-                      <Icons
-                        name={'three_dots'}
-                        class_name={'IconKebabColumnn'}
-                        sizeWidth={"24px"}
-                        sizeHeight={"24px"}
-                        viewBox={"0 0 24 24"}
-                      />
-                    </Button>
+
+                    <div className={styles.contentCardActions}>
+                      <Button 
+                        className={'btnDelAttachment'}
+                        actionVariable={1}
+                        clickAction={funcShowAttachmentContentCardOptions}
+                      >
+                        <Icons
+                          name={'three_dots'}
+                          class_name={'IconKebabColumnn'}
+                          sizeWidth={"24px"}
+                          sizeHeight={"24px"}
+                          viewBox={"0 0 24 24"}
+                        />
+                      </Button>
+                      {showCardOptions === 1 ? 
+                        (<div className={styles.smallWindowWrap}>
+                          asd 1
+                          <ul>
+                            <li>Изменить</li>
+                            <li>Скачать</li>
+                            <li>Удалить</li>
+                          </ul>
+                        </div>) : ("")
+                      }
+                    </div>
                   </div>
                 </li>
 
@@ -74,19 +102,33 @@ export default function WindowModalAttachment(props){
                       <a className={styles.contentLinkInfoLink} data-smart-element="Title" data-smart-element-link="true" data-testid="smart-element-link" href="https://top-python31.ru/" target="_blank" rel="noreferrer" draggable="false">Diplom Trello</a>
                     </div>
                   </div>
-                          
-                  <Button 
-                    className={'btnDelAttachment'}
-                    // clickAction={funcShowAttachmentContentCardOptions}
-                  >
-                    <Icons
-                      name={'three_dots'}
-                      class_name={'IconKebabColumnn'}
-                      sizeWidth={"24px"}
-                      sizeHeight={"24px"}
-                      viewBox={"0 0 24 24"}
-                    />
-                  </Button>
+                  
+                  <div className={styles.contentLinkActions}>
+                    <Button 
+                      className={'btnDelAttachment'}
+                      actionVariable={2}
+                      clickAction={funcShowAttachmentContentCardOptions}
+                    >
+                      <Icons
+                        name={'three_dots'}
+                        class_name={'IconKebabColumnn'}
+                        sizeWidth={"24px"}
+                        sizeHeight={"24px"}
+                        viewBox={"0 0 24 24"}
+                      />
+                    </Button>
+                    {showCardOptions === 2 ? 
+                      (<div className={styles.smallWindowWrap}>
+                        asd 2
+                        <ul>
+                          <li>Изменить</li>
+                          <li>Скачать</li>
+                          <li>Удалить</li>
+                        </ul>
+                      </div>) : ("")
+                    }
+                  </div>
+                  
                 </li>
               </ul>
             </div>
@@ -110,7 +152,8 @@ export default function WindowModalAttachment(props){
                     <div className={styles.contentFileActions}>
                       <Button 
                         className={'btnDelAttachment'}
-                        // clickAction={funcShowAttachmentContentCardOptions}
+                        actionVariable={3}
+                        clickAction={funcShowAttachmentContentCardOptions}
                       >
                         <Icons
                           name={'three_dots'}
@@ -120,6 +163,16 @@ export default function WindowModalAttachment(props){
                           viewBox={"0 0 24 24"}
                         />
                       </Button>
+                      {showCardOptions === 3 ? 
+                        (<div className={styles.smallWindowWrap}>
+                          asd 3
+                          <ul>
+                            <li>Изменить</li>
+                            <li>Скачать</li>
+                            <li>Удалить</li>
+                          </ul>
+                        </div>) : ("")
+                      }
                     </div>
                   </div>
                 </li>
@@ -140,7 +193,8 @@ export default function WindowModalAttachment(props){
                     <div className={styles.contentFileActions}>
                       <Button 
                         className={'btnDelAttachment'}
-                        // clickAction={funcShowAttachmentContentCardOptions}
+                        actionVariable={4}
+                        clickAction={funcShowAttachmentContentCardOptions}
                       >
                         <Icons
                           name={'three_dots'}
@@ -150,6 +204,16 @@ export default function WindowModalAttachment(props){
                           viewBox={"0 0 24 24"}
                         />
                       </Button>
+                      {showCardOptions === 4 ? 
+                        (<div className={styles.smallWindowWrap}>
+                          asd 4
+                          <ul>
+                            <li>Изменить</li>
+                            <li>Скачать</li>
+                            <li>Удалить</li>
+                          </ul>
+                        </div>) : ("")
+                      }
                     </div>
                   </div>
                 </li>

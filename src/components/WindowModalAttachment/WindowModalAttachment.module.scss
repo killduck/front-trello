@@ -67,6 +67,11 @@
                                 column-gap: 2px;
                                 font-size: 14px;
                             }
+
+                            .contentCardActions{
+                                position: relative;
+                                // z-index: 1;
+                            }
                         }
                     }
                 }
@@ -157,7 +162,7 @@
                                 }
                                 .contentLinkInfoLink{
                                     position: relative;
-                                    z-index: 1;
+                                    // z-index: 1;
                                     font-size: 0.875rem;
                                     font-weight: 400;
                                     letter-spacing: -0.003em;
@@ -171,6 +176,10 @@
                                     color: #579dff;
                                 }
                             }
+                        }
+                        .contentLinkActions{
+                            position: relative;
+                            // z-index: 1;
                         }
                     }
                 }
@@ -260,6 +269,8 @@
                                 flex-shrink: 0;
                                 align-items: center;
                                 column-gap: 4px;
+                                position: relative;
+                                // z-index: 1;
                             }
                         }
                     }
@@ -267,4 +278,22 @@
             }
         }
     }
+}
+
+.smallWindowWrap{
+    background-color: #282e32;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px 1px #39424a, 0px 8px 12px #0304045C, 0px 0px 1px 1px #03040480;
+    overflow: hidden;
+    position: absolute;
+    width: 232px;
+    height: max-content;
+    min-height: 30px;
+    cursor: default;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 12px;
+    z-index: 1;
 }

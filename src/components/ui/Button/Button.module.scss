@@ -465,7 +465,8 @@
 }
 
 .cardEditorSave,
-.cardDescriptionSave{
+.cardDescriptionSave,
+.attachmentSave {
   margin: 0 6px 0 0;
   border: none;
   background-color: #579dff;
@@ -492,11 +493,37 @@
     background-color: rgb(77, 77, 77);
   }
 }
-
-.cardDescriptionCancel{
+.attachmentReset {
+  margin: 0 6px 0 0;
   border: none;
   background-color: rgba(161, 189, 217, 0.0784313725);
+  color: #ff6f6f;
   box-shadow: none;
+  font-size: 14px;
+
+  &:hover {
+    border: none;
+    background-color: #a6c5e229;
+    box-shadow: none;
+    color: #ff6f6f;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #bfdbf847;
+    box-shadow: none;
+    color: #ff6f6f;
+  }
+}
+.cardDescriptionCancel,
+.attachmentCancel {
+  margin: 0 6px 0 0;
+  border: none;
+  background-color: rgba(161, 189, 217, 0.0784313725);
+  color: #9fadbc;
+  box-shadow: none;
+  font-size: 14px;
 
   &:hover {
     border: none;

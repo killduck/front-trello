@@ -11,6 +11,11 @@ export default function SidebarAttachmentWindow(props){
   let funcAttachmentWindow = props.funcAttachmentWindow; 
   let setUpdateValue = props.setUpdateValue; 
 
+  let handleChangeAddFiles = props.handleChangeAddFiles;
+  let addFiles = props.addFiles;
+  let handleAddFilesReset = props.handleAddFilesReset;
+  let handleAddFilesSubmit = props.handleAddFilesSubmit;
+
   return (
     <>
       <div className={styles.smallWindowWrap}>
@@ -39,7 +44,27 @@ export default function SidebarAttachmentWindow(props){
           </h5>
           <p className={styles.attachmentFileDescription}>Вы можете просто перетянуть и отпустить файлы, чтобы выгрузить их.</p>
           <label tabIndex="0" className={styles.attachmentFileLabel} htmlFor="card-attachment-file-picker" aria-label="Выбрать файл">Выбрать файл</label>
-          <input type="file" id="card-attachment-file-picker" name="card-attachment-file-picker" className={styles.attachmentFileInput} multiple={true} />
+          <input 
+            onChange={handleChangeAddFiles}
+            type="file" 
+            id="card-attachment-file-picker" 
+            name="card-attachment-file-picker" 
+            className={styles.attachmentFileInput} 
+            multiple={true} 
+          />
+          {addFiles.length > 0 ? 
+          ( <>
+            <h5 className={styles.attachmentFilesTitle}>Добавленные файлы:</h5>
+            <ul className={styles.attachmentFilesList}>
+              {Array.from(addFiles).map(({name},id)=> (
+                <li key={id} className={styles.attachmentFile}>{id+1}.) {name}</li>
+              ))}
+            </ul>
+            </>
+          )
+          :
+          ""
+          }
           <div className={styles.attachmentLine}></div>
 
           <div className={styles.attachmentLinkWrap}>
@@ -54,12 +79,17 @@ export default function SidebarAttachmentWindow(props){
 
           <div className={styles.cardEditorButtonWrap}>
             <Button
-              className={'cardEditorSave'}
+              className={'attachmentSave'} //attachmentSave
               // actionVariable={'no'}
-              // clickAction = {onSaveActivityReactQuillComment}
+              clickAction = {handleAddFilesSubmit}
             >Сохранить</Button>
             <Button
-              className={'cardDescriptionCancel'}
+              className={'attachmentReset'} //attachmentReset
+              // actionVariable={'no'}
+              clickAction = {handleAddFilesReset}
+            >Сброс</Button>
+            <Button
+              className={'attachmentCancel'} // attachmentCancel
               // actionVariable={null}
               clickAction = {funcAttachmentWindow}
             >Отмена</Button>

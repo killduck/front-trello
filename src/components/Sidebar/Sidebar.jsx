@@ -38,8 +38,13 @@ export default function Sidebar(props){
 
   let attachmentWindow = props.attachmentWindow;
   let funcAttachmentWindow = props.funcAttachmentWindow;
+  let handleChangeAddFiles = props.handleChangeAddFiles;
+  let addFiles = props.addFiles;
+  let handleAddFilesReset = props.handleAddFilesReset;
+  let handleAddFilesSubmit = props.handleAddFilesSubmit;
 
   let setUpdateValue = props.setUpdateValue;
+  
 
   function onDeleteCard(window_id){
     closeModal();
@@ -144,6 +149,11 @@ export default function Sidebar(props){
             funcAttachmentWindow={funcAttachmentWindow}
             attachmentWindow={attachmentWindow}
             setUpdateValue={setUpdateValue}
+            handleChangeAddFiles={handleChangeAddFiles}
+            addFiles={addFiles}
+            handleAddFilesReset={handleAddFilesReset}
+            handleAddFilesSubmit={handleAddFilesSubmit}
+            
           />):("")
           }
 

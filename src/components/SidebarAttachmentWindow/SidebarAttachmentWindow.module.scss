@@ -203,4 +203,19 @@
 
 .cardEditorButtonWrap{
     margin-top: 16px;
+    display: flex;
+    justify-content: start;
+}
+.attachmentFilesTitle{
+    margin: 0 5px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.attachmentFilesList{
+    margin: 0 15px;
+}
+
+.attachmentFile{
+    list-style: none;
+    font-size: 13px;
 }
