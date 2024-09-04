@@ -617,7 +617,7 @@
   width: 100%;
   justify-content: center;
 }
-.BtnCardAttachment{
+.btnAddAttachment{
   background-color: #a1bdd914;
   color: #b6c2cf;
 
@@ -629,5 +629,30 @@
     outline: 0;
     background-color: #bfdbf847;
     color: #b6c2cf;
+  }
+}
+.btnDelAttachment{
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    //   border: none;
+    background-color: #a6c5e229;
+    //   box-shadow: none;
+    color: #b6c2cf;
+    //   text-decoration: none;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+  }
+  &:active {
+    // outline: 0;
+    background-color: #bfdbf847;
+    color: #b6c2cf;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
   }
 }

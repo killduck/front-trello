@@ -1,11 +1,11 @@
-.cardActivity{
+.cardAttachment{
 
-    .cardActivityWrap{
+    .cardAttachmentWrap{
         clear: both;
         margin-bottom: 24px;
         position: relative;
 
-        .cardActivityHeader{
+        .cardAttachmentHeader{
             align-items: center;
             display: flex;
             justify-content: space-between;
@@ -14,7 +14,7 @@
             padding: 8px 0;
             position: relative;
 
-            .cardActivityHeaderTitle{
+            .cardAttachmentHeaderTitle{
                 display: inline-block;
                 margin: 0;
                 min-height: 18px;
@@ -24,6 +24,246 @@
                 line-height: 20px;
                 font-weight: 600;
                 cursor: default;
+            }
+        }
+
+        .cardAttachmentContent{
+            margin-left: 40px;
+
+            .contentCardsWrap{
+                margin-bottom: 20px;
+
+                .contentCardsTitle{
+                    font-size: 12px;
+                    font-weight: 600;
+                    line-height: 20px;
+                    margin: 0 0 8px;
+                }
+                .contentCardsList{
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 24px 8px;
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+
+                    .contentCardWrap{
+                        display: flex;
+                        flex-direction: column;
+
+                        .contentCard{
+                            font-size: 14px;
+                        }
+                        .contentCardOptions{
+                            display: flex;
+                            align-self: flex-end;
+                            margin-top: 8px;
+                            padding-right: 8px;
+                            column-gap: 8px;
+
+                            .contentCardOptionsTittle{
+                                display: flex;
+                                align-items: center;
+                                column-gap: 2px;
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .contentLinksWrap{
+                margin-bottom: 20px;
+
+                .contentLinksTittle{
+                    font-size: 12px;
+                    font-weight: 600;
+                    line-height: 20px;
+                }
+                .contentLinksList{
+                    border-radius: 4px;
+                    background: #1d2125;
+                    box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+
+                    .contentLinkWrap{
+                        cursor: grab;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 6px 8px;
+                        column-gap: 16px;
+
+                        .contentLinkContent{
+                            display: flex;
+                            gap: 0.5rem 0px;
+                            flex-direction: column;
+                            min-width: 0px;
+                            overflow-x: hidden;
+                            position: relative;
+                            --container-padding: 0rem;
+                            --container-gap-left: 0rem;
+                            --container-gap-right: 0rem;
+                            --preview-block-width: 30%;
+                            padding: 0rem;
+
+                            .contentLinkLink{
+                                position: absolute;
+                                inset: 0px;
+                                overflow: hidden;
+                                text-indent: 100%;
+                                white-space: nowrap;
+                                color: #579dff;
+                                text-decoration: none;
+                                background-color: initial;
+                            }
+                            .contentLinkInfo{
+                                display: flex;
+                                gap: 0.5rem;
+                                line-height: 1rem;
+                                min-width: 0px;
+                                overflow: hidden;
+                                flex-direction: row;
+                                -webkit-box-align: center;
+                                align-items: center;
+                                color: inherit;
+                                -webkit-tap-highlight-color: transparent;
+                                user-select: none;
+                                -webkit-box-pack: start;
+                                justify-content: flex-start;
+                                outline: none !important;
+
+                                .contentLinkInfoImg{
+                                    align-self: center;
+                                    min-width: fit-content;
+                                    margin: 0px;
+                                    flex: 0 0 auto;
+                                    height: 1rem;
+                                    min-height: 1rem;
+                                    max-height: 1rem;
+                                    width: 1rem;
+                                    max-width: 1rem;
+
+                                    img {
+                                        height: 16px;
+                                        min-height: 16px;
+                                        max-height: 16px;
+                                        width: 16px;
+                                        min-width: 16px;
+                                        max-width: 16px;
+                                    }
+                                }
+                                .contentLinkInfoLink{
+                                    position: relative;
+                                    z-index: 1;
+                                    font-size: 0.875rem;
+                                    font-weight: 400;
+                                    letter-spacing: -0.003em;
+                                    line-height: 1rem;
+                                    display: -webkit-box;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    word-break: break-word;
+                                    // -webkit-line-clamp: 1;
+                                    -webkit-box-orient: vertical;
+                                    color: #579dff;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .contentFilesWrap{
+                margin-bottom: 20px;
+
+                .contentFilesTittle{
+                    font-size: 12px;
+                    font-weight: 600;
+                    line-height: 20px;
+                    margin: 0 0 8px;
+                }
+                .contentFilesList{
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 8px;
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+
+                    .contentFileWrap{
+                        display: flex;
+                        flex-direction: column;
+                        row-gap: 8px;
+                        cursor: grab;
+
+                        .contentFileContent{
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding-right: 8px;
+                            column-gap: 12px;
+                            width: 100%;
+
+                            .contentFileLink{
+                                flex-shrink: 0;
+                                width: 64px;
+                                height: 48px;
+                                border-radius: 4px;
+                                background-repeat: no-repeat;
+                                background-position: center;
+                                background-size: contain;
+                                // box-shadow: 0px 1px 1px #091e4240, 0px 0px 1px #091e424f;
+                                box-shadow: 0px 0px 0px 1px #00000000, 0px 1px 1px #03040480, 0px 0px 1px #03040480;
+                                cursor: pointer;
+                                color: #579dff;
+                                text-decoration: none;
+
+                                .contentFileLinkText{
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 100%;
+                                    min-width: 64px;
+                                    height: 100%;
+                                    overflow: hidden;
+                                    color: #9fadbc;
+                                    font-size: 14px;
+                                    font-weight: bold;
+                                    line-height: 80px;
+                                    text-transform: uppercase;
+                                }
+                            }
+
+                            .contentFileInfo{
+                                flex-grow: 1;
+                                cursor: grab;
+
+                                .contentFileInfoTitle{
+                                    display: flex;
+                                    align-items: center;
+                                    column-gap: 4px;
+                                    font-weight: 600;
+                                    line-height: 20px;
+                                }
+                                .contentFileInfoAddDate{
+                                    margin: 0;
+                                    color: #9fadbc;
+                                    font-size: 12px;
+                                }
+                            }
+
+                            .contentFileActions{
+                                display: flex;
+                                flex-shrink: 0;
+                                align-items: center;
+                                column-gap: 4px;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
