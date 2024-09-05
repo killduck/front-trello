@@ -16,6 +16,8 @@ export default function DashboardHeader(props) {
 
   let name_dashboard = props.name_dashboard;
 
+  let dashboardId = props.dashboardId;
+
   let dashboardUsers = props.dashboardUsers;
 
   let updateComponent = props.updateComponent;
@@ -61,14 +63,13 @@ export default function DashboardHeader(props) {
       callback: (response) => {
         setOptionList(response.data);
       },
-      data: { fieldData },
+      data: { fieldData, dashboardId },
       status: 200,
     });
   }, [fieldData]);
 
   function writeEmail(evt) {
     setFieldData((fieldData) => (fieldData = evt));
-    console.log('writeEmail>>>', evt);
   }
 
 
@@ -79,7 +80,7 @@ export default function DashboardHeader(props) {
       url: 'invit-board/invit-users/',
       callback: (response) => {
       },
-      data: { selectedOption },
+      data: { selectedOption, dashboardId },
       status: 200,
     });
 

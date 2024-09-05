@@ -37,7 +37,7 @@ export default function KanbanBoard(props) {
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState([]);
-  
+
   const [activeColumn, setActiveColumn] = useState(null);
 
   const [activeTask, setActiveTask] = useState(null);
@@ -160,10 +160,10 @@ export default function KanbanBoard(props) {
       request({
         method: "POST",
         url: 'swap-columns/',
-        callback: (response) => { 
-          if(response.status === 200){ 
-            setUpdateComponent(true); 
-          } 
+        callback: (response) => {
+          if(response.status === 200){
+            setUpdateComponent(true);
+          }
         },
         data: { columns, dashboardId },
         status: 200,
@@ -176,19 +176,19 @@ export default function KanbanBoard(props) {
 
       let order_cards = editOrderCards(tasks);
 
-      request({ 
-        method: "POST", 
-        url: 'swap-cards/', 
-        callback: (response) => { 
-          if(response.status === 200){ 
-            setUpdateComponent(true); 
-          } 
-        }, 
-        data: {order_cards, dashboardId, 'active_id': active.id}, 
-        status: 200, 
-      }); 
-    } 
-  } 
+      request({
+        method: "POST",
+        url: 'swap-cards/',
+        callback: (response) => {
+          if(response.status === 200){
+            setUpdateComponent(true);
+          }
+        },
+        data: {order_cards, dashboardId, 'active_id': active.id},
+        status: 200,
+      });
+    }
+  }
 
   function editOrderColumns(active, over) {
     const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
@@ -445,7 +445,7 @@ export default function KanbanBoard(props) {
           requestSuccessDeletCard(response, id);
           setShowPreloder(false);
 
-          setUpdateComponent(true); 
+          setUpdateComponent(true);
         }
       },
       data: idCardDeleted,
@@ -486,6 +486,7 @@ export default function KanbanBoard(props) {
     >
       <DashboardHeader
         dashboardUsers={users}
+        dashboardId={dashboardId}
         name_dashboard={name_dashboard}
         updateComponent={updateComponent}
         setUpdateComponent={setUpdateComponent}
