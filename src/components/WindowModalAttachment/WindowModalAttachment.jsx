@@ -5,8 +5,10 @@ import styles from "./WindowModalAttachment.module.scss";
 
 
 export default function WindowModalAttachment(props){
-
-
+  console.log(props.addFiles);
+  let addFiles = props.addFiles;
+  let cardFiles = props.cardFiles;
+  let setCardFiles = props.setCardFiles;
   let funcAttachmentWindow = props.funcAttachmentWindow;
   // let handleChangeAddFiles = props.handleChangeAddFiles;
    
@@ -136,89 +138,104 @@ export default function WindowModalAttachment(props){
             <div className={styles.contentFilesWrap}>
               <p className={styles.contentFilesTittle}>Файлы</p>
               <ul className={styles.contentFilesList}>
-                <li className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
-                  <div className={styles.contentFileContent} role="button">
-                    <a className={styles.contentFileLink} draggable="false" href="https://trello.com/1/cards/66a8e6f80a6b8fee761c84d3/attachments/66d712046f0b494186330e2d/download/photo_sand_large.webp" tabIndex="0" title="photo_sand_large.webp" data-testid="attachment-thumbnail" style={{backgroundColor: '#r091E420F', backgroundImage: 'url()'}}>
-                      <span className={styles.contentFileLinkText}></span>
-                    </a>
-                    <div className={styles.contentFileInfo}>
-                      <div className={styles.contentFileInfoTitle}>
-                        <span>photo_sand_large.webp</span>
+            
+                {cardFiles.map((file) =>
+                  file.image ? 
+                  
+                    (<li key={file.id} className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
+                      <div className={styles.contentFileContent} role="button">
+                        <a 
+                          className={styles.contentFileLink} 
+                          draggable="false" 
+                          href={file.file_url} 
+                          tabIndex="0" 
+                          title={file.name}
+                          alt={file.name}
+                          data-testid="attachment-thumbnail" 
+                          style={{backgroundColor: '#r091E420F', backgroundImage: `url(${file.file_url})`}}
+                        >
+                          <span className={styles.contentFileLinkText}>{file.extension}</span>
+                        </a>
+                        <div className={styles.contentFileInfo}>
+                          <div className={styles.contentFileInfoTitle}>
+                            <span>{file.name}</span>
+                          </div>
+                          <p className={styles.contentFileInfoAddDate}>
+                            <span>Добавлено {file.date_upload.split('.')[0].replace('T', ' ')}</span>
+                          </p>
+                        </div>
+                        <div className={styles.contentFileActions}>
+                          <Button 
+                            className={'btnDelAttachment'}
+                            actionVariable={file.id}
+                            clickAction={funcShowAttachmentContentCardOptions}
+                          >
+                            <Icons
+                              name={'three_dots'}
+                              class_name={'IconKebabColumnn'}
+                              sizeWidth={"24px"}
+                              sizeHeight={"24px"}
+                              viewBox={"0 0 24 24"}
+                            />
+                          </Button>
+                          {showCardOptions === file.id && (
+                            <div className={styles.smallWindowWrap}>
+                              <ul>
+                                <li>Изменить</li>
+                                <li>Скачать</li>
+                                <li>Удалить</li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <p className={styles.contentFileInfoAddDate}>
-                        <span>Добавлено 6 часов назад</span>
-                      </p>
-                    </div>
-                    <div className={styles.contentFileActions}>
-                      <Button 
-                        className={'btnDelAttachment'}
-                        actionVariable={3}
-                        clickAction={funcShowAttachmentContentCardOptions}
-                      >
-                        <Icons
-                          name={'three_dots'}
-                          class_name={'IconKebabColumnn'}
-                          sizeWidth={"24px"}
-                          sizeHeight={"24px"}
-                          viewBox={"0 0 24 24"}
-                        />
-                      </Button>
-                      {showCardOptions === 3 ? 
-                        (<div className={styles.smallWindowWrap}>
-                          asd 3
-                          <ul>
-                            <li>Изменить</li>
-                            <li>Скачать</li>
-                            <li>Удалить</li>
-                          </ul>
-                        </div>) : ("")
-                      }
-                    </div>
-                  </div>
-                </li>
-
-                <li className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
-                  <div className={styles.contentFileContent}>
-                    <a className={styles.contentFileLink} draggable="false" href="https://trello.com/1/cards/66a8e6f80a6b8fee761c84d3/attachments/66d68aedf9dfc00857231169/download/index.html" tabIndex="0" title="index.html" data-testid="attachment-thumbnail" style={{backgroundColor: "#091E420F", backgroundImage: 'url(undefined)'}}>
-                      <span className={styles.contentFileLinkText}>html</span>
-                    </a>
-                    <div className={styles.contentFileInfo}>
-                      <div className={styles.contentFileInfoTitle}>
-                        <span>index.html</span>
+                    </li>)
+                    :
+                    (<li key={file.id} className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
+                      <div className={styles.contentFileContent}>
+                        <a className={styles.contentFileLink} draggable="false" href={file.file_url} tabIndex="0" title="index.html" data-testid="attachment-thumbnail" style={{backgroundColor: "#091E420F", backgroundImage: 'url(undefined)'}}>
+                          <span className={styles.contentFileLinkText}>{file.extension}</span>
+                        </a>
+                        <div className={styles.contentFileInfo}>
+                          <div className={styles.contentFileInfoTitle}>
+                            <span>{file.name}</span>
+                          </div>
+                          <p className={styles.contentFileInfoAddDate}>
+                            <span>Добавлено {file.date_upload.split('.')[0].replace('T', ' ')}</span>
+                          </p>
+                        </div>
+                        <div className={styles.contentFileActions}>
+                          <Button 
+                            className={'btnDelAttachment'}
+                            actionVariable={file.id}
+                            clickAction={funcShowAttachmentContentCardOptions}
+                          >
+                            <Icons
+                              name={'three_dots'}
+                              class_name={'IconKebabColumnn'}
+                              sizeWidth={"24px"}
+                              sizeHeight={"24px"}
+                              viewBox={"0 0 24 24"}
+                            />
+                          </Button>
+                          {showCardOptions === file.id && (
+                            <div className={styles.smallWindowWrap}>
+                              <ul>
+                                <li>Изменить</li>
+                                <li>Скачать</li>
+                                <li>Удалить</li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <p className={styles.contentFileInfoAddDate}>
-                        <span>Добавлено 16 часов назад</span>
-                      </p>
-                    </div>
-                    <div className={styles.contentFileActions}>
-                      <Button 
-                        className={'btnDelAttachment'}
-                        actionVariable={4}
-                        clickAction={funcShowAttachmentContentCardOptions}
-                      >
-                        <Icons
-                          name={'three_dots'}
-                          class_name={'IconKebabColumnn'}
-                          sizeWidth={"24px"}
-                          sizeHeight={"24px"}
-                          viewBox={"0 0 24 24"}
-                        />
-                      </Button>
-                      {showCardOptions === 4 ? 
-                        (<div className={styles.smallWindowWrap}>
-                          asd 4
-                          <ul>
-                            <li>Изменить</li>
-                            <li>Скачать</li>
-                            <li>Удалить</li>
-                          </ul>
-                        </div>) : ("")
-                      }
-                    </div>
-                  </div>
-                </li>
+                    </li>)
+                    
+                  )
+                }
               </ul>
             </div>
+           
           </div>
         
         </div>

@@ -41,6 +41,7 @@ export default function request(
       .post(URL_API + URL_ENDPOINT + params.url, params.data, {
         headers: {
           Authorization: token,
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {

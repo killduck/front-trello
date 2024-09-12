@@ -490,7 +490,7 @@ export default function KanbanBoard(props) {
     {showPreloder ? 
     (<Preloader />) : (
     <Default
-      backGroundImage={{ backgroundImage: `url(/img/${backGroundImage})` }}
+      backGroundImage={{ backgroundImage: `url(/img${backGroundImage})` }}
     >
       <DashboardHeader
         dashboardUsers={users}

@@ -19,6 +19,9 @@ import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
 import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
 import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
+// import axios from "axios";
+// import { URL_API, URL_ENDPOINT } from './config'
+// import { redirect, redirect_status404 } from './redirect'
 
 export default function WindowModal(props){
   console.log(props);
@@ -76,6 +79,8 @@ export default function WindowModal(props){
   let [updateValue, setUpdateValue] = useState(false);
   
   const [addFiles, setAddFiles] = useState([]);
+  const [cardFiles, setCardFiles] = useState(task.card_file);
+
   const [dragActive, setDragActive] = useState(false);
 
 
@@ -115,11 +120,27 @@ export default function WindowModal(props){
   const handleAddFilesSubmit = (evt) => {
     // evt.preventDefault();
     console.log('проверка добавления >>> setAddFiles');
+
+    // funcAttachmentWindow();
+
+    // console.log(addFiles);
+    if(addFiles.length === 0){
+      console.log('return');
+      funcAttachmentWindow();
+      return;
+    }
     const formData = new FormData();
+    formData.append("card_id", idElem);
     Array.from(addFiles).forEach((file) => {
       console.log(file);
-      formData.append("file", file.name);
+      // formData.append("card_id", idElem)
+      formData.append('file', file);
     });
+
+    // for (let key of formData.entries()) {
+		// 	console.log(key[0], key[1]);
+    //   // console.log(key);
+		// }
     console.log(formData);
 
     request({
@@ -129,11 +150,13 @@ export default function WindowModal(props){
 
         if (response.status === 200) {
           console.log(response.data);
+          funcAttachmentWindow();
           // setAddFiles(response.data);
         }
 
       },
-      data: { 'card_id': idElem, 'files': formData },
+      // data: { 'card_id': idElem, 'file': formData },
+      data: formData,
       status: 200,
     });
   }
@@ -600,6 +623,9 @@ export default function WindowModal(props){
           <WindowModalAttachment 
             funcAttachmentWindow={funcAttachmentWindow}
             handleChangeAddFiles={handleChangeAddFiles}
+            addFiles={addFiles}
+            cardFiles={cardFiles}
+            setCardFiles={setCardFiles}
           />
           
           <WindowModalDescription 
