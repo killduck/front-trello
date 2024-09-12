@@ -23,6 +23,7 @@ import TaskCard from "../../components/TaskCard/TaskCard";
 
 import styles from "./KanbanBoard.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
+import { URL_API, URL_ENDPOINT } from "../../api/config";
 // import WorkspaceMenu from "../../components/WorkspaceMenu/WorkspaceMenu";
 
 
@@ -490,7 +491,7 @@ export default function KanbanBoard(props) {
     {showPreloder ? 
     (<Preloader />) : (
     <Default
-      backGroundImage={{ backgroundImage: `url(/img${backGroundImage})` }}
+      backGroundImage={{ backgroundImage: `url(${URL_API + URL_ENDPOINT}${backGroundImage})` }}
     >
       <DashboardHeader
         dashboardUsers={users}

@@ -13,7 +13,7 @@ export default function request(
 
   if (params.method === 'GET') {
     axios
-      .get(URL_API + URL_ENDPOINT + params.url, {
+      .get(URL_API + URL_ENDPOINT + `/` + params.url, {
         headers: {
           Authorization: token,
         },
@@ -38,7 +38,7 @@ export default function request(
 
   if (params.method === 'POST') {
     axios
-      .post(URL_API + URL_ENDPOINT + params.url, params.data, {
+      .post(URL_API + URL_ENDPOINT + `/`+ params.url, params.data, {
         headers: {
           Authorization: token,
           "Content-Type": "multipart/form-data",

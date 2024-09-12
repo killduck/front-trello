@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalAttachment.module.scss";
+import { URL_API, URL_ENDPOINT } from "../../api/config";
+
 
 
 export default function WindowModalAttachment(props){
@@ -152,10 +154,11 @@ export default function WindowModalAttachment(props){
                           title={file.name}
                           alt={file.name}
                           data-testid="attachment-thumbnail" 
-                          style={{backgroundColor: '#r091E420F', backgroundImage: `url(${file.file_url})`}}
+                          style={{backgroundColor: '#3a444c', backgroundImage: `url(${URL_API + URL_ENDPOINT + file.file_url})`}}
                         >
-                          <span className={styles.contentFileLinkText}>{file.extension}</span>
+                          <span className={styles.contentFileLinkText}>{file.image ? file.image : file.extension}</span>
                         </a>
+                        {/* <img src={URL_API + URL_ENDPOINT + file.file_url} data-testid="smart-element-icon-image" alt="py31.png" /> */}
                         <div className={styles.contentFileInfo}>
                           <div className={styles.contentFileInfoTitle}>
                             <span>{file.name}</span>
