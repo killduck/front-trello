@@ -4,6 +4,7 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
 import { useState } from "react";
+import { URL_API, URL_ENDPOINT } from "../../api/config";
 
 
 export default function WindowModalActivity(props){
@@ -58,7 +59,7 @@ export default function WindowModalActivity(props){
             {authUserData.img ?(
               <img 
                 className={styles.cardActivityMemberAvatarImg} 
-                src={authUserData.img ? `/img/users/${authUserData.img}` : '/img/no_photo1.png'}
+                src={`${URL_API + URL_ENDPOINT + authUserData.img}`}
                 alt={`${authUserData.first_name} (${authUserData.username})`}
                 title={`${authUserData.first_name} (${authUserData.username})`}
                 // onClick={()=> onUserCard(authUserData.id)}

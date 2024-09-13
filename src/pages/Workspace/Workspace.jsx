@@ -8,13 +8,13 @@ import Button from "../../components/ui/Button/Button";
 import Icons from "../../components/ui/Icons/Icons";
 import Input from "../../components/ui/Input/Input";
 import Preloader from "../../components/Preloader/Preloader";
+import { URL_API, URL_ENDPOINT } from "../../api/config";
 
 export default function Workspace(props) {
   // console.log(`props => ${props.cardName}`);
   // console.log(props);
 
   let htmlClick = props.htmlClick;
-
 
   let [showDashboards, setShowDashboards] = useState(false);
 
@@ -191,7 +191,7 @@ export default function Workspace(props) {
                             to={"dashboard/" + dashboard.id}
                             className={styles.DashboardWrap}
                             style={{
-                              backgroundImage: `url(/img/${dashboard.img})`,
+                              backgroundImage: `url(${URL_API + URL_ENDPOINT + dashboard.img})`,
                               backgroundSize: "cover",
                               backgroundPosition: "center",
                             }}

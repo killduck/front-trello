@@ -467,6 +467,7 @@ export default function KanbanBoard(props) {
   }
 
   function updateCardLabel(card_id, label) {
+    // console.log(card_id, label);
     if(showPreloderLabel){
       return;
     }

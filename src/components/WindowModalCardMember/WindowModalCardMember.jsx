@@ -1,3 +1,4 @@
+import { URL_API, URL_ENDPOINT } from "../../api/config";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import UserCard from "../UserCard/UserCard";
@@ -30,7 +31,7 @@ export default function WindowModalCardMember(props){
                     {cardUser.img ?
                     (<img 
                       className={styles.memberAvatar} 
-                      src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo.png'}
+                      src={`${URL_API + URL_ENDPOINT + cardUser.img}`}
                       alt={`${cardUser.first_name} (${cardUser.username})`}
                       title={`${cardUser.first_name} (${cardUser.username})`}
                       onClick={()=> onUserCard(cardUser.id)}

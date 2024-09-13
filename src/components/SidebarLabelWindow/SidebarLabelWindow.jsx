@@ -41,6 +41,7 @@ export default function SidebarLabelWindow(props){
 
 
   function onTakeColor(label){
+    // console.log(label);
     if(showPreloderLabel){
       return;
     }
@@ -53,7 +54,7 @@ export default function SidebarLabelWindow(props){
     }
     else{
       setCheckbox(false);
-      updateCardLabel(windowData.id, {'id': null});
+      updateCardLabel(windowData.id, {'id': 'null'});
       setCardLabel(false);
     }
   }

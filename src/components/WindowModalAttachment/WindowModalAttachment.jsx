@@ -12,19 +12,21 @@ export default function WindowModalAttachment(props){
   let cardFiles = props.cardFiles;
   let setCardFiles = props.setCardFiles;
   let funcAttachmentWindow = props.funcAttachmentWindow;
+  let onDeleteCardFile = props.onDeleteCardFile;
+  let showCardOptions = props.showCardOptions;
+  let funcShowAttachmentContentCardOptions = props.funcShowAttachmentContentCardOptions;
+
   // let handleChangeAddFiles = props.handleChangeAddFiles;
-   
+  // let [showCardOptions, setShowCardOptions] = useState(false);
 
-  let [showCardOptions, setShowCardOptions] = useState(false);
-
-  function funcShowAttachmentContentCardOptions(file_id){
-    if(showCardOptions){
-      setShowCardOptions(false);
-    }
-    else{
-      setShowCardOptions(showCardOptions = file_id);
-    }
-  }
+  // function funcShowAttachmentContentCardOptions(file_id){
+  //   if(showCardOptions){
+  //     setShowCardOptions(false);
+  //   }
+  //   else{
+  //     setShowCardOptions(showCardOptions = file_id);
+  //   }
+  // }
 
   return (
     <div>
@@ -142,9 +144,8 @@ export default function WindowModalAttachment(props){
               <ul className={styles.contentFilesList}>
             
                 {cardFiles.map((file) =>
-                  file.image ? 
                   
-                    (<li key={file.id} className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
+                    <li key={file.id} className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
                       <div className={styles.contentFileContent} role="button">
                         <a 
                           className={styles.contentFileLink} 
@@ -181,59 +182,58 @@ export default function WindowModalAttachment(props){
                               viewBox={"0 0 24 24"}
                             />
                           </Button>
+                          
                           {showCardOptions === file.id && (
                             <div className={styles.smallWindowWrap}>
                               <ul>
-                                <li>Изменить</li>
-                                <li>Скачать</li>
-                                <li>Удалить</li>
+                                {/* <li>Изменить</li> */}
+                                <li
+                                  className={styles.actionDownloadCard}
+                                >
+                                  <Button
+                                      // clickAction={deleteColumn}
+                                      // actionVariable={column.id}
+                                      // className={'BtnDeleteColumn'}
+                                      // actionVariable={file.id}
+                                      // clickAction={onDeleteCardFile}
+                                      className={'BtnDeleteCard'}
+                                    >
+                                      <Icons
+                                        name={''}
+                                        class_name={'IconDeletColumnn'}
+                                      />
+                                      <span className={styles.actionDeleteCardText}>
+                                        Скачать 
+                                      </span>
+                                  </Button>
+                                </li>
+                                <li 
+                                  className={styles.actionDeleteCard}
+                                  // onBlur={funcShowAttachmentContentCardOptions}
+                                >
+                                  <Button
+                                      // clickAction={deleteColumn}
+                                      // actionVariable={column.id}
+                                      // className={'BtnDeleteColumn'}
+                                      actionVariable={file.id}
+                                      clickAction={onDeleteCardFile}
+                                      className={'BtnDeleteCard'}
+                                    >
+                                      <Icons
+                                        name={'Trash'}
+                                        class_name={'IconDeletColumnn'}
+                                      />
+                                      <span className={styles.actionDeleteCardText}>
+                                        Удалить 
+                                      </span>
+                                  </Button>
+                                </li>
                               </ul>
                             </div>
                           )}
                         </div>
                       </div>
-                    </li>)
-                    :
-                    (<li key={file.id} className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
-                      <div className={styles.contentFileContent}>
-                        <a className={styles.contentFileLink} draggable="false" href={file.file_url} tabIndex="0" title="index.html" data-testid="attachment-thumbnail" style={{backgroundColor: "#091E420F", backgroundImage: 'url(undefined)'}}>
-                          <span className={styles.contentFileLinkText}>{file.extension}</span>
-                        </a>
-                        <div className={styles.contentFileInfo}>
-                          <div className={styles.contentFileInfoTitle}>
-                            <span>{file.name}</span>
-                          </div>
-                          <p className={styles.contentFileInfoAddDate}>
-                            <span>Добавлено {file.date_upload.split('.')[0].replace('T', ' ')}</span>
-                          </p>
-                        </div>
-                        <div className={styles.contentFileActions}>
-                          <Button 
-                            className={'btnDelAttachment'}
-                            actionVariable={file.id}
-                            clickAction={funcShowAttachmentContentCardOptions}
-                          >
-                            <Icons
-                              name={'three_dots'}
-                              class_name={'IconKebabColumnn'}
-                              sizeWidth={"24px"}
-                              sizeHeight={"24px"}
-                              viewBox={"0 0 24 24"}
-                            />
-                          </Button>
-                          {showCardOptions === file.id && (
-                            <div className={styles.smallWindowWrap}>
-                              <ul>
-                                <li>Изменить</li>
-                                <li>Скачать</li>
-                                <li>Удалить</li>
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </li>)
-                    
+                    </li>
                   )
                 }
               </ul>

@@ -124,8 +124,6 @@ export default function TaskCard(props) {
           className={styles.TaskCard}
           onClick={() => setDNDIsOn(false)}
         >
-        
-    
         <WindowPortal
           typeElem = {'card'}
           idElem = {task.id}
@@ -159,10 +157,7 @@ export default function TaskCard(props) {
                   </span> */}
                 </div>
               </div>
-
-              {/* <a className={styles.CardText} href="#">
-                {task.name}
-              </a> */}
+              
               <span className={styles.CardText} title={`карточка: "${task.name}"`}>
                 {task.name}
               </span>
@@ -182,8 +177,6 @@ export default function TaskCard(props) {
                   </Button>
                 )}
               </div>
-              
-
             </div>
           </div>
         </WindowPortal>
@@ -193,8 +186,6 @@ export default function TaskCard(props) {
         <div
           className={styles.TaskCard}
         >
-        
-    
         <WindowPortal
           typeElem = {'card'}
           idElem = {task.id}
@@ -228,7 +219,6 @@ export default function TaskCard(props) {
                     ariaLabel={"Изменить карточку"}
                     className={"BtnCardNameEdit"}
                     clickAction={toggleEditMode}
-
                   >
                     <Icons
                       name={'pencil-colorless'}

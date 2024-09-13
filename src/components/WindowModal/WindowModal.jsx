@@ -24,7 +24,7 @@ import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachmen
 // import { redirect, redirect_status404 } from './redirect'
 
 export default function WindowModal(props){
-  console.log(props);
+  // console.log(props);
 
   let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
@@ -80,15 +80,21 @@ export default function WindowModal(props){
   
   const [addFiles, setAddFiles] = useState([]);
   const [cardFiles, setCardFiles] = useState(task.card_file);
+  let [showCardOptions, setShowCardOptions] = useState(false);
 
   const [dragActive, setDragActive] = useState(false);
 
 
   const handleChangeAddFiles = (evt) => {
+    // setAddFiles([]);
     evt.preventDefault();
-    // console.log(evt);
+    console.log(evt, addFiles);
     if(evt.target.files && evt.target.files[0]){
-      setAddFiles(...addFiles, evt.target.files);
+      // setAddFiles(...addFiles, evt.target.files);
+      setAddFiles(evt.target.files);
+
+      console.log(addFiles);
+
     }
   }
   console.log(addFiles);
@@ -107,7 +113,7 @@ export default function WindowModal(props){
     setAttachmentWindow(true);
     setDragActive(false);
     if(evt.dataTransfer.files && evt.dataTransfer.files[0]){
-      setAddFiles(...addFiles, evt.dataTransfer.files);
+      setAddFiles(evt.dataTransfer.files);
     }
   }
 
@@ -152,6 +158,8 @@ export default function WindowModal(props){
           console.log(response.data);
           funcAttachmentWindow();
           // setAddFiles(response.data);
+          setCardFiles(response.data.card_file);
+          setUpdateValue(true);
         }
 
       },
@@ -161,8 +169,38 @@ export default function WindowModal(props){
     });
   }
 
+  function onDeleteCardFile(file_id){
+    console.log(file_id);
+    request({
+      method: 'POST',
+      url: 'del-file-from-card/',
+      callback: (response) => {
 
-  console.log(addFiles);
+        if (response.status === 200) {
+          console.log(response.data);
+          setCardFiles(response.data.card_file);
+          funcShowAttachmentContentCardOptions(file_id);
+          setUpdateValue(true);
+        }
+
+      },
+      data: {'card_id': idElem, 'file_id': file_id},
+      status: 200,
+    });
+  }
+
+  function funcShowAttachmentContentCardOptions(file_id){
+    onRemoving_onFrames();
+    
+    if(showCardOptions){
+      setShowCardOptions(false);
+    }
+    else{
+      setShowCardOptions(showCardOptions = file_id);
+    }
+  }
+
+  // console.log(addFiles);
 
 
 
@@ -175,6 +213,7 @@ export default function WindowModal(props){
     setShowUserCard(null); 
     setActivityEditorShow(null); 
     setAttachmentWindow(false);
+    setShowCardOptions(false);
   }
 
   const modules = {
@@ -623,9 +662,12 @@ export default function WindowModal(props){
           <WindowModalAttachment 
             funcAttachmentWindow={funcAttachmentWindow}
             handleChangeAddFiles={handleChangeAddFiles}
+            showCardOptions={showCardOptions}
             addFiles={addFiles}
             cardFiles={cardFiles}
             setCardFiles={setCardFiles}
+            onDeleteCardFile={onDeleteCardFile}
+            funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
           />
           
           <WindowModalDescription 

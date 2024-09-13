@@ -56,7 +56,7 @@ export default function SidebarAttachmentWindow(props){
           ( <>
             <h5 className={styles.attachmentFilesTitle}>Добавленные файлы:</h5>
             <ul className={styles.attachmentFilesList}>
-              {Array.from(addFiles).map(({name},id)=> (
+              {Array.from(addFiles).map(({name}, id)=> (
                 <li key={id} className={styles.attachmentFile}>{id+1}.) {name}</li>
               ))}
             </ul>

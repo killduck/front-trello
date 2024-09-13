@@ -292,9 +292,47 @@
     min-height: 30px;
     cursor: default;
     top: 40px;
-    left: 0;
+    // left: 0;
     right: 0;
     bottom: 0;
     padding: 12px;
-    z-index: 1;
+    z-index: 3;
+}
+
+.actionDownloadCard,
+.actionDeleteCard{
+    background-color: #a1bdd914;
+    border: none;
+    border-radius: 3px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #b6c2cf;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    height: 32px;
+    margin-top: 8px;
+    max-width: 300px;
+    padding: 6px 12px;
+    font-size: 14px;
+
+    &:active,
+    &:hover {
+        border: none;
+        box-shadow: none;
+        color: #b6c2cf;
+    }
+    &:hover {
+        background-color: #a6c5e229;
+        text-decoration: none;
+    }
+    &:active{
+        background-color: #bfdbf847;
+        outline: 0;
+    }
+
+    .actionDeleteCardText{
+        margin-left: 8px;
+    }
 }
