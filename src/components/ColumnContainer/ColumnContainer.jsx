@@ -192,7 +192,7 @@ export default function ColumnContainer(props) {
                   <span>Удалить колонку</span>
                   <Icons
                     name={'Trash'}
-                    class_name={'IconDeletColumnn'}
+                    class_name={'IconDeleteColumnn'}
                   />
                 </li>
               </ul>

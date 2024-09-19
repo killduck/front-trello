@@ -63,7 +63,8 @@
   position: absolute;
 }
 
-.IconDeletColumnn {
+.IconDeleteFile,
+.IconDeleteColumnn {
   width: 20px;
   height: 20px;
 
@@ -272,4 +273,9 @@
 .iconLink{
   width: 20px;
   height: 22px;
+}
+
+.IconDownloadFile{
+  width: 24px;
+  height: 24px;
 }

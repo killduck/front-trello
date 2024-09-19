@@ -43,6 +43,14 @@ export default function Sidebar(props){
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
 
+  let newLink = props.newLink;
+  let newLinkDesc = props.newLinkDesc;
+  let writeNewLink = props.writeNewLink;
+  let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
+  // let setStartLink = props.setStartLink;
+  let writeNewLinkDesc = props.writeNewLinkDesc;
+  let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
+
   let setUpdateValue = props.setUpdateValue;
   
 
@@ -153,6 +161,14 @@ export default function Sidebar(props){
             addFiles={addFiles}
             handleAddFilesReset={handleAddFilesReset}
             handleAddFilesSubmit={handleAddFilesSubmit}
+
+            newLink={newLink}
+            newLinkDesc={newLinkDesc}
+            writeNewLink={writeNewLink}
+            newLinkHandleKeyPress={newLinkHandleKeyPress}
+            // setStartLink={setStartLink}
+            writeNewLinkDesc={writeNewLinkDesc}
+            newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
             
           />):("")
           }
@@ -176,7 +192,7 @@ export default function Sidebar(props){
               >
                 <Icons
                   name={'Trash'}
-                  class_name={'IconDeletColumnn'}
+                  class_name={'IconDeleteColumnn'}
                 />
                 <span className={styles.actionDeleteCardText}>
                   Удалить {typeElem === 'card' ? 'карточку' : '...'}

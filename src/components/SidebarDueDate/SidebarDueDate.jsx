@@ -245,7 +245,7 @@ export default function SidebarDueDate(props){
               </span>
               <Icons
                 name={'Trash'}
-                class_name={'IconDeletColumnn'}
+                class_name={'IconDeleteColumnn'}
               />
           </Button>
         </div>

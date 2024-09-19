@@ -15,6 +15,14 @@ export default function SidebarAttachmentWindow(props){
   let addFiles = props.addFiles;
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
+  
+  let newLink = props.newLink;
+  let newLinkDesc = props.newLinkDesc;
+  let writeNewLink = props.writeNewLink;
+  let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
+  // let setStartLink = props.setStartLink;
+  let writeNewLinkDesc = props.writeNewLinkDesc;
+  let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
 
   return (
     <>
@@ -70,9 +78,53 @@ export default function SidebarAttachmentWindow(props){
           <div className={styles.attachmentLinkWrap}>
             <form data-testid="link-picker" className={styles.attachmentLinkForm}>
               <span id="search-recent-links-field-description" className={styles.attachmentLinkFindResult}>Предложения будут появляться по мере ввода текста в поле</span>
-              <label id="url-uid3-label" htmlFor="url-uid3" className={styles.attachmentLinkLabel}>Найдите или вставьте ссылку</label>
-              <div role="presentation" data-ds--text-field--container="true" data-testid="link-url-container" className={styles.attachmentLinkInputWrap}>
-                <input className={styles.attachmentLinkInput} aria-describedby="search-recent-links-field-description" aria-labelledby="url-uid3-label" id="url-uid3" autoComplete="off" aria-readonly="false" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="link-picker-search-list" aria-activedescendant="" data-ds--text-field--input="true" data-testid="link-url" name="url" placeholder="Выполните поиск недавних ссылок или вставьте новую" value="" readOnly/>
+              <label className={styles.attachmentLinkLabel} id="url-uid3-label" htmlFor="url-uid3">Найдите или вставьте ссылку</label>
+              <div className={styles.attachmentLinkInputWrap} role="presentation" data-ds--text-field--container="true" data-testid="link-url-container">
+                <input 
+                  className={styles.attachmentLinkInput} 
+                  // aria-describedby="search-recent-links-field-description" 
+                  // aria-labelledby="url-uid3-label" 
+                  // id="url-uid3" 
+                  // autoComplete="off" 
+                  // aria-readonly="false" 
+                  // role="combobox" 
+                  // aria-expanded="true" 
+                  // aria-autocomplete="list" 
+                  // aria-controls="link-picker-search-list" 
+                  // aria-activedescendant="" 
+                  // data-ds--text-field--input="true" 
+                  // data-testid="link-url" 
+                  name="url" 
+                  placeholder="Выполните поиск недавних ссылок или вставьте новую" 
+                  value={newLink} 
+                  
+                  autoFocus
+                  onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
+                  onChange={(evt) => writeNewLink(evt.target.value)}
+                  onKeyDown={newLinkHandleKeyPress}
+                  onBlur={newLinkHandleKeyPress}
+                  />
+              </div>
+              
+              <label className={styles.attachmentLinkLabel} id="displayText-uid15-label" htmlFor="displayText-uid15">Текст для отображения (необязательно)</label>
+              <div className={styles.attachmentLinkInputWrap} role="presentation" data-ds--text-field--container="true" data-testid="link-text-container">
+                <input 
+                  // aria-describedby="displayText-uid15-helper" 
+                  // aria-labelledby="displayText-uid15-label" 
+                  // id="displayText-uid15" 
+                  // autoComplete="off" 
+                  // data-ds--text-field--input="true" 
+                  // data-testid="link-text" 
+                  name="displayText" 
+                  placeholder="Текст для отображения" 
+                  className={styles.attachmentLinkInput} 
+                  value={newLinkDesc}
+
+                  onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
+                  onChange={(evt) => writeNewLinkDesc(evt.target.value)}
+                  onKeyDown={newLinkDescHandleKeyPress}
+                  onBlur={newLinkDescHandleKeyPress}
+                />
               </div>
             </form>
           </div>

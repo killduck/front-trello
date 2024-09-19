@@ -24,7 +24,7 @@ import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachmen
 // import { redirect, redirect_status404 } from './redirect'
 
 export default function WindowModal(props){
-  // console.log(props);
+  console.log(props);
 
   let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
@@ -81,9 +81,13 @@ export default function WindowModal(props){
   const [addFiles, setAddFiles] = useState([]);
   const [cardFiles, setCardFiles] = useState(task.card_file);
   let [showCardOptions, setShowCardOptions] = useState(false);
+  const [cardLinks, setCardLinks] = useState(task.card_link);
+  let [newLink, setNewLink] = useState('');
+  const [startLink, setStartLink] = useState('');
+  let [newLinkDesc, setNewLinkDesc] = useState('');
+  const [startLinkDesc, setStartLinkDesc] = useState(''); 
 
   const [dragActive, setDragActive] = useState(false);
-
 
   const handleChangeAddFiles = (evt) => {
     // setAddFiles([]);
@@ -97,7 +101,6 @@ export default function WindowModal(props){
 
     }
   }
-  console.log(addFiles);
 
   const handleDragAddFiles = (evt) => {
     evt.preventDefault();
@@ -126,28 +129,33 @@ export default function WindowModal(props){
   const handleAddFilesSubmit = (evt) => {
     // evt.preventDefault();
     console.log('проверка добавления >>> setAddFiles');
+    console.log(addFiles, newLink, newLinkDesc);
 
-    // funcAttachmentWindow();
-
-    // console.log(addFiles);
-    if(addFiles.length === 0){
+    if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
       console.log('return');
       funcAttachmentWindow();
       return;
     }
     const formData = new FormData();
     formData.append("card_id", idElem);
-    Array.from(addFiles).forEach((file) => {
-      console.log(file);
-      // formData.append("card_id", idElem)
-      formData.append('file', file);
-    });
+
+    formData.append('link', newLink);
+    formData.append('linkDesc', newLinkDesc);
+    if(addFiles.length > 0){
+      Array.from(addFiles).forEach((file) => {
+        // console.log(file);
+        formData.append('file', file);
+      });
+    }
+    else{
+      formData.append('file', addFiles);
+    }
 
     // for (let key of formData.entries()) {
 		// 	console.log(key[0], key[1]);
     //   // console.log(key);
 		// }
-    console.log(formData);
+    // console.log(formData);
 
     request({
       method: 'POST',
@@ -235,7 +243,7 @@ export default function WindowModal(props){
         if (response.status === 200) {
           // console.log(response);
           if(response.data){
-            // console.log(response.data);
+            console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -248,6 +256,8 @@ export default function WindowModal(props){
             setCardActivityComments(response.data.card[0].activity.reverse());
             setDueDateCheckbox(response.data.card[0]['execute']);
             // console.log(response.data.card[0].activity);
+            setCardFiles(response.data.card[0]['card_file']);
+            setCardLinks(response.data.card[0]['card_link']);
             setUpdateValue(false);
           }
           if(task.label){
@@ -448,6 +458,7 @@ export default function WindowModal(props){
   }
   // console.log(updateValue);
   function onUserCard(id_user = null) {
+    console.log('tut', id_user);
     onRemoving_onFrames();
 
     showUserCard === id_user ?
@@ -581,6 +592,44 @@ export default function WindowModal(props){
     }
   }
 
+  function writeNewLinkDesc(evt) {
+    console.log(evt);
+    setNewLinkDesc(newLinkDesc = evt);
+    console.log(newLinkDesc);
+  }
+
+  const newLinkDescHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){ // || evt.type === "blur"
+      funcAttachmentWindow();
+      if(newLinkDesc !== startLinkDesc){
+        console.log('qwe')
+        // updateFunc(windowData.id, newLink);
+        // setStartnewLink(newLink);
+        // startLink, setStartLink
+        // setUpdateValue(true);
+      }
+    }
+  }
+
+  function writeNewLink(evt) {
+    console.log(evt);
+    setNewLink(newLink = evt);
+    console.log(newLink);
+  }
+
+  const newLinkHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){
+      funcAttachmentWindow();
+      if(newLink !== startLink){
+        console.log('asd')
+        // updateFunc(windowData.id, newLink);
+        // setStartnewLink(newLink);
+        // startLink, setStartLink
+        // setUpdateValue(true);
+      }
+    }
+  }
+
   function funcAttachmentWindow(){ 
     onRemoving_onFrames();
 
@@ -628,6 +677,7 @@ export default function WindowModal(props){
                 funcMembersWindow={funcMembersWindow}
                 funcDelCardUser={funcDelCardUser}
                 onUserCard={onUserCard}
+                onRemoving_onFrames={onRemoving_onFrames}
               />
             </div>
 
@@ -668,6 +718,10 @@ export default function WindowModal(props){
             setCardFiles={setCardFiles}
             onDeleteCardFile={onDeleteCardFile}
             funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
+            cardLinks={cardLinks}
+            // writeNewLink={writeNewLink}
+            // newLinkHandleKeyPress={newLinkHandleKeyPress}
+            // setStartLink={setStartLink}
           />
           
           <WindowModalDescription 
@@ -738,6 +792,14 @@ export default function WindowModal(props){
           addFiles={addFiles}
           handleAddFilesReset={handleAddFilesReset}
           handleAddFilesSubmit={handleAddFilesSubmit}
+
+          newLink={newLink}
+          newLinkDesc={newLinkDesc}
+          writeNewLink={writeNewLink}
+          newLinkHandleKeyPress={newLinkHandleKeyPress}
+          writeNewLinkDesc={writeNewLinkDesc}
+          newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
+          // setStartLink={setStartLink}
           
         ></Sidebar>
 
