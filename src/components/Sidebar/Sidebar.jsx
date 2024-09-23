@@ -38,6 +38,8 @@ export default function Sidebar(props){
 
   let attachmentWindow = props.attachmentWindow;
   let funcAttachmentWindow = props.funcAttachmentWindow;
+
+  let showPreloderAttachmentWindow = props.showPreloderAttachmentWindow;
   let handleChangeAddFiles = props.handleChangeAddFiles;
   let addFiles = props.addFiles;
   let handleAddFilesReset = props.handleAddFilesReset;
@@ -157,6 +159,8 @@ export default function Sidebar(props){
             windowData={windowData}
             funcAttachmentWindow={funcAttachmentWindow}
             attachmentWindow={attachmentWindow}
+
+            showPreloderAttachmentWindow={showPreloderAttachmentWindow}
             setUpdateValue={setUpdateValue}
             handleChangeAddFiles={handleChangeAddFiles}
             addFiles={addFiles}

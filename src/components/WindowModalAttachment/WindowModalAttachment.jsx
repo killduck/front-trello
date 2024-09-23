@@ -21,6 +21,11 @@ export default function WindowModalAttachment(props){
   let funcShowUpdateCardLink = props.funcShowUpdateCardLink;
   let showCardOptionsLinkDel = props.showCardOptionsLinkDel;
   let showCardOptionsLinkUpdate = props.showCardOptionsLinkUpdate;
+  let showPreloderFile = props.showPreloderFile;
+  let showCardOptionsFileDel = props.showCardOptionsFileDel;
+  let funcShowDeleteCardFile = props.funcShowDeleteCardFile;
+  let onDeleteCardLink = props.onDeleteCardLink;
+  let showPreloderLink = props.showPreloderLink;
   // let writeNewLink = props.writeNewLink;
   // let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
   // let setStartLink = props.setStartLink;
@@ -102,15 +107,15 @@ export default function WindowModalAttachment(props){
 
               </ul>
             </div> */}
-
+            {cardLinks.length > 0 &&
             <div className={styles.contentLinksWrap}>
               <p className={styles.contentLinksTittle}>Ссылки</p>
               <ul className={styles.contentLinksList} data-testid="attachment-links-list">
-                {cardLinks.length > 0 ? 
-                  (cardLinks.map(
+                
+                  {cardLinks.map(
                     (link) => 
                     
-                      <li key={link.id} className={styles.contentLinkWrap} draggable="true" data-drop-target-for-element="true">
+                      <li key={link.id} className={showPreloderLink === link.id ? `${styles.contentLinkWrap} ${styles.cardAttachmentGradient}` : styles.contentLinkWrap} draggable="true" data-drop-target-for-element="true">
                         
                         <div className={styles.contentLinkContent} data-smart-link-container="true" data-testid="smart-links-container">
                           <a className={styles.contentLinkLink} data-testid="smart-links-container-layered-link" href={link.text} tabIndex="-1" target="_blank" rel="noreferrer" draggable="false">{link.description}</a>
@@ -141,7 +146,7 @@ export default function WindowModalAttachment(props){
                         <div className={styles.contentLinkActions}>
                           <Button 
                             className={'btnDelAttachment'}
-                            actionVariable={link.id}
+                            actionVariable={String(link.id)}
                             clickAction={funcShowAttachmentContentCardOptions}
                           >
                             <Icons
@@ -152,7 +157,7 @@ export default function WindowModalAttachment(props){
                               viewBox={"0 0 24 24"}
                             />
                           </Button>
-                          {showCardOptions === link.id ? 
+                          {showCardOptions === String(link.id) ? 
                             (<div className={styles.smallWindowOptionsWrap}>
                               <ul className={styles.actionAttachmentWrap}>
                                 <li
@@ -226,9 +231,9 @@ export default function WindowModalAttachment(props){
                                   className={'btnDelComment'}
                                   type="button"
                                   ariaLabel="Удалить комментарий"
-                                  // actionVariable={comment}
-                                  // clickAction={onDelActivityReactQuillComment} 
-                                >Удалить комментарий</Button>
+                                  actionVariable={link.id}
+                                  clickAction={onDeleteCardLink} 
+                                >Удалить</Button>
                               </div>
                             </div>):("")
                           }
@@ -236,20 +241,23 @@ export default function WindowModalAttachment(props){
                         
                       </li>
                     )
-                  )
-                  :
-                  ""
-                }
+                  }
               </ul>
-            </div>
-
+            </div>}
+            
+            {cardFiles.length > 0 && 
             <div className={styles.contentFilesWrap}>
               <p className={styles.contentFilesTittle}>Файлы</p>
               <ul className={styles.contentFilesList}>
             
-                {cardFiles.map(
+              {cardFiles.map(
                   (file) =>
-                    <li key={file.id} className={styles.contentFileWrap} draggable="true" data-drop-target-for-element="true">
+                    <li 
+                      key={file.id} 
+                      className={showPreloderFile === file.id ? `${styles.contentFileWrap} ${styles.cardAttachmentGradient}` : styles.contentFileWrap} 
+                      draggable="true" 
+                      data-drop-target-for-element="true"
+                    >
                       <div className={styles.contentFileContent} role="button">
                         <a 
                           className={styles.contentFileLink} 
@@ -287,7 +295,7 @@ export default function WindowModalAttachment(props){
                             />
                           </Button>
                           
-                          {showCardOptions === file.id && (
+                          {(showCardOptions === file.id)  && (
                             <div className={styles.smallWindowOptionsWrap} ref={smallWindow}>
                               <ul className={styles.actionAttachmentWrap}>
                                 {/* <li>Изменить</li> */}
@@ -320,7 +328,7 @@ export default function WindowModalAttachment(props){
                                       // actionVariable={column.id}
                                       // className={'BtnDeleteColumn'}
                                       actionVariable={file.id}
-                                      clickAction={onDeleteCardFile}
+                                      clickAction={funcShowDeleteCardFile}
                                       className={'BtnDeleteFile'}
                                     >
                                       <Icons
@@ -335,13 +343,45 @@ export default function WindowModalAttachment(props){
                               </ul>
                             </div>
                           )}
+                          {showCardOptionsFileDel === file.id &&
+                            (<div className={styles.smallWindowWrap}>
+                              <header className={styles.itemHeader}>
+                                <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить вложение?</h2>
+                                
+                                <div className={styles.iconWrap}>
+                                  <Button
+                                      className={'btnSmallWindow'}
+                                      type="button"
+                                      ariaLabel="Закрыть окно"
+                                      clickAction={funcShowDeleteCardFile} 
+                                  >
+                                    <Icons
+                                        class_name={'btnModalCloseIcon'}
+                                        name={'CloseIcon'}
+                                    />
+                                  </Button>
+                                </div>
+                              </header>
+                              <div className={styles.delButtonWrap}>
+                                <p className={styles.delButtonWrapText}>
+                                  Удалить это вложение? Отмена невозможна.
+                                </p>
+                                <Button
+                                  className={'btnDelComment'}
+                                  type="button"
+                                  ariaLabel="Удалить комментарий"
+                                  actionVariable={file.id}
+                                  clickAction={onDeleteCardFile} 
+                                >Удалить</Button>
+                              </div>
+                            </div>)}
                         </div>
                       </div>
                     </li>
                   )
                 }
               </ul>
-            </div>
+            </div>}
            
           </div>
         

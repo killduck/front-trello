@@ -11,6 +11,8 @@ export default function SidebarAttachmentWindow(props){
   let funcAttachmentWindow = props.funcAttachmentWindow; 
   let setUpdateValue = props.setUpdateValue; 
 
+  let showPreloderAttachmentWindow = props.showPreloderAttachmentWindow;
+
   let handleChangeAddFiles = props.handleChangeAddFiles;
   let addFiles = props.addFiles;
   let handleAddFilesReset = props.handleAddFilesReset;
@@ -28,7 +30,7 @@ export default function SidebarAttachmentWindow(props){
 
   return (
     <>
-      <div className={styles.smallWindowWrap}>
+      <div className={showPreloderAttachmentWindow ? `${styles.smallWindowWrap} ${styles.sidebarAttachmentGradient}` : styles.smallWindowWrap}>
 
         <header className={styles.itemHeader}>
           {attachmentWindow !== 'link' ?
@@ -42,6 +44,7 @@ export default function SidebarAttachmentWindow(props){
                 type="button"
                 ariaLabel="Закрыть окно"
                 clickAction={funcAttachmentWindow}
+                disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >
               <Icons
                   class_name={'btnModalCloseIcon'}
@@ -59,8 +62,15 @@ export default function SidebarAttachmentWindow(props){
                 Прикрепите файл с компьютера
               </h5>
               <p className={styles.attachmentFileDescription}>Вы можете просто перетянуть и отпустить файлы, чтобы выгрузить их.</p>
-              <label tabIndex="0" className={styles.attachmentFileLabel} htmlFor="card-attachment-file-picker" aria-label="Выбрать файл">Выбрать файл</label>
+              <label 
+                tabIndex="0" 
+                className={styles.attachmentFileLabel} 
+                htmlFor="card-attachment-file-picker" 
+                aria-label="Выбрать файл"
+                disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
+              >Выбрать файл</label>
               <input 
+                disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
                 onChange={handleChangeAddFiles}
                 type="file" 
                 id="card-attachment-file-picker" 
@@ -92,6 +102,7 @@ export default function SidebarAttachmentWindow(props){
               <label className={styles.attachmentLinkLabel} id="url-uid3-label" htmlFor="url-uid3">Найдите или вставьте ссылку</label>
               <div className={styles.attachmentLinkInputWrap} role="presentation" data-ds--text-field--container="true" data-testid="link-url-container">
                 <input 
+                  disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
                   className={styles.attachmentLinkInput} 
                   // aria-describedby="search-recent-links-field-description" 
                   // aria-labelledby="url-uid3-label" 
@@ -120,6 +131,7 @@ export default function SidebarAttachmentWindow(props){
               <label className={styles.attachmentLinkLabel} id="displayText-uid15-label" htmlFor="displayText-uid15">Текст для отображения (необязательно)</label>
               <div className={styles.attachmentLinkInputWrap} role="presentation" data-ds--text-field--container="true" data-testid="link-text-container">
                 <input 
+                  disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
                   // aria-describedby="displayText-uid15-helper" 
                   // aria-labelledby="displayText-uid15-label" 
                   id="displayText-uid15" 
@@ -145,16 +157,19 @@ export default function SidebarAttachmentWindow(props){
               className={'attachmentSave'} //attachmentSave
               // actionVariable={'no'}
               clickAction = {handleAddFilesSubmit}
+              disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Сохранить</Button>
             <Button
               className={'attachmentReset'} //attachmentReset
               // actionVariable={'no'}
               clickAction = {handleAddFilesReset}
+              disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Сброс</Button>
             <Button
               className={'attachmentCancel'} // attachmentCancel
               // actionVariable={null}
               clickAction = {funcAttachmentWindow}
+              disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Отмена</Button>
           </div>
         </div>
