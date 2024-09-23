@@ -10,6 +10,7 @@ import UserDashboard from '../UserDashboard/UserDashboard';
 import Select from 'react-select';
 
 import request from "../../api/request";
+import ListUsers from '../ListUsers/ListUsers';
 
 
 export default function DashboardHeader(props) {
@@ -147,6 +148,7 @@ export default function DashboardHeader(props) {
               ))
             }
           </div>
+
           <div className={styles.ButtonShare}>
             <Button
               className={"BtnShare"}
@@ -159,12 +161,14 @@ export default function DashboardHeader(props) {
               Поделиться
             </Button>
 
-            <div className={
-              showFormShare ?
-                `${styles.FormShare}`
-                :
-                styles.DisplayNone
-            }>
+            <div
+              className={
+                showFormShare ?
+                  `${styles.FormShare}`
+                  :
+                  styles.DisplayNone
+              }
+            >
               <div className={styles.FormShareTitle}>
                 <span>Поделиться доской</span>
                 <Button
@@ -179,11 +183,6 @@ export default function DashboardHeader(props) {
                 </Button>
               </div>
               <form id="form-sharedashboard" className={styles.FormShareInput}>
-                {/* <input
-                  type="email"
-                  value={(fieldEmailData) ? fieldEmailData : ""}
-                  onChange={(evt) => writeEmail(evt.target.value)}
-                /> */}
                 <div onChange={(evt) => writeEmail(evt.target.value)}>
                   <Select
                     placeholder="поиск пользователя"
@@ -198,12 +197,6 @@ export default function DashboardHeader(props) {
                     noOptionsMessage={() => "Пользователи не найдены"}
                   />
                 </div>
-                {/* <AsyncSelect
-                  placeholder="поиск пользователя"
-                  components={components}
-                  loadOptions={promiseOptions}
-                /> */}
-
                 <Button
                   id="form-sharedashboard"
                   type="button"
@@ -213,6 +206,15 @@ export default function DashboardHeader(props) {
                   Поделиться
                 </Button>
               </form>
+
+              <div className={styles.LineSeparator} />
+
+              <div>
+                Приглашенные пользователи
+              </div>
+              <ListUsers
+                dashboardId={dashboardId}
+              />
 
             </div>
           </div>
