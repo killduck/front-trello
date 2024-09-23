@@ -48,6 +48,7 @@ export default function Sidebar(props){
   let writeNewLink = props.writeNewLink;
   let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
   // let setStartLink = props.setStartLink;
+  let startLink = props.startLink;
   let writeNewLinkDesc = props.writeNewLinkDesc;
   let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
 
@@ -167,6 +168,7 @@ export default function Sidebar(props){
             writeNewLink={writeNewLink}
             newLinkHandleKeyPress={newLinkHandleKeyPress}
             // setStartLink={setStartLink}
+            startLink={startLink}
             writeNewLinkDesc={writeNewLinkDesc}
             newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
             

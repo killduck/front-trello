@@ -17,6 +17,10 @@ export default function WindowModalAttachment(props){
   let showCardOptions = props.showCardOptions;
   let funcShowAttachmentContentCardOptions = props.funcShowAttachmentContentCardOptions;
   let cardLinks = props.cardLinks;
+  let funcShowDeleteCardLink = props.funcShowDeleteCardLink;
+  let funcShowUpdateCardLink = props.funcShowUpdateCardLink;
+  let showCardOptionsLinkDel = props.showCardOptionsLinkDel;
+  let showCardOptionsLinkUpdate = props.showCardOptionsLinkUpdate;
   // let writeNewLink = props.writeNewLink;
   // let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
   // let setStartLink = props.setStartLink;
@@ -53,7 +57,7 @@ export default function WindowModalAttachment(props){
 
           <div className={styles.cardAttachmentContent}>
 
-            <div className={styles.contentCardsWrap}>
+            {/* <div className={styles.contentCardsWrap}>
               <p className={styles.contentCardsTitle}>Карточки Trello</p>
               <ul className={styles.contentCardsList}>
                 
@@ -97,7 +101,7 @@ export default function WindowModalAttachment(props){
                 </li>
 
               </ul>
-            </div>
+            </div> */}
 
             <div className={styles.contentLinksWrap}>
               <p className={styles.contentLinksTittle}>Ссылки</p>
@@ -149,26 +153,26 @@ export default function WindowModalAttachment(props){
                             />
                           </Button>
                           {showCardOptions === link.id ? 
-                            (<div className={styles.smallWindowWrap}>
+                            (<div className={styles.smallWindowOptionsWrap}>
                               <ul className={styles.actionAttachmentWrap}>
                                 <li
                                   className={styles.actionAttachment}
                                 >
                                   <Button
-                                      // clickAction={deleteColumn}
-                                      // actionVariable={column.id}
-                                      // className={'BtnDeleteColumn'}
-                                      // actionVariable={link.id}
-                                      // clickAction={onUpdateCardLink}
-                                      className={'BtnUpdateLink'}
-                                    >
-                                      <Icons
-                                        name={'icon-external-link'}
-                                        class_name={'IconDownloadFile'}
-                                      />
-                                      <span className={styles.actionDeleteCardText}>
-                                        Изменить 
-                                      </span>
+                                    // clickAction={deleteColumn}
+                                    // actionVariable={column.id}
+                                    // className={'BtnDeleteColumn'}
+                                    actionVariable={link}
+                                    clickAction={funcShowUpdateCardLink}
+                                    className={'BtnUpdateLink'}
+                                  >
+                                    <Icons
+                                      name={'icon-external-link'}
+                                      class_name={'IconDownloadFile'}
+                                    />
+                                    <span className={styles.actionDeleteCardText}>
+                                      Изменить 
+                                    </span>
                                   </Button>
                                 </li>
                                 <li 
@@ -179,8 +183,8 @@ export default function WindowModalAttachment(props){
                                       // clickAction={deleteColumn}
                                       // actionVariable={column.id}
                                       // className={'BtnDeleteColumn'}
-                                      // actionVariable={link.id}
-                                      // clickAction={onDeleteCardLink}
+                                      actionVariable={link.id}
+                                      clickAction={funcShowDeleteCardLink}
                                       className={'BtnDeleteLink'}
                                     >
                                       <Icons
@@ -194,6 +198,39 @@ export default function WindowModalAttachment(props){
                                 </li>
                               </ul>
                             </div>) : ("")
+                          }
+                          {showCardOptionsLinkDel === link.id ? 
+                            (<div className={styles.smallWindowWrap}>
+                              <header className={styles.itemHeader}>
+                                <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить вложение?</h2>
+                                
+                                <div className={styles.iconWrap}>
+                                  <Button
+                                      className={'btnSmallWindow'}
+                                      type="button"
+                                      ariaLabel="Закрыть окно"
+                                      clickAction={funcShowDeleteCardLink} 
+                                  >
+                                    <Icons
+                                        class_name={'btnModalCloseIcon'}
+                                        name={'CloseIcon'}
+                                    />
+                                  </Button>
+                                </div>
+                              </header>
+                              <div className={styles.delButtonWrap}>
+                                <p className={styles.delButtonWrapText}>
+                                  Удалить это вложение? Отмена невозможна.
+                                </p>
+                                <Button
+                                  className={'btnDelComment'}
+                                  type="button"
+                                  ariaLabel="Удалить комментарий"
+                                  // actionVariable={comment}
+                                  // clickAction={onDelActivityReactQuillComment} 
+                                >Удалить комментарий</Button>
+                              </div>
+                            </div>):("")
                           }
                         </div>
                         
@@ -251,7 +288,7 @@ export default function WindowModalAttachment(props){
                           </Button>
                           
                           {showCardOptions === file.id && (
-                            <div className={styles.smallWindowWrap} ref={smallWindow}>
+                            <div className={styles.smallWindowOptionsWrap} ref={smallWindow}>
                               <ul className={styles.actionAttachmentWrap}>
                                 {/* <li>Изменить</li> */}
                                 <li

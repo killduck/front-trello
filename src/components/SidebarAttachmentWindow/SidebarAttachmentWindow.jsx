@@ -21,6 +21,8 @@ export default function SidebarAttachmentWindow(props){
   let writeNewLink = props.writeNewLink;
   let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
   // let setStartLink = props.setStartLink;
+  let startLink = props.startLink;
+
   let writeNewLinkDesc = props.writeNewLinkDesc;
   let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
 
@@ -29,7 +31,11 @@ export default function SidebarAttachmentWindow(props){
       <div className={styles.smallWindowWrap}>
 
         <header className={styles.itemHeader}>
-          <h2 className={styles.itemHeaderTitle} >Прикрепить</h2>
+          {attachmentWindow !== 'link' ?
+            <h2 className={styles.itemHeaderTitle} >Прикрепить</h2>
+            :
+            <h2 className={styles.itemHeaderTitle} >Изменить</h2>
+          }
           <div className={styles.iconWrap}>
             <Button
                 className={'btnSmallWindow'}
@@ -46,32 +52,37 @@ export default function SidebarAttachmentWindow(props){
         </header>
 
         <div tabIndex="-1" className={styles.attachmentWrap} >
-
-          <h5 className={styles.attachmentFileTitile}>
-            Прикрепите файл с компьютера
-          </h5>
-          <p className={styles.attachmentFileDescription}>Вы можете просто перетянуть и отпустить файлы, чтобы выгрузить их.</p>
-          <label tabIndex="0" className={styles.attachmentFileLabel} htmlFor="card-attachment-file-picker" aria-label="Выбрать файл">Выбрать файл</label>
-          <input 
-            onChange={handleChangeAddFiles}
-            type="file" 
-            id="card-attachment-file-picker" 
-            name="card-attachment-file-picker" 
-            className={styles.attachmentFileInput} 
-            multiple={true} 
-          />
-          {addFiles.length > 0 ? 
-          ( <>
-            <h5 className={styles.attachmentFilesTitle}>Добавленные файлы:</h5>
-            <ul className={styles.attachmentFilesList}>
-              {Array.from(addFiles).map(({name}, id)=> (
-                <li key={id} className={styles.attachmentFile}>{id+1}.) {name}</li>
-              ))}
-            </ul>
+          {attachmentWindow !== 'link' &&
+            (
+            <>
+              <h5 className={styles.attachmentFileTitile}>
+                Прикрепите файл с компьютера
+              </h5>
+              <p className={styles.attachmentFileDescription}>Вы можете просто перетянуть и отпустить файлы, чтобы выгрузить их.</p>
+              <label tabIndex="0" className={styles.attachmentFileLabel} htmlFor="card-attachment-file-picker" aria-label="Выбрать файл">Выбрать файл</label>
+              <input 
+                onChange={handleChangeAddFiles}
+                type="file" 
+                id="card-attachment-file-picker" 
+                name="card-attachment-file-picker" 
+                className={styles.attachmentFileInput} 
+                multiple={true} 
+              />
+              {addFiles.length > 0 ? 
+              ( <>
+                <h5 className={styles.attachmentFilesTitle}>Добавленные файлы:</h5>
+                <ul className={styles.attachmentFilesList}>
+                  {Array.from(addFiles).map(({name}, id)=> (
+                    <li key={id} className={styles.attachmentFile}>{id+1}.) {name}</li>
+                  ))}
+                </ul>
+                </>
+              )
+              :
+              ""
+              }
             </>
-          )
-          :
-          ""
+            )
           }
           <div className={styles.attachmentLine}></div>
 
@@ -84,7 +95,7 @@ export default function SidebarAttachmentWindow(props){
                   className={styles.attachmentLinkInput} 
                   // aria-describedby="search-recent-links-field-description" 
                   // aria-labelledby="url-uid3-label" 
-                  // id="url-uid3" 
+                  id="url-uid3" 
                   // autoComplete="off" 
                   // aria-readonly="false" 
                   // role="combobox" 
@@ -111,7 +122,7 @@ export default function SidebarAttachmentWindow(props){
                 <input 
                   // aria-describedby="displayText-uid15-helper" 
                   // aria-labelledby="displayText-uid15-label" 
-                  // id="displayText-uid15" 
+                  id="displayText-uid15" 
                   // autoComplete="off" 
                   // data-ds--text-field--input="true" 
                   // data-testid="link-text" 

@@ -344,6 +344,21 @@
 .btnSmallWindow {
   padding: 5px;
   width: 100%;
+
+  &:hover,
+  &:active {
+    border: none;
+    box-shadow: none;
+    color: #b6c2cf;
+  }
+  &:hover {
+    background-color: #a6c5e229;
+    text-decoration: none;
+  }
+  &:active {
+    background-color: #bfdbf847;
+    outline: 0;
+  }
 }
 
 .addUserToCard {
