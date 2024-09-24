@@ -50,6 +50,8 @@ export default function DashboardHeader(props) {
 
   function onShareDashboard() {
 
+    setSelectedOption(null);
+
     showFormShare ?
       setShowFormShare(false)
       :
@@ -85,7 +87,7 @@ export default function DashboardHeader(props) {
       status: 200,
     });
 
-    onShareDashboard();
+    // onShareDashboard();
     setSelectedOption(null);
   }
 
@@ -209,11 +211,12 @@ export default function DashboardHeader(props) {
 
               <div className={styles.LineSeparator} />
 
-              <div>
+              <div className={styles.Title_ListUsers}>
                 Приглашенные пользователи
-              </div>
+              </div >
               <ListUsers
                 dashboardId={dashboardId}
+                SubmitFormShare={SubmitFormShare}
               />
 
             </div>
