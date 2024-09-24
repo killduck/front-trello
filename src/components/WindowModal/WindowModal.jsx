@@ -19,6 +19,8 @@ import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
 import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
 import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
+import { URL_API, URL_ENDPOINT } from "../../api/config";
+import axios from "axios";
 // import axios from "axios";
 // import { URL_API, URL_ENDPOINT } from './config'
 // import { redirect, redirect_status404 } from './redirect'
@@ -194,6 +196,102 @@ export default function WindowModal(props){
       // data: { 'card_id': idElem, 'file': formData },
       data: formData,
       status: 200,
+    });
+  }
+
+  function onDownloadCardFile(file){
+    console.log(file);
+    if(showPreloderFile){ 
+      return;
+    }
+    setShowPreloderFile(file); 
+    onRemoving_onFrames();
+    console.log(URL_API + URL_ENDPOINT + '/download-file-from-card/');
+    
+    // axios
+    //   .post(
+    //     URL_API + URL_ENDPOINT + '/download-file-from-card/',
+    //     {'card_id': idElem, 'file_id': file.id},
+    //     {
+    //       headers: {
+    //         Authorization: 'Token ' + localStorage.getItem('trello_auth'),
+    //       },
+    //       responseType: 'blob',
+    //     },
+    //   )
+    //   .then((response) => {
+    //     console.log(response);
+    //     // create file link in browser's memory
+    //     const href = URL.createObjectURL(response.data);
+    
+    //     // create "a" HTML element with href to file & click
+    //     const link = document.createElement('a');
+    //     link.href = href;
+    //     link.setAttribute('download', file.name); //or any other extension
+    //     document.body.appendChild(link);
+    //     link.click();
+    
+    //     // clean up "a" element & remove ObjectURL
+    //     document.body.removeChild(link);
+    //     URL.revokeObjectURL(href);
+    // });
+
+    // setShowPreloderFile(false);
+    // funcShowAttachmentContentCardOptions(false);
+    // setUpdateValue(true);
+
+    request({
+      method: 'POST',
+      url: 'download-file-from-card/',
+      callback: (response) => {
+        setTimeout(() => {
+          
+          if (response.status === 200) {
+            console.log(response.data);
+            // create file link in browser's memory
+            const href = URL.createObjectURL(response.data);
+        
+            // create "a" HTML element with href to file & click
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', file.name); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+
+            // const blob = response.blob();
+            // const downloadUrl = window.URL.createObjectURL(blob);
+            // const link = document.createElement('a');
+            // link.href = downloadUrl;
+            // link.download = file.name;
+            // document.body.appendChild(link);
+            // link.click();
+            // link.remove();
+
+            // const blob = response.blob();
+            // const downloadUrl = window.URL.createObjectURL(blob);
+            // const link = document.createElement('a');
+            // link.href = downloadUrl;
+            // link.download = file.name;
+            // document.body.appendChild(link);
+            // link.click();
+            // link.remove();
+
+            setShowPreloderFile(false);
+
+            // setCardFiles(response.data.card_file);
+            funcShowAttachmentContentCardOptions(false);
+            setUpdateValue(true);
+          }
+
+        }, 0);
+      },
+      data: {'card_id': idElem, 'file_id': file.id},
+      status: 200,
+      response_type: 'blob',
     });
   }
 
@@ -837,6 +935,7 @@ export default function WindowModal(props){
             showPreloderFile={showPreloderFile}
             funcShowDeleteCardFile={funcShowDeleteCardFile}
             showCardOptionsFileDel={showCardOptionsFileDel}
+            onDownloadCardFile={onDownloadCardFile}
 
             funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
             cardLinks={cardLinks}

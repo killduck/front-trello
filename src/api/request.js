@@ -3,7 +3,7 @@ import { URL_API, URL_ENDPOINT } from './config'
 import { redirect, redirect_status404 } from './redirect'
 
 export default function request(
-  params = { method: 'GET', url: '', callback: '', data: null, status: 200 }
+  params = { method: 'GET', url: '', callback: '', data: null, status: 200, response_type: 'json' }
 ) {
   let token = ''
 
@@ -17,6 +17,7 @@ export default function request(
         headers: {
           Authorization: token,
         },
+        responseType: params.response_type,
       })
       .then((response) => {
         if (response.status === params.status) {
@@ -43,6 +44,7 @@ export default function request(
           Authorization: token,
           "Content-Type": "multipart/form-data",
         },
+        responseType: params.response_type,
       })
       .then((response) => {
         if (response.status === params.status) {

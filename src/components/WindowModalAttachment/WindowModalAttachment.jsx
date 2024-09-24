@@ -26,6 +26,7 @@ export default function WindowModalAttachment(props){
   let funcShowDeleteCardFile = props.funcShowDeleteCardFile;
   let onDeleteCardLink = props.onDeleteCardLink;
   let showPreloderLink = props.showPreloderLink;
+  let onDownloadCardFile = props.onDownloadCardFile;
   // let writeNewLink = props.writeNewLink;
   // let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
   // let setStartLink = props.setStartLink;
@@ -306,8 +307,8 @@ export default function WindowModalAttachment(props){
                                       // clickAction={deleteColumn}
                                       // actionVariable={column.id}
                                       // className={'BtnDeleteColumn'}
-                                      // actionVariable={file.id}
-                                      // clickAction={onDownloadCardFile}
+                                      actionVariable={file}
+                                      clickAction={onDownloadCardFile}
                                       className={'BtnDownloadFile'}
                                     >
                                       <Icons
