@@ -19,11 +19,6 @@ import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
 import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
 import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
-import { URL_API, URL_ENDPOINT } from "../../api/config";
-import axios from "axios";
-// import axios from "axios";
-// import { URL_API, URL_ENDPOINT } from './config'
-// import { redirect, redirect_status404 } from './redirect'
 
 export default function WindowModal(props){
   console.log(props);
@@ -90,345 +85,14 @@ export default function WindowModal(props){
   let [newLink, setNewLink] = useState('');
   let [startLink, setStartLink] = useState('');
   let [newLinkDesc, setNewLinkDesc] = useState('');
-  let [startLinkDesc, setStartLinkDesc] = useState(''); 
+  // let [startLinkDesc, setStartLinkDesc] = useState(''); 
   const [showPreloderLink, setShowPreloderLink] = useState(false);
 
   let [showCardOptionsFileDel, setShowCardOptionsFileDel] = useState(false);
   let [showCardOptionsLinkDel, setShowCardOptionsLinkDel] = useState(false);
   let [showCardOptionsLinkUpdate, setShowCardOptionsLinkUpdate] = useState(false);
   
-
   const [dragActive, setDragActive] = useState(false);
-
-  const handleChangeAddFiles = (evt) => {
-    // setAddFiles([]);
-    evt.preventDefault();
-    console.log(evt, addFiles);
-    if(evt.target.files && evt.target.files[0]){
-      // setAddFiles(...addFiles, evt.target.files);
-      setAddFiles(evt.target.files);
-
-      console.log(addFiles);
-
-    }
-  }
-
-  const handleDragAddFiles = (evt) => {
-    evt.preventDefault();
-    setDragActive(true);
-  }
-  const handleDragLeaveAddFiles = (evt) => {
-    evt.preventDefault();
-    setDragActive(false);
-  }
-  const handleDragDropAddFiles = (evt) => {
-    evt.preventDefault();
-    // console.log(evt);
-    setAttachmentWindow(true);
-    setDragActive(false);
-    if(evt.dataTransfer.files && evt.dataTransfer.files[0]){
-      setAddFiles(evt.dataTransfer.files);
-    }
-  }
-
-  const handleAddFilesReset = (evt) => {
-    // evt.preventDefault();
-    console.log('проверка сброса >>> setAddFiles');
-    setNewLink(''); 
-    setNewLinkDesc('');
-    setAddFiles([]);
-  }
-
-  const handleAddFilesSubmit = () => {
-    // evt.preventDefault();
-    console.log('проверка добавления >>> setAddFiles');
-    console.log(addFiles, newLink, newLinkDesc);
-
-    if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
-      console.log('return');
-      funcAttachmentWindow();
-      return;
-    }
-    const formData = new FormData();
-
-    formData.append("card_id", idElem);
-
-    formData.append('link_id', startLink);
-    formData.append('link', newLink);
-    formData.append('linkDesc', newLinkDesc);
-
-    if(addFiles.length > 0){
-      Array.from(addFiles).forEach((file) => {
-        // console.log(file);
-        formData.append('file', file);
-      });
-    }
-    else{
-      formData.append('file', addFiles);
-    }
-
-    // for (let key of formData.entries()) {
-		// 	console.log(key[0], key[1]);
-    //   // console.log(key);
-		// }
-    // console.log(formData);
-
-    setShowPreloderAttachmentWindow(true);
-
-    request({
-      method: 'POST',
-      url: 'add-file-and-link-to-card/',
-      callback: (response) => {
-        setTimeout(() => {
-          if (response.status === 200) {
-            console.log(response.data);
-            setShowPreloderAttachmentWindow(false);
-
-            funcAttachmentWindow();
-            // setAddFiles(response.data); 
-            setNewLink(''); 
-            setNewLinkDesc(''); 
-            setCardFiles(response.data.card_file);
-            setUpdateValue(true);
-          }
-        }, 1000);
-      },
-      // data: { 'card_id': idElem, 'file': formData },
-      data: formData,
-      status: 200,
-    });
-  }
-
-  function onDownloadCardFile(file){
-    console.log(file);
-    if(showPreloderFile){ 
-      return;
-    }
-    setShowPreloderFile(file); 
-    onRemoving_onFrames();
-    console.log(URL_API + URL_ENDPOINT + '/download-file-from-card/');
-    
-    // axios
-    //   .post(
-    //     URL_API + URL_ENDPOINT + '/download-file-from-card/',
-    //     {'card_id': idElem, 'file_id': file.id},
-    //     {
-    //       headers: {
-    //         Authorization: 'Token ' + localStorage.getItem('trello_auth'),
-    //       },
-    //       responseType: 'blob',
-    //     },
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //     // create file link in browser's memory
-    //     const href = URL.createObjectURL(response.data);
-    
-    //     // create "a" HTML element with href to file & click
-    //     const link = document.createElement('a');
-    //     link.href = href;
-    //     link.setAttribute('download', file.name); //or any other extension
-    //     document.body.appendChild(link);
-    //     link.click();
-    
-    //     // clean up "a" element & remove ObjectURL
-    //     document.body.removeChild(link);
-    //     URL.revokeObjectURL(href);
-    // });
-
-    // setShowPreloderFile(false);
-    // funcShowAttachmentContentCardOptions(false);
-    // setUpdateValue(true);
-
-    request({
-      method: 'POST',
-      url: 'download-file-from-card/',
-      callback: (response) => {
-        setTimeout(() => {
-          
-          if (response.status === 200) {
-            console.log(response.data);
-            // create file link in browser's memory
-            const href = URL.createObjectURL(response.data);
-        
-            // create "a" HTML element with href to file & click
-            const link = document.createElement('a');
-            link.href = href;
-            link.setAttribute('download', file.name); //or any other extension
-            document.body.appendChild(link);
-            link.click();
-        
-            // clean up "a" element & remove ObjectURL
-            document.body.removeChild(link);
-            URL.revokeObjectURL(href);
-
-            // const blob = response.blob();
-            // const downloadUrl = window.URL.createObjectURL(blob);
-            // const link = document.createElement('a');
-            // link.href = downloadUrl;
-            // link.download = file.name;
-            // document.body.appendChild(link);
-            // link.click();
-            // link.remove();
-
-            // const blob = response.blob();
-            // const downloadUrl = window.URL.createObjectURL(blob);
-            // const link = document.createElement('a');
-            // link.href = downloadUrl;
-            // link.download = file.name;
-            // document.body.appendChild(link);
-            // link.click();
-            // link.remove();
-
-            setShowPreloderFile(false);
-
-            // setCardFiles(response.data.card_file);
-            funcShowAttachmentContentCardOptions(false);
-            setUpdateValue(true);
-          }
-
-        }, 0);
-      },
-      data: {'card_id': idElem, 'file_id': file.id},
-      status: 200,
-      response_type: 'blob',
-    });
-  }
-
-  function onDeleteCardFile(file_id){
-    console.log(file_id);
-    if(showPreloderFile){ 
-      return;
-    }
-    setShowPreloderFile(file_id);
-    onRemoving_onFrames();
-    request({
-      method: 'POST',
-      url: 'del-file-from-card/',
-      callback: (response) => {
-        setTimeout(() => {
-          
-          if (response.status === 200) {
-            console.log(response.data);
-            setShowPreloderFile(false);
-
-            setCardFiles(response.data.card_file);
-            funcShowAttachmentContentCardOptions(false);
-            setUpdateValue(true);
-          }
-
-        }, 1000);
-      },
-      data: {'card_id': idElem, 'file_id': file_id},
-      status: 200,
-    });
-  }
-
-  function funcShowDeleteCardFile(file_id){
-    onRemoving_onFrames();
-
-    if(showCardOptionsFileDel){
-      setShowCardOptionsFileDel(false); 
-    }
-    else{
-      setShowCardOptionsFileDel(showCardOptionsFileDel = file_id);
-    }
-  }
-  
-
-  function onDeleteCardLink(link_id){
-    console.log(link_id);
-    if(showPreloderLink){ 
-      return;
-    }
-    setShowPreloderLink(link_id);
-    onRemoving_onFrames();
-
-    request({
-      method: 'POST',
-      url: 'del-link-from-card/',
-      callback: (response) => {
-        setTimeout(() => {
-          
-          if (response.status === 200) {
-            console.log(response.data);
-            setShowPreloderLink(false);
-
-            setCardLinks(response.data.card_link);
-            funcShowAttachmentContentCardOptions(false);
-            setUpdateValue(true);
-          }
-
-        }, 1000);
-
-      },
-      data: {'card_id': idElem, 'link_id': link_id},
-      status: 200,
-    });
-  }
-  
-  function funcShowAttachmentContentCardOptions(elem_id){
-    console.log(elem_id);
-    onRemoving_onFrames();
-    
-    if(showCardOptions){
-      setShowCardOptions(false);
-    }
-    else{
-      setShowCardOptions(showCardOptions = elem_id);
-    }
-  }
-
-  function funcShowDeleteCardLink(link_id){
-    onRemoving_onFrames();
-
-    if(showCardOptionsLinkDel){
-      setShowCardOptionsLinkDel(false);
-    }
-    else{
-      setShowCardOptionsLinkDel(showCardOptionsLinkDel = link_id);
-    }
-  }
-
-  function funcShowUpdateCardLink(link_all){
-    onRemoving_onFrames();
-
-    if(attachmentWindow){
-      // setAddFiles([]);
-      setAttachmentWindow(false);
-    }
-    else{
-      setStartLink(startLink = link_all.id);
-      console.log(startLink);
-      writeNewLink(link_all.text);
-      writeNewLinkDesc(link_all.description);
-      setAttachmentWindow(attachmentWindow = 'link');
-    }
-    // if(showCardOptionsLinkUpdate){
-    //   setShowCardOptionsLinkUpdate(false);
-    // }
-    // else{
-    //   setShowCardOptionsLinkUpdate(showCardOptionsLinkUpdate = link_id);
-    // }
-  }
-
-  // console.log(addFiles);
-
-
-  function onRemoving_onFrames(){
-    setNewNameField(false); 
-    setMembersWindow(false); 
-    setLabelsWindow(false); 
-    setDueDateWindow(false); 
-    setShowReactQuill(false); 
-    setShowUserCard(null); 
-    setActivityEditorShow(null); 
-    setAttachmentWindow(false);
-    setShowCardOptions(false);
-    setShowCardOptionsFileDel(false);
-    setShowCardOptionsLinkUpdate(false);
-    setShowCardOptionsLinkDel(false);
-  }
 
   const modules = {
     toolbar: [
@@ -461,7 +125,6 @@ export default function WindowModal(props){
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
             setCardActivityComments(response.data.card[0].activity.reverse());
             setDueDateCheckbox(response.data.card[0]['execute']);
-            // console.log(response.data.card[0].activity);
             setCardFiles(response.data.card[0]['card_file']);
             setCardLinks(response.data.card[0]['card_link']);
             setUpdateValue(false);
@@ -474,12 +137,248 @@ export default function WindowModal(props){
       data: {'id': idElem},
       status:200,
     });
-
   },[typeElem, idElem, task, dashboardUsers, updateValue]);
+
+  function onRemoving_onFrames(){
+    setNewNameField(false); 
+    setMembersWindow(false); 
+    setLabelsWindow(false); 
+    setDueDateWindow(false); 
+    setShowReactQuill(false); 
+    setShowUserCard(null); 
+    setActivityEditorShow(null); 
+    setAttachmentWindow(false);
+    setShowCardOptions(false);
+    setShowCardOptionsFileDel(false);
+    setShowCardOptionsLinkUpdate(false);
+    setShowCardOptionsLinkDel(false);
+  }
+
+
+  const handleChangeAddFiles = (evt) => {
+    evt.preventDefault();
+    console.log(evt, addFiles);
+    if(evt.target.files && evt.target.files[0]){
+      setAddFiles(evt.target.files);
+    }
+  }
+
+  const handleDragAddFiles = (evt) => {
+    evt.preventDefault();
+    setDragActive(true);
+  }
+  const handleDragLeaveAddFiles = (evt) => {
+    evt.preventDefault();
+    setDragActive(false);
+  }
+  const handleDragDropAddFiles = (evt) => {
+    evt.preventDefault();
+    setAttachmentWindow(true);
+    setDragActive(false);
+    if(evt.dataTransfer.files && evt.dataTransfer.files[0]){
+      setAddFiles(evt.dataTransfer.files);
+    }
+  }
+
+  const handleAddFilesReset = (evt) => {
+    // evt.preventDefault();
+    console.log('проверка сброса >>> setAddFiles');
+    setNewLink(''); 
+    setNewLinkDesc('');
+    setAddFiles([]);
+  }
+
+  const handleAddFilesSubmit = () => {
+    // evt.preventDefault();
+    console.log('проверка добавления >>> setAddFiles');
+    console.log(addFiles, newLink, newLinkDesc);
+
+    if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
+      console.log('return');
+      funcAttachmentWindow();
+      return;
+    }
+    const formData = new FormData();
+
+    formData.append("card_id", idElem);
+
+    formData.append('link_id', startLink.id);
+    formData.append('link', newLink);
+    formData.append('linkDesc', newLinkDesc);
+
+    if(addFiles.length > 0){
+      Array.from(addFiles).forEach((file) => {
+        formData.append('file', file);
+      });
+    }
+    else{
+      formData.append('file', addFiles);
+    }
+
+    setShowPreloderAttachmentWindow(true);
+
+    request({
+      method: 'POST',
+      url: 'add-file-and-link-to-card/',
+      callback: (response) => {
+        setTimeout(() => {
+          if (response.status === 200) {
+            console.log(response.data);
+            setShowPreloderAttachmentWindow(false);
+            funcAttachmentWindow();
+            setNewLink(''); 
+            setNewLinkDesc(''); 
+            setCardFiles(response.data.card_file);
+            setUpdateValue(true);
+          }
+        }, 1000);
+      },
+      data: formData,
+      status: 200,
+    });
+  }
+
+  function onDownloadCardFile(file){
+    if(showPreloderFile){ 
+      return;
+    }
+    setShowPreloderFile(file.id); 
+    onRemoving_onFrames();
+
+    request({
+      method: 'POST',
+      url: 'download-file-from-card/',
+      callback: (response) => {
+        setTimeout(() => {
+          
+          if (response.status === 200) {
+            // console.log(response.data);
+            setShowPreloderFile(false);
+            // create file link in browser's memory
+            const href = URL.createObjectURL(response.data);
+            // create "a" HTML element with href to file & click
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download', file.name); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+
+            funcShowAttachmentContentCardOptions(false);
+            setUpdateValue(true);
+          }
+
+        }, 10000);
+      },
+      data: {'card_id': idElem, 'file_id': file.id},
+      status: 200,
+      response_type: 'blob',
+    });
+  }
+
+  function onDeleteCardFile(file_id){
+    if(showPreloderFile){ 
+      return;
+    }
+    setShowPreloderFile(file_id);
+    onRemoving_onFrames();
+    request({
+      method: 'POST',
+      url: 'del-file-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setShowPreloderFile(false);
+
+          setCardFiles(response.data.card_file);
+          funcShowAttachmentContentCardOptions(false);
+          setUpdateValue(true);
+        }
+      },
+      data: {'card_id': idElem, 'file_id': file_id},
+      status: 200,
+    });
+  }
+
+  function funcShowDeleteCardFile(file_id){
+    onRemoving_onFrames();
+    if(showCardOptionsFileDel){
+      setShowCardOptionsFileDel(false); 
+    }
+    else{
+      setShowCardOptionsFileDel(showCardOptionsFileDel = file_id);
+    }
+  }
+  
+
+  function onDeleteCardLink(link_id){
+    if(showPreloderLink){ 
+      return;
+    }
+    setShowPreloderLink(link_id);
+    onRemoving_onFrames();
+
+    request({
+      method: 'POST',
+      url: 'del-link-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setShowPreloderLink(false);
+          setCardLinks(response.data.card_link);
+          funcShowAttachmentContentCardOptions(false);
+          setUpdateValue(true);
+        }
+      },
+      data: {'card_id': idElem, 'link_id': link_id},
+      status: 200,
+    });
+  }
+  
+  function funcShowAttachmentContentCardOptions(elem_id){
+    onRemoving_onFrames();
+    if(showCardOptions){ 
+      setShowCardOptions(false);
+    }
+    else{
+      setShowCardOptions(showCardOptions = elem_id);
+    }
+    // setShowCardOptions(showCardOptions = elem_id);
+
+  }
+
+  function funcShowDeleteCardLink(link_id){
+    onRemoving_onFrames();
+    if(showCardOptionsLinkDel){
+      setShowCardOptionsLinkDel(false);
+    }
+    else{
+      setShowCardOptionsLinkDel(showCardOptionsLinkDel = link_id);
+    }
+  }
+
+  function funcShowUpdateCardLink(link_all){
+    console.log(link_all);
+    onRemoving_onFrames();
+    if(attachmentWindow){
+      setAttachmentWindow(false);
+    }
+    else{
+      setStartLink(startLink = link_all);
+
+      setNewLink(newLink = link_all.text); 
+      setNewLinkDesc(newLinkDesc = link_all.description); 
+
+      // writeNewLink(link_all.text);
+      // writeNewLinkDesc(link_all.description);
+      setAttachmentWindow(attachmentWindow = 'link');
+    }
+  }
 
   function showTextarea() {
     onRemoving_onFrames();
-
     if(!newName){
       setNewNameField(newName = true);
     }
@@ -490,7 +389,6 @@ export default function WindowModal(props){
 
   function funcShowReactQuill(){
     onRemoving_onFrames();
-
     if(showReactQuill){
       setShowReactQuill(false);
     }
@@ -548,7 +446,6 @@ export default function WindowModal(props){
       if(windowName !== startWindowName){
         updateFunc(windowData.id, windowName);
         setStartWindowName(windowName);
-
         setUpdateValue(true);
       }
     }
@@ -556,18 +453,16 @@ export default function WindowModal(props){
 
   function funcSubscribe(){
     onRemoving_onFrames();
-
     if(subscribe){
       setSubscribe(false);
     }
     else{
-      setSubscribe(true);
+      setSubscribe(true); 
     }
   }
 
   function funcMembersWindow(){
     onRemoving_onFrames();
-
     if(membersWindow){
       setMembersWindow(false);
     }
@@ -578,7 +473,6 @@ export default function WindowModal(props){
 
   function funcLabelsWindow() {
     onRemoving_onFrames();
-
     if(labelsWindow){
       setLabelsWindow(false);
     }
@@ -662,7 +556,7 @@ export default function WindowModal(props){
       }
     });
   }
-  // console.log(updateValue);
+
   function onUserCard(id_user = null) {
     console.log('tut', id_user);
     onRemoving_onFrames();
@@ -719,21 +613,17 @@ export default function WindowModal(props){
   }
 
   function onSaveActivityReactQuillComment(date){
-    // console.log(onSaveActivityReactQuillComment.name, date);
     if(valueEditor === '<p><br></p>'){
       setValueEditor(valueEditor = null);
-      // console.log(valueEditor);
     } 
 
     if(cardActivity === valueEditor){
-      // console.log(valueEditor, cardActivity);
       setValueEditor(valueEditor = null)
       funcActivityEditorShow();
       return;
     }
 
     if(valueEditor !== cardActivity){
-      // console.log(valueEditor, cardActivity);
       setProcessActivity(date);
       request({
         method:'POST',
@@ -756,7 +646,6 @@ export default function WindowModal(props){
   }
 
   function showActivityReactQuillHandleKeyPress(evt, date){
-    // console.log(evt, date);
     if(evt.key === 'Enter' && evt.shiftKey){
       setValueEditor(valueEditor = valueEditor.trim().slice(0, -11));
       onSaveActivityReactQuillComment(date);
@@ -765,7 +654,6 @@ export default function WindowModal(props){
 
   function funcActivityDetailsShow(){
     onRemoving_onFrames();
-
     if(activityDetailsShow){
       setActivityDetailsShow(false);
     }
@@ -776,7 +664,6 @@ export default function WindowModal(props){
 
   function funcActivityEditorShow(comment_id = null, commentStartValue){
     onRemoving_onFrames();
-    // console.log('asd', comment_id)
     if(activityEditorShow === comment_id){
       setActivityEditorShow(null);
     }
@@ -806,46 +693,32 @@ export default function WindowModal(props){
 
   const newLinkDescHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){ // || evt.type === "blur"
-      // funcAttachmentWindow();
-      if(newLinkDesc !== startLinkDesc){
-        console.log('qwe')
-        handleAddFilesSubmit();
-        // updateFunc(windowData.id, newLink);
-        // setStartnewLink(newLink);
-        // startLink, setStartLink
-        // setUpdateValue(true);
+      console.log(newLinkDesc, startLink.description);
+      if(newLinkDesc === startLink.description){
+        funcAttachmentWindow();
+        return;
       }
-      funcAttachmentWindow();
-
+      handleAddFilesSubmit();
     }
   }
 
   function writeNewLink(evt) {
-    console.log(evt);
     setNewLink(newLink = evt);
-    console.log(newLink);
   }
 
   const newLinkHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){
       funcAttachmentWindow();
-      if(newLink !== startLink){
-        console.log('asd');
-        handleAddFilesSubmit();
-
-        // updateFunc(windowData.id, newLink);
-        // setStartnewLink(newLink);
-        // startLink, setStartLink
-        // setUpdateValue(true);
+      if(newLink !== startLink.text){
+        funcAttachmentWindow();
+        return;
       }
-      funcAttachmentWindow();
-
+      handleAddFilesSubmit();
     }
   }
 
   function funcAttachmentWindow(){ 
-    onRemoving_onFrames();
-
+    // onRemoving_onFrames();
     if(attachmentWindow){
       setNewLink(''); 
       setNewLinkDesc('');
@@ -928,6 +801,7 @@ export default function WindowModal(props){
             funcAttachmentWindow={funcAttachmentWindow}
             handleChangeAddFiles={handleChangeAddFiles}
             showCardOptions={showCardOptions}
+            setShowCardOptions={setShowCardOptions}
             addFiles={addFiles}
             cardFiles={cardFiles}
             setCardFiles={setCardFiles}
@@ -983,7 +857,6 @@ export default function WindowModal(props){
             delWindow={delWindow} 
             setDelWindow={setDelWindow} 
           />
-
         </div>
 
         <Sidebar
@@ -1029,9 +902,7 @@ export default function WindowModal(props){
           newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
           // setStartLink={setStartLink}
           startLink={startLink}
-          
         ></Sidebar>
-
     </div>
   )
 };

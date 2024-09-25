@@ -7,6 +7,7 @@ import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmentWindow";
+import { useState } from "react";
 
 export default function Sidebar(props){
   // console.log(props);
@@ -56,6 +57,16 @@ export default function Sidebar(props){
 
   let setUpdateValue = props.setUpdateValue;
   
+  const [showCardDel, setShowCardDel] = useState(false);
+
+  function funkShowCardDel(window_id){
+    if(showCardDel){
+      setShowCardDel(false);
+    }
+    else{
+      setShowCardDel(window_id);
+    }
+  }
 
   function onDeleteCard(window_id){
     closeModal();
@@ -192,8 +203,8 @@ export default function Sidebar(props){
                 // clickAction={deleteColumn}
                 // actionVariable={column.id}
                 // className={'BtnDeleteColumn'}
-                clickAction={onDeleteCard}
                 actionVariable={windowData.id}
+                clickAction={funkShowCardDel}
                 className={'BtnDeleteCard'}
               >
                 <Icons
@@ -207,6 +218,39 @@ export default function Sidebar(props){
           </div>
         </div>
       </div>
+      {showCardDel &&
+      (<div className={styles.smallWindowWrap}>
+        <header className={styles.itemHeader}>
+          <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить карточку?</h2>
+          
+          <div className={styles.iconWrap}>
+            <Button
+              className={'btnSmallWindow'}
+              type="button"
+              ariaLabel="Закрыть окно"
+              clickAction={funkShowCardDel} 
+            >
+              <Icons
+                class_name={'btnModalCloseIcon'}
+                name={'CloseIcon'}
+              />
+            </Button>
+          </div>
+        </header>
+        <div className={styles.delButtonWrap}>
+          <p className={styles.delButtonWrapText}>
+            Удалить эту карточку? Отмена невозможна.
+          </p>
+          <Button
+            className={'btnDelCard'}
+            type="button"
+            ariaLabel="Удалить карточку"
+            actionVariable={windowData.id}
+            clickAction={onDeleteCard} 
+          >Удалить</Button>
+        </div>
+      </div>)}
+
     </div>
 
   )

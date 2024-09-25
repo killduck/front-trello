@@ -25,6 +25,7 @@ export default function ColumnContainer(props) {
   let deleteCard = props.deleteCard;
   let updateTask = props.updateTask;
   let updateCardLabel = props.updateCardLabel;
+  let showPreloderCard = props.showPreloderCard;
   let showPreloderLabel = props.showPreloderLabel;
   let setShowPreloderLabel = props.setShowPreloderLabel;
 
@@ -219,6 +220,7 @@ export default function ColumnContainer(props) {
               updateTask={updateTask}
               deleteCard={deleteCard}
               updateCardLabel={updateCardLabel}
+              showPreloderCard={showPreloderCard}
               showPreloderLabel={showPreloderLabel}
               setShowPreloderLabel={setShowPreloderLabel}
             />

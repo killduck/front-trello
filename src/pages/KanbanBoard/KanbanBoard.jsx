@@ -31,6 +31,8 @@ export default function KanbanBoard(props) {
 
   let [showPreloder, setShowPreloder] = useState(true);
 
+  let [showPreloderCard, setShowPreloderCard] = useState(false);
+
   const [columns, setColumns] = useState([]);
 
   const [columnBug, setcolumnBug] = useState(null); // используем для корректировки работы библиотеки DnD
@@ -443,11 +445,10 @@ export default function KanbanBoard(props) {
       method: "POST",
       url: 'delete-card/',
       callback: (response) => {
-        setShowPreloder(true);
+        setShowPreloderCard(id);
         if (response.status === 200) {
           requestSuccessDeletCard(response, id);
-          setShowPreloder(false);
-
+          setShowPreloderCard(false);
           setUpdateComponent(true); 
         }
       },
@@ -528,6 +529,7 @@ export default function KanbanBoard(props) {
                     updateCardLabel={updateCardLabel}
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
+                    showPreloderCard={showPreloderCard}
                     showPreloderLabel={showPreloderLabel}
                     setShowPreloderLabel={setShowPreloderLabel}
                   />
@@ -593,6 +595,7 @@ export default function KanbanBoard(props) {
                   updateCardLabel={updateCardLabel}
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
+                  showPreloderCard={showPreloderCard}
                   showPreloderLabel={showPreloderLabel}
                   setShowPreloderLabel={setShowPreloderLabel}
                 />

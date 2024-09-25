@@ -125,8 +125,10 @@
   width: 100%;
 }
 .BtnDownloadFile,
+.BtnCloseSmallWindowLink,
 .BtnUpdateLink,
 .BtnDeleteFile,
+.BtnCloseSmallWindowFile,
 .BtnDeleteLink,
 .BtnDeleteCard,
 .BtnDeleteDueDate {
@@ -654,6 +656,7 @@
     color: #b6c2cf;
   }
 }
+.btnDelCard,
 .btnDelComment{
   background-color: #f87168;
   border: none;
