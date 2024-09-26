@@ -85,9 +85,9 @@ export default function Sidebar(props){
             className={styles.itemMembers}
             onClick={ funcMembersWindow }
           >
-            <Icons //нужна другая иконка
-              name={'icon-date'}
-              class_name={'itemDueDateIcon'}
+            <Icons
+              name={'icon-member'}
+              class_name={'IconWindowModalSidebarAddMembers'}
             />
             <span>Участники</span>
           </div>
@@ -117,12 +117,11 @@ export default function Sidebar(props){
             className={styles.itemLabels}
             onClick={ funcLabelsWindow }
           >
-            <Icons  //нужна другая иконка
-              name={'icon-date'}
-              class_name={'itemDueDateIcon'}
+            <Icons
+              name={'icon-label'}
+              class_name={'IconWindowModaSidebarAddLabel'}
             />
             <span>Метки</span>
-            
           </div>
           {(labelsWindow) ? 
           (<SidebarLabelWindow

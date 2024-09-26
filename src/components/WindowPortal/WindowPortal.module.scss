@@ -13,7 +13,7 @@
     }
 }
 .Modal {
-    background-color: rgba(5, 0, 0, 0.3607843137);
+    background-color: rgba(5, 0, 0, 0.7);
     display: flex;
     position: fixed;
     box-sizing: border-box;
@@ -41,7 +41,7 @@
     justify-content: center;
     overflow: auto;
     align-items: flex-start;
-    margin: 0 auto;
+    margin: 40px auto;
     top: 50px;
     outline: none;
     border-radius: 8px;

@@ -35,7 +35,7 @@ export default function WindowModalActivity(props){
       <div className={styles.cardActivityWrap} data-testid="card-back-activity">
         <div className={styles.cardActivityHeader}>
           <Icons
-            name={'icon-description'}
+            name={'card-activity'}
             class_name={'IconWindowModalMainColActivity'}
           />
           <h3 className={styles.cardActivityHeaderTitle}>Действия</h3>
@@ -140,7 +140,7 @@ export default function WindowModalActivity(props){
                         {comment.author.img ?(
                           <img 
                             className={styles.cardActivityMemberAvatarImg} 
-                            src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
+                            src={`${URL_API + URL_ENDPOINT + comment.author.img}`}
                             alt={`${comment.author.first_name} (${comment.author.username})`}
                             title={`${comment.author.first_name} (${comment.author.username})`}
                             onClick={()=> onUserCard(comment.author.id)}
@@ -165,7 +165,7 @@ export default function WindowModalActivity(props){
                           data-date={comment.date} 
                           title={comment.date} 
                         >
-                          {comment.date}
+                          {new Date(comment.date).toLocaleString("ru", {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})}
                         </p>
                       </div>
                     </div>
@@ -182,7 +182,7 @@ export default function WindowModalActivity(props){
                   {comment.author.img ?(
                     <img 
                       className={styles.cardActivityMemberAvatarImg} 
-                      src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
+                      src={`${URL_API + URL_ENDPOINT + comment.author.img}`}
                       alt={`${comment.author.first_name} (${comment.author.username})`}
                       title={`${comment.author.first_name} (${comment.author.username})`}
                       onClick={()=> onUserCard(comment.author.id)}
@@ -203,7 +203,7 @@ export default function WindowModalActivity(props){
                     data-date={comment.date} 
                     title={comment.date} 
                   >
-                    {comment.date}
+                    {new Date(comment.date).toLocaleString("ru", {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})}
                   </span>
                   {(activityEditorShow !== comment.id) ? (
                     <div
@@ -311,10 +311,6 @@ export default function WindowModalActivity(props){
           }
           </div>
         )}
-        {/* <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
-        <p>
-          <button className="nch-button hide js-show-all-actions" >Показать все действия…</button>
-        </p> */}
       </div>
     </div>
 

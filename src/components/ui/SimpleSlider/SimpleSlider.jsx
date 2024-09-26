@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import styles from './SimpleSlider.module.scss';
 import './SimpleSlider.css';
+import { URL_API, URL_ENDPOINT } from "../../../api/config";
 
 
 export default function SimpleSlider(props) {
@@ -36,7 +37,14 @@ export default function SimpleSlider(props) {
         {
           list_slides.map((slide) =>
             <div key={slide}>
+              {/* это с фронта */}
               <img src={baseUrl + slide} alt="картинка 404 ошибки" />
+
+              {/* это с бэка */}
+              {/* <img 
+                src={`${URL_API + URL_ENDPOINT+ '/media_backend/img/404/'+ slide}`}
+                alt="картинка 404 ошибки" 
+              /> */}
             </div>
           )
         }

@@ -117,8 +117,6 @@ export default function Login(props) {
 
         <LoginLayout>
             <section role="main" className={styles._qj62pw} >
-                admin@mail.ru
-                admin
                 <div data-testid="header" id="ProductHeading" className={styles._146wmq} >
                     <span aria-label="Trello" role="img" className={styles._a3l9jr} >
                         <svg viewBox="0 0 94 32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">

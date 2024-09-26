@@ -180,6 +180,8 @@ export default function KanbanBoard(props) {
       // console.log('Сортируем карточки');
 
       let order_cards = editOrderCards(tasks);
+      console.log(tasks);
+      console.log(order_cards);
 
       request({ 
         method: "POST", 

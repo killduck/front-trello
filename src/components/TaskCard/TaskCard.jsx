@@ -12,7 +12,7 @@ import Button from "../ui/Button/Button";
 
 export default function TaskCard(props) {
   // console.log('TaskCard ->')
-  console.log(props)
+  // console.log(props)
   // let deleteTask = props.deleteTask;
 
   let dashboardUsers = props.dashboardUsers; 

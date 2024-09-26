@@ -14,9 +14,15 @@ export default function WindowModalHeaderSection(props){
   return (
     <div className={styles.header}>
       <span className={styles.headerIcon}>
-        <Icons
+        {/* <Icons
           name={'icon-description'}
           class_name={'IconWindowModalMainColAddLabel'}
+        /> */}
+         <Icons
+          sizeWidth={"24px"}
+          sizeHeight={"24px"}
+          name={'card-icon'}
+          class_name={'IconWindowModalHeaderIcon'}
         />
       </span>
       <div className={styles.headerTitle}>

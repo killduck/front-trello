@@ -111,7 +111,7 @@ export default function WindowModalAttachment(props){
                             className={'btnDelAttachment'}
                             actionVariable={String(link.id)}
                             clickAction={funcShowAttachmentContentCardOptions}
-                            // disabled={showCardOptions === link.id ? 'disabled' : ""}
+                            disabled={showPreloderLink === link.id ? 'disabled' : ""}
                           >
                             <Icons
                               name={'three_dots'}

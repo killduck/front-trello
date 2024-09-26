@@ -189,15 +189,28 @@ export default function WindowModal(props){
   }
 
   const handleAddFilesSubmit = () => {
-    // evt.preventDefault();
-    console.log('проверка добавления >>> setAddFiles');
-    console.log(addFiles, newLink, newLinkDesc);
+    console.log(newLink, newLinkDesc, startLink);
 
     if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
       console.log('return');
       funcAttachmentWindow();
       return;
     }
+
+    console.log(`'201', 'newLink =>' ${newLink}, 'newLinkDesc =>' ${newLinkDesc}, 'startLink =>' ${startLink}`);
+
+    // funcAttachmentWindow();
+    if(newLink === startLink.text && newLinkDesc === startLink.description){
+      console.log(newLink, newLinkDesc, startLink);
+      // funcAttachmentWindow();
+      return;
+    }
+
+    if(attachmentWindow !== 'link'){
+      // setAttachmentWindow(false);
+      setStartLink('');
+    }
+
     const formData = new FormData();
 
     formData.append("card_id", idElem);
@@ -215,6 +228,7 @@ export default function WindowModal(props){
       formData.append('file', addFiles);
     }
 
+    setShowPreloderLink(startLink.id);
     setShowPreloderAttachmentWindow(true);
 
     request({
@@ -224,10 +238,12 @@ export default function WindowModal(props){
         setTimeout(() => {
           if (response.status === 200) {
             console.log(response.data);
+            setShowPreloderLink(false);
             setShowPreloderAttachmentWindow(false);
             funcAttachmentWindow();
-            setNewLink(''); 
-            setNewLinkDesc(''); 
+            setNewLink('');
+            setNewLinkDesc('');
+            setStartLink('');
             setCardFiles(response.data.card_file);
             setUpdateValue(true);
           }
@@ -249,28 +265,24 @@ export default function WindowModal(props){
       method: 'POST',
       url: 'download-file-from-card/',
       callback: (response) => {
-        setTimeout(() => {
-          
-          if (response.status === 200) {
-            // console.log(response.data);
-            setShowPreloderFile(false);
-            // create file link in browser's memory
-            const href = URL.createObjectURL(response.data);
-            // create "a" HTML element with href to file & click
-            const link = document.createElement('a');
-            link.href = href;
-            link.setAttribute('download', file.name); //or any other extension
-            document.body.appendChild(link);
-            link.click();
-            // clean up "a" element & remove ObjectURL
-            document.body.removeChild(link);
-            URL.revokeObjectURL(href);
+        if (response.status === 200) {
+          // console.log(response.data);
+          setShowPreloderFile(false);
+          // create file link in browser's memory
+          const href = URL.createObjectURL(response.data);
+          // create "a" HTML element with href to file & click
+          const link = document.createElement('a');
+          link.href = href;
+          link.setAttribute('download', file.name); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+          // clean up "a" element & remove ObjectURL
+          document.body.removeChild(link);
+          URL.revokeObjectURL(href);
 
-            funcShowAttachmentContentCardOptions(false);
-            setUpdateValue(true);
-          }
-
-        }, 10000);
+          funcShowAttachmentContentCardOptions(false);
+          setUpdateValue(true);
+        }
       },
       data: {'card_id': idElem, 'file_id': file.id},
       status: 200,
@@ -692,12 +704,12 @@ export default function WindowModal(props){
   }
 
   const newLinkDescHandleKeyPress = (evt) => {
-    if(evt.key === 'Enter' && evt.shiftKey){ // || evt.type === "blur"
+    if(evt.key === 'Enter' && evt.shiftKey){ 
       console.log(newLinkDesc, startLink.description);
-      if(newLinkDesc === startLink.description){
-        funcAttachmentWindow();
-        return;
-      }
+      // if(newLinkDesc === startLink.description){
+      //   funcAttachmentWindow();
+      //   return;
+      // }
       handleAddFilesSubmit();
     }
   }
@@ -708,17 +720,17 @@ export default function WindowModal(props){
 
   const newLinkHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){
-      funcAttachmentWindow();
-      if(newLink !== startLink.text){
-        funcAttachmentWindow();
-        return;
-      }
+      // funcAttachmentWindow();
+      // if(newLink === startLink.text){
+      //   funcAttachmentWindow();
+      //   return;
+      // }
       handleAddFilesSubmit();
     }
   }
 
   function funcAttachmentWindow(){ 
-    // onRemoving_onFrames();
+    onRemoving_onFrames();
     if(attachmentWindow){
       setNewLink(''); 
       setNewLinkDesc('');
@@ -797,34 +809,6 @@ export default function WindowModal(props){
             
           </div>
 
-          <WindowModalAttachment 
-            funcAttachmentWindow={funcAttachmentWindow}
-            handleChangeAddFiles={handleChangeAddFiles}
-            showCardOptions={showCardOptions}
-            setShowCardOptions={setShowCardOptions}
-            addFiles={addFiles}
-            cardFiles={cardFiles}
-            setCardFiles={setCardFiles}
-            onDeleteCardFile={onDeleteCardFile}
-            showPreloderFile={showPreloderFile}
-            funcShowDeleteCardFile={funcShowDeleteCardFile}
-            showCardOptionsFileDel={showCardOptionsFileDel}
-            onDownloadCardFile={onDownloadCardFile}
-
-            funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
-            cardLinks={cardLinks}
-            funcShowDeleteCardLink={funcShowDeleteCardLink}
-            funcShowUpdateCardLink={funcShowUpdateCardLink}
-            showCardOptionsLinkDel={showCardOptionsLinkDel}
-            showCardOptionsLinkUpdate={showCardOptionsLinkUpdate}
-            onDeleteCardLink={onDeleteCardLink}
-            showPreloderLink={showPreloderLink}
-
-            // writeNewLink={writeNewLink}
-            // newLinkHandleKeyPress={newLinkHandleKeyPress}
-            setStartLink={setStartLink}
-          />
-          
           <WindowModalDescription 
             showReactQuill={showReactQuill}
             funcShowReactQuill={funcShowReactQuill}
@@ -836,6 +820,35 @@ export default function WindowModal(props){
             saveNewReactQuillText={saveNewReactQuillText}
             cardDescription={cardDescription}
           />
+
+          {(cardFiles.length > 0 || cardLinks.length > 0) &&
+            <WindowModalAttachment 
+              funcAttachmentWindow={funcAttachmentWindow}
+              handleChangeAddFiles={handleChangeAddFiles}
+              showCardOptions={showCardOptions}
+              setShowCardOptions={setShowCardOptions}
+              addFiles={addFiles}
+              cardFiles={cardFiles}
+              setCardFiles={setCardFiles}
+              onDeleteCardFile={onDeleteCardFile}
+              showPreloderFile={showPreloderFile}
+              funcShowDeleteCardFile={funcShowDeleteCardFile}
+              showCardOptionsFileDel={showCardOptionsFileDel}
+              onDownloadCardFile={onDownloadCardFile}
+
+              funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
+              cardLinks={cardLinks}
+              funcShowDeleteCardLink={funcShowDeleteCardLink}
+              funcShowUpdateCardLink={funcShowUpdateCardLink}
+              showCardOptionsLinkDel={showCardOptionsLinkDel}
+              showCardOptionsLinkUpdate={showCardOptionsLinkUpdate}
+              onDeleteCardLink={onDeleteCardLink}
+              showPreloderLink={showPreloderLink}
+              // writeNewLink={writeNewLink}
+              // newLinkHandleKeyPress={newLinkHandleKeyPress}
+              setStartLink={setStartLink}
+            />
+          }
 
           <WindowModalActivity
             authUserData={authUserData}
