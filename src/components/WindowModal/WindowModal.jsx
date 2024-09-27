@@ -251,6 +251,7 @@ export default function WindowModal(props){
       },
       data: formData,
       status: 200,
+      content_type: "multipart/form-data",
     });
   }
 

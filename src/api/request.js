@@ -3,8 +3,16 @@ import { URL_API, URL_ENDPOINT } from './config'
 import { redirect, redirect_status404 } from './redirect'
 
 export default function request(
-  params = { method: 'GET', url: '', callback: '', data: null, status: 200, response_type: 'json' }
-) {
+  params = {
+    method: 'GET', 
+    url: '', 
+    callback: '', 
+    data: null, 
+    status: 200, 
+    content_type: 'text/html', 
+    response_type: 'json' }
+  ){
+
   let token = ''
 
   if (localStorage.getItem('trello_auth')) {
@@ -16,6 +24,7 @@ export default function request(
       .get(URL_API + URL_ENDPOINT + `/` + params.url, {
         headers: {
           Authorization: token,
+          "Content-Type": params.content_type,
         },
         responseType: params.response_type,
       })
@@ -29,11 +38,11 @@ export default function request(
 
         if (error.response.status === 401 || error.response.status === 400) {
           console.log('Ошибка авторизации')
-          // redirect();
+          redirect();
           return;
         }
 
-        // redirect_status404();
+        redirect_status404();
       })
   }
 
@@ -42,7 +51,7 @@ export default function request(
       .post(URL_API + URL_ENDPOINT + `/` + params.url, params.data, {
         headers: {
           Authorization: token,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": params.content_type,
         },
         responseType: params.response_type,
       })
@@ -56,11 +65,11 @@ export default function request(
 
         if (error.response.status === 401 || error.response.status === 400) {
           console.log('Ошибка авторизации')
-          // redirect();
+          redirect();
           return;
         }
 
-        // redirect_status404();
+        redirect_status404();
       })
   }
 }
