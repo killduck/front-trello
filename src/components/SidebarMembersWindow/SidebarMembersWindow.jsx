@@ -100,13 +100,14 @@ export default function SidebarMembersWindow(props){
           <ul>
           {searchNewCardUser.map(
             (user)=> 
-              <li key={user.id} >
+              <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardActivityNewCommentInputGradient: ""}>
                 <Button
                   className={'addUserToCard'}
                   type="button"
                   ariaLabel="Добавить пользователя к карточке"
                   actionVariable = {user.id}
                   clickAction = {funcAddUserToCard}
+                  disabled={showPreloderAddMember === user.id ? "disabled" : ""}
                 >
                   <div 
                     className={styles.itemContentDashboardMemberImg} 
@@ -169,6 +170,7 @@ export default function SidebarMembersWindow(props){
                       ariaLabel="Удалить пользователя из карточки"
                       actionVariable={cardUser.id}
                       clickAction={funcDelCardUser}
+                      disabled={showPreloderDelMember === cardUser.id ? "disabled" : ""}
                     >
                       <div className={styles.itemContentDashboardMemberInfo} >
 
@@ -236,6 +238,7 @@ export default function SidebarMembersWindow(props){
                 ariaLabel="Добавить пользователя к карточке"
                 actionVariable={user.id}
                 clickAction={funcAddUserToCard}
+                disabled={showPreloderAddMember === user.id ? "disabled" : ""}
               >
                 <div 
                   className={styles.itemContentDashboardMemberImg} 
