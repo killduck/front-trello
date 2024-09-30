@@ -39,6 +39,8 @@
             z-index: 1;
         }
         .iconWrap{
+            width: fit-content;
+            height: fit-content;
             border-radius: 8px;
             color: #626f86;
             grid-column: 3;
@@ -162,21 +164,21 @@
 }
 
 
-.iconWrap{
-    width: fit-content;
-    height: fit-content;
+// .iconWrap{
+//     width: fit-content;
+//     height: fit-content;
   
-    &:hover {
-      border: none;
-      background-color: #a6c5e229;
-      box-shadow: none;
-      color: #b6c2cf;
-      text-decoration: none;
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-    }
-}
+//     &:hover {
+//       border: none;
+//       background-color: #a6c5e229;
+//       box-shadow: none;
+//       color: #b6c2cf;
+//       text-decoration: none;
+//       border-radius: 8px;
+//       display: flex;
+//       justify-content: center;
+//     }
+// }
 
 .labelItemWait{
     cursor: wait!important;

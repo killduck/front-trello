@@ -28,6 +28,7 @@ export default function ColumnContainer(props) {
   let showPreloderCard = props.showPreloderCard;
   let showPreloderLabel = props.showPreloderLabel;
   let setShowPreloderLabel = props.setShowPreloderLabel;
+  let setShowPreloder = props.setShowPreloder;
 
 
   const [editMode, setEditMode] = useState(false);
@@ -82,10 +83,17 @@ export default function ColumnContainer(props) {
       column: columnId,
     };
 
+    setShowPreloder(true);
+
     request({
       method: "POST",
       url: 'create-card/',
-      callback: (request) => { requestSuccessCreateTask(request) },
+      callback: (response) => { 
+        if(response.status === 200){
+          setShowPreloder(false);
+          requestSuccessCreateTask(response);
+        }
+      },
       data: newTask,
       status: 200,
     });
@@ -114,6 +122,14 @@ export default function ColumnContainer(props) {
     }
     else{
       setShowColumnOptions(true);
+    }
+  }
+
+  const boardItemCardHandleKeyPress = (evt) => {
+    // console.log(evt.key);
+    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+      // setShowForm(true);
+      createNewTask(column.id);
     }
   }
 
@@ -225,25 +241,27 @@ export default function ColumnContainer(props) {
               setShowPreloderLabel={setShowPreloderLabel}
             />
           ))}
-          <CreateNewBoardItem
-            className={showForm ? styles.none : styles.FormCreateCard}
-            buttonText={'Добавить карточку'}
-            spellCheck="false"
-            dir="auto"
-            maxLength="512"
-            autoComplete="off"
-            name="Ввести заголовок карточки"
-            placeholder="Ввести заголовок карточки"
-            aria-label="Ввести заголовок карточки"
-            data-testid="list-name-textarea"
-            autoFocus
-            hideElAction={setShowForm}
-            showFlag={true}
-            changeAction={setNewTextTask}
-            newText={newTextTask}
-            addColumnAction={createNewTask}
-            newColName={column.id}
-          />
+          {!showForm &&
+            <CreateNewBoardItem
+              className={showForm ? styles.none : styles.FormCreateCard}
+              buttonText={'Добавить карточку'}
+              spellCheck="false"
+              dir="auto"
+              maxLength="512"
+              autoComplete="off"
+              name="Ввести заголовок карточки"
+              placeholder="Ввести заголовок карточки"
+              aria-label="Ввести заголовок карточки"
+              data-testid="list-name-textarea"
+              hideElAction={setShowForm}
+              showFlag={true}
+              changeAction={setNewTextTask}
+              newText={newTextTask}
+              addColumnAction={createNewTask}
+              newColName={column.id}
+              boardItemHandleKeyPress={boardItemCardHandleKeyPress}
+            />
+          }
         </SortableContext>
       </div>
       {/* Column footer */}

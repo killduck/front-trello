@@ -331,10 +331,17 @@ export default function KanbanBoard(props) {
       idDashboard: Number(dashboardId)
     }
 
+    setShowPreloder(true);
+    
     request({
       method: "POST",
       url: 'create-column/',
-      callback: (response) => { requestSuccessCreateColumn(response) },
+      callback: (response) => { 
+        if(response.status === 200){
+          setShowPreloder(false);
+          requestSuccessCreateColumn(response) 
+        }
+      },
       data: columnToAdd,
       status: 200,
     });
@@ -490,6 +497,12 @@ export default function KanbanBoard(props) {
     });
   }
 
+  const boardItemColumnHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+      createNewColumn();
+    }
+  }
+
   return (
     <>
     {showPreloder ? 
@@ -534,12 +547,14 @@ export default function KanbanBoard(props) {
                     showPreloderCard={showPreloderCard}
                     showPreloderLabel={showPreloderLabel}
                     setShowPreloderLabel={setShowPreloderLabel}
+                    setShowPreloder={setShowPreloder}
                   />
                 ))}
               </SortableContext>
             </div>
 
             <div>
+              {!showForm &&
               <CreateNewBoardItem
                 className={showForm ? styles.none : ''}
                 buttonText={'Добавить колонку'}
@@ -551,14 +566,15 @@ export default function KanbanBoard(props) {
                 placeholder="Ввести заголовок колонки"
                 aria-label="Ввести заголовок колонки"
                 data-testid="list-name-textarea"
-                autoFocus={showForm ? false : true}
                 hideElAction={setShowForm}
                 showFlag={true}
                 changeAction={setText}
                 newText={newName}
                 addColumnAction={createNewColumn}
                 newColName={columns}
+                boardItemHandleKeyPress={boardItemColumnHandleKeyPress}
               />
+              }
             </div>
 
             <div
@@ -600,6 +616,7 @@ export default function KanbanBoard(props) {
                   showPreloderCard={showPreloderCard}
                   showPreloderLabel={showPreloderLabel}
                   setShowPreloderLabel={setShowPreloderLabel}
+                  setShowPreloder={setShowPreloder}
                 />
               )}
               {activeTask && (

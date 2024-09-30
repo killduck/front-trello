@@ -91,6 +91,8 @@ export default function WindowModal(props){
   let [showCardOptionsFileDel, setShowCardOptionsFileDel] = useState(false);
   let [showCardOptionsLinkDel, setShowCardOptionsLinkDel] = useState(false);
   let [showCardOptionsLinkUpdate, setShowCardOptionsLinkUpdate] = useState(false);
+
+  const [showCardDel, setShowCardDel] = useState(false);
   
   const [dragActive, setDragActive] = useState(false);
 
@@ -152,6 +154,7 @@ export default function WindowModal(props){
     setShowCardOptionsFileDel(false);
     setShowCardOptionsLinkUpdate(false);
     setShowCardOptionsLinkDel(false);
+    setShowCardDel(false);
   }
 
 
@@ -197,11 +200,12 @@ export default function WindowModal(props){
       return;
     }
 
-    console.log(`'201', 'newLink =>' ${newLink}, 'newLinkDesc =>' ${newLinkDesc}, 'startLink =>' ${startLink}`);
+    console.log(`'201', 'newLink =>' ${newLink}, 'newLinkDesc =>' ${newLinkDesc}, 'startLink =>' ${startLink.id}`);
+    // console.log(startLink.hasOwnProperty('id'));
 
     // funcAttachmentWindow();
     if(newLink === startLink.text && newLinkDesc === startLink.description){
-      console.log(newLink, newLinkDesc, startLink);
+      // console.log(newLink, newLinkDesc, startLink);
       // funcAttachmentWindow();
       return;
     }
@@ -215,7 +219,7 @@ export default function WindowModal(props){
 
     formData.append("card_id", idElem);
 
-    formData.append('link_id', startLink.id);
+    formData.append('link_id', startLink.hasOwnProperty('id') ? startLink.id : startLink);
     formData.append('link', newLink);
     formData.append('linkDesc', newLinkDesc);
 
@@ -379,7 +383,7 @@ export default function WindowModal(props){
       setAttachmentWindow(false);
     }
     else{
-      setStartLink(startLink = link_all);
+      setStartLink(startLink = link_all); 
 
       setNewLink(newLink = link_all.text); 
       setNewLinkDesc(newLinkDesc = link_all.description); 
@@ -916,6 +920,9 @@ export default function WindowModal(props){
           newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
           // setStartLink={setStartLink}
           startLink={startLink}
+          onRemoving_onFrames={onRemoving_onFrames}
+          showCardDel={showCardDel}
+          setShowCardDel={setShowCardDel}
         ></Sidebar>
     </div>
   )

@@ -7,7 +7,6 @@ import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmentWindow";
-import { useState } from "react";
 
 export default function Sidebar(props){
   // console.log(props);
@@ -54,12 +53,14 @@ export default function Sidebar(props){
   let startLink = props.startLink;
   let writeNewLinkDesc = props.writeNewLinkDesc;
   let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
+  let showCardDel = props.showCardDel;
+  let setShowCardDel = props.setShowCardDel;
+  let onRemoving_onFrames = props.onRemoving_onFrames;
 
   let setUpdateValue = props.setUpdateValue;
   
-  const [showCardDel, setShowCardDel] = useState(false);
-
   function funkShowCardDel(window_id){
+    onRemoving_onFrames();
     if(showCardDel){
       setShowCardDel(false);
     }
@@ -211,13 +212,13 @@ export default function Sidebar(props){
                   class_name={'IconDeleteColumnn'}
                 />
                 <span className={styles.actionDeleteCardText}>
-                  Удалить {typeElem === 'card' ? 'карточку' : '...'}
+                  Удалить карточку
                 </span>
             </Button>
           </div>
         </div>
       </div>
-      {showCardDel &&
+      {(showCardDel === windowData.id) &&
       (<div className={styles.smallWindowWrap}>
         <header className={styles.itemHeader}>
           <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить карточку?</h2>

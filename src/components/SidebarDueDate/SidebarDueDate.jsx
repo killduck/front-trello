@@ -97,7 +97,7 @@ export default function SidebarDueDate(props){
     let end_minutes = startDate.getMinutes();
 
     let chekking_date_format = new Date(end_year,end_month-1,end_day,end_hours,end_minutes,'00');
-    // console.log(chekking_date_format);
+    console.log(chekking_date_format);
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
     
     // пока что не ясно что с этим делать...

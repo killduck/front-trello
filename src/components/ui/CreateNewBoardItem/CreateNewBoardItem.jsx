@@ -16,13 +16,14 @@ export default function CreateNewBoardItem(props) {
     let placeholder = props.placeholder;
     let ariaLabel = props.ariaLabel;
     let dataTestid = props.dataTestid;
-    // let autoFocus = props.autoFocus;
     let changeAction = props.changeAction;
     let newColName = props.newColName;
     let buttonText = props.buttonText;
     let hideElAction = props.hideElAction;
     let showFlag = props.showFlag;
     let className = props.className;
+
+    let boardItemHandleKeyPress = props.boardItemHandleKeyPress;
 
     return (
 
@@ -38,14 +39,16 @@ export default function CreateNewBoardItem(props) {
                     placeholder={placeholder}
                     aria-label={ariaLabel}
                     data-testid={dataTestid}
-                    autoFocus = {true}
+                    autoFocus
                     onChange={(evt) => changeAction(evt.target.value)}
-                // value={className ? '' : undefined}
+                    onKeyDown={boardItemHandleKeyPress}
+                    onBlur={boardItemHandleKeyPress}
+                    // value={className ? '' : undefined}
                 />
                 <div className={styles.buttons}>
                     <Button
                         className={'buttonAdd'}
-                        type="reset" // нужно заменить на: type="submit" ???
+                        type="submit" // нужно заменить на: type="submit" ???
                         dataTestid="list-composer-add-list-button"
                         clickAction={addColumnAction}
                         actionVariable={newColName}
@@ -54,7 +57,7 @@ export default function CreateNewBoardItem(props) {
                     </Button>
                     <Button
                         className={'buttonEsc'}
-                        type="reset"
+                        type="submit"
                         dataTestid="list-composer-cancel-button"
                         ariaLabel="Отменить редактирование"
                         clickAction={hideElAction}
