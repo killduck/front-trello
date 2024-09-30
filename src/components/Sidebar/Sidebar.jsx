@@ -1,6 +1,4 @@
-
 import styles from "./Sidebar.module.scss";
-
 import SidebarMembersWindow from "../SidebarMembersWindow/SidebarMembersWindow";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
@@ -200,9 +198,6 @@ export default function Sidebar(props){
           <div className={styles.actionDeleteCard}>
             
             <Button
-                // clickAction={deleteColumn}
-                // actionVariable={column.id}
-                // className={'BtnDeleteColumn'}
                 actionVariable={windowData.id}
                 clickAction={funkShowCardDel}
                 className={'BtnDeleteCard'}

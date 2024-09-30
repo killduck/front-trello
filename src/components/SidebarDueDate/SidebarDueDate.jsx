@@ -3,7 +3,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./DatePicker.css";
 import { registerLocale } from  "react-datepicker";
 import { ru } from 'date-fns/locale/ru';
-
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarDueDate.module.scss";
@@ -19,7 +18,6 @@ export default function SidebarDueDate(props){
   let setUpdateValue = props.setUpdateValue;
 
   const [checkbox, setCheckbox] = useState(true);
-
   // const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState(windowData_date_end ? new Date(windowData_date_end) : new Date());
   let [arrDate, setArrDate] = useState([]);
@@ -73,7 +71,6 @@ export default function SidebarDueDate(props){
 
   function funcEraseDates(){
     setStartDate(new Date());
-    // setEndDate('');
     setCheckbox(false);
   }
 
@@ -87,6 +84,11 @@ export default function SidebarDueDate(props){
   }
 
   function onSaveDueDate(){
+    if(new Date(windowData_date_end).getTime() === startDate.getTime()){
+      funcDueDateWindow();
+      return;
+    }
+
     let sendind_end_date = '';
     let sendind_start_date = '';
 
@@ -96,14 +98,7 @@ export default function SidebarDueDate(props){
     let end_hours = startDate.getHours();
     let end_minutes = startDate.getMinutes();
 
-    let chekking_date_format = new Date(end_year,end_month-1,end_day,end_hours,end_minutes,'00');
-    console.log(chekking_date_format);
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
-    
-    // пока что не ясно что с этим делать...
-    // if(chekking_date_format.getTime() === startDate.getTime()){
-    //   return;
-    // }
     
     request({
       method:'POST',
@@ -120,11 +115,9 @@ export default function SidebarDueDate(props){
       data: {'card_id': windowData.id, 'start_date_time': sendind_start_date, 'end_date_time': sendind_end_date},
       status:200,
     });
-
   }
 
   function onDelDueDate(){
-
     request({
       method:'POST',
       url:'del-card-due-date/',
@@ -140,13 +133,10 @@ export default function SidebarDueDate(props){
       data: {'card_id': windowData.id},
       status:200,
     });
-
   }
 
   return (
-
     <div className={styles.smallWindowWrap}>
-
       <header className={styles.itemHeader}>
         <h2 className={styles.itemHeaderTitle} title="Метки">Даты</h2>
         <div className={styles.iconWrap}>
@@ -189,7 +179,6 @@ export default function SidebarDueDate(props){
             </label>
             <label className={styles.dueDateItem}>
               <input className={styles.dueDateItemInput} type="checkbox" />
-              
               <span className={styles.dueDateItemCheckboxWrap}>
                 <span 
                   className={`${styles.dueDateItemCheckbox} ${checkbox ? styles.checked : "" }`}
@@ -221,23 +210,16 @@ export default function SidebarDueDate(props){
       <div className={styles.cardEditorButtonWrap}>
         <Button
           className={'dueDateSave'} 
-          // actionVariable={'no'}
           clickAction = {onSaveDueDate}
         >Сохранить</Button>
-
         <Button
           className={'dueDateCancel'} 
-          // actionVariable={null}
           clickAction = {funcEraseDates}
         >Сброс даты</Button>
         
         <div className={styles.actionDeleteCard}>
           <Button
-              // clickAction={deleteColumn}
-              // actionVariable={column.id}
-              // className={'BtnDeleteColumn'}
               clickAction={onDelDueDate}
-              // actionVariable={windowData.id}
               className={'BtnDeleteDueDate'}
             >
               <span className={styles.actionDeleteCardText}>
@@ -249,9 +231,7 @@ export default function SidebarDueDate(props){
               />
           </Button>
         </div>
-
       </div>
-
     </div>
   )
 };

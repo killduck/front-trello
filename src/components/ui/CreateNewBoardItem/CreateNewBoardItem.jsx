@@ -1,9 +1,6 @@
-
-
 import Button from "../Button/Button";
 import Icons from "../Icons/Icons";
 import styles from "./CreateNewBoardItem.module.scss";
-
 
 export default function CreateNewBoardItem(props) {
     // console.log(props);
@@ -22,7 +19,6 @@ export default function CreateNewBoardItem(props) {
     let hideElAction = props.hideElAction;
     let showFlag = props.showFlag;
     let className = props.className;
-
     let boardItemHandleKeyPress = props.boardItemHandleKeyPress;
 
     return (
@@ -71,6 +67,5 @@ export default function CreateNewBoardItem(props) {
                 </div>
             </form>
         </div>
-
     )
 };

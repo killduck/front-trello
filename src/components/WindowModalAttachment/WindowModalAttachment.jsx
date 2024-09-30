@@ -1,17 +1,15 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalAttachment.module.scss";
 import { URL_API, URL_ENDPOINT } from "../../api/config";
 import { useClickOutside } from "../../hooks/useClickOutside";
 
-
-
 export default function WindowModalAttachment(props){
-  // console.log(props.addFiles);
-  let addFiles = props.addFiles;
+  // console.log(props);
+  // let addFiles = props.addFiles;
   let cardFiles = props.cardFiles;
-  let setCardFiles = props.setCardFiles;
+  // let setCardFiles = props.setCardFiles;
   let funcAttachmentWindow = props.funcAttachmentWindow;
   let onDeleteCardFile = props.onDeleteCardFile;
   let showCardOptions = props.showCardOptions;
@@ -22,26 +20,17 @@ export default function WindowModalAttachment(props){
   let funcShowDeleteCardLink = props.funcShowDeleteCardLink;
   let funcShowUpdateCardLink = props.funcShowUpdateCardLink;
   let showCardOptionsLinkDel = props.showCardOptionsLinkDel;
-  let showCardOptionsLinkUpdate = props.showCardOptionsLinkUpdate;
+  // let showCardOptionsLinkUpdate = props.showCardOptionsLinkUpdate;
   let showPreloderFile = props.showPreloderFile;
   let showCardOptionsFileDel = props.showCardOptionsFileDel;
   let funcShowDeleteCardFile = props.funcShowDeleteCardFile;
   let onDeleteCardLink = props.onDeleteCardLink;
   let showPreloderLink = props.showPreloderLink;
   let onDownloadCardFile = props.onDownloadCardFile;
-  // let writeNewLink = props.writeNewLink;
-  // let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
-  // let setStartLink = props.setStartLink;
-
-  // let handleChangeAddFiles = props.handleChangeAddFiles;
-  // let [showCardOptions, setShowCardOptions] = useState(false);
 
   const smallWindow = useRef(null);
   useClickOutside(smallWindow, () => {
     if(showCardOptions){
-      // setTimeout(() => {
-        // funcShowAttachmentContentCardOptions();
-      // }, 100);
       setShowCardOptions(false);
     }
   });

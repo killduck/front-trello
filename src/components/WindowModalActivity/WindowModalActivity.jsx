@@ -3,7 +3,6 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
-import { useState } from "react";
 import { URL_API, URL_ENDPOINT } from "../../api/config";
 
 

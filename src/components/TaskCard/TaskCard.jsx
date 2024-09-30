@@ -1,20 +1,13 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
 import { useState } from "react";
-
 import styles from './TaskCard.module.scss';
-// import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import WindowPortal from "../WindowPortal/WindowPortal";
 import Button from "../ui/Button/Button";
 
-
 export default function TaskCard(props) {
-  // console.log('TaskCard ->')
   // console.log(props)
-  // let deleteTask = props.deleteTask;
-
   let dashboardUsers = props.dashboardUsers; 
   //  это пока не нужно было
   let task = props.task;
@@ -30,8 +23,6 @@ export default function TaskCard(props) {
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
   const [DNDIsOn, setDNDIsOn] = useState(true);
-
-  // let [label, setLabel] = useState(false);
 
   const {
     setNodeRef,
@@ -140,9 +131,7 @@ export default function TaskCard(props) {
               setShowPreloderLabel={setShowPreloderLabel}
             >
               <div className={styles.TaskCard__Wrap}>
-
                 <div className={styles.CardView}>
-
                   <div className={styles.ColorLabel}>
                     <div
                       className={styles.ColorLabelWrap}
@@ -190,9 +179,7 @@ export default function TaskCard(props) {
               setShowPreloderLabel={setShowPreloderLabel}
             >
               <div className={styles.TaskCard__Wrap}>
-
                 <div className={styles.CardView}>
-
                   <div className={styles.ColorLabel}>
                     <div
                       className={styles.ColorLabelWrap}

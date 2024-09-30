@@ -1,16 +1,9 @@
-
 import styles from "./WindowModal.module.scss";
-
 import { useCallback, useEffect, useState } from 'react';
-
-// import ReactQuill from 'react-quill'; // старый, нужно будет стереть, но пусть пока будет.
-// import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css';
 import "./windowQuill.css";
-
 import request from "../../api/request";
 import Sidebar from "../Sidebar/Sidebar";
-// import { Interweave } from "interweave";
 import WindowModalDescription from "../WindowModalDescription/WindowModalDescription";
 import WindowModalActivity from "../WindowModalActivity/WindowModalActivity";
 import WindowModalSubscribe from "../WindowModalSubscribe/WindowModalSubscribe";
@@ -21,7 +14,7 @@ import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
 
 export default function WindowModal(props){
-  console.log(props);
+  // console.log(props);
 
   let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
@@ -48,7 +41,6 @@ export default function WindowModal(props){
   let [searchNewCardUser, setSearchNewCardUser]=useState([]);
   const [showPreloderAddMember, setShowPreloderAddMember] = useState(false);
   const [showPreloderDelMember, setShowPreloderDelMember] = useState(false);
-
 
   let [subscribe, setSubscribe] = useState(false);
   let [showUserCard, setShowUserCard] = useState(null);
@@ -156,7 +148,6 @@ export default function WindowModal(props){
     setShowCardOptionsLinkDel(false);
     setShowCardDel(false);
   }
-
 
   const handleChangeAddFiles = (evt) => {
     evt.preventDefault();

@@ -1,15 +1,11 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
 import { useMemo, useState } from "react";
-
 import request from "../../api/request";
-
 import Button from "../ui/Button/Button";
 import CreateNewBoardItem from "../ui/CreateNewBoardItem/CreateNewBoardItem";
 import Icons from "../ui/Icons/Icons";
 import TaskCard from "../TaskCard/TaskCard";
-
 import styles from './ColumnContainer.module.scss';
 
 export default function ColumnContainer(props) {
@@ -30,11 +26,9 @@ export default function ColumnContainer(props) {
   let setShowPreloderLabel = props.setShowPreloderLabel;
   let setShowPreloder = props.setShowPreloder;
 
-
   const [editMode, setEditMode] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showColumnOptions, setShowColumnOptions] = useState(false);
-
   const [newColName, setNewColName] = useState('');
 
   const tasksIds = useMemo(() => {
