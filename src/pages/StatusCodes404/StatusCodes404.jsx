@@ -5,6 +5,8 @@ import Button from "../../components/ui/Button/Button";
 import Icons from "../../components/ui/Icons/Icons";
 
 import styles from "./StatusCodes404.module.scss";
+import { useEffect, useState } from "react";
+import request from "../../api/request";
 
 
 export default function StatusCodes404(props) {
@@ -24,6 +26,26 @@ export default function StatusCodes404(props) {
     "404_10.png",
     "404_11.png",
   ];
+
+  // const [listSlides, setListSlides] = useState([]);
+
+  // useEffect(() => {
+  //   request({
+  //     method:'GET',
+  //     url:`get-404-images/`,
+  //     callback:(response) => { 
+  //       if (response.status === 200) {
+  //         console.log(response);
+  //         if(response.data){
+  //           console.log(response.data);
+  //           setListSlides();
+  //         }
+  //       }
+  //     },
+  //     data: {},
+  //     status:200,
+  //   });
+  // },[]);
 
   function onRedirectWorkspace() {
     navigate("/");
@@ -58,10 +80,14 @@ export default function StatusCodes404(props) {
         </div>
 
         <div className={styles.StatusCodes404__Slider}>
-          <SimpleSlider
-            list_slides={list_slides}
-            baseUrl={'/img/404/'}
-          />
+          {list_slides.length > 0 ?
+            <SimpleSlider
+              list_slides={list_slides}
+              baseUrl={'/img/404/'}
+            />
+            :
+            "404"
+          }
         </div>
 
       </div>

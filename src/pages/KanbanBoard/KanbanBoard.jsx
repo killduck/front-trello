@@ -10,9 +10,7 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { createPortal } from "react-dom";
-
 import request from "../../api/request";
-
 import Button from "../../components/ui/Button/Button";
 import ColumnContainer from "../../components/ColumnContainer/ColumnContainer";
 import CreateNewBoardItem from "../../components/ui/CreateNewBoardItem/CreateNewBoardItem";
@@ -20,44 +18,29 @@ import DashboardHeader from "../../components/DashboardHeader/DashboardHeader";
 import Default from "../../layouts/default/Default";
 import Icons from "../../components/ui/Icons/Icons";
 import TaskCard from "../../components/TaskCard/TaskCard";
-
 import styles from "./KanbanBoard.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
-// import WorkspaceMenu from "../../components/WorkspaceMenu/WorkspaceMenu";
-
+import { URL_API, URL_ENDPOINT } from "../../api/config";
 
 export default function KanbanBoard(props) {
 
   let [showPreloder, setShowPreloder] = useState(true);
-
+  let [showPreloderCard, setShowPreloderCard] = useState(false);
   const [columns, setColumns] = useState([]);
-
   const [columnBug, setcolumnBug] = useState(null); // используем для корректировки работы библиотеки DnD
-
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
-
   const [tasks, setTasks] = useState([]);
-  
   const [activeColumn, setActiveColumn] = useState(null);
-
   const [activeTask, setActiveTask] = useState(null);
-
   const [showForm, setShowForm] = useState(true);
-
   const [newName, setText] = useState('Новая колонка');
-
   const [newTextTask, setNewTextTask] = useState('Новая задача');
-
   const [showPreloderLabel, setShowPreloderLabel] = useState(false);
 
   let [backGroundImage, setBackGroundImage] = useState('');
-
   let [name_dashboard, setNameDashboard] = useState('');
-
   let [updateComponent, setUpdateComponent] = useState(false);
-
   let [users, setUsers] = useState([]);
-
   let { dashboardId } = useParams();
 
   const sensors = useSensors(
@@ -67,7 +50,6 @@ export default function KanbanBoard(props) {
       },
     })
   );
-
 
   useEffect(() => {
     request({
@@ -117,20 +99,16 @@ export default function KanbanBoard(props) {
       data: { 'dashboardId': dashboardId },
       status: 200,
     });
-
-
   }, [updateComponent]); //TODO ES Lint просит добавить dashboardId
 
 
   // Библиотека @dnd kit
   function onDragStart(event) {
     // console.log('onDragStart');
-
     if (event.active.data.current?.type === "Column") {
       setActiveColumn(event.active.data.current.column);
       return;
     }
-
     if (event.active.data.current?.type === "Task") {
       setActiveTask(event.active.data.current.task);
       return;
@@ -139,7 +117,6 @@ export default function KanbanBoard(props) {
 
   function onDragEnd(event) {
     // console.log('onDragEnd');
-
     setActiveColumn(null);
     setActiveTask(null);
 
@@ -148,13 +125,9 @@ export default function KanbanBoard(props) {
 
     if (active_order_element === "Column") {
       // console.log('Сортируем колонки');
-
       if (!over) return;
-
       if (active.id === over.id) return;
-
       const isActiveAColumn = active.data.current?.type === "Column";
-
       if (!isActiveAColumn) return;
 
       editOrderColumns(active, over);
@@ -172,11 +145,11 @@ export default function KanbanBoard(props) {
       });
     }
 
-
     if (active_order_element === "Task") {
       // console.log('Сортируем карточки');
-
       let order_cards = editOrderCards(tasks);
+      console.log(tasks);
+      console.log(order_cards);
 
       request({ 
         method: "POST", 
@@ -208,7 +181,6 @@ export default function KanbanBoard(props) {
   }
 
   function editOrderCards(arrCards) {
-
     let cards_by_columns = {};
 
     arrCards.forEach((card) => {
@@ -239,16 +211,13 @@ export default function KanbanBoard(props) {
     let sort_cards = [];
 
     Object.values(cards_by_columns).forEach((obj) => {
-
       obj.forEach((card, index) => {
         card.order = index;
         sort_cards.push(card)
       });
     });
-
     return sort_cards;
   }
-
 
   function onDragOver(event) {
     // console.log('onDragOver');
@@ -269,7 +238,6 @@ export default function KanbanBoard(props) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((task) => task.id === active.id);
         const overIndex = tasks.findIndex((task) => task.id === over.id);
-
 
         if (tasks[activeIndex].column !== tasks[overIndex].column) {
           tasks[activeIndex].column = tasks[overIndex].column;
@@ -298,12 +266,10 @@ export default function KanbanBoard(props) {
     }
   }
 
-
   // Кликкеры
   const onShowFormAddColumn = () => {
     setShowForm(false);
   }
-
 
   // Интерфейсы для работы с колонками и карточками
   function requestSuccessCreateColumn(response) {
@@ -326,28 +292,30 @@ export default function KanbanBoard(props) {
       idDashboard: Number(dashboardId)
     }
 
+    setShowPreloder(true);
+    
     request({
       method: "POST",
       url: 'create-column/',
-      callback: (response) => { requestSuccessCreateColumn(response) },
+      callback: (response) => { 
+        if(response.status === 200){
+          setShowPreloder(false);
+          requestSuccessCreateColumn(response) 
+        }
+      },
       data: columnToAdd,
       status: 200,
     });
   }
 
-
   function requestSuccessCreateTask(response) {
     // console.log(response);
     if (response) {
       const cardToAdd = response.data;
-
       setTasks([...tasks, cardToAdd]);
-
       setNewTextTask('Новая задача');
-
       setUpdateComponent(true);
     }
-
   }
 
   function updateSetColumns(id, name) {
@@ -442,11 +410,10 @@ export default function KanbanBoard(props) {
       method: "POST",
       url: 'delete-card/',
       callback: (response) => {
-        setShowPreloder(true);
+        setShowPreloderCard(id);
         if (response.status === 200) {
           requestSuccessDeletCard(response, id);
-          setShowPreloder(false);
-
+          setShowPreloderCard(false);
           setUpdateComponent(true); 
         }
       },
@@ -466,6 +433,7 @@ export default function KanbanBoard(props) {
   }
 
   function updateCardLabel(card_id, label) {
+    // console.log(card_id, label);
     if(showPreloderLabel){
       return;
     }
@@ -485,12 +453,18 @@ export default function KanbanBoard(props) {
     });
   }
 
+  const boardItemColumnHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+      createNewColumn();
+    }
+  }
+
   return (
     <>
     {showPreloder ? 
     (<Preloader />) : (
     <Default
-      backGroundImage={{ backgroundImage: `url(/img/${backGroundImage})` }}
+      backGroundImage={{ backgroundImage: `url(${URL_API + URL_ENDPOINT}${backGroundImage})` }}
     >
       <DashboardHeader
         dashboardUsers={users}
@@ -526,14 +500,17 @@ export default function KanbanBoard(props) {
                     updateCardLabel={updateCardLabel}
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
+                    showPreloderCard={showPreloderCard}
                     showPreloderLabel={showPreloderLabel}
                     setShowPreloderLabel={setShowPreloderLabel}
+                    setShowPreloder={setShowPreloder}
                   />
                 ))}
               </SortableContext>
             </div>
 
             <div>
+              {!showForm &&
               <CreateNewBoardItem
                 className={showForm ? styles.none : ''}
                 buttonText={'Добавить колонку'}
@@ -545,14 +522,15 @@ export default function KanbanBoard(props) {
                 placeholder="Ввести заголовок колонки"
                 aria-label="Ввести заголовок колонки"
                 data-testid="list-name-textarea"
-                autoFocus={showForm ? false : true}
                 hideElAction={setShowForm}
                 showFlag={true}
                 changeAction={setText}
                 newText={newName}
                 addColumnAction={createNewColumn}
                 newColName={columns}
+                boardItemHandleKeyPress={boardItemColumnHandleKeyPress}
               />
+              }
             </div>
 
             <div
@@ -591,8 +569,10 @@ export default function KanbanBoard(props) {
                   updateCardLabel={updateCardLabel}
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
+                  showPreloderCard={showPreloderCard}
                   showPreloderLabel={showPreloderLabel}
                   setShowPreloderLabel={setShowPreloderLabel}
+                  setShowPreloder={setShowPreloder}
                 />
               )}
               {activeTask && (

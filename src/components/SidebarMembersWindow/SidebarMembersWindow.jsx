@@ -4,9 +4,10 @@ import styles from "./SidebarMembersWindow.module.scss";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
+import { URL_API, URL_ENDPOINT } from "../../api/config";
 
 export default function SidebarMembersWindow(props){
-  // console.log(props);
+  console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let cardUsers = props.cardUsers;
   let funcAddUserToCard = props.funcAddUserToCard;
@@ -99,18 +100,30 @@ export default function SidebarMembersWindow(props){
           <ul>
           {searchNewCardUser.map(
             (user)=> 
-              <li key={user.id} >
+              <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardActivityNewCommentInputGradient: ""}>
                 <Button
                   className={'addUserToCard'}
                   type="button"
                   ariaLabel="Добавить пользователя к карточке"
                   actionVariable = {user.id}
                   clickAction = {funcAddUserToCard}
+                  disabled={showPreloderAddMember === user.id ? "disabled" : ""}
                 >
                   <div 
                     className={styles.itemContentDashboardMemberImg} 
                   >
-                    <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
+                    {user.img ?
+                      (<span 
+                        title={`${user.first_name} (${user.username})`}
+                        style={{ backgroundImage: `url(${URL_API + URL_ENDPOINT + user.img})`}} />
+                      )
+                      :
+                      (<span 
+                        title={`${user.first_name} (${user.username})`}
+                      >{user.first_letter}</span>
+                      )
+                    }
+                    {/* <span style={{ backgroundImage: user.img ? `${URL_API + URL_ENDPOINT + user.img})` : user.first_letter }} /> */}
                   </div>
                   <div title={ user.username }>
                     <span>
@@ -157,11 +170,23 @@ export default function SidebarMembersWindow(props){
                       ariaLabel="Удалить пользователя из карточки"
                       actionVariable={cardUser.id}
                       clickAction={funcDelCardUser}
+                      disabled={showPreloderDelMember === cardUser.id ? "disabled" : ""}
                     >
                       <div className={styles.itemContentDashboardMemberInfo} >
 
                         <div className={styles.itemContentDashboardMemberImg} >
-                          <span style={{ backgroundImage: cardUser.img ? `url(/img/users/${cardUser.img})` : 'url(/img/no_photo1.png)' }} />
+                          {cardUser.img ?
+                            (<span 
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                              style={{ backgroundImage: `url(${URL_API + URL_ENDPOINT + cardUser.img})`}} />
+                            )
+                            :
+                            (<span 
+                              // className={styles.memberAvatarSpan} 
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                            >{cardUser.first_letter}</span>
+                            )
+                          }
                         </div>
                         <div className={styles.itemContentDashboardMemberName} title={ cardUser.username }>
                           <span>
@@ -213,11 +238,22 @@ export default function SidebarMembersWindow(props){
                 ariaLabel="Добавить пользователя к карточке"
                 actionVariable={user.id}
                 clickAction={funcAddUserToCard}
+                disabled={showPreloderAddMember === user.id ? "disabled" : ""}
               >
                 <div 
                   className={styles.itemContentDashboardMemberImg} 
                 >
-                  <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
+                  {user.img ?
+                    (<span 
+                      title={`${user.first_name} (${user.username})`}
+                      style={{ backgroundImage: `url(${URL_API + URL_ENDPOINT + user.img})`}} />
+                    )
+                    :
+                    (<span 
+                      title={`${user.first_name} (${user.username})`}
+                    >{user.first_letter}</span>
+                    )
+                  }
                 </div>
                 <div title={ user.username }>
                   <span>

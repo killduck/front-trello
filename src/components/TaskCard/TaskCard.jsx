@@ -1,20 +1,13 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
 import { useState } from "react";
-
 import styles from './TaskCard.module.scss';
-// import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import WindowPortal from "../WindowPortal/WindowPortal";
 import Button from "../ui/Button/Button";
 
-
 export default function TaskCard(props) {
-  // console.log('TaskCard ->')
   // console.log(props)
-  // let deleteTask = props.deleteTask;
-
   let dashboardUsers = props.dashboardUsers; 
   //  это пока не нужно было
   let task = props.task;
@@ -22,6 +15,7 @@ export default function TaskCard(props) {
   let updateTask = props.updateTask;
   let deleteCard = props.deleteCard;
   let updateCardLabel = props.updateCardLabel;
+  let showPreloderCard = props.showPreloderCard;
   let showPreloderLabel = props.showPreloderLabel;
   let setShowPreloderLabel = props.setShowPreloderLabel;
 
@@ -29,8 +23,6 @@ export default function TaskCard(props) {
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
   const [DNDIsOn, setDNDIsOn] = useState(true);
-
-  // let [label, setLabel] = useState(false);
 
   const {
     setNodeRef,
@@ -109,141 +101,136 @@ export default function TaskCard(props) {
 
   return (
     <>
-      {DNDIsOn ? 
-        <div
-          ref={setNodeRef}
-          style={style}
-          {...attributes}
-          {...listeners}
-          onMouseEnter={() => {
-            setMouseIsOver(true);
-          }}
-          onMouseLeave={() => {
-            setMouseIsOver(false);
-          }}
-          className={styles.TaskCard}
-          onClick={() => setDNDIsOn(false)}
-        >
-        
-    
-        <WindowPortal
-          typeElem = {'card'}
-          idElem = {task.id}
-          task = {task}
-          column = {column}
-          dashboardUsers={dashboardUsers}
-          updateFunc = {updateTask}
-          deleteFunc={deleteCard}
-          updateCardLabel={updateCardLabel}
-          showPreloderLabel={showPreloderLabel}
-          setShowPreloderLabel={setShowPreloderLabel}
-        >
-          <div className={styles.TaskCard__Wrap}>
-
-            <div className={styles.CardView}>
-
-              <div className={styles.ColorLabel}>
-                <div
-                  className={styles.ColorLabelWrap}
-                  style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
-                  // onClick={() => { onCardLabel() }}
-                >
-                  {/* <span
-                    className={
-                      label ?
-                        styles.LabelActive
-                        :
-                        styles.Label
-                    } >
-                    Важно
-                  </span> */}
+      {String(showPreloderCard) !== task.id ? 
+      <>
+        {DNDIsOn ? (
+          <div
+            ref={setNodeRef}
+            style={style}
+            {...attributes}
+            {...listeners}
+            onMouseEnter={() => {
+              setMouseIsOver(true);
+            }}
+            onMouseLeave={() => {
+              setMouseIsOver(false);
+            }}
+            className={styles.TaskCard}
+            onClick={() => setDNDIsOn(false)}
+          >
+            <WindowPortal
+              typeElem = {'card'}
+              idElem = {task.id}
+              task = {task}
+              column = {column}
+              dashboardUsers={dashboardUsers}
+              updateFunc = {updateTask}
+              deleteFunc={deleteCard}
+              updateCardLabel={updateCardLabel}
+              showPreloderLabel={showPreloderLabel}
+              setShowPreloderLabel={setShowPreloderLabel}
+            >
+              <div className={styles.TaskCard__Wrap}>
+                <div className={styles.CardView}>
+                  <div className={styles.ColorLabel}>
+                    <div
+                      className={styles.ColorLabelWrap}
+                      style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
+                    >
+                    </div>
+                  </div>
+                  
+                  <span className={styles.CardText} title={`карточка: "${task.name}"`}>
+                    {task.name}
+                  </span>
+                  <div className={styles.cardIcon}>
+                    {mouseIsOver && (
+                      <Button
+                        type={"button"}
+                        ariaLabel={"Изменить карточку"}
+                        className={"BtnCardNameEdit"}
+                        clickAction={toggleEditMode}
+                        disabled={showPreloderCard ? 'disabled' : ""}
+                      >
+                        <Icons
+                          name={'pencil-colorless'}
+                          class_name={'CardTextPencilLogo'}
+                        />   
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              {/* <a className={styles.CardText} href="#">
-                {task.name}
-              </a> */}
-              <span className={styles.CardText} title={`карточка: "${task.name}"`}>
-                {task.name}
-              </span>
-              <div className={styles.cardIcon}>
-                {mouseIsOver && (
-                  <Button
-                    type={"button"}
-                    ariaLabel={"Изменить карточку"}
-                    className={"BtnCardNameEdit"}
-                    clickAction={toggleEditMode}
-
-                  >
-                    <Icons
-                      name={'pencil-colorless'}
-                      class_name={'CardTextPencilLogo'}
-                    />   
-                  </Button>
-                )}
-              </div>
-              
-
-            </div>
+            </WindowPortal>
           </div>
-        </WindowPortal>
-      </div>
+        ):(
+          <div className={styles.TaskCard}>
+            <WindowPortal
+              typeElem = {'card'}
+              idElem = {task.id}
+              task = {task}
+              column = {column}
+              dashboardUsers={dashboardUsers}
+              updateFunc = {updateTask}
+              deleteFunc={deleteCard}
+              updateCardLabel={updateCardLabel}
+              setDNDIsOn={setDNDIsOn}
+              showPreloderLabel={showPreloderLabel}
+              setShowPreloderLabel={setShowPreloderLabel}
+            >
+              <div className={styles.TaskCard__Wrap}>
+                <div className={styles.CardView}>
+                  <div className={styles.ColorLabel}>
+                    <div
+                      className={styles.ColorLabelWrap}
+                      style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
+                    />
+                  </div>
+                  <span className={styles.CardText} title={task.name}>
+                    {task.name}
+                  </span>
+                  <div className={styles.cardIcon}>
+                    {mouseIsOver && (
+                      <Button
+                        type={"button"}
+                        ariaLabel={"Изменить карточку"}
+                        className={"BtnCardNameEdit"}
+                        clickAction={toggleEditMode}
+                        disabled={showPreloderCard ? 'disabled' : ""}
+                      >
+                        <Icons
+                          name={'pencil-colorless'}
+                          class_name={'CardTextPencilLogo'}
+                        />   
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </WindowPortal>
+          </div>
+        )}
+      </>
       :
       (
-        <div
-          className={styles.TaskCard}
-        >
-        
-    
-        <WindowPortal
-          typeElem = {'card'}
-          idElem = {task.id}
-          task = {task}
-          column = {column}
-          dashboardUsers={dashboardUsers}
-          updateFunc = {updateTask}
-          deleteFunc={deleteCard}
-          updateCardLabel={updateCardLabel}
-          setDNDIsOn={setDNDIsOn}
-          showPreloderLabel={showPreloderLabel}
-          setShowPreloderLabel={setShowPreloderLabel}
-        >
-          <div className={styles.TaskCard__Wrap}>
-
-            <div className={styles.CardView}>
-
-              <div className={styles.ColorLabel}>
-                <div
-                  className={styles.ColorLabelWrap}
-                  style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
-                />
-              </div>
-              <span className={styles.CardText} title={task.name}>
-                {task.name}
-              </span>
-              <div className={styles.cardIcon}>
-                {mouseIsOver && (
-                  <Button
-                    type={"button"}
-                    ariaLabel={"Изменить карточку"}
-                    className={"BtnCardNameEdit"}
-                    clickAction={toggleEditMode}
-
-                  >
-                    <Icons
-                      name={'pencil-colorless'}
-                      class_name={'CardTextPencilLogo'}
-                    />   
-                  </Button>
-                )}
+      <div className={styles.TaskCard}>
+        <div className={`${styles.cardGradient} ${styles.TaskCard__Wrap}`}>
+          <div className={styles.CardView}>
+            <div className={styles.ColorLabel}>
+              <div
+                className={styles.ColorLabelWrap}
+                style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
+              >
               </div>
             </div>
+            <span className={styles.CardText} title={`карточка: "${task.name}"`}>
+              {task.name}
+            </span>
           </div>
-        </WindowPortal>
+        </div>
       </div>
       )
-    }
+      }
     </>
-
   );
 }
