@@ -20,7 +20,7 @@ import Icons from "../../components/ui/Icons/Icons";
 import TaskCard from "../../components/TaskCard/TaskCard";
 import styles from "./KanbanBoard.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
-import { URL_API, URL_ENDPOINT } from "../../api/config";
+import { URL_API } from "../../api/config";
 
 export default function KanbanBoard(props) {
 
@@ -464,7 +464,7 @@ export default function KanbanBoard(props) {
     {showPreloder ? 
     (<Preloader />) : (
     <Default
-      backGroundImage={{ backgroundImage: `url(${URL_API + URL_ENDPOINT}${backGroundImage})` }}
+      backGroundImage={{ backgroundImage: `url(${URL_API + backGroundImage})` }}
     >
       <DashboardHeader
         dashboardUsers={users}
