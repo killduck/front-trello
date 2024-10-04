@@ -4,7 +4,7 @@ import styles from "./SidebarMembersWindow.module.scss";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
-import { URL_API, URL_ENDPOINT } from "../../api/config";
+import { URL_API } from "../../api/config";
 
 export default function SidebarMembersWindow(props){
   console.log(props);
@@ -115,7 +115,7 @@ export default function SidebarMembersWindow(props){
                     {user.img ?
                       (<span 
                         title={`${user.first_name} (${user.username})`}
-                        style={{ backgroundImage: `url(${URL_API + URL_ENDPOINT + user.img})`}} />
+                        style={{ backgroundImage: `url(${URL_API + user.img})`}} />
                       )
                       :
                       (<span 
@@ -123,7 +123,6 @@ export default function SidebarMembersWindow(props){
                       >{user.first_letter}</span>
                       )
                     }
-                    {/* <span style={{ backgroundImage: user.img ? `${URL_API + URL_ENDPOINT + user.img})` : user.first_letter }} /> */}
                   </div>
                   <div title={ user.username }>
                     <span>
@@ -178,7 +177,7 @@ export default function SidebarMembersWindow(props){
                           {cardUser.img ?
                             (<span 
                               title={`${cardUser.first_name} (${cardUser.username})`}
-                              style={{ backgroundImage: `url(${URL_API + URL_ENDPOINT + cardUser.img})`}} />
+                              style={{ backgroundImage: `url(${URL_API + cardUser.img})`}} />
                             )
                             :
                             (<span 
@@ -246,7 +245,7 @@ export default function SidebarMembersWindow(props){
                   {user.img ?
                     (<span 
                       title={`${user.first_name} (${user.username})`}
-                      style={{ backgroundImage: `url(${URL_API + URL_ENDPOINT + user.img})`}} />
+                      style={{ backgroundImage: `url(${URL_API + user.img})`}} />
                     )
                     :
                     (<span 

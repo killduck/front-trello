@@ -1,21 +1,14 @@
 import Slider from "react-slick";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 import styles from './SimpleSlider.module.scss';
 import './SimpleSlider.css';
-import { URL_API, URL_ENDPOINT } from "../../../api/config";
-
 
 export default function SimpleSlider(props) {
 
   let list_slides = props.list_slides;
-
   let baseUrl = props.baseUrl;
-
   let number_slide_random = Math.floor(Math.random() * (list_slides.length - 0) + 0);
-
 
   let settings = {
     dots: false,
@@ -37,14 +30,8 @@ export default function SimpleSlider(props) {
         {
           list_slides.map((slide) =>
             <div key={slide}>
-              {/* это с фронта */}
+              {/* это берём с фронта */}
               <img src={baseUrl + slide} alt="картинка 404 ошибки" />
-
-              {/* это с бэка */}
-              {/* <img 
-                src={`${URL_API + URL_ENDPOINT+ '/media_backend/img/404/'+ slide}`}
-                alt="картинка 404 ошибки" 
-              /> */}
             </div>
           )
         }

@@ -3,7 +3,7 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
-import { URL_API, URL_ENDPOINT } from "../../api/config";
+import { URL_API } from "../../api/config";
 
 
 export default function WindowModalActivity(props){
@@ -58,7 +58,7 @@ export default function WindowModalActivity(props){
             {authUserData.img ?(
               <img 
                 className={styles.cardActivityMemberAvatarImg} 
-                src={`${URL_API + URL_ENDPOINT + authUserData.img}`}
+                src={`${URL_API + authUserData.img}`}
                 alt={`${authUserData.first_name} (${authUserData.username})`}
                 title={`${authUserData.first_name} (${authUserData.username})`}
                 // onClick={()=> onUserCard(authUserData.id)}
@@ -139,7 +139,7 @@ export default function WindowModalActivity(props){
                         {comment.author.img ?(
                           <img 
                             className={styles.cardActivityMemberAvatarImg} 
-                            src={`${URL_API + URL_ENDPOINT + comment.author.img}`}
+                            src={`${URL_API + comment.author.img}`}
                             alt={`${comment.author.first_name} (${comment.author.username})`}
                             title={`${comment.author.first_name} (${comment.author.username})`}
                             onClick={()=> onUserCard(comment.author.id)}
@@ -181,7 +181,7 @@ export default function WindowModalActivity(props){
                   {comment.author.img ?(
                     <img 
                       className={styles.cardActivityMemberAvatarImg} 
-                      src={`${URL_API + URL_ENDPOINT + comment.author.img}`}
+                      src={`${URL_API + comment.author.img}`}
                       alt={`${comment.author.first_name} (${comment.author.username})`}
                       title={`${comment.author.first_name} (${comment.author.username})`}
                       onClick={()=> onUserCard(comment.author.id)}
