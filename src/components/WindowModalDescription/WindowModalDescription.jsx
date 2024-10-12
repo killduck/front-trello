@@ -3,19 +3,89 @@ import ReactQuill from "react-quill-new";
 import { Interweave } from "interweave";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
+import request from "../../api/request";
+import { useDispatch, useSelector } from "react-redux";
+import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/cardDescriptionState";
+import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+import { setShowReactQuillState } from "../../main_state/states/showReactQuillState";
 
 
 export default function WindowModalDescription(props){
 
-  let showReactQuill = props.showReactQuill;
-  let funcShowReactQuill = props.funcShowReactQuill;
-  let valueDescription = props.valueDescription;
+  // let showReactQuill = props.showReactQuill;
+  // let funcShowReactQuill = props.funcShowReactQuill;
+  // let valueDescription = props.valueDescription;
   let setValueDescription=props.setValueDescription;
+  // let showReactQuillHandleKeyPress= props.showReactQuillHandleKeyPress;
   let modules = props.modules;
-  let showReactQuillHandleKeyPress= props.showReactQuillHandleKeyPress;
   let editorRef = props.editorRef;
-  let saveNewReactQuillText = props.saveNewReactQuillText;
-  let cardDescription = props.cardDescription;
+  // let saveNewReactQuillText = props.saveNewReactQuillText;
+  // let cardDescription = props.cardDescription;
+
+  const windowData = useSelector((state) => state.windowData.value);
+
+  let cardDescriptionState_newValue = useSelector((state) => state.cardDescriptionState.newValue);
+  const cardDescriptionState_startValue = useSelector((state) => state.cardDescriptionState.startValue);
+
+  const showReactQuillState = useSelector((state) => state.showReactQuillState.value);
+
+  const dispatch = useDispatch();
+
+  function saveNewReactQuillText(){
+    console.log(cardDescriptionState_startValue, cardDescriptionState_newValue);
+    if(cardDescriptionState_newValue === '<p><br></p>'){
+      // <p><br></p><p><br></p>
+      cardDescriptionState_newValue = null;
+      dispatch(setStartCardDescriptionState(''));
+    }
+    console.log(cardDescriptionState_startValue, cardDescriptionState_newValue);
+    if(cardDescriptionState_newValue === cardDescriptionState_startValue){
+      funcShowReactQuill();
+      return;
+    }
+
+    if(cardDescriptionState_newValue !== cardDescriptionState_startValue){
+      request({
+        method:'POST',
+        url:'add-card-description/',
+        callback:(response) => { 
+          if (response.status === 200) {
+            if(response.data){
+              // setValueDescription(response.data[0].description);
+              dispatch(setStartCardDescriptionState(response.data[0].description));
+              // setCardDescription(response.data[0].description);
+              dispatch(setNewCardDescriptionState(response.data[0].description));
+              // setUpdateValue(true);
+              dispatch(setWindowModalReloadState(true));
+            }
+          }
+        },
+        data: {'card_id': windowData.id,'description': cardDescriptionState_newValue},
+        status:200,
+      });
+    }
+    funcShowReactQuill();
+  }
+
+  function funcShowReactQuill(){
+    // onRemoving_onFrames();
+    if(showReactQuillState){
+      dispatch(setShowReactQuillState(false));
+    }
+    else{
+      dispatch(setShowReactQuillState(true));
+    }
+  }
+
+  function showReactQuillHandleKeyPress(evt){
+    if(evt.key === 'Enter' && evt.shiftKey){
+      console.log(evt);
+      cardDescriptionState_newValue = cardDescriptionState_newValue.trim().slice(0, -11);
+      console.log(cardDescriptionState_newValue);
+      dispatch(setNewCardDescriptionState(cardDescriptionState_newValue));
+      saveNewReactQuillText();
+    }
+  }
 
   return (
 
@@ -28,7 +98,7 @@ export default function WindowModalDescription(props){
           />
         </span>
         <h3 className={styles.cardDescriptionHeaderTitle}>Описание</h3>
-        {!showReactQuill ? (
+        {!showReactQuillState ? (
           <div className={styles.cardDescriptionHeaderBtn}>
             <Button 
               className={'BtnCardDescriptionChange'}
@@ -40,15 +110,16 @@ export default function WindowModalDescription(props){
           ("")
         }
       </div>
-      {showReactQuill ? 
+      {showReactQuillState ? 
       (
         <>
           <ReactQuill
             className={styles.reactQuill}
             style={{marginLeft: "40px"}}
             theme="snow"
-            value={valueDescription ? valueDescription : ''} 
-            onChange={setValueDescription} 
+            value={cardDescriptionState_newValue ? cardDescriptionState_newValue : ''} 
+            onChange={(evt)=> dispatch(setNewCardDescriptionState(evt))}
+            // onChange={showReactQuillHandleKeyPress} 
             placeholder={"Введите текст..."}
             modules={modules}
             onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
@@ -76,13 +147,13 @@ export default function WindowModalDescription(props){
       :
       (
         <>
-          {cardDescription ? 
+          {cardDescriptionState_newValue ? 
             (
               <div 
                 className={styles.cardDescriptionStub}
                 onClick={funcShowReactQuill} 
               >
-                <Interweave content={cardDescription}></Interweave>
+                <Interweave content={cardDescriptionState_newValue}></Interweave>
               </div>
             ):(
               <p 

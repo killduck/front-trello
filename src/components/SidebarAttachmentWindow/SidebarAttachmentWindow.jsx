@@ -6,7 +6,6 @@ import styles from "./SidebarAttachmentWindow.module.scss";
 
 export default function SidebarAttachmentWindow(props){
 
-  let windowData = props.windowData; 
   let attachmentWindow = props.attachmentWindow; 
   let funcAttachmentWindow = props.funcAttachmentWindow; 
   let setUpdateValue = props.setUpdateValue; 

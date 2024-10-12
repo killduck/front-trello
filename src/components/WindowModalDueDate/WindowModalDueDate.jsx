@@ -2,11 +2,12 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalDueDate.module.scss";
 import Button from "../ui/Button/Button";
 import request from "../../api/request";
+import { useSelector } from "react-redux";
 
 export default function WindowModalDueDate(props){
   // console.log(props);
 
-  let windowData = props.windowData; 
+  const windowData = useSelector((state) => state.windowData.value);
   let funcDueDateWindow = props.funcDueDateWindow; 
 
   let dueDateCheckbox = props.dueDateCheckbox;

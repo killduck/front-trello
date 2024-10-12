@@ -9,7 +9,7 @@ import Templates from './pages/Templates/Templates';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
 import Login from './pages/Login/Login';
 import { useEffect } from 'react';
-
+import { Counter } from './counter/Counter';
 
 
 export default function RoutesApp(props) {
@@ -29,6 +29,10 @@ export default function RoutesApp(props) {
         <div>
 
             <Routes>
+                {/* TODO это нужно удалить */}
+                <Route path='/test' element={
+                    <Counter />
+                } />
                 <Route path='/login' element={
                     <Login />
                 } />

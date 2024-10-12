@@ -8,12 +8,15 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarDueDate.module.scss";
 import { useState } from "react";
 import request from "../../api/request";
+import { useSelector } from "react-redux";
 
 
 export default function SidebarDueDate(props){
   // console.log(props);
-  let windowData = props.windowData;
+
+  const windowData = useSelector((state) => state.windowData.value);
   let windowData_date_end = windowData.date_end;
+
   let funcDueDateWindow = props.funcDueDateWindow; 
   let setUpdateValue = props.setUpdateValue;
 

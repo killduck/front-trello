@@ -35,13 +35,16 @@ export default function request(
       })
       .catch((error) => {
         console.error(error)
-
-        if (error.response.status === 401 || error.response.status === 400) {
-          console.log('Ошибка авторизации')
-          redirect();
-          return;
+        try{
+          if (error.response.status === 401 || error.response.status === 400) {
+            console.log('Ошибка авторизации')
+            redirect();
+            return;
+          }
         }
-
+        catch(error){
+          console.log('Ошибка', error)
+        }
         redirect_status404();
       })
   }
@@ -62,14 +65,17 @@ export default function request(
       })
       .catch((error) => {
         console.error(error);
-
-        if (error.response.status === 401 || error.response.status === 400) {
-          console.log('Ошибка авторизации')
-          redirect();
-          return;
+        try{
+          if (error.response.status === 401 || error.response.status === 400) {
+            console.log('Ошибка авторизации')
+            redirect();
+            return;
+          }
         }
-
-        redirect_status404();
+        catch(error){
+          console.log('Ошибка', error)
+        }
+        // redirect_status404();
       })
   }
 }

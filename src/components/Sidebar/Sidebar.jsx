@@ -5,11 +5,12 @@ import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmentWindow";
+import { useSelector } from "react-redux";
 
 export default function Sidebar(props){
   // console.log(props);
   let typeElem = props.typeElem;
-  let windowData = props.windowData;
+
   let deleteFunc = props.deleteFunc;
   let funcAddUserToCard = props.funcAddUserToCard;
   let dashboardUsers = props.dashboardUsers;
@@ -56,6 +57,9 @@ export default function Sidebar(props){
   let onRemoving_onFrames = props.onRemoving_onFrames;
 
   let setUpdateValue = props.setUpdateValue;
+
+  const windowData = useSelector((state) => state.windowData.value);
+  console.log(windowData);
   
   function funkShowCardDel(window_id){
     onRemoving_onFrames();
@@ -94,7 +98,7 @@ export default function Sidebar(props){
           {(membersWindow) ?
           (<SidebarMembersWindow
               typeElem = {typeElem}
-              windowData = {windowData}
+
               dashboardUsers = {dashboardUsers}
               cardUsers = {cardUsers}
               membersWindow = {membersWindow}
@@ -127,7 +131,7 @@ export default function Sidebar(props){
             funcLabelsWindow={funcLabelsWindow}
             labelsWindow={labelsWindow}
             updateCardLabel={updateCardLabel}
-            windowData={windowData}
+
             setCardLabel={setCardLabel}
             showPreloderLabel={showPreloderLabel}
             setShowPreloderLabel={setShowPreloderLabel}
@@ -146,7 +150,7 @@ export default function Sidebar(props){
           </div>
           {(dueDateWindow) ? 
           (<SidebarDueDate
-            windowData={windowData}
+
             funcDueDateWindow={funcDueDateWindow}
             dueDateWindow={dueDateWindow}
             setUpdateValue={setUpdateValue}
@@ -165,7 +169,7 @@ export default function Sidebar(props){
           </div>
           {(attachmentWindow) ? 
           (<SidebarAttachmentWindow
-            windowData={windowData}
+
             funcAttachmentWindow={funcAttachmentWindow}
             attachmentWindow={attachmentWindow}
 

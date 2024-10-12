@@ -13,8 +13,15 @@ import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMembe
 import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
 
+import { useDispatch, useSelector } from "react-redux";
+import { setWindowData } from "../../main_state/states/windowData";
+import { setSubscribeState } from "../../main_state/states/subscribeState";
+import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/cardDescriptionState";
+import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+
+
 export default function WindowModal(props){
-  // console.log(props);
+  console.log(props);
 
   let dashboardUsers = props.dashboardUsers;
   let typeElem = props.typeElem;
@@ -31,8 +38,8 @@ export default function WindowModal(props){
   const [authUser, setAuthUser] = useState(Number);
   const [authUserData, setAuthUserData] = useState(Number);
 
-  let [windowData, setWindowData] = useState({});
   const [startWindowName, setStartWindowName] = useState('');
+  
   let [windowName, setWindowName] = useState('');
   let [newName, setNewNameField] = useState(false);
   let [membersWindow, setMembersWindow] = useState(false);
@@ -49,8 +56,8 @@ export default function WindowModal(props){
   const [cardLabel, setCardLabel] = useState(false);
   
   let [showReactQuill, setShowReactQuill] = useState(false);
-  let [valueDescription, setValueDescription] = useState('');
-  const [cardDescription, setCardDescription] = useState('');
+  // let [valueDescription, setValueDescription] = useState('');
+  // const [cardDescription, setCardDescription] = useState('');
 
   let [activityDetailsShow, setActivityDetailsShow] = useState(true);
   let [activityEditorShow, setActivityEditorShow] = useState(null);
@@ -88,6 +95,11 @@ export default function WindowModal(props){
   
   const [dragActive, setDragActive] = useState(false);
 
+  const windowData = useSelector((state) => state.windowData.value);
+  const subscribeState = useSelector((state) => state.subscribeState.value);
+
+  const dispatch = useDispatch();
+
   const modules = {
     toolbar: [
       [{ header: []}],
@@ -105,23 +117,42 @@ export default function WindowModal(props){
       url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
-          // console.log(response);
+          console.log(response);
           if(response.data){
             console.log(response.data);
             setAuthUser(response.data.auth_user);
-            setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
             setStartWindowName(response.data.card[0]['name']);
+
+            dispatch(setWindowData(response.data.card[0]));
+           
             setCardUsers(response.data.card_users_data);
-            setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
-            setValueDescription(response.data.card[0]['description']); 
-            setCardDescription(response.data.card[0]['description']); 
+            
+            // setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
+            dispatch(setSubscribeState(
+              response.data.card_users_data.filter(
+                (cardUser) => cardUser.id === response.data.auth_user).length
+              )
+            );
+            
+            // setValueDescription(response.data.card[0]['description']); 
+            dispatch(setStartCardDescriptionState(response.data.card[0]['description']));
+            // setCardDescription(response.data.card[0]['description']); 
+            dispatch(setNewCardDescriptionState(response.data.card[0]['description']));
+
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
-            setCardActivityComments(response.data.card[0].activity.reverse());
+
+
+            console.log(response.data.card[0].activity);
+            setCardActivityComments(response.data.card[0].activity);
+            // setCardActivityComments(response.data.card[0].activity.reverse());
+            
             setDueDateCheckbox(response.data.card[0]['execute']);
             setCardFiles(response.data.card[0]['card_file']);
             setCardLinks(response.data.card[0]['card_link']);
-            setUpdateValue(false);
+            // setUpdateValue(false);
+            dispatch(setWindowModalReloadState(false));
+
           }
           if(task.label){
             setCardLabel(true);
@@ -131,7 +162,7 @@ export default function WindowModal(props){
       data: {'id': idElem},
       status:200,
     });
-  },[typeElem, idElem, task, dashboardUsers, updateValue]);
+  },[typeElem, idElem, task, dashboardUsers, updateValue, dispatch]);
 
   function onRemoving_onFrames(){
     setNewNameField(false); 
@@ -395,54 +426,54 @@ export default function WindowModal(props){
     }
   }
 
-  function funcShowReactQuill(){
-    onRemoving_onFrames();
-    if(showReactQuill){
-      setShowReactQuill(false);
-    }
-    else{
-      setShowReactQuill(true);
-    }
-  }
+  // function funcShowReactQuill(){
+  //   onRemoving_onFrames();
+  //   if(showReactQuill){
+  //     setShowReactQuill(false);
+  //   }
+  //   else{
+  //     setShowReactQuill(true);
+  //   }
+  // }
 
-  function saveNewReactQuillText(){
-    if(valueDescription === '<p><br></p>'){
-      // <p><br></p><p><br></p>
-      setValueDescription(valueDescription = null);
-    }
+  // function saveNewReactQuillText(){
+  //   if(valueDescription === '<p><br></p>'){
+  //     // <p><br></p><p><br></p>
+  //     setValueDescription(valueDescription = null);
+  //   }
 
-    if(cardDescription === valueDescription){
-      funcShowReactQuill();
-      return;
-    }
+  //   if(cardDescription === valueDescription){
+  //     funcShowReactQuill();
+  //     return;
+  //   }
 
-    if(valueDescription !== cardDescription){
-      request({
-        method:'POST',
-        url:'add-card-description/',
-        callback:(response) => { 
-          if (response.status === 200) {
-            if(response.data){
-              setValueDescription(response.data[0].description);
-              setCardDescription(response.data[0].description);
+  //   if(valueDescription !== cardDescription){
+  //     request({
+  //       method:'POST',
+  //       url:'add-card-description/',
+  //       callback:(response) => { 
+  //         if (response.status === 200) {
+  //           if(response.data){
+  //             setValueDescription(response.data[0].description);
+  //             setCardDescription(response.data[0].description);
 
-              setUpdateValue(true);
-            }
-          }
-        },
-        data: {'card_id': windowData.id,'description': valueDescription},
-        status:200,
-      });
-    }
-    funcShowReactQuill();
-  }
+  //             setUpdateValue(true);
+  //           }
+  //         }
+  //       },
+  //       data: {'card_id': windowData.id,'description': valueDescription},
+  //       status:200,
+  //     });
+  //   }
+  //   funcShowReactQuill();
+  // }
 
-  function showReactQuillHandleKeyPress(evt){
-    if(evt.key === 'Enter' && evt.shiftKey){
-      setValueDescription(valueDescription = valueDescription.trim().slice(0, -11));
-      saveNewReactQuillText();
-    }
-  }
+  // function showReactQuillHandleKeyPress(evt){
+  //   if(evt.key === 'Enter' && evt.shiftKey){
+  //     setValueDescription(valueDescription = valueDescription.trim().slice(0, -11));
+  //     saveNewReactQuillText();
+  //   }
+  // }
 
   function writeNewText(evt) {
     setWindowName((prev) => (prev = evt));
@@ -461,11 +492,11 @@ export default function WindowModal(props){
 
   function funcSubscribe(){
     onRemoving_onFrames();
-    if(subscribe){
-      setSubscribe(false);
+    if(subscribeState){
+      dispatch(setSubscribeState(false));
     }
     else{
-      setSubscribe(true); 
+      dispatch(setSubscribeState(true)); 
     }
   }
 
@@ -702,10 +733,7 @@ export default function WindowModal(props){
   const newLinkDescHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){ 
       console.log(newLinkDesc, startLink.description);
-      // if(newLinkDesc === startLink.description){
-      //   funcAttachmentWindow();
-      //   return;
-      // }
+      
       handleAddFilesSubmit();
     }
   }
@@ -716,11 +744,7 @@ export default function WindowModal(props){
 
   const newLinkHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){
-      // funcAttachmentWindow();
-      // if(newLink === startLink.text){
-      //   funcAttachmentWindow();
-      //   return;
-      // }
+      
       handleAddFilesSubmit();
     }
   }
@@ -794,7 +818,6 @@ export default function WindowModal(props){
 
             <div className={styles.cardDetailItem}>
               <WindowModalDueDate
-                windowData={windowData} 
                 dueDateWindow={dueDateWindow} 
                 dueDateCheckbox={dueDateCheckbox}
                 setDueDateCheckbox={setDueDateCheckbox}
@@ -807,14 +830,14 @@ export default function WindowModal(props){
 
           <WindowModalDescription 
             showReactQuill={showReactQuill}
-            funcShowReactQuill={funcShowReactQuill}
-            valueDescription={valueDescription}
-            setValueDescription={setValueDescription}
+            // funcShowReactQuill={funcShowReactQuill}
+            // valueDescription={valueDescription}
+            // setValueDescription={setValueDescription}
             modules={modules}
-            showReactQuillHandleKeyPress={showReactQuillHandleKeyPress}
+            // showReactQuillHandleKeyPress={showReactQuillHandleKeyPress}
             editorRef={editorRef}
-            saveNewReactQuillText={saveNewReactQuillText}
-            cardDescription={cardDescription}
+            // saveNewReactQuillText={saveNewReactQuillText}
+            // cardDescription={cardDescription}
           />
 
           {(cardFiles.length > 0 || cardLinks.length > 0) &&
@@ -870,7 +893,7 @@ export default function WindowModal(props){
 
         <Sidebar
           typeElem={typeElem}
-          windowData={windowData}
+
           deleteFunc={deleteFunc}
           funcAddUserToCard={funcAddUserToCard}
           dashboardUsers={dashboardUsers}

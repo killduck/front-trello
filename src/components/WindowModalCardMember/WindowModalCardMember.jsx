@@ -19,14 +19,15 @@ export default function WindowModalCardMember(props){
 
 
   const userCardWindow = useRef(null);
-  useClickOutside(userCardWindow, () => {
-    if(showUserCard !== null){
-      setTimeout(() => {
-        // onUserCard();
-        // onRemoving_onFrames();
-      }, 100);
-    }
-  });
+
+  // useClickOutside(userCardWindow, () => {
+  //   if(showUserCard !== null){
+  //     setTimeout(() => {
+  //       // onUserCard();
+  //       // onRemoving_onFrames();
+  //     }, 100);
+  //   }
+  // });
 
   return (
     <>

@@ -3,17 +3,21 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarLabelWindow.module.scss";
 import request from "../../api/request";
+import { useSelector } from "react-redux";
 
 
 export default function SidebarLabelWindow(props){
   // console.log(props);
-  let windowData = props.windowData;
+
   let funcLabelsWindow = props.funcLabelsWindow;
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
   let setCardLabel = props.setCardLabel;
   let showPreloderLabel = props.showPreloderLabel;
   let setShowPreloderLabel = props.setShowPreloderLabel;
+
+  const windowData = useSelector((state) => state.windowData.value);
+  // console.log(windowData);
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
