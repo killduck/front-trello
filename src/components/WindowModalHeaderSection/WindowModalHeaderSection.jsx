@@ -1,15 +1,45 @@
 import styles from "./WindowModalHeaderSection.module.scss";
 import Icons from "../ui/Icons/Icons";
+import { useDispatch, useSelector } from "react-redux";
+import { setNewNameField, setNewWindowName } from "../../main_state/states/modalHeader/windowName";
 
 export default function WindowModalHeaderSection(props){
 
-  let newName = props.newName;
-  let windowName= props.windowName;
-  let subscribe= props.subscribe;
+  let onRemoving_onFrames= props.onRemoving_onFrames;
+  let updateFunc = props.updateFunc;
   let column = props.column;
-  let showTextarea = props.showTextarea;
-  let writeNewText = props.writeNewText;
-  let windowNameHandleKeyPress = props.windowNameHandleKeyPress;
+  
+  const subscribeState = useSelector((state) => state.subscribeState.value);
+  const windowData = useSelector((state) => state.windowData.value);
+  const startWindowName = useSelector((state) => state.windowNameState.startWindowName);
+  const newWindowName = useSelector((state) => state.windowNameState.newWindowName);
+  const newNameField = useSelector((state) => state.windowNameState.newNameField);
+  const preloaderWindowName = useSelector((state) => state.windowNameState.preloaderWindowName);
+
+  const dispatch = useDispatch();
+
+  function showTextarea() {
+    onRemoving_onFrames();
+    if(!newNameField){
+      dispatch(setNewNameField(true));
+    }
+    else{
+      dispatch(setNewNameField(false));
+    }
+  }
+
+  function writeNewText(evt) {
+    dispatch(setNewWindowName(evt));
+  }
+
+  const windowNameHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+      showTextarea();
+      if(newWindowName !== startWindowName){
+        updateFunc(windowData.id, newWindowName);
+      }
+    }
+  }
 
   return (
     <div className={styles.header}>
@@ -21,12 +51,15 @@ export default function WindowModalHeaderSection(props){
           class_name={'IconWindowModalHeaderIcon'}
         />
       </span>
-      <div className={styles.headerTitle}>
+      <div className={ styles.headerTitle }>
       
-        {(!newName) ?
+        {(!newNameField) ?
         (
-        <h2 onClick={ showTextarea } >
-          { windowName }
+        <h2 
+          className={ preloaderWindowName ? `${styles.title} ${styles.cardHeaderTitleGradient}` : styles.title}
+          onClick={ preloaderWindowName ? null : showTextarea } 
+        >
+          { startWindowName }
         </h2>
         )
         :
@@ -42,7 +75,7 @@ export default function WindowModalHeaderSection(props){
           dir="auto" 
           data-testid="card-back-title-input" 
           data-autosize="true"
-          value={ windowName }
+          value={ newWindowName }
           placeholder="введите название"
           style={{overflow: "hidden", overflowWrap: "break-word", height: "35.8889px"}} 
         />
@@ -52,15 +85,16 @@ export default function WindowModalHeaderSection(props){
       </div>
       <div className={styles.columnTitle}>
         <p className={styles.columnTitleName}>В колонке "{column.name}".</p>
-        {subscribe ?
-        (<span>
-          <Icons
-            name={'eye-open'}
-            className={''}
-            sizeWidth={"14"}
-            sizeHeight={"14"}
-          /> 
-        </span>) : "" } 
+        {subscribeState &&
+          (<span>
+            <Icons
+              name={'eye-open'}
+              className={''}
+              sizeWidth={"14"}
+              sizeHeight={"14"}
+            /> 
+          </span>)
+        } 
       </div>
     </div>
   )

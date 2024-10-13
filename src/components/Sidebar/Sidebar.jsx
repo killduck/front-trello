@@ -59,7 +59,7 @@ export default function Sidebar(props){
   let setUpdateValue = props.setUpdateValue;
 
   const windowData = useSelector((state) => state.windowData.value);
-  console.log(windowData);
+  // console.log(windowData);
   
   function funkShowCardDel(window_id){
     onRemoving_onFrames();

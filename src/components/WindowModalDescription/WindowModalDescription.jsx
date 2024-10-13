@@ -4,32 +4,41 @@ import { Interweave } from "interweave";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import request from "../../api/request";
+import { useFocusAndSetRef } from "../../hooks/useFocusAndSetRef";
+
 import { useDispatch, useSelector } from "react-redux";
-import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/cardDescriptionState";
+
 import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
-import { setShowReactQuillState } from "../../main_state/states/showReactQuillState";
+import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
+import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
+
+// import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/cardDescriptionState";
+// import { setShowReactQuillState } from "../../main_state/states/showReactQuillState";
 
 
 export default function WindowModalDescription(props){
-
-  // let showReactQuill = props.showReactQuill;
-  // let funcShowReactQuill = props.funcShowReactQuill;
-  // let valueDescription = props.valueDescription;
-  let setValueDescription=props.setValueDescription;
-  // let showReactQuillHandleKeyPress= props.showReactQuillHandleKeyPress;
-  let modules = props.modules;
-  let editorRef = props.editorRef;
-  // let saveNewReactQuillText = props.saveNewReactQuillText;
-  // let cardDescription = props.cardDescription;
+  let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const windowData = useSelector((state) => state.windowData.value);
-
   let cardDescriptionState_newValue = useSelector((state) => state.cardDescriptionState.newValue);
   const cardDescriptionState_startValue = useSelector((state) => state.cardDescriptionState.startValue);
-
   const showReactQuillState = useSelector((state) => state.showReactQuillState.value);
 
   const dispatch = useDispatch();
+
+  let editorRef;
+  editorRef = useFocusAndSetRef(editorRef);
+
+  const modules = {
+    toolbar: [
+      [{ header: []}],
+      ["bold", "italic", "underline"], //"strike", "blockquote"
+      [{color: []}],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+  };
 
   function saveNewReactQuillText(){
     console.log(cardDescriptionState_startValue, cardDescriptionState_newValue);
@@ -68,7 +77,7 @@ export default function WindowModalDescription(props){
   }
 
   function funcShowReactQuill(){
-    // onRemoving_onFrames();
+    onRemoving_onFrames();
     if(showReactQuillState){
       dispatch(setShowReactQuillState(false));
     }

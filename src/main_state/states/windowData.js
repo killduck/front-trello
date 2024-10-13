@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const windowData = createSlice(
   {
-    name: 'main_state',
+    name: 'window_data',
     initialState: {
       value: {},
     },

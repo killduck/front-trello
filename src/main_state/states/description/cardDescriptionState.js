@@ -6,17 +6,25 @@ export const cardDescriptionState = createSlice(
     initialState: {
       startValue: '',
       newValue: '',
+      modules: {
+        toolbar: [
+          [{ header: []}],
+          ["bold", "italic", "underline"], //"strike", "blockquote"
+          [{color: []}],
+          [{ list: "ordered" }, { list: "bullet" }],
+          ["link", "image", "video"],
+          ["clean"],
+        ],
+      },
     },
     reducers: {
       setStartCardDescriptionState: (state, action) => {
-        // console.log('state =>', state.value, 'action =>', action.payload);
         state.startValue = action.payload;
-        console.log('state =>', state.startValue, 'action =>', action.payload);
+        // console.log('state =>', state.startValue, 'action =>', action.payload);
       },
       setNewCardDescriptionState: (state, action) => {
-        // console.log('state =>', state.value, 'action =>', action.payload);
         state.newValue = action.payload;
-        console.log('state =>', state.newValue, 'action =>', action.payload);
+        // console.log('state =>', state.newValue, 'action =>', action.payload);
       },
     },
   }

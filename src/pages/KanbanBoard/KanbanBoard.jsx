@@ -21,6 +21,8 @@ import TaskCard from "../../components/TaskCard/TaskCard";
 import styles from "./KanbanBoard.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
 import { URL_API } from "../../api/config";
+import { useDispatch } from "react-redux";
+import { setPreloaderWindowName } from "../../main_state/states/modalHeader/windowName";
 
 export default function KanbanBoard(props) {
 
@@ -42,6 +44,10 @@ export default function KanbanBoard(props) {
   let [updateComponent, setUpdateComponent] = useState(false);
   let [users, setUsers] = useState([]);
   let { dashboardId } = useParams();
+
+
+
+  const dispatch = useDispatch();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -354,12 +360,21 @@ export default function KanbanBoard(props) {
   }
 
   function updateTask(id, name) {
+
+    dispatch(setPreloaderWindowName(true)); 
+
     request({
       method: "POST",
       url: `new-data-card/`,
       callback: (response) => {
         if (response.status === 200) {
+          // setTimeout(() => {
+          //   name = response.data[0]['name'];
+          //   dispatch(setPreloaderWindowName(false)); 
+          //   updateSetTasks(id, name);
+          // }, 5000)
           name = response.data[0]['name'];
+          dispatch(setPreloaderWindowName(false)); 
           updateSetTasks(id, name);
         }
       },

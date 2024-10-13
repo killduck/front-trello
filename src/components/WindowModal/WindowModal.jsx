@@ -1,5 +1,5 @@
 import styles from "./WindowModal.module.scss";
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import "./windowQuill.css";
 import request from "../../api/request";
@@ -14,10 +14,15 @@ import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
 import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
 
 import { useDispatch, useSelector } from "react-redux";
+
 import { setWindowData } from "../../main_state/states/windowData";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
-import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/cardDescriptionState";
+
 import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+
+import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
+import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
+import { setNewNameField, setNewWindowName, setStatrtWindowName } from "../../main_state/states/modalHeader/windowName";
 
 
 export default function WindowModal(props){
@@ -38,10 +43,10 @@ export default function WindowModal(props){
   const [authUser, setAuthUser] = useState(Number);
   const [authUserData, setAuthUserData] = useState(Number);
 
-  const [startWindowName, setStartWindowName] = useState('');
-  
-  let [windowName, setWindowName] = useState('');
-  let [newName, setNewNameField] = useState(false);
+  // const [startWindowName, setStartWindowName] = useState('');
+  // let [windowName, setWindowName] = useState('');
+  // let [newName, setNewNameField] = useState(false);
+
   let [membersWindow, setMembersWindow] = useState(false);
   let [cardUsers, setCardUsers] = useState([]);
   const [matchSearch, setMatchSearch]=useState('');
@@ -55,7 +60,7 @@ export default function WindowModal(props){
   let [labelsWindow, setLabelsWindow] = useState(false);
   const [cardLabel, setCardLabel] = useState(false);
   
-  let [showReactQuill, setShowReactQuill] = useState(false);
+  // let [showReactQuill, setShowReactQuill] = useState(false);
   // let [valueDescription, setValueDescription] = useState('');
   // const [cardDescription, setCardDescription] = useState('');
 
@@ -121,8 +126,11 @@ export default function WindowModal(props){
           if(response.data){
             console.log(response.data);
             setAuthUser(response.data.auth_user);
-            setWindowName(response.data.card[0]['name']);
-            setStartWindowName(response.data.card[0]['name']);
+
+            // setWindowName(response.data.card[0]['name']);
+            dispatch(setNewWindowName(response.data.card[0]['name']));
+            // setStartWindowName(response.data.card[0]['name']);
+            dispatch(setStatrtWindowName(response.data.card[0]['name']));
 
             dispatch(setWindowData(response.data.card[0]));
            
@@ -142,8 +150,7 @@ export default function WindowModal(props){
 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
 
-
-            console.log(response.data.card[0].activity);
+            // console.log(response.data.card[0].activity);
             setCardActivityComments(response.data.card[0].activity);
             // setCardActivityComments(response.data.card[0].activity.reverse());
             
@@ -151,6 +158,7 @@ export default function WindowModal(props){
             setCardFiles(response.data.card[0]['card_file']);
             setCardLinks(response.data.card[0]['card_link']);
             // setUpdateValue(false);
+            
             dispatch(setWindowModalReloadState(false));
 
           }
@@ -165,11 +173,16 @@ export default function WindowModal(props){
   },[typeElem, idElem, task, dashboardUsers, updateValue, dispatch]);
 
   function onRemoving_onFrames(){
-    setNewNameField(false); 
+    // setNewNameField(false); 
+    dispatch(setNewNameField(false));
+
     setMembersWindow(false); 
     setLabelsWindow(false); 
     setDueDateWindow(false); 
-    setShowReactQuill(false); 
+
+    // setShowReactQuill(false); 
+    dispatch(setShowReactQuillState(false));
+
     setShowUserCard(null); 
     setActivityEditorShow(null); 
     setAttachmentWindow(false);
@@ -416,79 +429,30 @@ export default function WindowModal(props){
     }
   }
 
-  function showTextarea() {
-    onRemoving_onFrames();
-    if(!newName){
-      setNewNameField(newName = true);
-    }
-    else{
-      setNewNameField(newName = false);
-    }
-  }
-
-  // function funcShowReactQuill(){
+  // function showTextarea() {
   //   onRemoving_onFrames();
-  //   if(showReactQuill){
-  //     setShowReactQuill(false);
+  //   if(!newName){
+  //     setNewNameField(newName = true);
   //   }
   //   else{
-  //     setShowReactQuill(true);
+  //     setNewNameField(newName = false);
   //   }
   // }
 
-  // function saveNewReactQuillText(){
-  //   if(valueDescription === '<p><br></p>'){
-  //     // <p><br></p><p><br></p>
-  //     setValueDescription(valueDescription = null);
-  //   }
-
-  //   if(cardDescription === valueDescription){
-  //     funcShowReactQuill();
-  //     return;
-  //   }
-
-  //   if(valueDescription !== cardDescription){
-  //     request({
-  //       method:'POST',
-  //       url:'add-card-description/',
-  //       callback:(response) => { 
-  //         if (response.status === 200) {
-  //           if(response.data){
-  //             setValueDescription(response.data[0].description);
-  //             setCardDescription(response.data[0].description);
-
-  //             setUpdateValue(true);
-  //           }
-  //         }
-  //       },
-  //       data: {'card_id': windowData.id,'description': valueDescription},
-  //       status:200,
-  //     });
-  //   }
-  //   funcShowReactQuill();
+  // function writeNewText(evt) {
+  //   setWindowName((prev) => (prev = evt));
   // }
 
-  // function showReactQuillHandleKeyPress(evt){
-  //   if(evt.key === 'Enter' && evt.shiftKey){
-  //     setValueDescription(valueDescription = valueDescription.trim().slice(0, -11));
-  //     saveNewReactQuillText();
+  // const windowNameHandleKeyPress = (evt) => {
+  //   if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+  //     showTextarea();
+  //     if(windowName !== startWindowName){
+  //       updateFunc(windowData.id, windowName);
+  //       setStartWindowName(windowName);
+  //       setUpdateValue(true);
+  //     }
   //   }
   // }
-
-  function writeNewText(evt) {
-    setWindowName((prev) => (prev = evt));
-  }
-
-  const windowNameHandleKeyPress = (evt) => {
-    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
-      showTextarea();
-      if(windowName !== startWindowName){
-        updateFunc(windowData.id, windowName);
-        setStartWindowName(windowName);
-        setUpdateValue(true);
-      }
-    }
-  }
 
   function funcSubscribe(){
     onRemoving_onFrames();
@@ -606,23 +570,23 @@ export default function WindowModal(props){
       setShowUserCard(id_user)
   }
 
-  const useFocusAndSetRef = (ref) => {
-    ref = useCallback(
-      (node) => {
-        if (node !== null) {
-          ref.current = node; // it is not done on it's own
-          const len = node.unprivilegedEditor.getLength();
-          const selection = { index: len, length: len };
-          node.setEditorSelection(node.editor, selection);
-        }
-      },
-      [ref]
-    );
-    return ref;
-  };
+  // const useFocusAndSetRef = (ref) => {
+  //   ref = useCallback(
+  //     (node) => {
+  //       if (node !== null) {
+  //         ref.current = node; // it is not done on it's own
+  //         const len = node.unprivilegedEditor.getLength();
+  //         const selection = { index: len, length: len };
+  //         node.setEditorSelection(node.editor, selection);
+  //       }
+  //     },
+  //     [ref]
+  //   );
+  //   return ref;
+  // };
 
-  let editorRef;
-  editorRef = useFocusAndSetRef(editorRef);
+  // let editorRef;
+  // editorRef = useFocusAndSetRef(editorRef);
 
   function onDelWindow(comment_id){ 
     if(delWindow){
@@ -776,13 +740,16 @@ export default function WindowModal(props){
 
         {/* header */}
         <WindowModalHeaderSection
-          newName ={newName}
-          windowName={windowName}
-          subscribe={subscribe}
+          onRemoving_onFrames={onRemoving_onFrames}
+          updateFunc={updateFunc}
           column={column}
-          showTextarea={showTextarea}
-          writeNewText={writeNewText}
-          windowNameHandleKeyPress={windowNameHandleKeyPress}
+          
+          // newName ={newName}
+          // windowName={windowName} 
+          // subscribe={subscribe}
+          // showTextarea={showTextarea}
+          // writeNewText={writeNewText}
+          // windowNameHandleKeyPress={windowNameHandleKeyPress}
         />
 
         {/* главная колонка */}
@@ -829,15 +796,7 @@ export default function WindowModal(props){
           </div>
 
           <WindowModalDescription 
-            showReactQuill={showReactQuill}
-            // funcShowReactQuill={funcShowReactQuill}
-            // valueDescription={valueDescription}
-            // setValueDescription={setValueDescription}
-            modules={modules}
-            // showReactQuillHandleKeyPress={showReactQuillHandleKeyPress}
-            editorRef={editorRef}
-            // saveNewReactQuillText={saveNewReactQuillText}
-            // cardDescription={cardDescription}
+            onRemoving_onFrames={onRemoving_onFrames}
           />
 
           {(cardFiles.length > 0 || cardLinks.length > 0) &&
@@ -878,7 +837,7 @@ export default function WindowModal(props){
             setValueEditor={setValueEditor}
             cardActivityComments={cardActivityComments}
             modules={modules}
-            editorRef={editorRef}
+            // editorRef={editorRef}
             funcActivityDetailsShow={funcActivityDetailsShow}
             funcActivityEditorShow={funcActivityEditorShow}
             showActivityReactQuillHandleKeyPress={showActivityReactQuillHandleKeyPress}

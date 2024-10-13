@@ -8,9 +8,8 @@ export const windowModalReloadState = createSlice(
     },
     reducers: {
       setWindowModalReloadState: (state, action) => {
-        // console.log('state =>', state.value, 'action =>', action.payload);
         state.value = action.payload;
-        console.log('state =>', state.value, 'action =>', action.payload);
+        // console.log('state =>', state.value, 'action =>', action.payload);
       }
     },
   }

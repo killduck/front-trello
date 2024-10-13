@@ -4,6 +4,7 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
 import { URL_API } from "../../api/config";
+import { useFocusAndSetRef } from "../../hooks/useFocusAndSetRef";
 
 
 export default function WindowModalActivity(props){
@@ -16,7 +17,7 @@ export default function WindowModalActivity(props){
   let setValueEditor = props.setValueEditor;
   let cardActivityComments = props.cardActivityComments;
   let modules = props.modules;
-  let editorRef = props.editorRef;
+  // let editorRef = props.editorRef;
   let funcActivityDetailsShow = props.funcActivityDetailsShow;
   let funcActivityEditorShow = props.funcActivityEditorShow;
   let showActivityReactQuillHandleKeyPress = props.showActivityReactQuillHandleKeyPress;
@@ -27,6 +28,8 @@ export default function WindowModalActivity(props){
   let delWindow = props.delWindow; 
   // let setDelWindow = props.setDelWindow; 
 
+  let editorRef;
+  editorRef = useFocusAndSetRef(editorRef);
 
   return (
     
