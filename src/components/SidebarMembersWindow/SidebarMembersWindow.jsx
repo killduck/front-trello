@@ -5,23 +5,126 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
 import { URL_API } from "../../api/config";
+import { useDispatch, useSelector } from "react-redux";
+import { setMembersWindow, setShowPreloderAddMember, setShowPreloderDelMember } from "../../main_state/states/modalCardMember/modalCardMember";
+import { setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
+import { setSubscribeState } from "../../main_state/states/subscribeState";
+import request from "../../api/request";
+import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 
 export default function SidebarMembersWindow(props){
   console.log(props);
   let dashboardUsers = props.dashboardUsers;
-  let cardUsers = props.cardUsers;
-  let funcAddUserToCard = props.funcAddUserToCard;
-  let funcDelCardUser = props.funcDelCardUser;
-  let funcMembersWindow = props.funcMembersWindow;
-  let matchSearch = props.matchSearch;
-  let setMatchSearch = props.setMatchSearch;
-  let searchNewCardUser = props.searchNewCardUser;
-  let setSearchNewCardUser = props.setSearchNewCardUser;
-  let showPreloderAddMember = props.showPreloderAddMember;
-  let showPreloderDelMember = props.showPreloderDelMember;
+  let onRemoving_onFrames = props.onRemoving_onFrames;
 
-  // const [searchNewCardUser, setSearchNewCardUser]=useState([]);
+  const authUser = useSelector((state) => state.cardUsersState.authUser); 
+  const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
+  const matchSearch = useSelector((state) => state.cardUsersState.matchSearch);
+  const searchNewCardUser = useSelector((state) => state.cardUsersState.searchNewCardUser);
+
+  const windowData = useSelector((state) => state.windowData.value);
+  const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
+
+  const showPreloderAddMember = useSelector((state) => state.modalCardMemberState.showPreloderAddMember);
+  const showPreloderDelMember = useSelector((state) => state.modalCardMemberState.showPreloderDelMember);
+
+  const dispatch = useDispatch();
+
   const [showNoResult, setShowNoResult]=useState(false);
+
+  function funcMembersWindow(){
+    onRemoving_onFrames();
+    // console.log('tut', membersWindow);
+    if(membersWindow){
+      dispatch(setMembersWindow(false));
+    }
+    else{
+      dispatch(setMembersWindow(true));
+    }
+  }
+
+  function chechUserToAdd(user_id){
+    if(cardUsers.length === 0){
+      return true;
+    }
+    else{
+      let addUser = true;
+
+      cardUsers.forEach((cardUser) => {
+        if (user_id === cardUser.id){
+          addUser = false;
+        }
+      });
+      return addUser;
+    }
+  }
+
+  function funcAddUserToCard(user_id){
+    if(showPreloderAddMember){ 
+      return;
+    }
+    dispatch(setShowPreloderAddMember(user_id));
+    if(chechUserToAdd(user_id)){
+      request({
+        method:'POST',
+        url:`card-user-update/`,
+        callback:(response) => { 
+          if (response.status === 200) {
+            if(response.data){
+              dispatch(setShowPreloderAddMember(false));
+              
+              // dispatch(setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]));
+              dispatch(setCardUsers([...cardUsers, response.data]));
+              // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
+              dispatch(setSubscribeState(cardUsers.filter((cardUser) => cardUser.id === authUser).length));
+              
+              // setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
+              dispatch(setSearchNewCardUser(searchNewCardUser.filter((elem) => elem.id !==  user_id)));
+              
+              // setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
+              dispatch(setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch));
+
+              // setUpdateValue(true);
+              dispatch(setWindowModalReloadState(true));
+            }
+          }
+        },
+        data: {'auth_user': authUser, 'user_id': user_id, 'card_id': windowData.id},
+        status:200,
+      });
+    }
+  }
+
+  function funcDelCardUser(user_id){
+    if(showPreloderDelMember){
+      return;
+    } 
+    dispatch(setShowPreloderDelMember(user_id));
+    cardUsers.forEach(cardUser => {
+      if (user_id === cardUser.id){
+        request({
+          method:'POST',
+          url:`card-user-delete/`,
+          callback:(response) => { 
+            if (response.status === 200) {
+              if(response.data){
+                dispatch(setShowPreloderDelMember(false));
+
+                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
+                dispatch(setCardUsers(filteredCardUsers));
+                let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
+                dispatch(setSubscribeState(filteredCardSubscribedUsers));
+
+                dispatch(setWindowModalReloadState(true));
+              }
+            }
+          },
+          data: {'auth_user': authUser, 'user_id': cardUser.id, 'card_id': windowData.id},
+          status:200,
+        });
+      }
+    });
+  }
 
   function funcCheckToAddNewCardUser(dashboardUser, item = null){
     // console.log(`funcCheckToAddNewCardUser => ${dashboardUser}, ${item}`);
@@ -41,7 +144,7 @@ export default function SidebarMembersWindow(props){
 
   function funcSearchNewCardUser(evt){
     // console.log(`funcSearchNewCardUser => ${evt}`);
-    setMatchSearch(evt);
+    dispatch(setMatchSearch(evt));
     let  evtLength = evt.length;
     // console.log(evtLength);
     let searchedUsers = [];
@@ -89,7 +192,7 @@ export default function SidebarMembersWindow(props){
       return;
     }
     setShowNoResult(false);
-    setSearchNewCardUser(searchedUsers);
+    dispatch(setSearchNewCardUser(searchedUsers));
     // console.log(searchNewCardUser);
   }
 

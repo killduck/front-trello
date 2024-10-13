@@ -5,19 +5,20 @@ import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmentWindow";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setMembersWindow } from "../../main_state/states/modalCardMember/modalCardMember";
 
 export default function Sidebar(props){
   // console.log(props);
   let typeElem = props.typeElem;
 
   let deleteFunc = props.deleteFunc;
-  let funcAddUserToCard = props.funcAddUserToCard;
+  // let funcAddUserToCard = props.funcAddUserToCard;
   let dashboardUsers = props.dashboardUsers;
   let funcDelCardUser = props.funcDelCardUser;
   let cardUsers = props.cardUsers;
-  let funcMembersWindow = props.funcMembersWindow;
-  let membersWindow = props.membersWindow;
+  // let funcMembersWindow = props.funcMembersWindow;
+  // let membersWindow = props.membersWindow;
   let showPreloderAddMember = props.showPreloderAddMember;
   let showPreloderDelMember = props.showPreloderDelMember;
   let funcLabelsWindow = props.funcLabelsWindow;
@@ -59,7 +60,22 @@ export default function Sidebar(props){
   let setUpdateValue = props.setUpdateValue;
 
   const windowData = useSelector((state) => state.windowData.value);
+  const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
+
+  const dispatch = useDispatch();
   // console.log(windowData);
+
+  function funcMembersWindow(){
+    onRemoving_onFrames();
+    // console.log('tut', membersWindow);
+    if(membersWindow){
+      dispatch(setMembersWindow(false));
+    }
+    else{
+      // setMembersWindow(membersWindow = true);
+      dispatch(setMembersWindow(true));
+    }
+  }
   
   function funkShowCardDel(window_id){
     onRemoving_onFrames();
@@ -95,24 +111,11 @@ export default function Sidebar(props){
             <span>Участники</span>
           </div>
           
-          {(membersWindow) ?
-          (<SidebarMembersWindow
-              typeElem = {typeElem}
-
+          {(membersWindow) &&
+            (<SidebarMembersWindow
               dashboardUsers = {dashboardUsers}
-              cardUsers = {cardUsers}
-              membersWindow = {membersWindow}
-              funcAddUserToCard = {funcAddUserToCard}
-              funcDelCardUser = {funcDelCardUser}
-              funcMembersWindow = {funcMembersWindow}
-              showPreloderAddMember={showPreloderAddMember}
-              showPreloderDelMember={showPreloderDelMember}
-              // deleteFunc = {deleteFunc}
-              matchSearch={matchSearch}
-              setMatchSearch={setMatchSearch}
-              searchNewCardUser={searchNewCardUser}
-              setSearchNewCardUser={setSearchNewCardUser}
-            />):("")
+              onRemoving_onFrames={onRemoving_onFrames}
+            />)
           }
           
 

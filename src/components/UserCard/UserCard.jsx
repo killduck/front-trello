@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { URL_API } from '../../api/config';
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
@@ -7,11 +8,14 @@ import styles from './UserCard.module.scss';
 
 export default function UserCard(props) {
   // console.log(props);
-  let authUser = props.authUser;
+  // let authUser = props.authUser;
   let user = props.user;
-  let clickAction = props.clickAction;
+  let onUserCard = props.onUserCard;
   let funcDelCardUser = props.funcDelCardUser;
   let class_name = props.class_name;
+
+  const authUser = useSelector((state) => state.cardUsersState.authUser); 
+  const showPreloderDelMember = useSelector((state) => state.modalCardMemberState.showPreloderDelMember);
 
   function onChangeProfile(id_user) {
     console.log('Проверка выполения функции =>', onChangeProfile.name, id_user);
@@ -23,11 +27,11 @@ export default function UserCard(props) {
 
   return (
     <div className={class_name ? `${styles[class_name]}` : `${styles.UserCard}`}>
-      <div className={styles.UserCardWrap}>
+      <div className={ showPreloderDelMember ? `${styles.userCardGradient} ${styles.UserCardWrap}` : styles.UserCardWrap }> 
 
         <div className={styles.UserCardButton}>
           <Button
-            clickAction={clickAction}
+            clickAction={showPreloderDelMember ? null : onUserCard}
             actionVariable={user.id}
             className={"BtnCloseUserCard"}
           >
@@ -78,12 +82,12 @@ export default function UserCard(props) {
 
         <hr />
 
-        <ul className={styles.UserCardActions} >
+        <ul className={styles.UserCardActions}>
           <li>
             {(user.id === authUser)?(
               <Button
                 className={"BtnUserCardActions"}
-                clickAction={onChangeProfile}
+                clickAction={showPreloderDelMember ? null : onChangeProfile}
                 actionVariable={user.id}
               >
                 Изменить профиль
@@ -91,7 +95,7 @@ export default function UserCard(props) {
             ):(
               <Button
                 className={"BtnUserCardActions"}
-                clickAction={onToProfile}
+                clickAction={showPreloderDelMember ? null : onToProfile}
                 actionVariable={user.id}
               >
                 Перейти в профиль
@@ -101,7 +105,7 @@ export default function UserCard(props) {
           <li>
             <Button
               className={"BtnUserCardActions"}
-              clickAction={funcDelCardUser}
+              clickAction={showPreloderDelMember ? null : funcDelCardUser}
               actionVariable={user.id}
             >
               Удалить из карточки

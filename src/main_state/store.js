@@ -11,10 +11,14 @@ import cardDescriptionState from './states/description/cardDescriptionState.js';
 import showReactQuillState from './states/description/showReactQuillState.js';
 
 import windowNameState from './states/modalHeader/windowName.js';
+import modalCardMemberState from './states/modalCardMember/modalCardMember.js';
+import cardUsersState from './states/cardUsersState.js';
 
 export const store = configureStore({
   reducer: {
     counter_test: counterState,
+
+    cardUsersState: cardUsersState,
     windowData: windowData,
     subscribeState: subscribeState,
     windowModalReloadState: windowModalReloadState,
@@ -22,6 +26,7 @@ export const store = configureStore({
     showReactQuillState: showReactQuillState,
 
     windowNameState: windowNameState,
+    modalCardMemberState: modalCardMemberState,
 
   },
 })

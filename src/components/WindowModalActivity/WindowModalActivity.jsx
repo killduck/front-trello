@@ -5,6 +5,8 @@ import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
 import { URL_API } from "../../api/config";
 import { useFocusAndSetRef } from "../../hooks/useFocusAndSetRef";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
 
 
 export default function WindowModalActivity(props){
@@ -23,13 +25,30 @@ export default function WindowModalActivity(props){
   let showActivityReactQuillHandleKeyPress = props.showActivityReactQuillHandleKeyPress;
   let onSaveActivityReactQuillComment = props.onSaveActivityReactQuillComment;
   let onDelActivityReactQuillComment= props.onDelActivityReactQuillComment;
-  let onUserCard = props.onUserCard;
+  // let onUserCard = props.onUserCard;
   let onDelWindow = props.onDelWindow;
   let delWindow = props.delWindow; 
   // let setDelWindow = props.setDelWindow; 
+  let onRemoving_onFrames = props.onRemoving_onFrames;
+
+  const showUserCard = useSelector((state) => state.modalCardMemberState.showUserCard);
+
+  const dispatch = useDispatch();
 
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
+
+  function onUserCard(id_user = null) {
+    console.log('tut', id_user);
+    onRemoving_onFrames();
+
+    showUserCard === id_user ?
+      // setShowUserCard(null);
+      dispatch(setShowUserCard(null))
+      :
+      // setShowUserCard(id_user)
+      dispatch(setShowUserCard(id_user))
+  }
 
   return (
     
