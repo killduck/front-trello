@@ -24,7 +24,7 @@ import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { setNewNameField, setNewWindowName, setStatrtWindowName } from "../../main_state/states/modalHeader/windowName";
 import { setMembersWindow, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
-import { setAuthUser, setCardUsers, setMatchSearch } from "../../main_state/states/cardUsersState";
+import { setAuthUser, setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
 
 
 export default function WindowModal(props){
@@ -106,6 +106,8 @@ export default function WindowModal(props){
   // const subscribeState = useSelector((state) => state.subscribeState.value); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers); 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
+  const windowModalReloadState = useSelector((state) => state.windowModalReloadState.value); 
+  console.log(windowModalReloadState);
 
   const dispatch = useDispatch();
 
@@ -121,57 +123,64 @@ export default function WindowModal(props){
   };
  
   useEffect(() => {
+    
+    dispatch(setWindowModalReloadState(true));
+
     request({
       method:'POST',
       url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
           console.log(response);
-          if(response.data){
-            console.log(response.data);
+          setTimeout(() => {
 
-            // setAuthUser(response.data.auth_user);
-            dispatch(setAuthUser(response.data.auth_user));
+            if(response.data){
+              console.log(response.data);
 
-            // setWindowName(response.data.card[0]['name']);
-            dispatch(setNewWindowName(response.data.card[0]['name']));
-            // setStartWindowName(response.data.card[0]['name']);
-            dispatch(setStatrtWindowName(response.data.card[0]['name']));
+              // setAuthUser(response.data.auth_user);
+              dispatch(setAuthUser(response.data.auth_user));
 
-            dispatch(setWindowData(response.data.card[0]));
-           
-            dispatch(setCardUsers(response.data.card_users_data));
+              // setWindowName(response.data.card[0]['name']);
+              dispatch(setNewWindowName(response.data.card[0]['name']));
+              // setStartWindowName(response.data.card[0]['name']);
+              dispatch(setStatrtWindowName(response.data.card[0]['name']));
+
+              dispatch(setWindowData(response.data.card[0]));
             
-            // setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
-            dispatch(setSubscribeState(
-              response.data.card_users_data.filter(
-                (cardUser) => cardUser.id === response.data.auth_user).length
-              )
-            );
-            
-            // setValueDescription(response.data.card[0]['description']); 
-            dispatch(setStartCardDescriptionState(response.data.card[0]['description']));
-            // setCardDescription(response.data.card[0]['description']); 
-            dispatch(setNewCardDescriptionState(response.data.card[0]['description']));
+              dispatch(setCardUsers(response.data.card_users_data));
+              
+              // setSubscribe(response.data.card_users_data.filter((cardUser) => cardUser.id === response.data.auth_user).length);
+              dispatch(setSubscribeState(
+                response.data.card_users_data.filter(
+                  (cardUser) => cardUser.id === response.data.auth_user).length
+                )
+              );
+              
+              // setValueDescription(response.data.card[0]['description']); 
+              dispatch(setStartCardDescriptionState(response.data.card[0]['description']));
+              // setCardDescription(response.data.card[0]['description']); 
+              dispatch(setNewCardDescriptionState(response.data.card[0]['description']));
 
-            setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
+              setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
 
-            // console.log(response.data.card[0].activity);
-            setCardActivityComments(response.data.card[0].activity);
-            // setCardActivityComments(response.data.card[0].activity.reverse());
-            
-            setDueDateCheckbox(response.data.card[0]['execute']);
-            setCardFiles(response.data.card[0]['card_file']);
-            setCardLinks(response.data.card[0]['card_link']);
-            // setUpdateValue(false);
-            
-            dispatch(setWindowModalReloadState(false));
+              // console.log(response.data.card[0].activity);
+              setCardActivityComments(response.data.card[0].activity);
+              // setCardActivityComments(response.data.card[0].activity.reverse());
+              
+              setDueDateCheckbox(response.data.card[0]['execute']);
+              setCardFiles(response.data.card[0]['card_file']);
+              setCardLinks(response.data.card[0]['card_link']);
+              // setUpdateValue(false);
+              
+              dispatch(setWindowModalReloadState(false));
 
-          }
-          if(task.label){
-            setCardLabel(true);
-          }
-          onRemoving_onFrames();
+            }
+            if(task.label){
+              setCardLabel(true);
+            }
+            onRemoving_onFrames();
+
+          }, 500)
         }
       },
       data: {'id': idElem},
@@ -186,6 +195,7 @@ export default function WindowModal(props){
     // setMembersWindow(false); 
     dispatch(setMembersWindow(false));
     dispatch(setMatchSearch(''));
+    dispatch(setSearchNewCardUser([]));
 
     setLabelsWindow(false); 
     setDueDateWindow(false); 
@@ -715,166 +725,177 @@ export default function WindowModal(props){
   }
 
   return (
-    <div 
-      className={`${styles.wrap} ${dragActive ? styles.dragging : ""}`} 
-      onDragEnter={handleDragAddFiles}
-      onDragOver={handleDragAddFiles}
-      onDragLeave={handleDragLeaveAddFiles}
-      onDrop={handleDragDropAddFiles}
-      onReset={handleAddFilesReset}
-      onSubmit={handleAddFilesSubmit}
-    >
+    <>
+    {windowModalReloadState ? (
+      <div className={`${styles.wrap} ${styles.wimdowModalGradient}`}>
         {props.children}
-
-        {/* header */}
-        <WindowModalHeaderSection
-          onRemoving_onFrames={onRemoving_onFrames}
-          updateFunc={updateFunc} //это прилетает из дашборда
+        <WindowModalHeaderSection 
           column={column} //это прилетает из дашборда
         />
+      </div>
+      ):(
+      <div 
+        className={`${styles.wrap} ${dragActive ? styles.dragging : ""}`} 
+        onDragEnter={handleDragAddFiles}
+        onDragOver={handleDragAddFiles}
+        onDragLeave={handleDragLeaveAddFiles}
+        onDrop={handleDragDropAddFiles}
+        onReset={handleAddFilesReset}
+        onSubmit={handleAddFilesSubmit}
+      >
+          {props.children}
 
-        {/* главная колонка */}
-        <div className={styles.mainCol}>
-          <div className={styles.cardDetails} >
-            
-            <div className={styles.cardDetailItem}>
-              <WindowModalCardMember
-                onRemoving_onFrames={onRemoving_onFrames}
-              />
+          {/* header */}
+          <WindowModalHeaderSection
+            onRemoving_onFrames={onRemoving_onFrames}
+            updateFunc={updateFunc} //это прилетает из дашборда
+            column={column} //это прилетает из дашборда
+          />
+
+          {/* главная колонка */}
+          <div className={styles.mainCol}>
+            <div className={styles.cardDetails} >
+              
+              <div className={styles.cardDetailItem}>
+                <WindowModalCardMember
+                  onRemoving_onFrames={onRemoving_onFrames}
+                />
+              </div>
+
+              <div className={styles.cardDetailItem}>
+                <WindowModalCardLabel
+                  task={task}
+                  cardLabel={cardLabel}
+                  funcLabelsWindow={funcLabelsWindow}
+                />
+              </div>
+
+              <div className={styles.cardDetailItem}>
+                <WindowModalSubscribe
+                  onRemoving_onFrames={onRemoving_onFrames}
+                />
+              </div>
+
+              <div className={styles.cardDetailItem}>
+                <WindowModalDueDate
+                  dueDateWindow={dueDateWindow} 
+                  dueDateCheckbox={dueDateCheckbox}
+                  setDueDateCheckbox={setDueDateCheckbox}
+                  funcDueDateWindow={funcDueDateWindow} 
+                  setUpdateValue={setUpdateValue}
+                />
+              </div>
+              
             </div>
 
-            <div className={styles.cardDetailItem}>
-              <WindowModalCardLabel
-                task={task}
-                cardLabel={cardLabel}
-                funcLabelsWindow={funcLabelsWindow}
-              />
-            </div>
+            <WindowModalDescription 
+              onRemoving_onFrames={onRemoving_onFrames}
+            />
 
-            <div className={styles.cardDetailItem}>
-              <WindowModalSubscribe
-                onRemoving_onFrames={onRemoving_onFrames}
-              />
-            </div>
+            {(cardFiles.length > 0 || cardLinks.length > 0) &&
+              <WindowModalAttachment 
+                funcAttachmentWindow={funcAttachmentWindow}
+                handleChangeAddFiles={handleChangeAddFiles}
+                showCardOptions={showCardOptions}
+                setShowCardOptions={setShowCardOptions}
+                addFiles={addFiles}
+                cardFiles={cardFiles}
+                setCardFiles={setCardFiles}
+                onDeleteCardFile={onDeleteCardFile}
+                showPreloderFile={showPreloderFile}
+                funcShowDeleteCardFile={funcShowDeleteCardFile}
+                showCardOptionsFileDel={showCardOptionsFileDel}
+                onDownloadCardFile={onDownloadCardFile}
 
-            <div className={styles.cardDetailItem}>
-              <WindowModalDueDate
-                dueDateWindow={dueDateWindow} 
-                dueDateCheckbox={dueDateCheckbox}
-                setDueDateCheckbox={setDueDateCheckbox}
-                funcDueDateWindow={funcDueDateWindow} 
-                setUpdateValue={setUpdateValue}
+                funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
+                cardLinks={cardLinks}
+                funcShowDeleteCardLink={funcShowDeleteCardLink}
+                funcShowUpdateCardLink={funcShowUpdateCardLink}
+                showCardOptionsLinkDel={showCardOptionsLinkDel}
+                showCardOptionsLinkUpdate={showCardOptionsLinkUpdate}
+                onDeleteCardLink={onDeleteCardLink}
+                showPreloderLink={showPreloderLink}
+                // writeNewLink={writeNewLink}
+                // newLinkHandleKeyPress={newLinkHandleKeyPress}
+                setStartLink={setStartLink}
               />
-            </div>
-            
+            }
+
+            <WindowModalActivity
+              authUserData={authUserData}
+              activityDetailsShow={activityDetailsShow}
+              activityEditorShow={activityEditorShow}
+              processActivity={processActivity}
+              valueEditor={valueEditor}
+              setValueEditor={setValueEditor}
+              cardActivityComments={cardActivityComments}
+              modules={modules}
+              // editorRef={editorRef}
+              funcActivityDetailsShow={funcActivityDetailsShow}
+              funcActivityEditorShow={funcActivityEditorShow}
+              showActivityReactQuillHandleKeyPress={showActivityReactQuillHandleKeyPress}
+              onSaveActivityReactQuillComment={onSaveActivityReactQuillComment}
+              onDelActivityReactQuillComment={onDelActivityReactQuillComment}
+              // onUserCard={onUserCard}
+              onDelWindow={onDelWindow} 
+              delWindow={delWindow} 
+              setDelWindow={setDelWindow} 
+
+              onRemoving_onFrames={onRemoving_onFrames}
+            />
           </div>
 
-          <WindowModalDescription 
+          <Sidebar
+            typeElem={typeElem}
+
+            deleteFunc={deleteFunc}
+            // funcAddUserToCard={funcAddUserToCard}
+            dashboardUsers={dashboardUsers}
+            // funcDelCardUser={funcDelCardUser}
+            cardUsers={cardUsers}
+            // funcMembersWindow={funcMembersWindow}
+            // membersWindow={membersWindow}
+            funcLabelsWindow={funcLabelsWindow}
+            labelsWindow={labelsWindow}
+            updateCardLabel={updateCardLabel}
+            setCardLabel={setCardLabel}
+            // matchSearch={matchSearch}
+            // setMatchSearch={setMatchSearch}
+            // searchNewCardUser={searchNewCardUser}
+            // setSearchNewCardUser={setSearchNewCardUser}
+            closeModal={closeModal}
+            funcDueDateWindow={funcDueDateWindow} 
+            dueDateWindow={dueDateWindow}
+            setUpdateValue={setUpdateValue}
+            // showPreloderAddMember={showPreloderAddMember}
+            // showPreloderDelMember={showPreloderDelMember}
+            showPreloderLabel={showPreloderLabel}
+            setShowPreloderLabel={setShowPreloderLabel}
+            attachmentWindow={attachmentWindow} 
+            funcAttachmentWindow={funcAttachmentWindow}
+
+            showPreloderAttachmentWindow={showPreloderAttachmentWindow}
+            handleChangeAddFiles={handleChangeAddFiles}
+            addFiles={addFiles}
+            handleAddFilesReset={handleAddFilesReset}
+            handleAddFilesSubmit={handleAddFilesSubmit}
+
+            newLink={newLink}
+            newLinkDesc={newLinkDesc}
+            writeNewLink={writeNewLink}
+            newLinkHandleKeyPress={newLinkHandleKeyPress}
+            writeNewLinkDesc={writeNewLinkDesc}
+            newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
+            // setStartLink={setStartLink}
+            startLink={startLink}
             onRemoving_onFrames={onRemoving_onFrames}
-          />
-
-          {(cardFiles.length > 0 || cardLinks.length > 0) &&
-            <WindowModalAttachment 
-              funcAttachmentWindow={funcAttachmentWindow}
-              handleChangeAddFiles={handleChangeAddFiles}
-              showCardOptions={showCardOptions}
-              setShowCardOptions={setShowCardOptions}
-              addFiles={addFiles}
-              cardFiles={cardFiles}
-              setCardFiles={setCardFiles}
-              onDeleteCardFile={onDeleteCardFile}
-              showPreloderFile={showPreloderFile}
-              funcShowDeleteCardFile={funcShowDeleteCardFile}
-              showCardOptionsFileDel={showCardOptionsFileDel}
-              onDownloadCardFile={onDownloadCardFile}
-
-              funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
-              cardLinks={cardLinks}
-              funcShowDeleteCardLink={funcShowDeleteCardLink}
-              funcShowUpdateCardLink={funcShowUpdateCardLink}
-              showCardOptionsLinkDel={showCardOptionsLinkDel}
-              showCardOptionsLinkUpdate={showCardOptionsLinkUpdate}
-              onDeleteCardLink={onDeleteCardLink}
-              showPreloderLink={showPreloderLink}
-              // writeNewLink={writeNewLink}
-              // newLinkHandleKeyPress={newLinkHandleKeyPress}
-              setStartLink={setStartLink}
-            />
-          }
-
-          <WindowModalActivity
-            authUserData={authUserData}
-            activityDetailsShow={activityDetailsShow}
-            activityEditorShow={activityEditorShow}
-            processActivity={processActivity}
-            valueEditor={valueEditor}
-            setValueEditor={setValueEditor}
-            cardActivityComments={cardActivityComments}
-            modules={modules}
-            // editorRef={editorRef}
-            funcActivityDetailsShow={funcActivityDetailsShow}
-            funcActivityEditorShow={funcActivityEditorShow}
-            showActivityReactQuillHandleKeyPress={showActivityReactQuillHandleKeyPress}
-            onSaveActivityReactQuillComment={onSaveActivityReactQuillComment}
-            onDelActivityReactQuillComment={onDelActivityReactQuillComment}
-            // onUserCard={onUserCard}
-            onDelWindow={onDelWindow} 
-            delWindow={delWindow} 
-            setDelWindow={setDelWindow} 
-
-            onRemoving_onFrames={onRemoving_onFrames}
-          />
-        </div>
-
-        <Sidebar
-          typeElem={typeElem}
-
-          deleteFunc={deleteFunc}
-          // funcAddUserToCard={funcAddUserToCard}
-          dashboardUsers={dashboardUsers}
-          // funcDelCardUser={funcDelCardUser}
-          cardUsers={cardUsers}
-          // funcMembersWindow={funcMembersWindow}
-          // membersWindow={membersWindow}
-          funcLabelsWindow={funcLabelsWindow}
-          labelsWindow={labelsWindow}
-          updateCardLabel={updateCardLabel}
-          setCardLabel={setCardLabel}
-          // matchSearch={matchSearch}
-          // setMatchSearch={setMatchSearch}
-          // searchNewCardUser={searchNewCardUser}
-          // setSearchNewCardUser={setSearchNewCardUser}
-          closeModal={closeModal}
-          funcDueDateWindow={funcDueDateWindow} 
-          dueDateWindow={dueDateWindow}
-          setUpdateValue={setUpdateValue}
-          // showPreloderAddMember={showPreloderAddMember}
-          // showPreloderDelMember={showPreloderDelMember}
-          showPreloderLabel={showPreloderLabel}
-          setShowPreloderLabel={setShowPreloderLabel}
-          attachmentWindow={attachmentWindow} 
-          funcAttachmentWindow={funcAttachmentWindow}
-
-          showPreloderAttachmentWindow={showPreloderAttachmentWindow}
-          handleChangeAddFiles={handleChangeAddFiles}
-          addFiles={addFiles}
-          handleAddFilesReset={handleAddFilesReset}
-          handleAddFilesSubmit={handleAddFilesSubmit}
-
-          newLink={newLink}
-          newLinkDesc={newLinkDesc}
-          writeNewLink={writeNewLink}
-          newLinkHandleKeyPress={newLinkHandleKeyPress}
-          writeNewLinkDesc={writeNewLinkDesc}
-          newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
-          // setStartLink={setStartLink}
-          startLink={startLink}
-          onRemoving_onFrames={onRemoving_onFrames}
-          showCardDel={showCardDel}
-          setShowCardDel={setShowCardDel}
-          
-        ></Sidebar>
-    </div>
+            showCardDel={showCardDel}
+            setShowCardDel={setShowCardDel}
+            
+          ></Sidebar>
+      </div>)
+    }
+    </>
   )
 };
 

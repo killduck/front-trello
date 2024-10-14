@@ -35,6 +35,7 @@ export default function SidebarMembersWindow(props){
   function funcMembersWindow(){
     onRemoving_onFrames(); 
     dispatch(setMatchSearch(''));
+    dispatch(setSearchNewCardUser([]));
     // console.log('tut', membersWindow);
     if(membersWindow){
       dispatch(setMembersWindow(false));

@@ -5,7 +5,7 @@ export const cardUsersState = createSlice(
     name: 'card_users_state',
     initialState: {
         cardUsers: [],
-        authUser: Number,
+        authUser: Number(null),
         matchSearch: '',
         searchNewCardUser: [],
 
