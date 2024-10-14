@@ -13,6 +13,7 @@ import showReactQuillState from './states/description/showReactQuillState.js';
 import windowNameState from './states/modalHeader/windowName.js';
 import modalCardMemberState from './states/modalCardMember/modalCardMember.js';
 import cardUsersState from './states/cardUsersState.js';
+import modalCardLabelState from './states/modalCardLabel/modalCardLabel.js';
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
 
     windowNameState: windowNameState,
     modalCardMemberState: modalCardMemberState,
+    modalCardLabelState: modalCardLabelState,
 
   },
 })

@@ -7,6 +7,7 @@ import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmentWindow";
 import { useDispatch, useSelector } from "react-redux";
 import { setMembersWindow } from "../../main_state/states/modalCardMember/modalCardMember";
+import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 
 export default function Sidebar(props){
   // console.log(props);
@@ -18,10 +19,10 @@ export default function Sidebar(props){
   // let funcDelCardUser = props.funcDelCardUser;
   // let cardUsers = props.cardUsers;
   
-  let funcLabelsWindow = props.funcLabelsWindow;
-  let labelsWindow = props.labelsWindow;
+  // let funcLabelsWindow = props.funcLabelsWindow;
+  // let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
-  let setCardLabel = props.setCardLabel;
+  // let setCardLabel = props.setCardLabel;
   let showPreloderLabel = props.showPreloderLabel;
   let setShowPreloderLabel = props.setShowPreloderLabel;
   // let matchSearch = props.matchSearch;
@@ -58,6 +59,7 @@ export default function Sidebar(props){
 
   const windowData = useSelector((state) => state.windowData.value);
   const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
+  const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
 
   const dispatch = useDispatch();
   // console.log(windowData);
@@ -71,6 +73,16 @@ export default function Sidebar(props){
     else{
       // setMembersWindow(membersWindow = true);
       dispatch(setMembersWindow(true));
+    }
+  }
+
+  function funcLabelsWindow() {
+    onRemoving_onFrames();
+    if(showLabelsWindow){
+      dispatch(setShowLabelsWindow(false));
+    }
+    else{
+      dispatch(setShowLabelsWindow(true));
     }
   }
   
@@ -126,16 +138,18 @@ export default function Sidebar(props){
             />
             <span>Метки</span>
           </div>
-          {(labelsWindow) ? 
-          (<SidebarLabelWindow
-            funcLabelsWindow={funcLabelsWindow}
-            labelsWindow={labelsWindow}
-            updateCardLabel={updateCardLabel}
+          {showLabelsWindow &&
+            (<SidebarLabelWindow
+              // funcLabelsWindow={funcLabelsWindow}
+              // labelsWindow={labelsWindow}
+              updateCardLabel={updateCardLabel}
 
-            setCardLabel={setCardLabel}
-            showPreloderLabel={showPreloderLabel}
-            setShowPreloderLabel={setShowPreloderLabel}
-          />):("")
+              // setCardLabel={setCardLabel}
+              showPreloderLabel={showPreloderLabel}
+              setShowPreloderLabel={setShowPreloderLabel}
+
+              onRemoving_onFrames={onRemoving_onFrames}
+            />)
           }
 
           <div 

@@ -18,53 +18,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { setWindowData } from "../../main_state/states/windowData";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 
-import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+import { setWindowModalReloadBlur, setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 
 import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { setNewNameField, setNewWindowName, setStatrtWindowName } from "../../main_state/states/modalHeader/windowName";
 import { setMembersWindow, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
 import { setAuthUser, setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
+import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 
 
 export default function WindowModal(props){
-  console.log(props);
+  // console.log(props);
 
-  let dashboardUsers = props.dashboardUsers;
-  let typeElem = props.typeElem;
-  let idElem = Number(props.idElem);
-  let column = props.column;
-  let task = props.task;
-  let updateFunc = props.updateFunc;
-  let deleteFunc = props.deleteFunc;
-  let updateCardLabel = props.updateCardLabel;
-  let closeModal = props.closeModal;
-  let showPreloderLabel = props.showPreloderLabel;
-  let setShowPreloderLabel = props.setShowPreloderLabel;
+  let dashboardUsers = props.dashboardUsers; //это прилетает из дашборда
+  let typeElem = props.typeElem; //это прилетает из дашборда
+  let idElem = Number(props.idElem); //это прилетает из дашборда
+  let column = props.column; //это прилетает из дашборда
+  let task = props.task; //это прилетает из дашборда
+  let updateFunc = props.updateFunc; //это прилетает из дашборда
+  let deleteFunc = props.deleteFunc; //это прилетает из дашборда
+  let updateCardLabel = props.updateCardLabel; //это прилетает из дашборда
+  let closeModal = props.closeModal; // ???
+  let showPreloderLabel = props.showPreloderLabel; //это прилетает из дашборда
+  let setShowPreloderLabel = props.setShowPreloderLabel; //это прилетает из дашборда
 
   // const [authUser, setAuthUser] = useState(Number);
   const [authUserData, setAuthUserData] = useState(Number); // ???
-
-  // const [startWindowName, setStartWindowName] = useState('');
-  // let [windowName, setWindowName] = useState('');
-  // let [newName, setNewNameField] = useState(false);
-
-  // let [membersWindow, setMembersWindow] = useState(false);
-  // let [cardUsers, setCardUsers] = useState([]);
-  // const [matchSearch, setMatchSearch]=useState('');
-  // let [searchNewCardUser, setSearchNewCardUser]=useState([]);
-  // const [showPreloderAddMember, setShowPreloderAddMember] = useState(false);
-  // const [showPreloderDelMember, setShowPreloderDelMember] = useState(false);
-
-  // let [subscribe, setSubscribe] = useState(false);
-  // let [showUserCard, setShowUserCard] = useState(null);
-
-  let [labelsWindow, setLabelsWindow] = useState(false);
-  const [cardLabel, setCardLabel] = useState(false);
-  
-  // let [showReactQuill, setShowReactQuill] = useState(false);
-  // let [valueDescription, setValueDescription] = useState('');
-  // const [cardDescription, setCardDescription] = useState('');
 
   let [activityDetailsShow, setActivityDetailsShow] = useState(true);
   let [activityEditorShow, setActivityEditorShow] = useState(null);
@@ -107,7 +87,10 @@ export default function WindowModal(props){
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers); 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const windowModalReloadState = useSelector((state) => state.windowModalReloadState.value); 
-  console.log(windowModalReloadState);
+  // console.log(windowModalReloadState);
+  const windowModalReloadBlur = useSelector((state) => state.windowModalReloadState.blur); 
+  console.log(windowModalReloadBlur); 
+
 
   const dispatch = useDispatch();
 
@@ -176,11 +159,15 @@ export default function WindowModal(props){
 
             }
             if(task.label){
-              setCardLabel(true);
+              // setCardLabel(true);
+              dispatch(setCardLabelStatus(true));
             }
-            onRemoving_onFrames();
+            if(windowModalReloadBlur){
+              onRemoving_onFrames();
+              dispatch(setWindowModalReloadBlur(false));
+            }
 
-          }, 500)
+          }, 1000)
         }
       },
       data: {'id': idElem},
@@ -197,7 +184,9 @@ export default function WindowModal(props){
     dispatch(setMatchSearch(''));
     dispatch(setSearchNewCardUser([]));
 
-    setLabelsWindow(false); 
+    // setLabelsWindow(false); 
+    dispatch(setShowLabelsWindow(false));
+
     setDueDateWindow(false); 
 
     // setShowReactQuill(false); 
@@ -451,140 +440,7 @@ export default function WindowModal(props){
     }
   }
 
-  // function funcSubscribe(){
-  //   onRemoving_onFrames();
-  //   if(subscribeState){
-  //     dispatch(setSubscribeState(false));
-  //   }
-  //   else{
-  //     dispatch(setSubscribeState(true)); 
-  //   }
-  // }
 
-  // function funcMembersWindow(){
-  //   onRemoving_onFrames();
-  //   if(membersWindow){
-  //     setMembersWindow(false);
-  //   }
-  //   else{
-  //     setMembersWindow(membersWindow = true);
-  //   }
-  // }
-
-  function funcLabelsWindow() {
-    onRemoving_onFrames();
-    if(labelsWindow){
-      setLabelsWindow(false);
-    }
-    else{
-      setLabelsWindow(labelsWindow = true);
-    }
-  }
-
-  // function chechUserToAdd(user_id){
-  //   if(cardUsers.length === 0){
-  //     return true;
-  //   }
-  //   else{
-  //     let addUser = true;
-
-  //     cardUsers.forEach((cardUser) => {
-  //       if (user_id === cardUser.id){
-  //         addUser = false;
-  //       }
-  //     });
-  //     return addUser;
-  //   }
-  // }
-
-  // function funcAddUserToCard(user_id){
-  //   if(showPreloderAddMember){ 
-  //     return;
-  //   }
-  //   setShowPreloderAddMember(user_id);
-  //   if(chechUserToAdd(user_id)){
-  //     request({
-  //       method:'POST',
-  //       url:`card-user-update/`,
-  //       callback:(response) => { 
-  //         if (response.status === 200) {
-  //           if(response.data){
-  //             setShowPreloderAddMember(false);
-              
-  //             // dispatch(setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]));
-  //             dispatch(setCardUsers([...cardUsers, response.data]));
-  //             setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
-              
-  //             setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
-  //             setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
-
-  //             setUpdateValue(true);
-  //           }
-  //         }
-  //       },
-  //       data: {'auth_user': authUser, 'user_id': user_id, 'card_id': windowData.id},
-  //       status:200,
-  //     });
-  //   }
-  // }
-
-  // function funcDelCardUser(user_id){
-  //   if(showPreloderDelMember){
-  //     return;
-  //   } 
-  //   setShowPreloderDelMember(user_id);
-  //   cardUsers.forEach(cardUser => {
-  //     if (user_id === cardUser.id){
-  //       request({
-  //         method:'POST',
-  //         url:`card-user-delete/`,
-  //         callback:(response) => { 
-  //           if (response.status === 200) {
-  //             if(response.data){
-  //               setShowPreloderDelMember(false);
-
-  //               let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
-  //               dispatch(setCardUsers(filteredCardUsers));
-  //               setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
-
-  //               setUpdateValue(true);
-  //             }
-  //           }
-  //         },
-  //         data: {'auth_user': authUser, 'user_id': cardUser.id, 'card_id': windowData.id},
-  //         status:200,
-  //       });
-  //     }
-  //   });
-  // }
-
-  // function onUserCard(id_user = null) {
-  //   console.log('tut', id_user);
-  //   onRemoving_onFrames();
-
-  //   showUserCard === id_user ?
-  //     setShowUserCard(null)
-  //     :
-  //     setShowUserCard(id_user)
-  // }
-
-  // const useFocusAndSetRef = (ref) => {
-  //   ref = useCallback(
-  //     (node) => {
-  //       if (node !== null) {
-  //         ref.current = node; // it is not done on it's own
-  //         const len = node.unprivilegedEditor.getLength();
-  //         const selection = { index: len, length: len };
-  //         node.setEditorSelection(node.editor, selection);
-  //       }
-  //     },
-  //     [ref]
-  //   );
-  //   return ref;
-  // };
-
-  // let editorRef;
-  // editorRef = useFocusAndSetRef(editorRef);
 
   function onDelWindow(comment_id){ 
     if(delWindow){
@@ -764,9 +620,8 @@ export default function WindowModal(props){
 
               <div className={styles.cardDetailItem}>
                 <WindowModalCardLabel
-                  task={task}
-                  cardLabel={cardLabel}
-                  funcLabelsWindow={funcLabelsWindow}
+                  task={task} //это прилетает из дашборда
+                  onRemoving_onFrames={onRemoving_onFrames}
                 />
               </div>
 
@@ -855,10 +710,11 @@ export default function WindowModal(props){
             cardUsers={cardUsers}
             // funcMembersWindow={funcMembersWindow}
             // membersWindow={membersWindow}
-            funcLabelsWindow={funcLabelsWindow}
-            labelsWindow={labelsWindow}
+
+            // funcLabelsWindow={funcLabelsWindow}
+            // labelsWindow={labelsWindow}
             updateCardLabel={updateCardLabel}
-            setCardLabel={setCardLabel}
+            // setCardLabel={setCardLabel}
             // matchSearch={matchSearch}
             // setMatchSearch={setMatchSearch}
             // searchNewCardUser={searchNewCardUser}
@@ -888,9 +744,11 @@ export default function WindowModal(props){
             newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
             // setStartLink={setStartLink}
             startLink={startLink}
-            onRemoving_onFrames={onRemoving_onFrames}
+
             showCardDel={showCardDel}
             setShowCardDel={setShowCardDel}
+
+            onRemoving_onFrames={onRemoving_onFrames}
             
           ></Sidebar>
       </div>)

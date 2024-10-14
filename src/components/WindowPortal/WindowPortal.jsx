@@ -7,6 +7,8 @@ import WindowModal from '../WindowModal/WindowModal';
 import styles from "./WindowPortal.module.scss";
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
+import { useDispatch } from 'react-redux';
+import { setWindowModalReloadBlur } from '../../main_state/states/windowModalReload';
 
 export default function WindowPortal(props){
 
@@ -27,6 +29,8 @@ export default function WindowPortal(props){
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    const dispatch = useDispatch();
+
     const openModal = () => {
         setModalIsOpen(true);
     };
@@ -40,6 +44,7 @@ export default function WindowPortal(props){
         // console.log(evt);
         if(evt.target.className === "WindowPortal_wrap__DtBsC"){
           console.log('"windowNameHandleKeyPress", ура!');
+          dispatch(setWindowModalReloadBlur(true));
           closeModal();
         }
     }

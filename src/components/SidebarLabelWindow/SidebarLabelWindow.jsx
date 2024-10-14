@@ -3,26 +3,31 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarLabelWindow.module.scss";
 import request from "../../api/request";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 
 
 export default function SidebarLabelWindow(props){
-  // console.log(props);
+  console.log(props);
+  
+  // let labelsWindow = props.labelsWindow;
+  let updateCardLabel = props.updateCardLabel; //это прилетает из дашборда
+  // let setCardLabel = props.setCardLabel;
+  let showPreloderLabel = props.showPreloderLabel; //это прилетает из дашборда
+  let setShowPreloderLabel = props.setShowPreloderLabel; //это прилетает из дашборда
 
-  let funcLabelsWindow = props.funcLabelsWindow;
-  let labelsWindow = props.labelsWindow;
-  let updateCardLabel = props.updateCardLabel;
-  let setCardLabel = props.setCardLabel;
-  let showPreloderLabel = props.showPreloderLabel;
-  let setShowPreloderLabel = props.setShowPreloderLabel;
-
-  const windowData = useSelector((state) => state.windowData.value);
-  // console.log(windowData);
+  let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
   const [coloredLabel_id, setColoredLabel_id] = useState(Number);
+  
+  const windowData = useSelector((state) => state.windowData.value);
+  console.log(windowData);
+  const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
+  // const cardLabelStatus = useSelector((state) => state.modalCardLabelState.cardLabelStatus); 
 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     request({
@@ -33,8 +38,10 @@ export default function SidebarLabelWindow(props){
           if(response.data){
             setColoredLabels(response.data);
           }
-          if(labelsWindow && windowData.label){
-            onTakeColor(windowData.label);
+          if(showLabelsWindow && windowData.label){
+            setCheckbox(true);
+            setColoredLabel_id(windowData.label.id);
+            // onTakeColor(windowData.label);
           }
         }
       },
@@ -43,6 +50,16 @@ export default function SidebarLabelWindow(props){
     });
   },[]);
 
+
+  function funcLabelsWindow() {
+    onRemoving_onFrames();
+    if(showLabelsWindow){
+      dispatch(setShowLabelsWindow(false));
+    }
+    else{
+      dispatch(setShowLabelsWindow(true));
+    }
+  }
 
   function onTakeColor(label){
     // console.log(label);
@@ -59,7 +76,7 @@ export default function SidebarLabelWindow(props){
     else{
       setCheckbox(false);
       updateCardLabel(windowData.id, {'id': 'null'});
-      setCardLabel(false);
+      dispatch(setCardLabelStatus(false));
     }
   }
 
