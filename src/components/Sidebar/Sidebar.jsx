@@ -10,27 +10,24 @@ import { setMembersWindow } from "../../main_state/states/modalCardMember/modalC
 
 export default function Sidebar(props){
   // console.log(props);
-  let typeElem = props.typeElem;
+  // let typeElem = props.typeElem;
 
   let deleteFunc = props.deleteFunc;
   // let funcAddUserToCard = props.funcAddUserToCard;
   let dashboardUsers = props.dashboardUsers;
-  let funcDelCardUser = props.funcDelCardUser;
-  let cardUsers = props.cardUsers;
-  // let funcMembersWindow = props.funcMembersWindow;
-  // let membersWindow = props.membersWindow;
-  let showPreloderAddMember = props.showPreloderAddMember;
-  let showPreloderDelMember = props.showPreloderDelMember;
+  // let funcDelCardUser = props.funcDelCardUser;
+  // let cardUsers = props.cardUsers;
+  
   let funcLabelsWindow = props.funcLabelsWindow;
   let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
   let setCardLabel = props.setCardLabel;
   let showPreloderLabel = props.showPreloderLabel;
   let setShowPreloderLabel = props.setShowPreloderLabel;
-  let matchSearch = props.matchSearch;
-  let setMatchSearch = props.setMatchSearch;
-  let searchNewCardUser = props.searchNewCardUser;
-  let setSearchNewCardUser = props.setSearchNewCardUser;
+  // let matchSearch = props.matchSearch;
+  // let setMatchSearch = props.setMatchSearch;
+  // let searchNewCardUser = props.searchNewCardUser;
+  // let setSearchNewCardUser = props.setSearchNewCardUser;
   let closeModal = props.closeModal;
 
   let funcDueDateWindow = props.funcDueDateWindow; 

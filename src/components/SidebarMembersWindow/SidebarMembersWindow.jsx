@@ -33,7 +33,8 @@ export default function SidebarMembersWindow(props){
   const [showNoResult, setShowNoResult]=useState(false);
 
   function funcMembersWindow(){
-    onRemoving_onFrames();
+    onRemoving_onFrames(); 
+    dispatch(setMatchSearch(''));
     // console.log('tut', membersWindow);
     if(membersWindow){
       dispatch(setMembersWindow(false));
@@ -209,7 +210,7 @@ export default function SidebarMembersWindow(props){
                   type="button"
                   ariaLabel="Добавить пользователя к карточке"
                   actionVariable = {user.id}
-                  clickAction = {funcAddUserToCard}
+                  clickAction = {showPreloderAddMember ? null : funcAddUserToCard}
                   disabled={showPreloderAddMember === user.id ? "disabled" : ""}
                 >
                   <div 
@@ -271,7 +272,7 @@ export default function SidebarMembersWindow(props){
                       type={showPreloderDelMember ? "text" : "button"}
                       ariaLabel="Удалить пользователя из карточки"
                       actionVariable={cardUser.id}
-                      clickAction={funcDelCardUser}
+                      clickAction={showPreloderDelMember ? null : funcDelCardUser}
                       disabled={showPreloderDelMember === cardUser.id ? "disabled" : ""}
                     >
                       <div className={styles.itemContentDashboardMemberInfo} >
@@ -339,7 +340,7 @@ export default function SidebarMembersWindow(props){
                 type={showPreloderAddMember ? "text" : "button"}
                 ariaLabel="Добавить пользователя к карточке"
                 actionVariable={user.id}
-                clickAction={funcAddUserToCard}
+                clickAction={showPreloderAddMember ? null : funcAddUserToCard}
                 disabled={showPreloderAddMember === user.id ? "disabled" : ""}
               >
                 <div 
@@ -391,9 +392,10 @@ export default function SidebarMembersWindow(props){
         <div className={styles.iconWrap}>
           <Button
               className={'btnSmallWindow'}
-              type="button"
+              type={showPreloderAddMember || showPreloderDelMember ? "text" : "button"}
               ariaLabel="Закрыть окно"
-              clickAction={ funcMembersWindow }
+              clickAction={showPreloderAddMember || showPreloderDelMember ? null : funcMembersWindow }
+              disabled={showPreloderAddMember || showPreloderDelMember ? "disabled" : ""}
           >
             {/* <div className={styles.iconWrap}> */}
               <Icons

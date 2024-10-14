@@ -24,7 +24,7 @@ import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { setNewNameField, setNewWindowName, setStatrtWindowName } from "../../main_state/states/modalHeader/windowName";
 import { setMembersWindow, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
-import { setAuthUser, setCardUsers } from "../../main_state/states/cardUsersState";
+import { setAuthUser, setCardUsers, setMatchSearch } from "../../main_state/states/cardUsersState";
 
 
 export default function WindowModal(props){
@@ -43,7 +43,7 @@ export default function WindowModal(props){
   let setShowPreloderLabel = props.setShowPreloderLabel;
 
   // const [authUser, setAuthUser] = useState(Number);
-  const [authUserData, setAuthUserData] = useState(Number);
+  const [authUserData, setAuthUserData] = useState(Number); // ???
 
   // const [startWindowName, setStartWindowName] = useState('');
   // let [windowName, setWindowName] = useState('');
@@ -51,12 +51,12 @@ export default function WindowModal(props){
 
   // let [membersWindow, setMembersWindow] = useState(false);
   // let [cardUsers, setCardUsers] = useState([]);
-  const [matchSearch, setMatchSearch]=useState('');
-  let [searchNewCardUser, setSearchNewCardUser]=useState([]);
-  const [showPreloderAddMember, setShowPreloderAddMember] = useState(false);
-  const [showPreloderDelMember, setShowPreloderDelMember] = useState(false);
+  // const [matchSearch, setMatchSearch]=useState('');
+  // let [searchNewCardUser, setSearchNewCardUser]=useState([]);
+  // const [showPreloderAddMember, setShowPreloderAddMember] = useState(false);
+  // const [showPreloderDelMember, setShowPreloderDelMember] = useState(false);
 
-  let [subscribe, setSubscribe] = useState(false);
+  // let [subscribe, setSubscribe] = useState(false);
   // let [showUserCard, setShowUserCard] = useState(null);
 
   let [labelsWindow, setLabelsWindow] = useState(false);
@@ -103,7 +103,7 @@ export default function WindowModal(props){
   const [dragActive, setDragActive] = useState(false);
 
   const windowData = useSelector((state) => state.windowData.value);
-  const subscribeState = useSelector((state) => state.subscribeState.value); 
+  // const subscribeState = useSelector((state) => state.subscribeState.value); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers); 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
 
@@ -121,7 +121,6 @@ export default function WindowModal(props){
   };
  
   useEffect(() => {
-    onRemoving_onFrames();
     request({
       method:'POST',
       url:`take-data-card/`,
@@ -172,6 +171,7 @@ export default function WindowModal(props){
           if(task.label){
             setCardLabel(true);
           }
+          onRemoving_onFrames();
         }
       },
       data: {'id': idElem},
@@ -185,6 +185,7 @@ export default function WindowModal(props){
 
     // setMembersWindow(false); 
     dispatch(setMembersWindow(false));
+    dispatch(setMatchSearch(''));
 
     setLabelsWindow(false); 
     setDueDateWindow(false); 
@@ -195,7 +196,7 @@ export default function WindowModal(props){
     // setShowUserCard(null); 
     dispatch(setShowUserCard(null));
 
-    setActivityEditorShow(null); 
+    setActivityEditorShow(null);  
     setAttachmentWindow(false);
     setShowCardOptions(false);
     setShowCardOptionsFileDel(false);
@@ -440,17 +441,15 @@ export default function WindowModal(props){
     }
   }
 
-
-
-  function funcSubscribe(){
-    onRemoving_onFrames();
-    if(subscribeState){
-      dispatch(setSubscribeState(false));
-    }
-    else{
-      dispatch(setSubscribeState(true)); 
-    }
-  }
+  // function funcSubscribe(){
+  //   onRemoving_onFrames();
+  //   if(subscribeState){
+  //     dispatch(setSubscribeState(false));
+  //   }
+  //   else{
+  //     dispatch(setSubscribeState(true)); 
+  //   }
+  // }
 
   // function funcMembersWindow(){
   //   onRemoving_onFrames();
@@ -519,35 +518,35 @@ export default function WindowModal(props){
   //   }
   // }
 
-  function funcDelCardUser(user_id){
-    if(showPreloderDelMember){
-      return;
-    } 
-    setShowPreloderDelMember(user_id);
-    cardUsers.forEach(cardUser => {
-      if (user_id === cardUser.id){
-        request({
-          method:'POST',
-          url:`card-user-delete/`,
-          callback:(response) => { 
-            if (response.status === 200) {
-              if(response.data){
-                setShowPreloderDelMember(false);
+  // function funcDelCardUser(user_id){
+  //   if(showPreloderDelMember){
+  //     return;
+  //   } 
+  //   setShowPreloderDelMember(user_id);
+  //   cardUsers.forEach(cardUser => {
+  //     if (user_id === cardUser.id){
+  //       request({
+  //         method:'POST',
+  //         url:`card-user-delete/`,
+  //         callback:(response) => { 
+  //           if (response.status === 200) {
+  //             if(response.data){
+  //               setShowPreloderDelMember(false);
 
-                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
-                dispatch(setCardUsers(filteredCardUsers));
-                setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
+  //               let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
+  //               dispatch(setCardUsers(filteredCardUsers));
+  //               setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
 
-                setUpdateValue(true);
-              }
-            }
-          },
-          data: {'auth_user': authUser, 'user_id': cardUser.id, 'card_id': windowData.id},
-          status:200,
-        });
-      }
-    });
-  }
+  //               setUpdateValue(true);
+  //             }
+  //           }
+  //         },
+  //         data: {'auth_user': authUser, 'user_id': cardUser.id, 'card_id': windowData.id},
+  //         status:200,
+  //       });
+  //     }
+  //   });
+  // }
 
   // function onUserCard(id_user = null) {
   //   console.log('tut', id_user);
@@ -730,8 +729,8 @@ export default function WindowModal(props){
         {/* header */}
         <WindowModalHeaderSection
           onRemoving_onFrames={onRemoving_onFrames}
-          updateFunc={updateFunc}
-          column={column}
+          updateFunc={updateFunc} //это прилетает из дашборда
+          column={column} //это прилетает из дашборда
         />
 
         {/* главная колонка */}
@@ -740,14 +739,6 @@ export default function WindowModal(props){
             
             <div className={styles.cardDetailItem}>
               <WindowModalCardMember
-                cardUsers={cardUsers} 
-                authUser={authUser}
-                // showUserCard={showUserCard}
-
-                // funcMembersWindow={funcMembersWindow}
-                // funcDelCardUser={funcDelCardUser}
-                // onUserCard={onUserCard}
-
                 onRemoving_onFrames={onRemoving_onFrames}
               />
             </div>
@@ -762,8 +753,7 @@ export default function WindowModal(props){
 
             <div className={styles.cardDetailItem}>
               <WindowModalSubscribe
-                subscribe={subscribe}
-                funcSubscribe={funcSubscribe}
+                onRemoving_onFrames={onRemoving_onFrames}
               />
             </div>
 
@@ -850,16 +840,16 @@ export default function WindowModal(props){
           labelsWindow={labelsWindow}
           updateCardLabel={updateCardLabel}
           setCardLabel={setCardLabel}
-          matchSearch={matchSearch}
-          setMatchSearch={setMatchSearch}
-          searchNewCardUser={searchNewCardUser}
-          setSearchNewCardUser={setSearchNewCardUser}
+          // matchSearch={matchSearch}
+          // setMatchSearch={setMatchSearch}
+          // searchNewCardUser={searchNewCardUser}
+          // setSearchNewCardUser={setSearchNewCardUser}
           closeModal={closeModal}
           funcDueDateWindow={funcDueDateWindow} 
           dueDateWindow={dueDateWindow}
           setUpdateValue={setUpdateValue}
-          showPreloderAddMember={showPreloderAddMember}
-          showPreloderDelMember={showPreloderDelMember}
+          // showPreloderAddMember={showPreloderAddMember}
+          // showPreloderDelMember={showPreloderDelMember}
           showPreloderLabel={showPreloderLabel}
           setShowPreloderLabel={setShowPreloderLabel}
           attachmentWindow={attachmentWindow} 

@@ -1,11 +1,26 @@
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalSubscribe.module.scss";
+import { setSubscribeState } from "../../main_state/states/subscribeState";
 
 export default function WindowModalSubscribe(props){
 
-  let subscribe = props.subscribe;
-  let funcSubscribe = props.funcSubscribe;
+  // let subscribe = props.subscribe;
+  let onRemoving_onFrames = props.onRemoving_onFrames;
+
+  const subscribeState = useSelector((state) => state.subscribeState.value); 
+  const dispatch = useDispatch();
+
+  function funcSubscribe(){
+    onRemoving_onFrames();
+    if(subscribeState){
+      dispatch(setSubscribeState(false));
+    }
+    else{
+      dispatch(setSubscribeState(true)); 
+    }
+  }
 
   return (
     <div className={styles.cardDetailNotifications} >
@@ -13,7 +28,7 @@ export default function WindowModalSubscribe(props){
         Уведомления
       </h3>
       
-      { (!subscribe) ? (
+      { (!subscribeState) ? (
         <Button
           className = {'BtnCardSubscribe'}
           ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
