@@ -8,17 +8,22 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarDueDate.module.scss";
 import { useState } from "react";
 import request from "../../api/request";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 
 
 export default function SidebarDueDate(props){
   // console.log(props);
 
-  const windowData = useSelector((state) => state.windowData.value);
-  let windowData_date_end = windowData.date_end;
+  let onRemoving_onFrames = props.onRemoving_onFrames; 
 
-  let funcDueDateWindow = props.funcDueDateWindow; 
-  let setUpdateValue = props.setUpdateValue;
+  const windowData = useSelector((state) => state.windowData.value);
+  const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
+
+  const dispatch = useDispatch();
+
+  let windowData_date_end = windowData.date_end;
 
   const [checkbox, setCheckbox] = useState(true);
   // const [date, setDate] = useState(new Date());
@@ -27,6 +32,18 @@ export default function SidebarDueDate(props){
   let [newDate, setNewDate] = useState(String);
 
   registerLocale('ru', ru);
+
+  function funcDueDateWindow(){
+    console.log('SidebarDueDate');
+    onRemoving_onFrames();
+
+    if(dueDateWindow){
+      dispatch(setDueDateWindow(false));
+    }
+    else{
+      dispatch(setDueDateWindow(true));
+    }
+  }
 
   function takeDate(){
     let date = startDate.getDate();
@@ -102,15 +119,18 @@ export default function SidebarDueDate(props){
     let end_minutes = startDate.getMinutes();
 
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
-    
+    console.log('122');  
     request({
       method:'POST',
       url:'add-card-due-date/',
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            setStartDate(new Date(response.data[0].date_end));
-            setUpdateValue(true);
+            console.log('129');  
+            // setStartDate(new Date(response.data[0].date_end));
+            // setUpdateValue(true);
+            dispatch(setWindowModalReloadState(true));
+
             funcDueDateWindow();
           }
         }
@@ -128,7 +148,8 @@ export default function SidebarDueDate(props){
         if (response.status === 200) {
           if(response.data){
             setCheckbox(false);
-            setUpdateValue(true);
+            // setUpdateValue(true);
+            dispatch(setWindowModalReloadState(true));
             setStartDate(new Date());
           }
         }

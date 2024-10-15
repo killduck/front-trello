@@ -8,31 +8,21 @@ import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmen
 import { useDispatch, useSelector } from "react-redux";
 import { setMembersWindow } from "../../main_state/states/modalCardMember/modalCardMember";
 import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 
 export default function Sidebar(props){
   // console.log(props);
-  // let typeElem = props.typeElem;
 
   let deleteFunc = props.deleteFunc;
-  // let funcAddUserToCard = props.funcAddUserToCard;
   let dashboardUsers = props.dashboardUsers;
-  // let funcDelCardUser = props.funcDelCardUser;
-  // let cardUsers = props.cardUsers;
-  
-  // let funcLabelsWindow = props.funcLabelsWindow;
-  // let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel;
-  // let setCardLabel = props.setCardLabel;
   let showPreloderLabel = props.showPreloderLabel;
   let setShowPreloderLabel = props.setShowPreloderLabel;
-  // let matchSearch = props.matchSearch;
-  // let setMatchSearch = props.setMatchSearch;
-  // let searchNewCardUser = props.searchNewCardUser;
-  // let setSearchNewCardUser = props.setSearchNewCardUser;
   let closeModal = props.closeModal;
+  // let typeElem = props.typeElem;
 
-  let funcDueDateWindow = props.funcDueDateWindow; 
-  let dueDateWindow = props.dueDateWindow; 
+  // let funcDueDateWindow = props.funcDueDateWindow; 
+  // let dueDateWindow = props.dueDateWindow; 
 
   let attachmentWindow = props.attachmentWindow;
   let funcAttachmentWindow = props.funcAttachmentWindow;
@@ -60,6 +50,7 @@ export default function Sidebar(props){
   const windowData = useSelector((state) => state.windowData.value);
   const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
   const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
+  const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
 
   const dispatch = useDispatch();
   // console.log(windowData);
@@ -83,6 +74,18 @@ export default function Sidebar(props){
     }
     else{
       dispatch(setShowLabelsWindow(true));
+    }
+  }
+
+  function funcDueDateWindow(){
+    console.log('Sidebar SidebarDueDate');
+    onRemoving_onFrames();
+
+    if(dueDateWindow){
+      dispatch(setDueDateWindow(false));
+    }
+    else{
+      dispatch(setDueDateWindow(true));
     }
   }
   
@@ -162,13 +165,15 @@ export default function Sidebar(props){
             />
             <span>Даты</span>
           </div>
-          {(dueDateWindow) ? 
-          (<SidebarDueDate
+          {(dueDateWindow) &&
+            (<SidebarDueDate
+              onRemoving_onFrames={onRemoving_onFrames}
 
-            funcDueDateWindow={funcDueDateWindow}
-            dueDateWindow={dueDateWindow}
-            setUpdateValue={setUpdateValue}
-          />):("")
+              // funcDueDateWindow={funcDueDateWindow}
+              // dueDateWindow={dueDateWindow}
+              // setUpdateValue={setUpdateValue}
+
+            />)
           }
 
           <div 

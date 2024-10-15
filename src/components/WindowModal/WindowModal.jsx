@@ -26,6 +26,7 @@ import { setNewNameField, setNewWindowName, setStatrtWindowName } from "../../ma
 import { setMembersWindow, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
 import { setAuthUser, setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
 import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 
 
 export default function WindowModal(props){
@@ -54,7 +55,7 @@ export default function WindowModal(props){
   const [processActivity, setProcessActivity] = useState(false);
   const [delWindow, setDelWindow] = useState(false); 
 
-  let [dueDateWindow, setDueDateWindow] = useState(false);
+  // let [dueDateWindow, setDueDateWindow] = useState(false);
   let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
 
   let [attachmentWindow, setAttachmentWindow] = useState(false); 
@@ -83,11 +84,12 @@ export default function WindowModal(props){
   const [dragActive, setDragActive] = useState(false);
 
   const windowData = useSelector((state) => state.windowData.value);
+  console.log(windowData); 
   // const subscribeState = useSelector((state) => state.subscribeState.value); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers); 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const windowModalReloadState = useSelector((state) => state.windowModalReloadState.value); 
-  // console.log(windowModalReloadState);
+  console.log(windowModalReloadState);
   const windowModalReloadBlur = useSelector((state) => state.windowModalReloadState.blur); 
   console.log(windowModalReloadBlur); 
 
@@ -104,11 +106,12 @@ export default function WindowModal(props){
       ["clean"],
     ],
   };
- 
-  useEffect(() => {
-    
-    dispatch(setWindowModalReloadState(true));
+  console.log('108'); 
 
+  useEffect(() => {
+    console.log('110'); 
+    dispatch(setWindowModalReloadState(true));
+    console.log('112'); 
     request({
       method:'POST',
       url:`take-data-card/`,
@@ -174,6 +177,7 @@ export default function WindowModal(props){
       status:200,
     });
   },[typeElem, idElem, task, dashboardUsers, updateValue, dispatch]);
+  console.log('179'); 
 
   function onRemoving_onFrames(){
     // setNewNameField(false); 
@@ -187,7 +191,8 @@ export default function WindowModal(props){
     // setLabelsWindow(false); 
     dispatch(setShowLabelsWindow(false));
 
-    setDueDateWindow(false); 
+    // setDueDateWindow(false); 
+    dispatch(setDueDateWindow(false));
 
     // setShowReactQuill(false); 
     dispatch(setShowReactQuillState(false));
@@ -296,6 +301,7 @@ export default function WindowModal(props){
             setStartLink('');
             setCardFiles(response.data.card_file);
             setUpdateValue(true);
+            // dispatch(setWindowModalReloadState(true));
           }
         }, 1000);
       },
@@ -333,6 +339,7 @@ export default function WindowModal(props){
 
           funcShowAttachmentContentCardOptions(false);
           setUpdateValue(true);
+          // dispatch(setWindowModalReloadState(true));
         }
       },
       data: {'card_id': idElem, 'file_id': file.id},
@@ -358,6 +365,7 @@ export default function WindowModal(props){
           setCardFiles(response.data.card_file);
           funcShowAttachmentContentCardOptions(false);
           setUpdateValue(true);
+          // dispatch(setWindowModalReloadState(true));
         }
       },
       data: {'card_id': idElem, 'file_id': file_id},
@@ -393,6 +401,7 @@ export default function WindowModal(props){
           setCardLinks(response.data.card_link);
           funcShowAttachmentContentCardOptions(false);
           setUpdateValue(true);
+          // dispatch(setWindowModalReloadState(true));
         }
       },
       data: {'card_id': idElem, 'link_id': link_id},
@@ -531,16 +540,16 @@ export default function WindowModal(props){
     }
   }
 
-  function funcDueDateWindow(){
-    onRemoving_onFrames();
+  // function funcDueDateWindow(){
+  //   onRemoving_onFrames();
 
-    if(dueDateWindow){
-      setDueDateWindow(false);
-    }
-    else{
-      setDueDateWindow(dueDateWindow = true);
-    }
-  }
+  //   if(dueDateWindow){
+  //     setDueDateWindow(false);
+  //   }
+  //   else{
+  //     setDueDateWindow(dueDateWindow = true);
+  //   }
+  // }
 
   function writeNewLinkDesc(evt) {
     console.log(evt);
@@ -633,11 +642,13 @@ export default function WindowModal(props){
 
               <div className={styles.cardDetailItem}>
                 <WindowModalDueDate
-                  dueDateWindow={dueDateWindow} 
+                  // dueDateWindow={dueDateWindow} 
                   dueDateCheckbox={dueDateCheckbox}
                   setDueDateCheckbox={setDueDateCheckbox}
-                  funcDueDateWindow={funcDueDateWindow} 
-                  setUpdateValue={setUpdateValue}
+                  // funcDueDateWindow={funcDueDateWindow} 
+                  // setUpdateValue={setUpdateValue}
+                  
+                  onRemoving_onFrames={onRemoving_onFrames}
                 />
               </div>
               
@@ -701,28 +712,16 @@ export default function WindowModal(props){
           </div>
 
           <Sidebar
-            typeElem={typeElem}
+            deleteFunc={deleteFunc} //это прилетает из дашборда
+            closeModal={closeModal} //это прилетает из дашборда
 
-            deleteFunc={deleteFunc}
-            // funcAddUserToCard={funcAddUserToCard}
-            dashboardUsers={dashboardUsers}
-            // funcDelCardUser={funcDelCardUser}
-            cardUsers={cardUsers}
-            // funcMembersWindow={funcMembersWindow}
-            // membersWindow={membersWindow}
+            dashboardUsers={dashboardUsers} //это прилетает из дашборда
+            updateCardLabel={updateCardLabel} //это прилетает из дашборда
+            // typeElem={typeElem}
 
-            // funcLabelsWindow={funcLabelsWindow}
-            // labelsWindow={labelsWindow}
-            updateCardLabel={updateCardLabel}
-            // setCardLabel={setCardLabel}
-            // matchSearch={matchSearch}
-            // setMatchSearch={setMatchSearch}
-            // searchNewCardUser={searchNewCardUser}
-            // setSearchNewCardUser={setSearchNewCardUser}
-            closeModal={closeModal}
-            funcDueDateWindow={funcDueDateWindow} 
-            dueDateWindow={dueDateWindow}
-            setUpdateValue={setUpdateValue}
+            // funcDueDateWindow={funcDueDateWindow} 
+            // dueDateWindow={dueDateWindow}
+            setUpdateValue={setUpdateValue} //пока нужно
             // showPreloderAddMember={showPreloderAddMember}
             // showPreloderDelMember={showPreloderDelMember}
             showPreloderLabel={showPreloderLabel}

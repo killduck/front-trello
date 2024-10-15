@@ -2,19 +2,36 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalDueDate.module.scss";
 import Button from "../ui/Button/Button";
 import request from "../../api/request";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 
 export default function WindowModalDueDate(props){
   // console.log(props);
 
-  const windowData = useSelector((state) => state.windowData.value);
-  let funcDueDateWindow = props.funcDueDateWindow; 
+  // let funcDueDateWindow = props.funcDueDateWindow; 
+  let onRemoving_onFrames = props.onRemoving_onFrames; 
 
   let dueDateCheckbox = props.dueDateCheckbox;
   let setDueDateCheckbox = props.setDueDateCheckbox;
 
-  let setUpdateValue = props.setUpdateValue; 
+  const windowData = useSelector((state) => state.windowData.value);
+  const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
 
+  const dispatch = useDispatch();
+
+
+  function funcDueDateWindow(){
+    console.log('WindowModalDueDate');
+    onRemoving_onFrames();
+
+    if(dueDateWindow){
+      dispatch(setDueDateWindow(false));
+    }
+    else{
+      dispatch(setDueDateWindow(true));
+    }
+  }
 
   function sendExecute(card_execute){
     request({
@@ -23,7 +40,8 @@ export default function WindowModalDueDate(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            setUpdateValue(true);
+            // setUpdateValue(true);
+            dispatch(setWindowModalReloadState(true));
           }
         }
       },
