@@ -4,25 +4,20 @@ import Button from "../ui/Button/Button";
 import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
 import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
-import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 
 export default function WindowModalDueDate(props){
   // console.log(props);
 
-  // let funcDueDateWindow = props.funcDueDateWindow; 
   let onRemoving_onFrames = props.onRemoving_onFrames; 
-
-  let dueDateCheckbox = props.dueDateCheckbox;
-  let setDueDateCheckbox = props.setDueDateCheckbox;
 
   const windowData = useSelector((state) => state.windowData.value);
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
+  const dueDateCheckbox = useSelector((state) => state.modalDueDateState.dueDateCheckbox);
 
   const dispatch = useDispatch();
 
-
   function funcDueDateWindow(){
-    console.log('WindowModalDueDate');
     onRemoving_onFrames();
 
     if(dueDateWindow){
@@ -34,14 +29,15 @@ export default function WindowModalDueDate(props){
   }
 
   function sendExecute(card_execute){
+    dispatch(setWindowModalReloadState(true));
+
     request({
       method:'POST',
       url:'add-card-due-date-execute/',
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            // setUpdateValue(true);
-            dispatch(setWindowModalReloadState(true));
+            dispatch(setWindowModalReloadState(false));
           }
         }
       },
@@ -52,10 +48,10 @@ export default function WindowModalDueDate(props){
 
   function onDeteWindow(){
     if(dueDateCheckbox){
-      setDueDateCheckbox(dueDateCheckbox = false);
+      dispatch(setDueDateCheckbox(false));
     }
     else{
-      setDueDateCheckbox(dueDateCheckbox = true);
+      dispatch(setDueDateCheckbox(true));
     }
     sendExecute(dueDateCheckbox);
   }

@@ -5,20 +5,24 @@ export const  modalDueDateState = createSlice(
     name: 'modal_duedate_state',
     initialState: {
         dueDateWindow: false,
-      blur: false,
+        dueDateCheckbox: false,
     },
     reducers: {
-        setDueDateWindow: (state, action) => {
+      setDueDateWindow: (state, action) => {
         state.dueDateWindow = action.payload;
-        // console.log('state =>', state.value, 'action =>', action.payload);
+        // console.log('state =>', state.dueDateWindow, 'action =>', action.payload);
+      },
+      setDueDateCheckbox: (state, action) => {
+        state.dueDateCheckbox = action.payload;
+        // console.log('state =>', state.dueDateCheckbox, 'action =>', action.payload);
       },
     },
   }
 )
 
-// Action creators are generated for each case reducer function
 export const { 
     setDueDateWindow,
+    setDueDateCheckbox,
 } = modalDueDateState.actions
 
 export default modalDueDateState.reducer

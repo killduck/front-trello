@@ -13,16 +13,13 @@ import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueD
 export default function Sidebar(props){
   // console.log(props);
 
-  let deleteFunc = props.deleteFunc;
-  let dashboardUsers = props.dashboardUsers;
-  let updateCardLabel = props.updateCardLabel;
-  let showPreloderLabel = props.showPreloderLabel;
-  let setShowPreloderLabel = props.setShowPreloderLabel;
-  let closeModal = props.closeModal;
+  let deleteFunc = props.deleteFunc; //это прилетает из дашборда
+  let dashboardUsers = props.dashboardUsers; //это прилетает из дашборда
+  let updateCardLabel = props.updateCardLabel; //это прилетает из дашборда
+  let showPreloderLabel = props.showPreloderLabel; //это прилетает из дашборда
+  let setShowPreloderLabel = props.setShowPreloderLabel; //это прилетает из дашборда
+  let closeModal = props.closeModal; //это прилетает из дашборда
   // let typeElem = props.typeElem;
-
-  // let funcDueDateWindow = props.funcDueDateWindow; 
-  // let dueDateWindow = props.dueDateWindow; 
 
   let attachmentWindow = props.attachmentWindow;
   let funcAttachmentWindow = props.funcAttachmentWindow;
@@ -57,12 +54,10 @@ export default function Sidebar(props){
 
   function funcMembersWindow(){
     onRemoving_onFrames();
-    // console.log('tut', membersWindow);
     if(membersWindow){
       dispatch(setMembersWindow(false));
     }
     else{
-      // setMembersWindow(membersWindow = true);
       dispatch(setMembersWindow(true));
     }
   }
@@ -78,9 +73,7 @@ export default function Sidebar(props){
   }
 
   function funcDueDateWindow(){
-    console.log('Sidebar SidebarDueDate');
     onRemoving_onFrames();
-
     if(dueDateWindow){
       dispatch(setDueDateWindow(false));
     }

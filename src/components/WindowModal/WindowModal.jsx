@@ -26,7 +26,7 @@ import { setNewNameField, setNewWindowName, setStatrtWindowName } from "../../ma
 import { setMembersWindow, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
 import { setAuthUser, setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
 import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
-import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 
 
 export default function WindowModal(props){
@@ -56,7 +56,7 @@ export default function WindowModal(props){
   const [delWindow, setDelWindow] = useState(false); 
 
   // let [dueDateWindow, setDueDateWindow] = useState(false);
-  let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
+  // let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
 
   let [attachmentWindow, setAttachmentWindow] = useState(false); 
   const [showPreloderAttachmentWindow, setShowPreloderAttachmentWindow] = useState(false);
@@ -153,7 +153,9 @@ export default function WindowModal(props){
               setCardActivityComments(response.data.card[0].activity);
               // setCardActivityComments(response.data.card[0].activity.reverse());
               
-              setDueDateCheckbox(response.data.card[0]['execute']);
+              // setDueDateCheckbox(response.data.card[0]['execute']);
+              dispatch(setDueDateCheckbox(response.data.card[0]['execute']));
+
               setCardFiles(response.data.card[0]['card_file']);
               setCardLinks(response.data.card[0]['card_link']);
               // setUpdateValue(false);
@@ -642,12 +644,6 @@ export default function WindowModal(props){
 
               <div className={styles.cardDetailItem}>
                 <WindowModalDueDate
-                  // dueDateWindow={dueDateWindow} 
-                  dueDateCheckbox={dueDateCheckbox}
-                  setDueDateCheckbox={setDueDateCheckbox}
-                  // funcDueDateWindow={funcDueDateWindow} 
-                  // setUpdateValue={setUpdateValue}
-                  
                   onRemoving_onFrames={onRemoving_onFrames}
                 />
               </div>

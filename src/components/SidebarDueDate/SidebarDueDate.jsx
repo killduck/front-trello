@@ -11,6 +11,7 @@ import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
 import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+import { setWindowData } from "../../main_state/states/windowData";
 
 
 export default function SidebarDueDate(props){
@@ -20,13 +21,11 @@ export default function SidebarDueDate(props){
 
   const windowData = useSelector((state) => state.windowData.value);
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
+  let windowData_date_end = windowData.date_end;
 
   const dispatch = useDispatch();
 
-  let windowData_date_end = windowData.date_end;
-
   const [checkbox, setCheckbox] = useState(true);
-  // const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState(windowData_date_end ? new Date(windowData_date_end) : new Date());
   let [arrDate, setArrDate] = useState([]);
   let [newDate, setNewDate] = useState(String);
@@ -34,9 +33,7 @@ export default function SidebarDueDate(props){
   registerLocale('ru', ru);
 
   function funcDueDateWindow(){
-    console.log('SidebarDueDate');
     onRemoving_onFrames();
-
     if(dueDateWindow){
       dispatch(setDueDateWindow(false));
     }
@@ -87,7 +84,6 @@ export default function SidebarDueDate(props){
       }
     }
   }
-  
 
   function funcEraseDates(){
     setStartDate(new Date());
@@ -119,17 +115,19 @@ export default function SidebarDueDate(props){
     let end_minutes = startDate.getMinutes();
 
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
-    console.log('122');  
+
+    dispatch(setWindowModalReloadState(true));
+
     request({
       method:'POST',
       url:'add-card-due-date/',
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            console.log('129');  
-            // setStartDate(new Date(response.data[0].date_end));
-            // setUpdateValue(true);
-            dispatch(setWindowModalReloadState(true));
+            console.log('129', response.data);  
+            setStartDate(new Date(response.data[0].date_end));
+            dispatch(setWindowData(response.data[0]));
+            dispatch(setWindowModalReloadState(false));
 
             funcDueDateWindow();
           }
@@ -141,6 +139,8 @@ export default function SidebarDueDate(props){
   }
 
   function onDelDueDate(){
+    dispatch(setWindowModalReloadState(true));
+
     request({
       method:'POST',
       url:'del-card-due-date/',
@@ -148,9 +148,9 @@ export default function SidebarDueDate(props){
         if (response.status === 200) {
           if(response.data){
             setCheckbox(false);
-            // setUpdateValue(true);
-            dispatch(setWindowModalReloadState(true));
             setStartDate(new Date());
+            dispatch(setWindowData(response.data[0]));
+            dispatch(setWindowModalReloadState(false));
           }
         }
       },
