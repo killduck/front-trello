@@ -10,7 +10,6 @@ import { setMembersWindow, setShowPreloderAddMember, setShowPreloderDelMember } 
 import { setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 import request from "../../api/request";
-import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 
 export default function SidebarMembersWindow(props){
   console.log(props);
@@ -87,7 +86,7 @@ export default function SidebarMembersWindow(props){
               dispatch(setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch));
 
               // setUpdateValue(true);
-              dispatch(setWindowModalReloadState(true));
+              // dispatch(setWindowModalReloadState(true));
             }
           }
         },
@@ -116,8 +115,6 @@ export default function SidebarMembersWindow(props){
                 dispatch(setCardUsers(filteredCardUsers));
                 let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
                 dispatch(setSubscribeState(filteredCardSubscribedUsers));
-
-                dispatch(setWindowModalReloadState(true));
               }
             }
           },
@@ -205,7 +202,7 @@ export default function SidebarMembersWindow(props){
           <ul>
           {searchNewCardUser.map(
             (user)=> 
-              <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardActivityNewCommentInputGradient: ""}>
+              <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardMembersWindowGradient: ""}>
                 <Button
                   className={'addUserToCard'}
                   type="button"
@@ -267,7 +264,7 @@ export default function SidebarMembersWindow(props){
             <ul>
               { cardUsers.map(
                 (cardUser) => 
-                  <li key={cardUser.id} className={showPreloderDelMember === cardUser.id ? styles.cardActivityNewCommentInputGradient: ""}>
+                  <li key={cardUser.id} className={showPreloderDelMember === cardUser.id ? styles.cardMembersWindowGradient: ""}>
                     <Button
                       className={'delUserFromCard'}
                       type={showPreloderDelMember ? "text" : "button"}
@@ -335,7 +332,7 @@ export default function SidebarMembersWindow(props){
         <ul>
         {dashboardUsers.map(
           (user)=> 
-            <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardActivityNewCommentInputGradient: ""}>
+            <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardMembersWindowGradient: ""}>
               <Button
                 className={'addUserToCard'}
                 type={showPreloderAddMember ? "text" : "button"}

@@ -116,9 +116,9 @@ export default function Sidebar(props){
             <span>Участники</span>
           </div>
           
-          {(membersWindow) &&
-            (<SidebarMembersWindow
-              dashboardUsers = {dashboardUsers}
+          {(membersWindow) && (
+            <SidebarMembersWindow
+              dashboardUsers = {dashboardUsers} //это прилетает из дашборда
               onRemoving_onFrames={onRemoving_onFrames}
             />)
           }
@@ -134,15 +134,11 @@ export default function Sidebar(props){
             />
             <span>Метки</span>
           </div>
-          {showLabelsWindow &&
-            (<SidebarLabelWindow
-              // funcLabelsWindow={funcLabelsWindow}
-              // labelsWindow={labelsWindow}
-              updateCardLabel={updateCardLabel}
-
-              // setCardLabel={setCardLabel}
-              showPreloderLabel={showPreloderLabel}
-              setShowPreloderLabel={setShowPreloderLabel}
+          {showLabelsWindow && (
+            <SidebarLabelWindow
+              updateCardLabel={updateCardLabel} //это прилетает из дашборда
+              showPreloderLabel={showPreloderLabel} //это прилетает из дашборда
+              setShowPreloderLabel={setShowPreloderLabel} //это прилетает из дашборда
 
               onRemoving_onFrames={onRemoving_onFrames}
             />)
@@ -158,14 +154,9 @@ export default function Sidebar(props){
             />
             <span>Даты</span>
           </div>
-          {(dueDateWindow) &&
-            (<SidebarDueDate
+          {dueDateWindow && (
+            <SidebarDueDate
               onRemoving_onFrames={onRemoving_onFrames}
-
-              // funcDueDateWindow={funcDueDateWindow}
-              // dueDateWindow={dueDateWindow}
-              // setUpdateValue={setUpdateValue}
-
             />)
           }
 
@@ -179,40 +170,38 @@ export default function Sidebar(props){
             />
             <span>Вложение</span>
           </div>
-          {(attachmentWindow) ? 
-          (<SidebarAttachmentWindow
+          
+          {attachmentWindow && (
+            <SidebarAttachmentWindow
 
-            funcAttachmentWindow={funcAttachmentWindow}
-            attachmentWindow={attachmentWindow}
+              funcAttachmentWindow={funcAttachmentWindow}
+              attachmentWindow={attachmentWindow}
 
-            showPreloderAttachmentWindow={showPreloderAttachmentWindow}
-            setUpdateValue={setUpdateValue}
-            handleChangeAddFiles={handleChangeAddFiles}
-            addFiles={addFiles}
-            handleAddFilesReset={handleAddFilesReset}
-            handleAddFilesSubmit={handleAddFilesSubmit}
+              showPreloderAttachmentWindow={showPreloderAttachmentWindow}
+              setUpdateValue={setUpdateValue}
+              handleChangeAddFiles={handleChangeAddFiles}
+              addFiles={addFiles}
+              handleAddFilesReset={handleAddFilesReset}
+              handleAddFilesSubmit={handleAddFilesSubmit}
 
-            newLink={newLink}
-            newLinkDesc={newLinkDesc}
-            writeNewLink={writeNewLink}
-            newLinkHandleKeyPress={newLinkHandleKeyPress}
-            // setStartLink={setStartLink}
-            startLink={startLink}
-            writeNewLinkDesc={writeNewLinkDesc}
-            newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
-            
-          />):("")
+              newLink={newLink}
+              newLinkDesc={newLinkDesc}
+              writeNewLink={writeNewLink}
+              newLinkHandleKeyPress={newLinkHandleKeyPress}
+              // setStartLink={setStartLink}
+              startLink={startLink}
+              writeNewLinkDesc={writeNewLinkDesc}
+              newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
+              
+            />)
           }
-
         </div>
-
       </div>
 
       <div className={styles.actionsWrap}>
         <h3 className={styles.actionsTitle}>Действия:</h3>
         <div className={styles.actionsWrap}>
           <div className={styles.actionDeleteCard}>
-            
             <Button
                 actionVariable={windowData.id}
                 clickAction={funkShowCardDel}
@@ -229,41 +218,41 @@ export default function Sidebar(props){
           </div>
         </div>
       </div>
-      {(showCardDel === windowData.id) &&
-      (<div className={styles.smallWindowWrap}>
-        <header className={styles.itemHeader}>
-          <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить карточку?</h2>
-          
-          <div className={styles.iconWrap}>
+      
+      {(showCardDel === windowData.id) &&(
+        <div className={styles.smallWindowWrap}>
+          <header className={styles.itemHeader}>
+            <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить карточку?</h2>
+            <div className={styles.iconWrap}>
+              <Button
+                className={'btnSmallWindow'}
+                type="button"
+                ariaLabel="Закрыть окно"
+                clickAction={funkShowCardDel} 
+              >
+                <Icons
+                  class_name={'btnModalCloseIcon'}
+                  name={'CloseIcon'}
+                />
+              </Button>
+            </div>
+          </header>
+          <div className={styles.delButtonWrap}>
+            <p className={styles.delButtonWrapText}>
+              Удалить эту карточку? Отмена невозможна.
+            </p>
             <Button
-              className={'btnSmallWindow'}
+              className={'btnDelCard'}
               type="button"
-              ariaLabel="Закрыть окно"
-              clickAction={funkShowCardDel} 
-            >
-              <Icons
-                class_name={'btnModalCloseIcon'}
-                name={'CloseIcon'}
-              />
-            </Button>
+              ariaLabel="Удалить карточку"
+              actionVariable={windowData.id}
+              clickAction={onDeleteCard} 
+            >Удалить</Button>
           </div>
-        </header>
-        <div className={styles.delButtonWrap}>
-          <p className={styles.delButtonWrapText}>
-            Удалить эту карточку? Отмена невозможна.
-          </p>
-          <Button
-            className={'btnDelCard'}
-            type="button"
-            ariaLabel="Удалить карточку"
-            actionVariable={windowData.id}
-            clickAction={onDeleteCard} 
-          >Удалить</Button>
-        </div>
-      </div>)}
+        </div>)
+      }
 
     </div>
-
   )
 };
   

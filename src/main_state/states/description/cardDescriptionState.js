@@ -31,6 +31,9 @@ export const cardDescriptionState = createSlice(
 )
 
 // Action creators are generated for each case reducer function
-export const { setNewCardDescriptionState, setStartCardDescriptionState } = cardDescriptionState.actions
+export const { 
+  setNewCardDescriptionState, 
+  setStartCardDescriptionState, 
+} = cardDescriptionState.actions
 
 export default cardDescriptionState.reducer

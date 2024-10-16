@@ -24,9 +24,10 @@ import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { setNewNameField, setNewWindowName, setStatrtWindowName } from "../../main_state/states/modalHeader/windowName";
 import { setMembersWindow, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
-import { setAuthUser, setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
+import { setAuthUser, setAuthUserData, setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
 import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setActivityEditorShow, setCardActivityComments } from "../../main_state/states/modalActivity/modalActivity";
 
 
 export default function WindowModal(props){
@@ -45,15 +46,15 @@ export default function WindowModal(props){
   let setShowPreloderLabel = props.setShowPreloderLabel; //это прилетает из дашборда
 
   // const [authUser, setAuthUser] = useState(Number);
-  const [authUserData, setAuthUserData] = useState(Number); // ???
+  // const [authUserData, setAuthUserData] = useState(Number); // унжен для modalActivity
 
-  let [activityDetailsShow, setActivityDetailsShow] = useState(true);
-  let [activityEditorShow, setActivityEditorShow] = useState(null);
-  let [cardActivityComments, setCardActivityComments] = useState([]);
-  let [valueEditor, setValueEditor] = useState('');
-  const [cardActivity, setCardActivity] = useState('<p><br></p>');
-  const [processActivity, setProcessActivity] = useState(false);
-  const [delWindow, setDelWindow] = useState(false); 
+  // let [activityDetailsShow, setActivityDetailsShow] = useState(true);
+  // let [activityEditorShow, setActivityEditorShow] = useState(null); //нужно глобально
+  // let [cardActivityComments, setCardActivityComments] = useState([]); //нужно глобально
+  // let [valueEditor, setValueEditor] = useState('');
+  // const [cardActivity, setCardActivity] = useState('<p><br></p>');
+  // const [processActivity, setProcessActivity] = useState(false);
+  // const [delWindow, setDelWindow] = useState(false); 
 
   // let [dueDateWindow, setDueDateWindow] = useState(false);
   // let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
@@ -86,8 +87,8 @@ export default function WindowModal(props){
   const windowData = useSelector((state) => state.windowData.value);
   console.log(windowData); 
   // const subscribeState = useSelector((state) => state.subscribeState.value); 
-  const cardUsers = useSelector((state) => state.cardUsersState.cardUsers); 
-  const authUser = useSelector((state) => state.cardUsersState.authUser); 
+  // const cardUsers = useSelector((state) => state.cardUsersState.cardUsers); 
+  // const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const windowModalReloadState = useSelector((state) => state.windowModalReloadState.value); 
   console.log(windowModalReloadState);
   const windowModalReloadBlur = useSelector((state) => state.windowModalReloadState.blur); 
@@ -95,18 +96,6 @@ export default function WindowModal(props){
 
 
   const dispatch = useDispatch();
-
-  const modules = {
-    toolbar: [
-      [{ header: []}],
-      ["bold", "italic", "underline"], //"strike", "blockquote"
-      [{color: []}],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image", "video"],
-      ["clean"],
-    ],
-  };
-  console.log('108'); 
 
   useEffect(() => {
     console.log('110'); 
@@ -147,10 +136,11 @@ export default function WindowModal(props){
               // setCardDescription(response.data.card[0]['description']); 
               dispatch(setNewCardDescriptionState(response.data.card[0]['description']));
 
-              setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
+              // setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
+              dispatch(setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]));
 
               // console.log(response.data.card[0].activity);
-              setCardActivityComments(response.data.card[0].activity);
+              dispatch(setCardActivityComments(response.data.card[0].activity));
               // setCardActivityComments(response.data.card[0].activity.reverse());
               
               // setDueDateCheckbox(response.data.card[0]['execute']);
@@ -202,7 +192,9 @@ export default function WindowModal(props){
     // setShowUserCard(null); 
     dispatch(setShowUserCard(null));
 
-    setActivityEditorShow(null);  
+    // setActivityEditorShow(null); 
+    dispatch(setActivityEditorShow(null));  
+
     setAttachmentWindow(false);
     setShowCardOptions(false);
     setShowCardOptionsFileDel(false);
@@ -453,94 +445,94 @@ export default function WindowModal(props){
 
 
 
-  function onDelWindow(comment_id){ 
-    if(delWindow){
-      setDelWindow(false);
-    }
-    else{
-      setDelWindow(comment_id);
-    }
-  }
+  // function onDelWindow(comment_id){ 
+  //   if(delWindow){
+  //     setDelWindow(false);
+  //   }
+  //   else{
+  //     setDelWindow(comment_id);
+  //   }
+  // }
 
-  function onDelActivityReactQuillComment(comment_data){
-    // console.log(comment_id);
-    setDelWindow(false);
-    setProcessActivity(comment_data.date);
-    request({
-      method:'POST',
-      url:'del-card-activity/',
-      callback:(response) => { 
-        if (response.status === 200) {
-          setProcessActivity(false);
-          setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id));
-        }
-      },
-      data: {'comment_id': comment_data.id},
-      status:200,
-    });
-  }
+  // function onDelActivityReactQuillComment(comment_data){
+  //   // console.log(comment_id);
+  //   setDelWindow(false);
+  //   setProcessActivity(comment_data.date);
+  //   request({
+  //     method:'POST',
+  //     url:'del-card-activity/',
+  //     callback:(response) => { 
+  //       if (response.status === 200) {
+  //         setProcessActivity(false);
+  //         setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id));
+  //       }
+  //     },
+  //     data: {'comment_id': comment_data.id},
+  //     status:200,
+  //   });
+  // }
 
-  function onSaveActivityReactQuillComment(date){
-    if(valueEditor === '<p><br></p>'){
-      setValueEditor(valueEditor = null);
-    } 
+  // function onSaveActivityReactQuillComment(date){
+  //   if(valueEditor === '<p><br></p>'){
+  //     setValueEditor(valueEditor = null);
+  //   } 
 
-    if(cardActivity === valueEditor){
-      setValueEditor(valueEditor = null)
-      funcActivityEditorShow();
-      return;
-    }
+  //   if(cardActivity === valueEditor){
+  //     setValueEditor(valueEditor = null)
+  //     funcActivityEditorShow();
+  //     return;
+  //   }
 
-    if(valueEditor !== cardActivity){
-      setProcessActivity(date);
-      request({
-        method:'POST',
-        url:'add-card-activity/',
-        callback:(response) => { 
-          if (response.status === 200) {
-            setProcessActivity(false);
-            if(response.data){
-              // console.log(response.data);
-              setCardActivityComments(response.data);
-              setValueEditor('');
-            }
-          }
-        },
-        data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim(),}, //valueEditor.trim().slice(0, -11)
-        status:200,
-      });
-    }
-    funcActivityEditorShow();
-  }
+  //   if(valueEditor !== cardActivity){
+  //     setProcessActivity(date);
+  //     request({
+  //       method:'POST',
+  //       url:'add-card-activity/',
+  //       callback:(response) => { 
+  //         if (response.status === 200) {
+  //           setProcessActivity(false);
+  //           if(response.data){
+  //             // console.log(response.data);
+  //             setCardActivityComments(response.data);
+  //             setValueEditor('');
+  //           }
+  //         }
+  //       },
+  //       data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim(),}, //valueEditor.trim().slice(0, -11)
+  //       status:200,
+  //     });
+  //   }
+  //   funcActivityEditorShow();
+  // }
 
-  function showActivityReactQuillHandleKeyPress(evt, date){
-    if(evt.key === 'Enter' && evt.shiftKey){
-      setValueEditor(valueEditor = valueEditor.trim().slice(0, -11));
-      onSaveActivityReactQuillComment(date);
-    }
-  }
+  // function showActivityReactQuillHandleKeyPress(evt, date){
+  //   if(evt.key === 'Enter' && evt.shiftKey){
+  //     setValueEditor(valueEditor = valueEditor.trim().slice(0, -11));
+  //     onSaveActivityReactQuillComment(date);
+  //   }
+  // }
 
-  function funcActivityDetailsShow(){
-    onRemoving_onFrames();
-    if(activityDetailsShow){
-      setActivityDetailsShow(false);
-    }
-    else{
-      setActivityDetailsShow(true);
-    }
-  }
+  // function funcActivityDetailsShow(){
+  //   onRemoving_onFrames();
+  //   if(activityDetailsShow){
+  //     setActivityDetailsShow(false);
+  //   }
+  //   else{
+  //     setActivityDetailsShow(true);
+  //   }
+  // }
 
-  function funcActivityEditorShow(comment_id = null, commentStartValue){
-    onRemoving_onFrames();
-    if(activityEditorShow === comment_id){
-      setActivityEditorShow(null);
-    }
-    else{
-      setActivityEditorShow(comment_id);
-      setCardActivity(commentStartValue);
-      setValueEditor(commentStartValue);
-    }
-  }
+  // function funcActivityEditorShow(comment_id = null, commentStartValue){
+  //   onRemoving_onFrames();
+  //   if(activityEditorShow === comment_id){
+  //     setActivityEditorShow(null);
+  //   }
+  //   else{
+  //     setActivityEditorShow(comment_id);
+  //     setCardActivity(commentStartValue);
+  //     setValueEditor(commentStartValue);
+  //   }
+  // }
 
   // function funcDueDateWindow(){
   //   onRemoving_onFrames();
@@ -684,25 +676,6 @@ export default function WindowModal(props){
             }
 
             <WindowModalActivity
-              authUserData={authUserData}
-              activityDetailsShow={activityDetailsShow}
-              activityEditorShow={activityEditorShow}
-              processActivity={processActivity}
-              valueEditor={valueEditor}
-              setValueEditor={setValueEditor}
-              cardActivityComments={cardActivityComments}
-              modules={modules}
-              // editorRef={editorRef}
-              funcActivityDetailsShow={funcActivityDetailsShow}
-              funcActivityEditorShow={funcActivityEditorShow}
-              showActivityReactQuillHandleKeyPress={showActivityReactQuillHandleKeyPress}
-              onSaveActivityReactQuillComment={onSaveActivityReactQuillComment}
-              onDelActivityReactQuillComment={onDelActivityReactQuillComment}
-              // onUserCard={onUserCard}
-              onDelWindow={onDelWindow} 
-              delWindow={delWindow} 
-              setDelWindow={setDelWindow} 
-
               onRemoving_onFrames={onRemoving_onFrames}
             />
           </div>

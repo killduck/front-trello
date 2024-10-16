@@ -6,6 +6,7 @@ export const cardUsersState = createSlice(
     initialState: {
         cardUsers: [],
         authUser: Number(null),
+        authUserData: Number(null),
         matchSearch: '',
         searchNewCardUser: [],
 
@@ -17,25 +18,25 @@ export const cardUsersState = createSlice(
       },
       setAuthUser: (state, action) => {
         state.authUser = action.payload;
-        // console.log('state =>', state.showUserCard, 'action =>', action.payload);
+      },
+      setAuthUserData: (state, action) => {
+        state.authUserData = action.payload;
       },
       setMatchSearch: (state, action) => {
         state.matchSearch = action.payload;
-        // console.log('state =>', state.showUserCard, 'action =>', action.payload);
       },
       setSearchNewCardUser: (state, action) => {
         state.searchNewCardUser = action.payload;
-        // console.log('state =>', state.showUserCard, 'action =>', action.payload);
       },
 
     },
   }
 )
 
-// Action creators are generated for each case reducer function
 export const { 
   setCardUsers,
   setAuthUser,
+  setAuthUserData,
   setMatchSearch,
   setSearchNewCardUser,
 

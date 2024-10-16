@@ -15,6 +15,7 @@ import modalCardMemberState from './states/modalCardMember/modalCardMember.js';
 import cardUsersState from './states/cardUsersState.js';
 import modalCardLabelState from './states/modalCardLabel/modalCardLabel.js';
 import modalDueDateState from './states/modalDueDate/modalDueDate.js';
+import modalActivityState from './states/modalActivity/modalActivity.js';
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
     modalCardMemberState: modalCardMemberState,
     modalCardLabelState: modalCardLabelState,
     modalDueDateState: modalDueDateState,
+    modalActivityState: modalActivityState,
 
   },
 })

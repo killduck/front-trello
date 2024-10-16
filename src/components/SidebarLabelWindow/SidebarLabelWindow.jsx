@@ -105,7 +105,7 @@ export default function SidebarLabelWindow(props){
               <label className={
                 `${styles.labelItem} 
                 ${showPreloderLabel ? styles.labelItemWait : ""} 
-                ${showPreloderLabel === coloredLabel.id ? styles.cardActivityNewCommentInputGradient: ""}` 
+                ${showPreloderLabel === coloredLabel.id ? styles.cardLabelWindowInputGradient: ""}` 
               }>
                 <input className={styles.labelItemInput} type="checkbox"/>
                 <span className={styles.labelItemCheckboxWrap}>

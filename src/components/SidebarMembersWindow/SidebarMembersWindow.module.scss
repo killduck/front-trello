@@ -235,15 +235,15 @@
 //     }
 // }
 
-.cardActivityNewCommentInputGradient {
+.cardMembersWindowGradient {
     background: linear-gradient(45deg, #22272b, #616161, #22272b);
     background-size: 200% 800%;
-    animation: newCommentGradient 2s ease infinite;
+    animation: membersWindowGradient 2s ease infinite;
     border-radius: 3px;
     cursor: default;
 }
 
-@keyframes newCommentGradient {
+@keyframes membersWindowGradient {
     0% {
         background-position: 50% 0%;
     }
