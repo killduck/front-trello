@@ -28,6 +28,7 @@ import { setAuthUser, setAuthUserData, setCardUsers, setMatchSearch, setSearchNe
 import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { setActivityEditorShow, setCardActivityComments } from "../../main_state/states/modalActivity/modalActivity";
+import { setAddFiles, setAttachmentWindow, setCardFiles, setCardLinks, setNewLink, setNewLinkDesc, setShowCardOptions, setShowCardOptionsFileDel, setShowCardOptionsLinkDel, setShowCardOptionsLinkUpdate, setShowPreloderAttachmentWindow, setShowPreloderLink, setStartLink } from "../../main_state/states/modalAttachment/modalAttachment";
 
 
 export default function WindowModal(props){
@@ -45,40 +46,27 @@ export default function WindowModal(props){
   let showPreloderLabel = props.showPreloderLabel; //это прилетает из дашборда
   let setShowPreloderLabel = props.setShowPreloderLabel; //это прилетает из дашборда
 
-  // const [authUser, setAuthUser] = useState(Number);
-  // const [authUserData, setAuthUserData] = useState(Number); // унжен для modalActivity
 
-  // let [activityDetailsShow, setActivityDetailsShow] = useState(true);
-  // let [activityEditorShow, setActivityEditorShow] = useState(null); //нужно глобально
-  // let [cardActivityComments, setCardActivityComments] = useState([]); //нужно глобально
-  // let [valueEditor, setValueEditor] = useState('');
-  // const [cardActivity, setCardActivity] = useState('<p><br></p>');
-  // const [processActivity, setProcessActivity] = useState(false);
-  // const [delWindow, setDelWindow] = useState(false); 
+  // let [attachmentWindow, setAttachmentWindow] = useState(false); // глобально + 
+  // const [showPreloderAttachmentWindow, setShowPreloderAttachmentWindow] = useState(false); // глобально + 
 
-  // let [dueDateWindow, setDueDateWindow] = useState(false);
-  // let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
-
-  let [attachmentWindow, setAttachmentWindow] = useState(false); 
-  const [showPreloderAttachmentWindow, setShowPreloderAttachmentWindow] = useState(false);
-
-  let [updateValue, setUpdateValue] = useState(false);
+  // let [updateValue, setUpdateValue] = useState(false); // пока нужно
   
-  const [addFiles, setAddFiles] = useState([]);
-  const [cardFiles, setCardFiles] = useState(task.card_file);
-  const [showPreloderFile, setShowPreloderFile] = useState(false);
+  // const [addFiles, setAddFiles] = useState([]);
+  // const [cardFiles, setCardFiles] = useState(task.card_file);
+  // const [showPreloderFile, setShowPreloderFile] = useState(false);
 
-  let [showCardOptions, setShowCardOptions] = useState(false);
-  const [cardLinks, setCardLinks] = useState(task.card_link);
-  let [newLink, setNewLink] = useState('');
-  let [startLink, setStartLink] = useState('');
-  let [newLinkDesc, setNewLinkDesc] = useState('');
+  // let [showCardOptions, setShowCardOptions] = useState(false);
+  // const [cardLinks, setCardLinks] = useState(task.card_link);
+  // let [newLink, setNewLink] = useState('');
+  // let [startLink, setStartLink] = useState('');
+  // let [newLinkDesc, setNewLinkDesc] = useState('');
   // let [startLinkDesc, setStartLinkDesc] = useState(''); 
-  const [showPreloderLink, setShowPreloderLink] = useState(false);
+  // const [showPreloderLink, setShowPreloderLink] = useState(false);
 
-  let [showCardOptionsFileDel, setShowCardOptionsFileDel] = useState(false);
-  let [showCardOptionsLinkDel, setShowCardOptionsLinkDel] = useState(false);
-  let [showCardOptionsLinkUpdate, setShowCardOptionsLinkUpdate] = useState(false);
+  // let [showCardOptionsFileDel, setShowCardOptionsFileDel] = useState(false);
+  // let [showCardOptionsLinkDel, setShowCardOptionsLinkDel] = useState(false);
+  // let [showCardOptionsLinkUpdate, setShowCardOptionsLinkUpdate] = useState(false);
 
   const [showCardDel, setShowCardDel] = useState(false);
   
@@ -94,6 +82,15 @@ export default function WindowModal(props){
   const windowModalReloadBlur = useSelector((state) => state.windowModalReloadState.blur); 
   console.log(windowModalReloadBlur); 
 
+  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
+  const addFiles = useSelector((state) => state.modalAttachmentState.addFiles);
+  const cardFiles = useSelector((state) => state.modalAttachmentState.cardFiles); 
+  const cardLinks = useSelector((state) => state.modalAttachmentState.cardLinks); 
+  const startLink = useSelector((state) => state.modalAttachmentState.startLink); 
+  const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
+  const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
+
+  
 
   const dispatch = useDispatch();
 
@@ -146,9 +143,8 @@ export default function WindowModal(props){
               // setDueDateCheckbox(response.data.card[0]['execute']);
               dispatch(setDueDateCheckbox(response.data.card[0]['execute']));
 
-              setCardFiles(response.data.card[0]['card_file']);
-              setCardLinks(response.data.card[0]['card_link']);
-              // setUpdateValue(false);
+              dispatch(setCardFiles(response.data.card[0]['card_file']));
+              dispatch(setCardLinks(response.data.card[0]['card_link']));
               
               dispatch(setWindowModalReloadState(false));
 
@@ -168,7 +164,7 @@ export default function WindowModal(props){
       data: {'id': idElem},
       status:200,
     });
-  },[typeElem, idElem, task, dashboardUsers, updateValue, dispatch]);
+  },[typeElem, idElem, task, dashboardUsers, dispatch]);
   console.log('179'); 
 
   function onRemoving_onFrames(){
@@ -195,21 +191,21 @@ export default function WindowModal(props){
     // setActivityEditorShow(null); 
     dispatch(setActivityEditorShow(null));  
 
-    setAttachmentWindow(false);
-    setShowCardOptions(false);
-    setShowCardOptionsFileDel(false);
-    setShowCardOptionsLinkUpdate(false);
-    setShowCardOptionsLinkDel(false);
+    dispatch(setAttachmentWindow(false));
+    dispatch(setShowCardOptions(false));
+    dispatch(setShowCardOptionsFileDel(false));
+    dispatch(setShowCardOptionsLinkUpdate(false));
+    dispatch(setShowCardOptionsLinkDel(false));
     setShowCardDel(false);
   }
 
-  const handleChangeAddFiles = (evt) => {
-    evt.preventDefault();
-    console.log(evt, addFiles);
-    if(evt.target.files && evt.target.files[0]){
-      setAddFiles(evt.target.files);
-    }
-  }
+  // const handleChangeAddFiles = (evt) => {
+  //   evt.preventDefault();
+  //   console.log(evt, addFiles);
+  //   if(evt.target.files && evt.target.files[0]){
+  //     setAddFiles(evt.target.files);
+  //   }
+  // }
 
   const handleDragAddFiles = (evt) => {
     evt.preventDefault();
@@ -221,19 +217,20 @@ export default function WindowModal(props){
   }
   const handleDragDropAddFiles = (evt) => {
     evt.preventDefault();
-    setAttachmentWindow(true);
+
+    dispatch(setAttachmentWindow(true));
     setDragActive(false);
     if(evt.dataTransfer.files && evt.dataTransfer.files[0]){
-      setAddFiles(evt.dataTransfer.files);
+      dispatch(setAddFiles(evt.dataTransfer.files));
     }
   }
 
   const handleAddFilesReset = (evt) => {
     // evt.preventDefault();
-    console.log('проверка сброса >>> setAddFiles');
-    setNewLink(''); 
-    setNewLinkDesc('');
-    setAddFiles([]);
+    // console.log('проверка сброса >>> setAddFiles');
+    dispatch(setNewLink('')); 
+    dispatch(setNewLinkDesc(''));
+    dispatch(setAddFiles([]));
   }
 
   const handleAddFilesSubmit = () => {
@@ -257,7 +254,7 @@ export default function WindowModal(props){
 
     if(attachmentWindow !== 'link'){
       // setAttachmentWindow(false);
-      setStartLink('');
+      dispatch(setStartLink(''));
     }
 
     const formData = new FormData();
@@ -277,8 +274,8 @@ export default function WindowModal(props){
       formData.append('file', addFiles);
     }
 
-    setShowPreloderLink(startLink.id);
-    setShowPreloderAttachmentWindow(true);
+    dispatch(setShowPreloderLink(startLink.id));
+    dispatch(setShowPreloderAttachmentWindow(true));
 
     request({
       method: 'POST',
@@ -287,14 +284,14 @@ export default function WindowModal(props){
         setTimeout(() => {
           if (response.status === 200) {
             console.log(response.data);
-            setShowPreloderLink(false);
-            setShowPreloderAttachmentWindow(false);
+            dispatch(setShowPreloderLink(false));
+            dispatch(setShowPreloderAttachmentWindow(false));
             funcAttachmentWindow();
-            setNewLink('');
-            setNewLinkDesc('');
-            setStartLink('');
-            setCardFiles(response.data.card_file);
-            setUpdateValue(true);
+            dispatch(setNewLink(''));
+            dispatch(setNewLinkDesc(''));
+            dispatch(setStartLink(''));
+            dispatch(setCardFiles(response.data.card_file));
+            // setUpdateValue(true);//пока нужно
             // dispatch(setWindowModalReloadState(true));
           }
         }, 1000);
@@ -305,143 +302,143 @@ export default function WindowModal(props){
     });
   }
 
-  function onDownloadCardFile(file){
-    if(showPreloderFile){ 
-      return;
-    }
-    setShowPreloderFile(file.id); 
-    onRemoving_onFrames();
+  // function onDownloadCardFile(file){
+  //   if(showPreloderFile){ 
+  //     return;
+  //   }
+  //   setShowPreloderFile(file.id); 
+  //   onRemoving_onFrames();
 
-    request({
-      method: 'POST',
-      url: 'download-file-from-card/',
-      callback: (response) => {
-        if (response.status === 200) {
-          // console.log(response.data);
-          setShowPreloderFile(false);
-          // create file link in browser's memory
-          const href = URL.createObjectURL(response.data);
-          // create "a" HTML element with href to file & click
-          const link = document.createElement('a');
-          link.href = href;
-          link.setAttribute('download', file.name); //or any other extension
-          document.body.appendChild(link);
-          link.click();
-          // clean up "a" element & remove ObjectURL
-          document.body.removeChild(link);
-          URL.revokeObjectURL(href);
+  //   request({
+  //     method: 'POST',
+  //     url: 'download-file-from-card/',
+  //     callback: (response) => {
+  //       if (response.status === 200) {
+  //         // console.log(response.data);
+  //         setShowPreloderFile(false);
+  //         // create file link in browser's memory
+  //         const href = URL.createObjectURL(response.data);
+  //         // create "a" HTML element with href to file & click
+  //         const link = document.createElement('a');
+  //         link.href = href;
+  //         link.setAttribute('download', file.name); //or any other extension
+  //         document.body.appendChild(link);
+  //         link.click();
+  //         // clean up "a" element & remove ObjectURL
+  //         document.body.removeChild(link);
+  //         URL.revokeObjectURL(href);
 
-          funcShowAttachmentContentCardOptions(false);
-          setUpdateValue(true);
-          // dispatch(setWindowModalReloadState(true));
-        }
-      },
-      data: {'card_id': idElem, 'file_id': file.id},
-      status: 200,
-      response_type: 'blob',
-    });
-  }
+  //         funcShowAttachmentContentCardOptions(false);
+  //         setUpdateValue(true);//пока нужно
+  //         // dispatch(setWindowModalReloadState(true));
+  //       }
+  //     },
+  //     data: {'card_id': idElem, 'file_id': file.id},
+  //     status: 200,
+  //     response_type: 'blob',
+  //   });
+  // }
 
-  function onDeleteCardFile(file_id){
-    if(showPreloderFile){ 
-      return;
-    }
-    setShowPreloderFile(file_id);
-    onRemoving_onFrames();
-    request({
-      method: 'POST',
-      url: 'del-file-from-card/',
-      callback: (response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-          setShowPreloderFile(false);
+  // function onDeleteCardFile(file_id){
+  //   if(showPreloderFile){ 
+  //     return;
+  //   }
+  //   setShowPreloderFile(file_id);
+  //   onRemoving_onFrames();
+  //   request({
+  //     method: 'POST',
+  //     url: 'del-file-from-card/',
+  //     callback: (response) => {
+  //       if (response.status === 200) {
+  //         console.log(response.data);
+  //         setShowPreloderFile(false);
 
-          setCardFiles(response.data.card_file);
-          funcShowAttachmentContentCardOptions(false);
-          setUpdateValue(true);
-          // dispatch(setWindowModalReloadState(true));
-        }
-      },
-      data: {'card_id': idElem, 'file_id': file_id},
-      status: 200,
-    });
-  }
+  //         setCardFiles(response.data.card_file);
+  //         funcShowAttachmentContentCardOptions(false);
+  //         setUpdateValue(true);//пока нужно
+  //         // dispatch(setWindowModalReloadState(true));
+  //       }
+  //     },
+  //     data: {'card_id': idElem, 'file_id': file_id},
+  //     status: 200,
+  //   });
+  // }
 
-  function funcShowDeleteCardFile(file_id){
-    onRemoving_onFrames();
-    if(showCardOptionsFileDel){
-      setShowCardOptionsFileDel(false); 
-    }
-    else{
-      setShowCardOptionsFileDel(showCardOptionsFileDel = file_id);
-    }
-  }
+  // function funcShowDeleteCardFile(file_id){
+  //   onRemoving_onFrames();
+  //   if(showCardOptionsFileDel){
+  //     setShowCardOptionsFileDel(false); 
+  //   }
+  //   else{
+  //     setShowCardOptionsFileDel(showCardOptionsFileDel = file_id);
+  //   }
+  // }
   
 
-  function onDeleteCardLink(link_id){
-    if(showPreloderLink){ 
-      return;
-    }
-    setShowPreloderLink(link_id);
-    onRemoving_onFrames();
+  // function onDeleteCardLink(link_id){
+  //   if(showPreloderLink){ 
+  //     return;
+  //   }
+  //   setShowPreloderLink(link_id);
+  //   onRemoving_onFrames();
 
-    request({
-      method: 'POST',
-      url: 'del-link-from-card/',
-      callback: (response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-          setShowPreloderLink(false);
-          setCardLinks(response.data.card_link);
-          funcShowAttachmentContentCardOptions(false);
-          setUpdateValue(true);
-          // dispatch(setWindowModalReloadState(true));
-        }
-      },
-      data: {'card_id': idElem, 'link_id': link_id},
-      status: 200,
-    });
-  }
+  //   request({
+  //     method: 'POST',
+  //     url: 'del-link-from-card/',
+  //     callback: (response) => {
+  //       if (response.status === 200) {
+  //         console.log(response.data);
+  //         setShowPreloderLink(false);
+  //         setCardLinks(response.data.card_link);
+  //         funcShowAttachmentContentCardOptions(false);
+  //         setUpdateValue(true);//пока нужно
+  //         // dispatch(setWindowModalReloadState(true));
+  //       }
+  //     },
+  //     data: {'card_id': idElem, 'link_id': link_id},
+  //     status: 200,
+  //   });
+  // }
   
-  function funcShowAttachmentContentCardOptions(elem_id){
-    onRemoving_onFrames();
-    if(showCardOptions){ 
-      setShowCardOptions(false);
-    }
-    else{
-      setShowCardOptions(showCardOptions = elem_id);
-    }
-    // setShowCardOptions(showCardOptions = elem_id);
+  // function funcShowAttachmentContentCardOptions(elem_id){
+  //   onRemoving_onFrames();
+  //   if(showCardOptions){ 
+  //     setShowCardOptions(false);
+  //   }
+  //   else{
+  //     setShowCardOptions(showCardOptions = elem_id);
+  //   }
+  //   // setShowCardOptions(showCardOptions = elem_id);
 
-  }
+  // }
 
-  function funcShowDeleteCardLink(link_id){
-    onRemoving_onFrames();
-    if(showCardOptionsLinkDel){
-      setShowCardOptionsLinkDel(false);
-    }
-    else{
-      setShowCardOptionsLinkDel(showCardOptionsLinkDel = link_id);
-    }
-  }
+  // function funcShowDeleteCardLink(link_id){
+  //   onRemoving_onFrames();
+  //   if(showCardOptionsLinkDel){
+  //     setShowCardOptionsLinkDel(false);
+  //   }
+  //   else{
+  //     setShowCardOptionsLinkDel(showCardOptionsLinkDel = link_id);
+  //   }
+  // }
 
-  function funcShowUpdateCardLink(link_all){
-    console.log(link_all);
-    onRemoving_onFrames();
-    if(attachmentWindow){
-      setAttachmentWindow(false);
-    }
-    else{
-      setStartLink(startLink = link_all); 
+  // function funcShowUpdateCardLink(link_all){
+  //   console.log(link_all);
+  //   onRemoving_onFrames();
+  //   if(attachmentWindow){
+  //     setAttachmentWindow(false);
+  //   }
+  //   else{
+  //     setStartLink(startLink = link_all); 
 
-      setNewLink(newLink = link_all.text); 
-      setNewLinkDesc(newLinkDesc = link_all.description); 
+  //     setNewLink(newLink = link_all.text); 
+  //     setNewLinkDesc(newLinkDesc = link_all.description); 
 
-      // writeNewLink(link_all.text);
-      // writeNewLinkDesc(link_all.description);
-      setAttachmentWindow(attachmentWindow = 'link');
-    }
-  }
+  //     // writeNewLink(link_all.text);
+  //     // writeNewLinkDesc(link_all.description);
+  //     setAttachmentWindow(attachmentWindow = 'link');
+  //   }
+  // }
 
 
 
@@ -545,41 +542,42 @@ export default function WindowModal(props){
   //   }
   // }
 
-  function writeNewLinkDesc(evt) {
-    console.log(evt);
-    setNewLinkDesc(newLinkDesc = evt);
-    console.log(newLinkDesc);
-  }
+  // function writeNewLinkDesc(evt) { 
+  //   console.log(evt);
+  //   setNewLinkDesc(evt);
+  //   console.log(newLinkDesc);
+  // }
 
-  const newLinkDescHandleKeyPress = (evt) => {
-    if(evt.key === 'Enter' && evt.shiftKey){ 
-      console.log(newLinkDesc, startLink.description);
+  // const newLinkDescHandleKeyPress = (evt) => {
+  //   if(evt.key === 'Enter' && evt.shiftKey){ 
+  //     console.log(newLinkDesc, startLink.description);
       
-      handleAddFilesSubmit();
-    }
-  }
+  //     handleAddFilesSubmit();
+  //   }
+  // }
 
-  function writeNewLink(evt) {
-    setNewLink(newLink = evt);
-  }
+  // function writeNewLink(evt) {
+  //   setNewLink(newLink = evt);
+  // }
 
-  const newLinkHandleKeyPress = (evt) => {
-    if(evt.key === 'Enter' && evt.shiftKey){
+  // const newLinkHandleKeyPress = (evt) => {
+  //   if(evt.key === 'Enter' && evt.shiftKey){
       
-      handleAddFilesSubmit();
-    }
-  }
+  //     handleAddFilesSubmit();
+  //   }
+  // }
 
   function funcAttachmentWindow(){ 
     onRemoving_onFrames();
     if(attachmentWindow){
-      setNewLink(''); 
-      setNewLinkDesc('');
-      setAddFiles([]);
-      setAttachmentWindow(false);
+      dispatch(setNewLink('')); 
+      dispatch(setNewLinkDesc(''));
+
+      dispatch(setAddFiles([]));
+      dispatch(setAttachmentWindow(false));
     }
     else{
-      setAttachmentWindow(attachmentWindow = true);
+      dispatch(setAttachmentWindow(true));
     }
   }
 
@@ -648,30 +646,7 @@ export default function WindowModal(props){
 
             {(cardFiles.length > 0 || cardLinks.length > 0) &&
               <WindowModalAttachment 
-                funcAttachmentWindow={funcAttachmentWindow}
-                handleChangeAddFiles={handleChangeAddFiles}
-                showCardOptions={showCardOptions}
-                setShowCardOptions={setShowCardOptions}
-                addFiles={addFiles}
-                cardFiles={cardFiles}
-                setCardFiles={setCardFiles}
-                onDeleteCardFile={onDeleteCardFile}
-                showPreloderFile={showPreloderFile}
-                funcShowDeleteCardFile={funcShowDeleteCardFile}
-                showCardOptionsFileDel={showCardOptionsFileDel}
-                onDownloadCardFile={onDownloadCardFile}
-
-                funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
-                cardLinks={cardLinks}
-                funcShowDeleteCardLink={funcShowDeleteCardLink}
-                funcShowUpdateCardLink={funcShowUpdateCardLink}
-                showCardOptionsLinkDel={showCardOptionsLinkDel}
-                showCardOptionsLinkUpdate={showCardOptionsLinkUpdate}
-                onDeleteCardLink={onDeleteCardLink}
-                showPreloderLink={showPreloderLink}
-                // writeNewLink={writeNewLink}
-                // newLinkHandleKeyPress={newLinkHandleKeyPress}
-                setStartLink={setStartLink}
+                onRemoving_onFrames={onRemoving_onFrames}
               />
             }
 
@@ -683,35 +658,13 @@ export default function WindowModal(props){
           <Sidebar
             deleteFunc={deleteFunc} //это прилетает из дашборда
             closeModal={closeModal} //это прилетает из дашборда
-
             dashboardUsers={dashboardUsers} //это прилетает из дашборда
             updateCardLabel={updateCardLabel} //это прилетает из дашборда
-            // typeElem={typeElem}
+            showPreloderLabel={showPreloderLabel} //это прилетает из дашборда
+            setShowPreloderLabel={setShowPreloderLabel} //это прилетает из дашборда
 
-            // funcDueDateWindow={funcDueDateWindow} 
-            // dueDateWindow={dueDateWindow}
-            setUpdateValue={setUpdateValue} //пока нужно
-            // showPreloderAddMember={showPreloderAddMember}
-            // showPreloderDelMember={showPreloderDelMember}
-            showPreloderLabel={showPreloderLabel}
-            setShowPreloderLabel={setShowPreloderLabel}
-            attachmentWindow={attachmentWindow} 
-            funcAttachmentWindow={funcAttachmentWindow}
-
-            showPreloderAttachmentWindow={showPreloderAttachmentWindow}
-            handleChangeAddFiles={handleChangeAddFiles}
-            addFiles={addFiles}
-            handleAddFilesReset={handleAddFilesReset}
-            handleAddFilesSubmit={handleAddFilesSubmit}
-
-            newLink={newLink}
-            newLinkDesc={newLinkDesc}
-            writeNewLink={writeNewLink}
-            newLinkHandleKeyPress={newLinkHandleKeyPress}
-            writeNewLinkDesc={writeNewLinkDesc}
-            newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
-            // setStartLink={setStartLink}
-            startLink={startLink}
+            handleAddFilesReset={handleAddFilesReset} // пока тут
+            handleAddFilesSubmit={handleAddFilesSubmit} // пока тут
 
             showCardDel={showCardDel}
             setShowCardDel={setShowCardDel}

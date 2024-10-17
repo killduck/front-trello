@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMembersWindow } from "../../main_state/states/modalCardMember/modalCardMember";
 import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
 
 export default function Sidebar(props){
   // console.log(props);
@@ -21,36 +22,47 @@ export default function Sidebar(props){
   let closeModal = props.closeModal; //это прилетает из дашборда
   // let typeElem = props.typeElem;
 
-  let attachmentWindow = props.attachmentWindow;
-  let funcAttachmentWindow = props.funcAttachmentWindow;
+  // let attachmentWindow = props.attachmentWindow;
 
-  let showPreloderAttachmentWindow = props.showPreloderAttachmentWindow;
-  let handleChangeAddFiles = props.handleChangeAddFiles;
-  let addFiles = props.addFiles;
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
 
   let newLink = props.newLink;
   let newLinkDesc = props.newLinkDesc;
-  let writeNewLink = props.writeNewLink;
-  let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
-  // let setStartLink = props.setStartLink;
-  let startLink = props.startLink;
-  let writeNewLinkDesc = props.writeNewLinkDesc;
-  let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
+
   let showCardDel = props.showCardDel;
   let setShowCardDel = props.setShowCardDel;
   let onRemoving_onFrames = props.onRemoving_onFrames;
-
-  let setUpdateValue = props.setUpdateValue;
 
   const windowData = useSelector((state) => state.windowData.value);
   const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
   const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
 
+  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow); 
+
+
   const dispatch = useDispatch();
   // console.log(windowData);
+
+  function funcAttachmentWindow(){ 
+    console.log('Sidebar');
+    onRemoving_onFrames();
+    if(attachmentWindow){
+      console.log('Sidebar', attachmentWindow);
+
+      dispatch(setNewLink('')); 
+      dispatch(setNewLinkDesc(''));
+      
+      dispatch(setAddFiles([]));
+      dispatch(setAttachmentWindow(false));
+    }
+    else{
+      dispatch(setAttachmentWindow(true));
+      console.log('Sidebar', attachmentWindow);
+    }
+  }
+
 
   function funcMembersWindow(){
     onRemoving_onFrames();
@@ -170,28 +182,17 @@ export default function Sidebar(props){
             />
             <span>Вложение</span>
           </div>
-          
+
           {attachmentWindow && (
             <SidebarAttachmentWindow
 
-              funcAttachmentWindow={funcAttachmentWindow}
-              attachmentWindow={attachmentWindow}
-
-              showPreloderAttachmentWindow={showPreloderAttachmentWindow}
-              setUpdateValue={setUpdateValue}
-              handleChangeAddFiles={handleChangeAddFiles}
-              addFiles={addFiles}
               handleAddFilesReset={handleAddFilesReset}
               handleAddFilesSubmit={handleAddFilesSubmit}
 
               newLink={newLink}
               newLinkDesc={newLinkDesc}
-              writeNewLink={writeNewLink}
-              newLinkHandleKeyPress={newLinkHandleKeyPress}
-              // setStartLink={setStartLink}
-              startLink={startLink}
-              writeNewLinkDesc={writeNewLinkDesc}
-              newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
+
+              onRemoving_onFrames={onRemoving_onFrames}
               
             />)
           }

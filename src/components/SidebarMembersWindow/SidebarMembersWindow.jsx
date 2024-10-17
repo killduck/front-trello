@@ -85,7 +85,6 @@ export default function SidebarMembersWindow(props){
               // setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
               dispatch(setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch));
 
-              // setUpdateValue(true);
               // dispatch(setWindowModalReloadState(true));
             }
           }

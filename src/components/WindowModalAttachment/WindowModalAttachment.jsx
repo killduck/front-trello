@@ -4,36 +4,193 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalAttachment.module.scss";
 import { URL_API } from "../../api/config";
 import { useClickOutside } from "../../hooks/useClickOutside";
+import { useDispatch, useSelector } from "react-redux";
+import { setAddFiles, setAttachmentWindow, setCardFiles, setCardLinks, setNewLink, setNewLinkDesc, setShowCardOptions, setShowCardOptionsFileDel, setShowCardOptionsLinkDel, setShowPreloderFile, setShowPreloderLink, setStartLink } from "../../main_state/states/modalAttachment/modalAttachment";
+import request from "../../api/request";
 
 export default function WindowModalAttachment(props){
   // console.log(props);
-  // let addFiles = props.addFiles;
-  let cardFiles = props.cardFiles;
-  // let setCardFiles = props.setCardFiles;
-  let funcAttachmentWindow = props.funcAttachmentWindow;
-  let onDeleteCardFile = props.onDeleteCardFile;
-  let showCardOptions = props.showCardOptions;
-  let  setShowCardOptions = props.setShowCardOptions;
+  let onRemoving_onFrames = props.onRemoving_onFrames;
 
-  let funcShowAttachmentContentCardOptions = props.funcShowAttachmentContentCardOptions;
-  let cardLinks = props.cardLinks;
-  let funcShowDeleteCardLink = props.funcShowDeleteCardLink;
-  let funcShowUpdateCardLink = props.funcShowUpdateCardLink;
-  let showCardOptionsLinkDel = props.showCardOptionsLinkDel;
-  // let showCardOptionsLinkUpdate = props.showCardOptionsLinkUpdate;
-  let showPreloderFile = props.showPreloderFile;
-  let showCardOptionsFileDel = props.showCardOptionsFileDel;
-  let funcShowDeleteCardFile = props.funcShowDeleteCardFile;
-  let onDeleteCardLink = props.onDeleteCardLink;
-  let showPreloderLink = props.showPreloderLink;
-  let onDownloadCardFile = props.onDownloadCardFile;
+  const windowData = useSelector((state) => state.windowData.value);
+
+  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow); 
+  const showCardOptions = useSelector((state) => state.modalAttachmentState.showCardOptions); 
+
+  const cardFiles = useSelector((state) => state.modalAttachmentState.cardFiles); 
+  const showPreloderFile = useSelector((state) => state.modalAttachmentState.showPreloderFile);
+  const showCardOptionsFileDel = useSelector((state) => state.modalAttachmentState.showCardOptionsFileDel);
+  
+  const cardLinks = useSelector((state) => state.modalAttachmentState.cardLinks);
+  const showPreloderLink = useSelector((state) => state.modalAttachmentState.showPreloderLink);
+  const showCardOptionsLinkDel = useSelector((state) => state.modalAttachmentState.showCardOptionsLinkDel);
+  const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
+  const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
+
+
+  const dispatch = useDispatch();
 
   const smallWindow = useRef(null);
   useClickOutside(smallWindow, () => {
     if(showCardOptions){
-      setShowCardOptions(false);
+      dispatch(setShowCardOptions(false));
     }
   });
+
+  function funcAttachmentWindow(){ 
+    onRemoving_onFrames();
+    if(attachmentWindow){
+      dispatch(setNewLink('')); 
+      dispatch(setNewLinkDesc(''));
+      dispatch(setAddFiles([]));
+      dispatch(setAttachmentWindow(false));
+    }
+    else{
+      dispatch(setAttachmentWindow(true));
+    }
+  }
+
+  function funcShowAttachmentContentCardOptions(elem_id){
+    onRemoving_onFrames();
+    if(showCardOptions){ 
+      dispatch(setShowCardOptions(false));
+    }
+    else{
+      dispatch(setShowCardOptions(elem_id));
+    }
+    // setShowCardOptions(showCardOptions = elem_id);
+  }
+
+  function funcShowUpdateCardLink(link_all){
+    console.log(link_all);
+    onRemoving_onFrames();
+    if(attachmentWindow){
+      setAttachmentWindow(false);
+    }
+    else{
+      dispatch(setStartLink(link_all)); 
+
+      // setNewLink(newLink = link_all.text); 
+      setNewLink(link_all.text); 
+      // setNewLinkDesc(newLinkDesc = link_all.description); 
+      setNewLinkDesc(link_all.description); 
+
+
+      // writeNewLink(link_all.text);
+      // writeNewLinkDesc(link_all.description);
+      // setAttachmentWindow(attachmentWindow = 'link');
+      setAttachmentWindow('link');
+
+    }
+  }
+
+    function onDeleteCardLink(link_id){
+    if(showPreloderLink){ 
+      return;
+    }
+    dispatch(setShowPreloderLink(link_id));
+    onRemoving_onFrames();
+
+    request({
+      method: 'POST',
+      url: 'del-link-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          dispatch(setShowPreloderLink(false));
+          dispatch(setCardLinks(response.data.card_link));
+          funcShowAttachmentContentCardOptions(false);
+          // setUpdateValue(true);//пока нужно
+          // dispatch(setWindowModalReloadState(true));
+        }
+      },
+      data: {'card_id': windowData.id, 'link_id': link_id},
+      status: 200,
+    });
+  }
+
+  function funcShowDeleteCardLink(link_id){
+    onRemoving_onFrames();
+    if(showCardOptionsLinkDel){
+      dispatch(setShowCardOptionsLinkDel(false));
+    }
+    else{
+      dispatch(setShowCardOptionsLinkDel(link_id));
+    }
+  }
+
+  function onDownloadCardFile(file){
+    if(showPreloderFile){ 
+      return;
+    }
+    dispatch(setShowPreloderFile(file.id)); 
+
+    onRemoving_onFrames();
+
+    request({
+      method: 'POST',
+      url: 'download-file-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          // console.log(response.data);
+          dispatch(setShowPreloderFile(false));
+          // create file link in browser's memory
+          const href = URL.createObjectURL(response.data);
+          // create "a" HTML element with href to file & click
+          const link = document.createElement('a');
+          link.href = href;
+          link.setAttribute('download', file.name); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+          // clean up "a" element & remove ObjectURL
+          document.body.removeChild(link);
+          URL.revokeObjectURL(href);
+
+          funcShowAttachmentContentCardOptions(false);
+          // setUpdateValue(true);//пока нужно
+          // dispatch(setWindowModalReloadState(true));
+        }
+      },
+      data: {'card_id': windowData.id, 'file_id': file.id},
+      status: 200,
+      response_type: 'blob',
+    });
+  }
+
+  function funcShowDeleteCardFile(file_id){
+    onRemoving_onFrames();
+    if(showCardOptionsFileDel){
+      dispatch(setShowCardOptionsFileDel(false)); 
+    }
+    else{
+      dispatch(setShowCardOptionsFileDel(file_id));
+    }
+  }
+
+  function onDeleteCardFile(file_id){
+    if(showPreloderFile){ 
+      return;
+    }
+    dispatch(setShowPreloderFile(file_id));
+    onRemoving_onFrames();
+    request({
+      method: 'POST',
+      url: 'del-file-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          dispatch(setShowPreloderFile(false));
+
+          dispatch(setCardFiles(response.data.card_file));
+          funcShowAttachmentContentCardOptions(false);
+          // setUpdateValue(true);//пока нужно
+          // dispatch(setWindowModalReloadState(true));
+        }
+      },
+      data: {'card_id': windowData.id, 'file_id': file_id},
+      status: 200,
+    });
+  }
 
   return (
     <div>

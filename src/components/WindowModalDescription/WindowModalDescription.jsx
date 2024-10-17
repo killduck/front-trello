@@ -64,7 +64,7 @@ export default function WindowModalDescription(props){
               dispatch(setStartCardDescriptionState(response.data[0].description));
               // setCardDescription(response.data[0].description);
               dispatch(setNewCardDescriptionState(response.data[0].description));
-              // setUpdateValue(true);
+
               dispatch(setWindowModalReloadState(true));
             }
           }

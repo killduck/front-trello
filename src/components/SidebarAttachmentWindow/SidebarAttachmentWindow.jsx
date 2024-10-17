@@ -1,31 +1,80 @@
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarAttachmentWindow.module.scss";
+import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
 
 
 
 export default function SidebarAttachmentWindow(props){
 
-  let attachmentWindow = props.attachmentWindow; 
-  let funcAttachmentWindow = props.funcAttachmentWindow; 
-  let setUpdateValue = props.setUpdateValue; 
+  let onRemoving_onFrames = props.onRemoving_onFrames;
 
-  let showPreloderAttachmentWindow = props.showPreloderAttachmentWindow;
-
-  let handleChangeAddFiles = props.handleChangeAddFiles;
-  let addFiles = props.addFiles;
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
   
   let newLink = props.newLink;
   let newLinkDesc = props.newLinkDesc;
-  let writeNewLink = props.writeNewLink;
-  let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
-  // let setStartLink = props.setStartLink;
-  let startLink = props.startLink;
 
-  let writeNewLinkDesc = props.writeNewLinkDesc;
-  let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
+  const showPreloderAttachmentWindow = useSelector((state) => state.modalAttachmentState.showPreloderAttachmentWindow);
+  const addFiles = useSelector((state) => state.modalAttachmentState.addFiles);
+  const startLink = useSelector((state) => state.modalAttachmentState.startLink);
+  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
+
+
+
+  const dispatch = useDispatch();
+
+  const newLinkDescHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){ 
+      console.log(newLinkDesc, startLink.description);
+      
+      handleAddFilesSubmit();
+    }
+  }
+
+  function writeNewLinkDesc(evt) { 
+    console.log(evt);
+    dispatch(setNewLinkDesc(evt));
+    console.log(newLinkDesc);
+  }
+
+  const newLinkHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){
+      
+      handleAddFilesSubmit();
+    }
+  }
+
+  const handleChangeAddFiles = (evt) => {
+    evt.preventDefault();
+    console.log(evt, addFiles);
+    if(evt.target.files && evt.target.files[0]){
+      dispatch(setAddFiles(evt.target.files));
+    }
+  }
+
+  function writeNewLink(evt) {
+    dispatch(setNewLink(evt));
+  }
+
+  function funcAttachmentWindow(){ 
+    console.log('SidebarAttachmentWindow');
+    onRemoving_onFrames();
+    if(attachmentWindow){
+    
+      console.log('tut', attachmentWindow);
+      dispatch(setNewLink('')); 
+      dispatch(setNewLinkDesc(''));
+      
+      dispatch(setAddFiles([]));
+      dispatch(setAttachmentWindow(false));
+    }
+    else{
+      console.log('tut', attachmentWindow);
+      dispatch(setAttachmentWindow(true));
+    }
+  }
 
   return (
     <>

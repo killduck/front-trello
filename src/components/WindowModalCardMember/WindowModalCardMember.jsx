@@ -4,7 +4,7 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import UserCard from "../UserCard/UserCard";
 import styles from "./WindowModalCardMember.module.scss";
-import { useClickOutside } from "../../hooks/useClickOutside";
+// import { useClickOutside } from "../../hooks/useClickOutside";
 import { useDispatch, useSelector } from "react-redux";
 import { setMembersWindow, setShowPreloderDelMember, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
 import request from "../../api/request";
@@ -81,7 +81,6 @@ export default function WindowModalCardMember(props){
                 let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
                 dispatch(setSubscribeState(filteredCardSubscribedUsers));
 
-                // setUpdateValue(true);
                 dispatch(setWindowModalReloadState(true));
               }
             }

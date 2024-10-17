@@ -2,11 +2,13 @@
     position: relative;
     width: 768px;
     min-height: 400px;
-    margin: 0 auto;
+    // margin: 0 auto;
+    margin: 40px auto;
     background: transparent;
     background-color: #323940;
     border-radius: 8px;
     display: grid;
+    cursor: default;
 }
 .dragging{
     border: 2px solid #9fadbc;

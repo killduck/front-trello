@@ -16,6 +16,8 @@ import cardUsersState from './states/cardUsersState.js';
 import modalCardLabelState from './states/modalCardLabel/modalCardLabel.js';
 import modalDueDateState from './states/modalDueDate/modalDueDate.js';
 import modalActivityState from './states/modalActivity/modalActivity.js';
+import modalAttachmentState from './states/modalAttachment/modalAttachment.js';
+
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +35,15 @@ export const store = configureStore({
     modalCardLabelState: modalCardLabelState,
     modalDueDateState: modalDueDateState,
     modalActivityState: modalActivityState,
+    modalAttachmentState: modalAttachmentState,
 
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['modal_attachment_state/setAddFiles'],
+        // ignoredActionPaths: [''],
+        ignoredPaths: ['modalAttachmentState.addFiles'],
+      },
+    }),
 })
