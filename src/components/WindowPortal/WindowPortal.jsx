@@ -12,9 +12,6 @@ import { setWindowModalReloadBlur } from '../../main_state/states/windowModalRel
 
 export default function WindowPortal(props){
 
-    // console.log(props.children.props.children.owner);
-    // console.log(props);
-
     let dashboardUsers = props.dashboardUsers;
     let idElem = props.idElem;
     let typeElem = props.typeElem;
@@ -22,7 +19,7 @@ export default function WindowPortal(props){
     let column = props.column;
     let updateFunc = props.updateFunc;
     let deleteFunc = props.deleteFunc;
-    let updateCardLabel = props.updateCardLabel;
+    let updateSetCardLabel = props.updateSetCardLabel;
     let setDNDIsOn = props.setDNDIsOn;
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -39,9 +36,7 @@ export default function WindowPortal(props){
     };
 
     const closeModalHandle = (evt) => {
-        // console.log(evt);
         if(evt.target.className === "WindowPortal_wrap__DtBsC"){
-          console.log('"windowNameHandleKeyPress", ура!');
           dispatch(setWindowModalReloadBlur(true));
           closeModal();
         }
@@ -60,7 +55,7 @@ export default function WindowPortal(props){
                 dashboardUsers={dashboardUsers}
                 updateFunc = {updateFunc}
                 deleteFunc = {deleteFunc}
-                updateCardLabel={updateCardLabel}
+                updateSetCardLabel={updateSetCardLabel}
                 closeModal={closeModal}
             >
                 <Button

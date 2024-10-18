@@ -21,9 +21,8 @@ import TaskCard from "../../components/TaskCard/TaskCard";
 import styles from "./KanbanBoard.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
 import { URL_API } from "../../api/config";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPreloaderWindowName } from "../../main_state/states/modalHeader/windowName";
-import { setShowPreloderLabel } from "../../main_state/states/modalCardLabel/modalCardLabel";
 
 export default function KanbanBoard(props) {
 
@@ -45,8 +44,6 @@ export default function KanbanBoard(props) {
   let [users, setUsers] = useState([]);
   let { dashboardId } = useParams();
 
-  const showPreloderLabel = useSelector((state) => state.modalCardLabelState.showPreloderLabel); 
-
   const dispatch = useDispatch();
 
   const sensors = useSensors(
@@ -62,7 +59,6 @@ export default function KanbanBoard(props) {
       method: 'POST',
       url: 'dashboards/',
       callback: (response) => {
-        // setShowPreloder(true);
         if (response.status === 200) {
           setShowPreloder(false);
           let dashboard = response.data; //нужный дашборд
@@ -368,11 +364,6 @@ export default function KanbanBoard(props) {
       url: `new-data-card/`,
       callback: (response) => {
         if (response.status === 200) {
-          // setTimeout(() => {
-          //   name = response.data[0]['name'];
-          //   dispatch(setPreloaderWindowName(false)); 
-          //   updateSetTasks(id, name);
-          // }, 5000)
           name = response.data[0]['name'];
           dispatch(setPreloaderWindowName(false)); 
           updateSetTasks(id, name);
@@ -447,28 +438,6 @@ export default function KanbanBoard(props) {
     setTasks(newTasks);
   }
 
-  function updateCardLabel(card_id, label) {
-    // console.log(card_id, label);
-    if(showPreloderLabel){
-      return;
-    }
-    
-    request({
-      method: "POST",
-      url: 'add-label-to-card/',
-      callback: (response) => {
-        if (response.status === 200) {
-          let new_card_id = response.data[0]['id'];
-          let new_label = response.data[0]['label'];
-          updateSetCardLabel(new_card_id, new_label);
-          dispatch(setShowPreloderLabel(false)); 
-        }
-      },
-      data: { "card_id": card_id, "label_id": label.id },
-      status: 200,
-    });
-  }
-
   const boardItemColumnHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
       createNewColumn();
@@ -513,7 +482,7 @@ export default function KanbanBoard(props) {
                     updateColumn={updateColumn}
                     deleteCard={deleteCard}
                     updateTask={updateTask}
-                    updateCardLabel={updateCardLabel}
+                    updateSetCardLabel={updateSetCardLabel}
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
                     showPreloderCard={showPreloderCard}
@@ -580,7 +549,7 @@ export default function KanbanBoard(props) {
                   updateColumn={updateColumn}
                   deleteCard={deleteCard}
                   updateTask={updateTask}
-                  updateCardLabel={updateCardLabel}
+                  updateSetCardLabel={updateSetCardLabel}
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
                   showPreloderCard={showPreloderCard}

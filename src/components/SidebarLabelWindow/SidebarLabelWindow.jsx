@@ -11,9 +11,8 @@ import {
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function SidebarLabelWindow(props){
-  // console.log(props);
   
-  let updateCardLabel = props.updateCardLabel; //это прилетает из дашборда
+  let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
@@ -37,14 +36,13 @@ export default function SidebarLabelWindow(props){
           if(showLabelsWindow && windowData.label){
             setCheckbox(true);
             setColoredLabel_id(windowData.label.id);
-            // onTakeColor(windowData.label);
           }
         }
       },
       data: {},
       status:200,
     });
-  },[]);
+  },[showLabelsWindow, windowData]);
 
 
   function funcLabelsWindow() {
@@ -74,6 +72,27 @@ export default function SidebarLabelWindow(props){
       updateCardLabel(windowData.id, {'id': 'null'});
       dispatch(setCardLabelStatus(false));
     }
+  }
+
+  function updateCardLabel(card_id, label) {
+    if(showPreloderLabel){
+      return;
+    }
+    
+    request({
+      method: "POST",
+      url: 'add-label-to-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          let new_card_id = response.data[0]['id'];
+          let new_label = response.data[0]['label'];
+          updateSetCardLabel(new_card_id, new_label);
+          dispatch(setShowPreloderLabel(false)); 
+        }
+      },
+      data: { "card_id": card_id, "label_id": label.id },
+      status: 200,
+    });
   }
 
   return (

@@ -91,7 +91,6 @@ export default function WindowModalActivity(props){
           if (response.status === 200) {
             setProcessActivity(false);
             if(response.data){
-              // console.log(response.data);
               dispatch(setCardActivityComments(response.data));
               setValueEditor('');
             }

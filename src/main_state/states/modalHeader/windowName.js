@@ -21,7 +21,6 @@ export const windowNameState = createSlice(
       },
       setPreloaderWindowName: (state, action) => {
         state.preloaderWindowName = action.payload;
-        // console.log('state =>', state.preloaderWindowName, 'action =>', action.payload);
       },
     },
   }

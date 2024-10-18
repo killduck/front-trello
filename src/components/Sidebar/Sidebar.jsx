@@ -14,11 +14,10 @@ import { setShowCardDel } from "../../main_state/states/modalCardDel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function Sidebar(props){
-  // console.log(props);
 
   let deleteFunc = props.deleteFunc; //это прилетает из дашборда
   let dashboardUsers = props.dashboardUsers; //это прилетает из дашборда
-  let updateCardLabel = props.updateCardLabel; //это прилетает из дашборда
+  let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
   let closeModal = props.closeModal; //это прилетает из дашборда
 
   let handleAddFilesReset = props.handleAddFilesReset;
@@ -133,7 +132,7 @@ export default function Sidebar(props){
           </div>
           {showLabelsWindow && (
             <SidebarLabelWindow
-              updateCardLabel={updateCardLabel} //это прилетает из дашборда
+              updateSetCardLabel={updateSetCardLabel} //это прилетает из дашборда
             />)
           }
 

@@ -8,7 +8,6 @@ import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/mo
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalDueDate(props){
-  // console.log(props);
 
   const windowData = useSelector((state) => state.windowData.value);
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);

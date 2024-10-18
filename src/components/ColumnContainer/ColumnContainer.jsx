@@ -9,7 +9,7 @@ import TaskCard from "../TaskCard/TaskCard";
 import styles from './ColumnContainer.module.scss';
 
 export default function ColumnContainer(props) {
-  // console.log(props);
+
   let dashboardUsers = props.dashboardUsers;
   let column = props.column;
   let newTextTask = props.newTextTask;
@@ -20,7 +20,7 @@ export default function ColumnContainer(props) {
   let tasks = props.tasks;
   let deleteCard = props.deleteCard;
   let updateTask = props.updateTask;
-  let updateCardLabel = props.updateCardLabel;
+  let updateSetCardLabel = props.updateSetCardLabel;
   let showPreloderCard = props.showPreloderCard;
   let setShowPreloder = props.setShowPreloder;
 
@@ -118,9 +118,7 @@ export default function ColumnContainer(props) {
   }
 
   const boardItemCardHandleKeyPress = (evt) => {
-    // console.log(evt.key);
     if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
-      // setShowForm(true);
       createNewTask(column.id);
     }
   }
@@ -227,7 +225,7 @@ export default function ColumnContainer(props) {
               dashboardUsers={dashboardUsers}
               updateTask={updateTask}
               deleteCard={deleteCard}
-              updateCardLabel={updateCardLabel}
+              updateSetCardLabel={updateSetCardLabel}
               showPreloderCard={showPreloderCard}
             />
           ))}

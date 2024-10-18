@@ -10,7 +10,6 @@ import request from "../../api/request";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalAttachment(props){
-  // console.log(props);
 
   const windowData = useSelector((state) => state.windowData.value);
   const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow); 
@@ -82,7 +81,6 @@ export default function WindowModalAttachment(props){
       url: 'del-link-from-card/',
       callback: (response) => {
         if (response.status === 200) {
-          // console.log(response.data);
           dispatch(setShowPreloderLink(false));
           dispatch(setCardLinks(response.data.card_link));
           funcShowAttachmentContentCardOptions(false);
@@ -116,7 +114,6 @@ export default function WindowModalAttachment(props){
       url: 'download-file-from-card/',
       callback: (response) => {
         if (response.status === 200) {
-          // console.log(response.data);
           dispatch(setShowPreloderFile(false));
           // create file link in browser's memory
           const href = URL.createObjectURL(response.data);
@@ -163,7 +160,6 @@ export default function WindowModalAttachment(props){
       url: 'del-file-from-card/',
       callback: (response) => {
         if (response.status === 200) {
-          // console.log(response.data);
           dispatch(setShowPreloderFile(false));
           dispatch(setCardFiles(response.data.card_file));
           funcShowAttachmentContentCardOptions(false);

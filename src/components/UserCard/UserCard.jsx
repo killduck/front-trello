@@ -7,8 +7,7 @@ import styles from './UserCard.module.scss';
 
 
 export default function UserCard(props) {
-  // console.log(props);
-  // let authUser = props.authUser;
+
   let user = props.user;
   let onUserCard = props.onUserCard;
   let funcDelCardUser = props.funcDelCardUser;

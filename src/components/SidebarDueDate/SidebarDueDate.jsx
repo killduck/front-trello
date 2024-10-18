@@ -15,7 +15,6 @@ import { setWindowData } from "../../main_state/states/windowData";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function SidebarDueDate(props){
-  // console.log(props);
 
   const windowData = useSelector((state) => state.windowData.value);
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
@@ -120,7 +119,6 @@ export default function SidebarDueDate(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            // console.log(response.data);  
             setStartDate(new Date(response.data[0].date_end));
             dispatch(setWindowData(response.data[0]));
             dispatch(setWindowModalReloadState(false));

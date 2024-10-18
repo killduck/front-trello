@@ -13,7 +13,6 @@ import request from "../../api/request";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function SidebarMembersWindow(props){
-  // console.log(props);
 
   let dashboardUsers = props.dashboardUsers;
 
@@ -119,7 +118,6 @@ export default function SidebarMembersWindow(props){
     let dashboardUserCheck = true;
 
     cardUsers.forEach(cardUser => {
-      console.log(cardUser[item], dashboardUser[item]);
       if(cardUser[item] === dashboardUser[item]){
         dashboardUserCheck = false;
         return;

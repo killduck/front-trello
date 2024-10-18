@@ -47,7 +47,6 @@ import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
 export default function WindowModal(props){
-  // console.log(props);
 
   let dashboardUsers = props.dashboardUsers; //это прилетает из дашборда
   let typeElem = props.typeElem; //это прилетает из дашборда
@@ -56,8 +55,8 @@ export default function WindowModal(props){
   let task = props.task; //это прилетает из дашборда
   let updateFunc = props.updateFunc; //это прилетает из дашборда
   let deleteFunc = props.deleteFunc; //это прилетает из дашборда
-  let updateCardLabel = props.updateCardLabel; //это прилетает из дашборда
-  let closeModal = props.closeModal; // ???
+  let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
+  let closeModal = props.closeModal; // это прилетает из WindowPortal
   
   const [dragActive, setDragActive] = useState(false);
 
@@ -81,42 +80,35 @@ export default function WindowModal(props){
       url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
-          // console.log(response);
-          setTimeout(() => {
-
-            if(response.data){
-              // console.log(response.data);
-
-              dispatch(setAuthUser(response.data.auth_user));
-              dispatch(setNewWindowName(response.data.card[0]['name']));
-              dispatch(setStatrtWindowName(response.data.card[0]['name']));
-              dispatch(setWindowData(response.data.card[0]));
-              dispatch(setCardUsers(response.data.card_users_data));
-              dispatch(setSubscribeState(
-                response.data.card_users_data.filter(
-                  (cardUser) => cardUser.id === response.data.auth_user).length
-                )
-              );
-              dispatch(setStartCardDescriptionState(response.data.card[0]['description']));
-              dispatch(setNewCardDescriptionState(response.data.card[0]['description']));
-              dispatch(setAuthUserData(
-                (dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0])
-              );
-              dispatch(setCardActivityComments(response.data.card[0].activity));
-              dispatch(setDueDateCheckbox(response.data.card[0]['execute']));
-              dispatch(setCardFiles(response.data.card[0]['card_file']));
-              dispatch(setCardLinks(response.data.card[0]['card_link']));
-              dispatch(setWindowModalReloadState(false));
-            }
-            if(task.label){
-              dispatch(setCardLabelStatus(true));
-            }
-            if(windowModalReloadBlur){
-              dispatch(onRemoving_onFrames());
-              dispatch(setWindowModalReloadBlur(false));
-            }
-
-          }, 1000)
+          if(response.data){
+            dispatch(setAuthUser(response.data.auth_user));
+            dispatch(setNewWindowName(response.data.card[0]['name']));
+            dispatch(setStatrtWindowName(response.data.card[0]['name']));
+            dispatch(setWindowData(response.data.card[0]));
+            dispatch(setCardUsers(response.data.card_users_data));
+            dispatch(setSubscribeState(
+              response.data.card_users_data.filter(
+                (cardUser) => cardUser.id === response.data.auth_user).length
+              )
+            );
+            dispatch(setStartCardDescriptionState(response.data.card[0]['description']));
+            dispatch(setNewCardDescriptionState(response.data.card[0]['description']));
+            dispatch(setAuthUserData(
+              (dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0])
+            );
+            dispatch(setCardActivityComments(response.data.card[0].activity));
+            dispatch(setDueDateCheckbox(response.data.card[0]['execute']));
+            dispatch(setCardFiles(response.data.card[0]['card_file']));
+            dispatch(setCardLinks(response.data.card[0]['card_link']));
+            dispatch(setWindowModalReloadState(false));
+          }
+          if(task.label){
+            dispatch(setCardLabelStatus(true));
+          }
+          if(windowModalReloadBlur){
+            dispatch(onRemoving_onFrames());
+            dispatch(setWindowModalReloadBlur(false));
+          }
         }
       },
       data: {'id': idElem},
@@ -149,14 +141,11 @@ export default function WindowModal(props){
   }
 
   const handleAddFilesSubmit = () => {
-    console.log(newLink, newLinkDesc, startLink);
-
     if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
-      console.log('return');
       funcAttachmentWindow();
       return;
     }
-    // console.log(`'201', 'newLink =>' ${newLink}, 'newLinkDesc =>' ${newLinkDesc}, 'startLink =>' ${startLink.id}`);
+
     if(newLink === startLink.text && newLinkDesc === startLink.description){
       return;
     }
@@ -187,19 +176,16 @@ export default function WindowModal(props){
       method: 'POST',
       url: 'add-file-and-link-to-card/',
       callback: (response) => {
-        setTimeout(() => {
-          if (response.status === 200) {
-            console.log(response.data);
-            dispatch(setShowPreloderLink(false));
-            dispatch(setShowPreloderAttachmentWindow(false));
-            funcAttachmentWindow();
-            dispatch(setNewLink(''));
-            dispatch(setNewLinkDesc(''));
-            dispatch(setStartLink(''));
-            dispatch(setCardLinks(response.data.card_link));
-            dispatch(setCardFiles(response.data.card_file));
-          }
-        }, 1000);
+        if (response.status === 200) {
+          dispatch(setShowPreloderLink(false));
+          dispatch(setShowPreloderAttachmentWindow(false));
+          funcAttachmentWindow();
+          dispatch(setNewLink(''));
+          dispatch(setNewLinkDesc(''));
+          dispatch(setStartLink(''));
+          dispatch(setCardLinks(response.data.card_link));
+          dispatch(setCardFiles(response.data.card_file));
+        }
       },
       data: formData,
       status: 200,
@@ -285,7 +271,7 @@ export default function WindowModal(props){
             deleteFunc={deleteFunc} //это прилетает из дашборда
             closeModal={closeModal} //это прилетает из дашборда
             dashboardUsers={dashboardUsers} //это прилетает из дашборда
-            updateCardLabel={updateCardLabel} //это прилетает из дашборда
+            updateSetCardLabel={updateSetCardLabel} //это прилетает из дашборда
 
             handleAddFilesReset={handleAddFilesReset} // пока тут
             handleAddFilesSubmit={handleAddFilesSubmit} // пока тут

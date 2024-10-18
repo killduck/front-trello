@@ -7,14 +7,13 @@ import WindowPortal from "../WindowPortal/WindowPortal";
 import Button from "../ui/Button/Button";
 
 export default function TaskCard(props) {
-  // console.log(props)
+
   let dashboardUsers = props.dashboardUsers; 
-  //  это пока не нужно было
   let task = props.task;
   let column = props.column;
   let updateTask = props.updateTask;
   let deleteCard = props.deleteCard;
-  let updateCardLabel = props.updateCardLabel;
+  let updateSetCardLabel = props.updateSetCardLabel;
   let showPreloderCard = props.showPreloderCard;
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
@@ -124,7 +123,7 @@ export default function TaskCard(props) {
               dashboardUsers={dashboardUsers}
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
-              updateCardLabel={updateCardLabel}
+              updateSetCardLabel={updateSetCardLabel}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>
@@ -169,7 +168,7 @@ export default function TaskCard(props) {
               dashboardUsers={dashboardUsers}
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
-              updateCardLabel={updateCardLabel}
+              updateSetCardLabel={updateSetCardLabel}
               setDNDIsOn={setDNDIsOn}
             >
               <div className={styles.TaskCard__Wrap}>
