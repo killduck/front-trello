@@ -11,13 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 // import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/cardDescriptionState";
 // import { setShowReactQuillState } from "../../main_state/states/showReactQuillState";
 
 
 export default function WindowModalDescription(props){
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const windowData = useSelector((state) => state.windowData.value);
   let cardDescriptionState_newValue = useSelector((state) => state.cardDescriptionState.newValue);
@@ -77,7 +78,7 @@ export default function WindowModalDescription(props){
   }
 
   function funcShowReactQuill(){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(showReactQuillState){
       dispatch(setShowReactQuillState(false));
     }

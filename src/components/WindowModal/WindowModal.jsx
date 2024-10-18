@@ -29,6 +29,8 @@ import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states
 import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { setActivityEditorShow, setCardActivityComments } from "../../main_state/states/modalActivity/modalActivity";
 import { setAddFiles, setAttachmentWindow, setCardFiles, setCardLinks, setNewLink, setNewLinkDesc, setShowCardOptions, setShowCardOptionsFileDel, setShowCardOptionsLinkDel, setShowCardOptionsLinkUpdate, setShowPreloderAttachmentWindow, setShowPreloderLink, setStartLink } from "../../main_state/states/modalAttachment/modalAttachment";
+import { setShowCardDel } from "../../main_state/states/modalCardDel";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
 export default function WindowModal(props){
@@ -68,7 +70,7 @@ export default function WindowModal(props){
   // let [showCardOptionsLinkDel, setShowCardOptionsLinkDel] = useState(false);
   // let [showCardOptionsLinkUpdate, setShowCardOptionsLinkUpdate] = useState(false);
 
-  const [showCardDel, setShowCardDel] = useState(false);
+  // const [showCardDel, setShowCardDel] = useState(false);
   
   const [dragActive, setDragActive] = useState(false);
 
@@ -154,7 +156,7 @@ export default function WindowModal(props){
               dispatch(setCardLabelStatus(true));
             }
             if(windowModalReloadBlur){
-              onRemoving_onFrames();
+              dispatch(onRemoving_onFrames());
               dispatch(setWindowModalReloadBlur(false));
             }
 
@@ -167,37 +169,37 @@ export default function WindowModal(props){
   },[typeElem, idElem, task, dashboardUsers, dispatch]);
   console.log('179'); 
 
-  function onRemoving_onFrames(){
-    // setNewNameField(false); 
-    dispatch(setNewNameField(false));
+  // function onRemoving_onFrames(){
+  //   // setNewNameField(false); 
+  //   dispatch(setNewNameField(false));
 
-    // setMembersWindow(false); 
-    dispatch(setMembersWindow(false));
-    dispatch(setMatchSearch(''));
-    dispatch(setSearchNewCardUser([]));
+  //   // setMembersWindow(false); 
+  //   dispatch(setMembersWindow(false));
+  //   dispatch(setMatchSearch(''));
+  //   dispatch(setSearchNewCardUser([]));
 
-    // setLabelsWindow(false); 
-    dispatch(setShowLabelsWindow(false));
+  //   // setLabelsWindow(false); 
+  //   dispatch(setShowLabelsWindow(false));
 
-    // setDueDateWindow(false); 
-    dispatch(setDueDateWindow(false));
+  //   // setDueDateWindow(false); 
+  //   dispatch(setDueDateWindow(false));
 
-    // setShowReactQuill(false); 
-    dispatch(setShowReactQuillState(false));
+  //   // setShowReactQuill(false); 
+  //   dispatch(setShowReactQuillState(false));
 
-    // setShowUserCard(null); 
-    dispatch(setShowUserCard(null));
+  //   // setShowUserCard(null); 
+  //   dispatch(setShowUserCard(null));
 
-    // setActivityEditorShow(null); 
-    dispatch(setActivityEditorShow(null));  
+  //   // setActivityEditorShow(null); 
+  //   dispatch(setActivityEditorShow(null));  
 
-    dispatch(setAttachmentWindow(false));
-    dispatch(setShowCardOptions(false));
-    dispatch(setShowCardOptionsFileDel(false));
-    dispatch(setShowCardOptionsLinkUpdate(false));
-    dispatch(setShowCardOptionsLinkDel(false));
-    setShowCardDel(false);
-  }
+  //   dispatch(setAttachmentWindow(false));
+  //   dispatch(setShowCardOptions(false));
+  //   dispatch(setShowCardOptionsFileDel(false));
+  //   dispatch(setShowCardOptionsLinkUpdate(false));
+  //   dispatch(setShowCardOptionsLinkDel(false));
+  //   dispatch(setShowCardDel(false));
+  // }
 
   // const handleChangeAddFiles = (evt) => {
   //   evt.preventDefault();
@@ -290,9 +292,8 @@ export default function WindowModal(props){
             dispatch(setNewLink(''));
             dispatch(setNewLinkDesc(''));
             dispatch(setStartLink(''));
+            dispatch(setCardLinks(response.data.card_link));
             dispatch(setCardFiles(response.data.card_file));
-            // setUpdateValue(true);//пока нужно
-            // dispatch(setWindowModalReloadState(true));
           }
         }, 1000);
       },
@@ -568,7 +569,7 @@ export default function WindowModal(props){
   // }
 
   function funcAttachmentWindow(){ 
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(attachmentWindow){
       dispatch(setNewLink('')); 
       dispatch(setNewLinkDesc(''));
@@ -604,7 +605,7 @@ export default function WindowModal(props){
 
           {/* header */}
           <WindowModalHeaderSection
-            onRemoving_onFrames={onRemoving_onFrames}
+            // onRemoving_onFrames={onRemoving_onFrames}
             updateFunc={updateFunc} //это прилетает из дашборда
             column={column} //это прилетает из дашборда
           />
@@ -615,43 +616,43 @@ export default function WindowModal(props){
               
               <div className={styles.cardDetailItem}>
                 <WindowModalCardMember
-                  onRemoving_onFrames={onRemoving_onFrames}
+                  // onRemoving_onFrames={onRemoving_onFrames}
                 />
               </div>
 
               <div className={styles.cardDetailItem}>
                 <WindowModalCardLabel
                   task={task} //это прилетает из дашборда
-                  onRemoving_onFrames={onRemoving_onFrames}
+                  // onRemoving_onFrames={onRemoving_onFrames}
                 />
               </div>
 
               <div className={styles.cardDetailItem}>
                 <WindowModalSubscribe
-                  onRemoving_onFrames={onRemoving_onFrames}
+                  // onRemoving_onFrames={onRemoving_onFrames}
                 />
               </div>
 
               <div className={styles.cardDetailItem}>
                 <WindowModalDueDate
-                  onRemoving_onFrames={onRemoving_onFrames}
+                  // onRemoving_onFrames={onRemoving_onFrames}
                 />
               </div>
               
             </div>
 
             <WindowModalDescription 
-              onRemoving_onFrames={onRemoving_onFrames}
+              // onRemoving_onFrames={onRemoving_onFrames}
             />
 
             {(cardFiles.length > 0 || cardLinks.length > 0) &&
               <WindowModalAttachment 
-                onRemoving_onFrames={onRemoving_onFrames}
+                // onRemoving_onFrames={onRemoving_onFrames}
               />
             }
 
             <WindowModalActivity
-              onRemoving_onFrames={onRemoving_onFrames}
+              // onRemoving_onFrames={onRemoving_onFrames}
             />
           </div>
 
@@ -666,10 +667,7 @@ export default function WindowModal(props){
             handleAddFilesReset={handleAddFilesReset} // пока тут
             handleAddFilesSubmit={handleAddFilesSubmit} // пока тут
 
-            showCardDel={showCardDel}
-            setShowCardDel={setShowCardDel}
-
-            onRemoving_onFrames={onRemoving_onFrames}
+            // onRemoving_onFrames={onRemoving_onFrames}
             
           ></Sidebar>
       </div>)

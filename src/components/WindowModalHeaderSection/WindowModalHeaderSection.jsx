@@ -2,10 +2,11 @@ import styles from "./WindowModalHeaderSection.module.scss";
 import Icons from "../ui/Icons/Icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setNewNameField, setNewWindowName } from "../../main_state/states/modalHeader/windowName";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalHeaderSection(props){
 
-  let onRemoving_onFrames= props.onRemoving_onFrames;
+  // let onRemoving_onFrames= props.onRemoving_onFrames;
   let updateFunc = props.updateFunc;
   let column = props.column;
   
@@ -19,7 +20,7 @@ export default function WindowModalHeaderSection(props){
   const dispatch = useDispatch();
 
   function showTextarea() {
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(!newNameField){
       dispatch(setNewNameField(true));
     }

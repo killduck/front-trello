@@ -3,24 +3,23 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarAttachmentWindow.module.scss";
 import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
 
 export default function SidebarAttachmentWindow(props){
 
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
-  
-  let newLink = props.newLink;
-  let newLinkDesc = props.newLinkDesc;
 
   const showPreloderAttachmentWindow = useSelector((state) => state.modalAttachmentState.showPreloderAttachmentWindow);
   const addFiles = useSelector((state) => state.modalAttachmentState.addFiles);
   const startLink = useSelector((state) => state.modalAttachmentState.startLink);
   const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
-
+  const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
+  const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
 
 
   const dispatch = useDispatch();
@@ -60,7 +59,7 @@ export default function SidebarAttachmentWindow(props){
 
   function funcAttachmentWindow(){ 
     console.log('SidebarAttachmentWindow');
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(attachmentWindow){
     
       console.log('tut', attachmentWindow);

@@ -10,11 +10,12 @@ import { setShowUserCard } from "../../main_state/states/modalCardMember/modalCa
 import { useState } from "react";
 import request from "../../api/request";
 import { setActivityEditorShow, setCardActivityComments } from "../../main_state/states/modalActivity/modalActivity";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
 export default function WindowModalActivity(props){
 
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const windowData = useSelector((state) => state.windowData.value);
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
@@ -38,7 +39,7 @@ export default function WindowModalActivity(props){
 
   function onUserCard(id_user = null) {
     console.log('tut', id_user);
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
 
     showUserCard === id_user ?
       // setShowUserCard(null);
@@ -117,7 +118,7 @@ export default function WindowModalActivity(props){
   }
 
   function funcActivityDetailsShow(){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(activityDetailsShow){
       setActivityDetailsShow(false);
     }
@@ -127,7 +128,7 @@ export default function WindowModalActivity(props){
   }
 
   function funcActivityEditorShow(comment_id = null, commentStartValue){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(activityEditorShow === comment_id){
       dispatch(setActivityEditorShow(null));
     }

@@ -11,6 +11,7 @@ import request from "../../api/request";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 import { setCardUsers } from "../../main_state/states/cardUsersState";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
 export default function WindowModalCardMember(props){
@@ -23,7 +24,7 @@ export default function WindowModalCardMember(props){
   // let funcDelCardUser = props.funcDelCardUser;
   // let onUserCard = props.onUserCard;
 
-  let onRemoving_onFrames= props.onRemoving_onFrames;
+  // let onRemoving_onFrames= props.onRemoving_onFrames;
 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
@@ -35,7 +36,7 @@ export default function WindowModalCardMember(props){
   const dispatch = useDispatch();
 
   function funcMembersWindow(){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(membersWindow){
       dispatch(setMembersWindow(false));
     }
@@ -46,7 +47,7 @@ export default function WindowModalCardMember(props){
 
   function onUserCard(id_user = null) {
     console.log('tut', id_user);
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
 
     if(showUserCard === id_user){
       // setShowUserCard(null);

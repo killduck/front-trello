@@ -10,11 +10,12 @@ import { setMembersWindow, setShowPreloderAddMember, setShowPreloderDelMember } 
 import { setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_state/states/cardUsersState";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 import request from "../../api/request";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function SidebarMembersWindow(props){
   console.log(props);
   let dashboardUsers = props.dashboardUsers;
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
@@ -32,7 +33,7 @@ export default function SidebarMembersWindow(props){
   const [showNoResult, setShowNoResult]=useState(false);
 
   function funcMembersWindow(){
-    onRemoving_onFrames(); 
+    dispatch(onRemoving_onFrames()); 
     dispatch(setMatchSearch(''));
     dispatch(setSearchNewCardUser([]));
     // console.log('tut', membersWindow);

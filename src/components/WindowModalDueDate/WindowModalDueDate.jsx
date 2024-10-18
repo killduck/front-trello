@@ -5,11 +5,12 @@ import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
 import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalDueDate(props){
   // console.log(props);
 
-  let onRemoving_onFrames = props.onRemoving_onFrames; 
+  // let onRemoving_onFrames = props.onRemoving_onFrames; 
 
   const windowData = useSelector((state) => state.windowData.value);
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
@@ -18,7 +19,7 @@ export default function WindowModalDueDate(props){
   const dispatch = useDispatch();
 
   function funcDueDateWindow(){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
 
     if(dueDateWindow){
       dispatch(setDueDateWindow(false));

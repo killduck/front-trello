@@ -3,11 +3,12 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalCardLabel.module.scss";
 import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalCardLabel(props){
 
   let task = props.task; //это прилетает из дашборда
-  let onRemoving_onFrames = props.onRemoving_onFrames; 
+  // let onRemoving_onFrames = props.onRemoving_onFrames; 
 
   const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
   const cardLabelStatus = useSelector((state) => state.modalCardLabelState.cardLabelStatus); 
@@ -17,7 +18,7 @@ export default function WindowModalCardLabel(props){
 
 
   function funcLabelsWindow() {
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(showLabelsWindow){
       dispatch(setShowLabelsWindow(false));
     }

@@ -3,17 +3,18 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalSubscribe.module.scss";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalSubscribe(props){
 
   // let subscribe = props.subscribe;
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const subscribeState = useSelector((state) => state.subscribeState.value); 
   const dispatch = useDispatch();
 
   function funcSubscribe(){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(subscribeState){
       dispatch(setSubscribeState(false));
     }

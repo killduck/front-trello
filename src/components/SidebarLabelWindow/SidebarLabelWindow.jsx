@@ -5,6 +5,7 @@ import styles from "./SidebarLabelWindow.module.scss";
 import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
 import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
 export default function SidebarLabelWindow(props){
@@ -16,7 +17,7 @@ export default function SidebarLabelWindow(props){
   let showPreloderLabel = props.showPreloderLabel; //это прилетает из дашборда
   let setShowPreloderLabel = props.setShowPreloderLabel; //это прилетает из дашборда
 
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
@@ -52,7 +53,7 @@ export default function SidebarLabelWindow(props){
 
 
   function funcLabelsWindow() {
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(showLabelsWindow){
       dispatch(setShowLabelsWindow(false));
     }

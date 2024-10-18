@@ -1,7 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-// import counterReducer from '../features/counter/counterSlice.js';
-import counterState from './states/counterSlice.js';
 import windowData from './states/windowData.js';
 import subscribeState from './states/subscribeState.js';
 
@@ -17,12 +15,11 @@ import modalCardLabelState from './states/modalCardLabel/modalCardLabel.js';
 import modalDueDateState from './states/modalDueDate/modalDueDate.js';
 import modalActivityState from './states/modalActivity/modalActivity.js';
 import modalAttachmentState from './states/modalAttachment/modalAttachment.js';
+import modalCardDelState from './states/modalCardDel.js';
 
 
 export const store = configureStore({
   reducer: {
-    counter_test: counterState,
-
     cardUsersState: cardUsersState,
     windowData: windowData,
     subscribeState: subscribeState,
@@ -36,6 +33,7 @@ export const store = configureStore({
     modalDueDateState: modalDueDateState,
     modalActivityState: modalActivityState,
     modalAttachmentState: modalAttachmentState,
+    modalCardDelState: modalCardDelState,
 
   },
   middleware: (getDefaultMiddleware) =>

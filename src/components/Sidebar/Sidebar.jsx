@@ -10,6 +10,8 @@ import { setMembersWindow } from "../../main_state/states/modalCardMember/modalC
 import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
+import { setShowCardDel } from "../../main_state/states/modalCardDel";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function Sidebar(props){
   // console.log(props);
@@ -27,19 +29,17 @@ export default function Sidebar(props){
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
 
-  let newLink = props.newLink;
-  let newLinkDesc = props.newLinkDesc;
-
-  let showCardDel = props.showCardDel;
-  let setShowCardDel = props.setShowCardDel;
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const windowData = useSelector((state) => state.windowData.value);
   const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
   const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
 
-  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow); 
+  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
+  const showCardDel = useSelector((state) => state.modalCardDelState.showCardDel);
+
+  console.log(windowData.id, showCardDel);
 
 
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ export default function Sidebar(props){
 
   function funcAttachmentWindow(){ 
     console.log('Sidebar');
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(attachmentWindow){
       console.log('Sidebar', attachmentWindow);
 
@@ -65,7 +65,7 @@ export default function Sidebar(props){
 
 
   function funcMembersWindow(){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(membersWindow){
       dispatch(setMembersWindow(false));
     }
@@ -75,7 +75,7 @@ export default function Sidebar(props){
   }
 
   function funcLabelsWindow() {
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(showLabelsWindow){
       dispatch(setShowLabelsWindow(false));
     }
@@ -85,7 +85,7 @@ export default function Sidebar(props){
   }
 
   function funcDueDateWindow(){
-    onRemoving_onFrames();
+    dispatch(onRemoving_onFrames());
     if(dueDateWindow){
       dispatch(setDueDateWindow(false));
     }
@@ -95,12 +95,16 @@ export default function Sidebar(props){
   }
   
   function funkShowCardDel(window_id){
-    onRemoving_onFrames();
+    console.log('funkShowCardDel', window_id)
+    dispatch(onRemoving_onFrames());
     if(showCardDel){
-      setShowCardDel(false);
+      console.log('funkShowCardDel', window_id)
+      dispatch(setShowCardDel(false));
     }
     else{
-      setShowCardDel(window_id);
+      console.log('funkShowCardDel', window_id)
+
+      dispatch(setShowCardDel(window_id));
     }
   }
 
@@ -131,7 +135,7 @@ export default function Sidebar(props){
           {(membersWindow) && (
             <SidebarMembersWindow
               dashboardUsers = {dashboardUsers} //это прилетает из дашборда
-              onRemoving_onFrames={onRemoving_onFrames}
+              // onRemoving_onFrames={onRemoving_onFrames}
             />)
           }
           
@@ -152,7 +156,7 @@ export default function Sidebar(props){
               showPreloderLabel={showPreloderLabel} //это прилетает из дашборда
               setShowPreloderLabel={setShowPreloderLabel} //это прилетает из дашборда
 
-              onRemoving_onFrames={onRemoving_onFrames}
+              // onRemoving_onFrames={onRemoving_onFrames}
             />)
           }
 
@@ -168,7 +172,7 @@ export default function Sidebar(props){
           </div>
           {dueDateWindow && (
             <SidebarDueDate
-              onRemoving_onFrames={onRemoving_onFrames}
+              // onRemoving_onFrames={onRemoving_onFrames}
             />)
           }
 
@@ -189,10 +193,7 @@ export default function Sidebar(props){
               handleAddFilesReset={handleAddFilesReset}
               handleAddFilesSubmit={handleAddFilesSubmit}
 
-              newLink={newLink}
-              newLinkDesc={newLinkDesc}
-
-              onRemoving_onFrames={onRemoving_onFrames}
+              // onRemoving_onFrames={onRemoving_onFrames}
               
             />)
           }

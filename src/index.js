@@ -8,8 +8,6 @@ import './index.css';
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { store } from './main_state/store';
-// import { store } from './store';
-// import { store } from './store_redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
