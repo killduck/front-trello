@@ -4,27 +4,14 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import UserCard from "../UserCard/UserCard";
 import styles from "./WindowModalCardMember.module.scss";
-// import { useClickOutside } from "../../hooks/useClickOutside";
 import { useDispatch, useSelector } from "react-redux";
 import { setMembersWindow, setShowPreloderDelMember, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
 import request from "../../api/request";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
-import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
 import { setCardUsers } from "../../main_state/states/cardUsersState";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
-
 export default function WindowModalCardMember(props){
-
-  // let cardUsers = props.cardUsers;
-  // let authUser = props.authUser;
-  // let showUserCard = props.showUserCard;
-
-  // let funcMembersWindow = props.funcMembersWindow;
-  // let funcDelCardUser = props.funcDelCardUser;
-  // let onUserCard = props.onUserCard;
-
-  // let onRemoving_onFrames= props.onRemoving_onFrames;
 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
@@ -37,6 +24,7 @@ export default function WindowModalCardMember(props){
 
   function funcMembersWindow(){
     dispatch(onRemoving_onFrames());
+
     if(membersWindow){
       dispatch(setMembersWindow(false));
     }
@@ -46,15 +34,12 @@ export default function WindowModalCardMember(props){
   }
 
   function onUserCard(id_user = null) {
-    console.log('tut', id_user);
     dispatch(onRemoving_onFrames());
 
     if(showUserCard === id_user){
-      // setShowUserCard(null);
       dispatch(setShowUserCard(null));
     }
     else{
-      // setShowUserCard(id_user);
       dispatch(setShowUserCard(id_user));
     }
   }
@@ -63,7 +48,9 @@ export default function WindowModalCardMember(props){
     if(showPreloderDelMember){
       return;
     } 
+
     dispatch(setShowPreloderDelMember(user_id));
+    
     cardUsers.forEach(cardUser => {
       if (user_id === cardUser.id){
         request({
@@ -75,14 +62,10 @@ export default function WindowModalCardMember(props){
                 dispatch(setShowPreloderDelMember(false));
 
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
-                // setCardUsers(filteredCardUsers);
                 dispatch(setCardUsers(filteredCardUsers));
 
-                // setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
                 let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
                 dispatch(setSubscribeState(filteredCardSubscribedUsers));
-
-                dispatch(setWindowModalReloadState(true));
               }
             }
           },
@@ -93,17 +76,7 @@ export default function WindowModalCardMember(props){
     });
   }
 
-
   const userCardWindow = useRef(null);
-
-  // useClickOutside(userCardWindow, () => {
-  //   if(showUserCard !== null){
-  //     setTimeout(() => {
-  //       // onUserCard();
-  //       // onRemoving_onFrames();
-  //     }, 100);
-  //   }
-  // });
 
   return (
     <>
@@ -147,8 +120,6 @@ export default function WindowModalCardMember(props){
                       :
                       ""
                     }
-                    
-  
                   </div>
                 )
               }   

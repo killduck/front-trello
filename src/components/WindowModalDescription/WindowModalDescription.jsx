@@ -13,12 +13,7 @@ import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
-// import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/cardDescriptionState";
-// import { setShowReactQuillState } from "../../main_state/states/showReactQuillState";
-
-
 export default function WindowModalDescription(props){
-  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const windowData = useSelector((state) => state.windowData.value);
   let cardDescriptionState_newValue = useSelector((state) => state.cardDescriptionState.newValue);
@@ -42,31 +37,28 @@ export default function WindowModalDescription(props){
   };
 
   function saveNewReactQuillText(){
-    console.log(cardDescriptionState_startValue, cardDescriptionState_newValue);
     if(cardDescriptionState_newValue === '<p><br></p>'){
       // <p><br></p><p><br></p>
       cardDescriptionState_newValue = null;
       dispatch(setStartCardDescriptionState(''));
     }
-    console.log(cardDescriptionState_startValue, cardDescriptionState_newValue);
     if(cardDescriptionState_newValue === cardDescriptionState_startValue){
       funcShowReactQuill();
       return;
     }
 
     if(cardDescriptionState_newValue !== cardDescriptionState_startValue){
+      dispatch(setWindowModalReloadState(true));
+
       request({
         method:'POST',
         url:'add-card-description/',
         callback:(response) => { 
           if (response.status === 200) {
             if(response.data){
-              // setValueDescription(response.data[0].description);
               dispatch(setStartCardDescriptionState(response.data[0].description));
-              // setCardDescription(response.data[0].description);
               dispatch(setNewCardDescriptionState(response.data[0].description));
-
-              dispatch(setWindowModalReloadState(true));
+              dispatch(setWindowModalReloadState(false));
             }
           }
         },
@@ -89,9 +81,8 @@ export default function WindowModalDescription(props){
 
   function showReactQuillHandleKeyPress(evt){
     if(evt.key === 'Enter' && evt.shiftKey){
-      console.log(evt);
       cardDescriptionState_newValue = cardDescriptionState_newValue.trim().slice(0, -11);
-      console.log(cardDescriptionState_newValue);
+
       dispatch(setNewCardDescriptionState(cardDescriptionState_newValue));
       saveNewReactQuillText();
     }
@@ -129,7 +120,6 @@ export default function WindowModalDescription(props){
             theme="snow"
             value={cardDescriptionState_newValue ? cardDescriptionState_newValue : ''} 
             onChange={(evt)=> dispatch(setNewCardDescriptionState(evt))}
-            // onChange={showReactQuillHandleKeyPress} 
             placeholder={"Введите текст..."}
             modules={modules}
             onKeyDown={(evt)=>showReactQuillHandleKeyPress(evt)}
@@ -143,7 +133,6 @@ export default function WindowModalDescription(props){
           >
             <Button
               className={'cardDescriptionSave'}
-              // actionVariable={}
               clickAction = {saveNewReactQuillText}
             >Сохранить</Button>
             <Button

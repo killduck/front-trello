@@ -10,17 +10,14 @@ export const windowModalReloadState = createSlice(
     reducers: {
       setWindowModalReloadState: (state, action) => {
         state.value = action.payload;
-        // console.log('state =>', state.value, 'action =>', action.payload);
       },
       setWindowModalReloadBlur: (state, action) => {
         state.blur = action.payload;
-        // console.log('state =>', state.blur, 'action =>', action.payload);
       },
     },
   }
 )
 
-// Action creators are generated for each case reducer function
 export const { 
   setWindowModalReloadState,
   setWindowModalReloadBlur,

@@ -6,7 +6,6 @@ import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalHeaderSection(props){
 
-  // let onRemoving_onFrames= props.onRemoving_onFrames;
   let updateFunc = props.updateFunc;
   let column = props.column;
   
@@ -21,6 +20,7 @@ export default function WindowModalHeaderSection(props){
 
   function showTextarea() {
     dispatch(onRemoving_onFrames());
+    
     if(!newNameField){
       dispatch(setNewNameField(true));
     }
@@ -71,7 +71,6 @@ export default function WindowModalHeaderSection(props){
           onChange={(evt) => writeNewText(evt.target.value)}
           onKeyDown={windowNameHandleKeyPress}
           onBlur={windowNameHandleKeyPress}
-
           className={''} 
           dir="auto" 
           data-testid="card-back-title-input" 
@@ -100,4 +99,3 @@ export default function WindowModalHeaderSection(props){
     </div>
   )
 };
-

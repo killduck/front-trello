@@ -21,8 +21,9 @@ import TaskCard from "../../components/TaskCard/TaskCard";
 import styles from "./KanbanBoard.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
 import { URL_API } from "../../api/config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPreloaderWindowName } from "../../main_state/states/modalHeader/windowName";
+import { setShowPreloderLabel } from "../../main_state/states/modalCardLabel/modalCardLabel";
 
 export default function KanbanBoard(props) {
 
@@ -37,7 +38,6 @@ export default function KanbanBoard(props) {
   const [showForm, setShowForm] = useState(true);
   const [newName, setText] = useState('Новая колонка');
   const [newTextTask, setNewTextTask] = useState('Новая задача');
-  const [showPreloderLabel, setShowPreloderLabel] = useState(false);
 
   let [backGroundImage, setBackGroundImage] = useState('');
   let [name_dashboard, setNameDashboard] = useState('');
@@ -45,7 +45,7 @@ export default function KanbanBoard(props) {
   let [users, setUsers] = useState([]);
   let { dashboardId } = useParams();
 
-
+  const showPreloderLabel = useSelector((state) => state.modalCardLabelState.showPreloderLabel); 
 
   const dispatch = useDispatch();
 
@@ -452,6 +452,7 @@ export default function KanbanBoard(props) {
     if(showPreloderLabel){
       return;
     }
+    
     request({
       method: "POST",
       url: 'add-label-to-card/',
@@ -460,7 +461,7 @@ export default function KanbanBoard(props) {
           let new_card_id = response.data[0]['id'];
           let new_label = response.data[0]['label'];
           updateSetCardLabel(new_card_id, new_label);
-          setShowPreloderLabel(false);
+          dispatch(setShowPreloderLabel(false)); 
         }
       },
       data: { "card_id": card_id, "label_id": label.id },
@@ -516,8 +517,6 @@ export default function KanbanBoard(props) {
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
                     showPreloderCard={showPreloderCard}
-                    showPreloderLabel={showPreloderLabel}
-                    setShowPreloderLabel={setShowPreloderLabel}
                     setShowPreloder={setShowPreloder}
                   />
                 ))}
@@ -585,8 +584,6 @@ export default function KanbanBoard(props) {
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
                   showPreloderCard={showPreloderCard}
-                  showPreloderLabel={showPreloderLabel}
-                  setShowPreloderLabel={setShowPreloderLabel}
                   setShowPreloder={setShowPreloder}
                 />
               )}

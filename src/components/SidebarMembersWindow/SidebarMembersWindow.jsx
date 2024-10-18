@@ -13,18 +13,16 @@ import request from "../../api/request";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function SidebarMembersWindow(props){
-  console.log(props);
+  // console.log(props);
+
   let dashboardUsers = props.dashboardUsers;
-  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
   const matchSearch = useSelector((state) => state.cardUsersState.matchSearch);
   const searchNewCardUser = useSelector((state) => state.cardUsersState.searchNewCardUser);
-
   const windowData = useSelector((state) => state.windowData.value);
   const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
-
   const showPreloderAddMember = useSelector((state) => state.modalCardMemberState.showPreloderAddMember);
   const showPreloderDelMember = useSelector((state) => state.modalCardMemberState.showPreloderDelMember);
 
@@ -36,7 +34,7 @@ export default function SidebarMembersWindow(props){
     dispatch(onRemoving_onFrames()); 
     dispatch(setMatchSearch(''));
     dispatch(setSearchNewCardUser([]));
-    // console.log('tut', membersWindow);
+
     if(membersWindow){
       dispatch(setMembersWindow(false));
     }
@@ -74,19 +72,10 @@ export default function SidebarMembersWindow(props){
           if (response.status === 200) {
             if(response.data){
               dispatch(setShowPreloderAddMember(false));
-              
-              // dispatch(setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]));
               dispatch(setCardUsers([...cardUsers, response.data]));
-              // setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
               dispatch(setSubscribeState(cardUsers.filter((cardUser) => cardUser.id === authUser).length));
-              
-              // setSearchNewCardUser(searchNewCardUser = searchNewCardUser.filter((elem) => elem.id !==  user_id));
               dispatch(setSearchNewCardUser(searchNewCardUser.filter((elem) => elem.id !==  user_id)));
-              
-              // setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch);
               dispatch(setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch));
-
-              // dispatch(setWindowModalReloadState(true));
             }
           }
         },
@@ -113,6 +102,7 @@ export default function SidebarMembersWindow(props){
 
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 dispatch(setCardUsers(filteredCardUsers));
+
                 let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
                 dispatch(setSubscribeState(filteredCardSubscribedUsers));
               }
@@ -126,13 +116,11 @@ export default function SidebarMembersWindow(props){
   }
 
   function funcCheckToAddNewCardUser(dashboardUser, item = null){
-    // console.log(`funcCheckToAddNewCardUser => ${dashboardUser}, ${item}`);
     let dashboardUserCheck = true;
 
     cardUsers.forEach(cardUser => {
       console.log(cardUser[item], dashboardUser[item]);
       if(cardUser[item] === dashboardUser[item]){
-        // console.log(`funcCheckToAddNewCardUser => ${cardUser[item]}, ${dashboardUser[item]}`);
         dashboardUserCheck = false;
         return;
       }
@@ -142,10 +130,9 @@ export default function SidebarMembersWindow(props){
   }
 
   function funcSearchNewCardUser(evt){
-    // console.log(`funcSearchNewCardUser => ${evt}`);
     dispatch(setMatchSearch(evt));
+
     let  evtLength = evt.length;
-    // console.log(evtLength);
     let searchedUsers = [];
 
     if(evtLength === 0){
@@ -157,25 +144,21 @@ export default function SidebarMembersWindow(props){
         
         switch(evt){
           case dashboardUser.first_name.toLowerCase().substring(0, evtLength):
-            // console.log(dashboardUser.first_name); 
             if(funcCheckToAddNewCardUser(dashboardUser, 'first_name')){
               searchedUsers.push(dashboardUser);
             }
             break;
           case dashboardUser.email.toLowerCase().substring(0, evtLength):
-            // console.log(dashboardUser.first_name); 
             if(funcCheckToAddNewCardUser(dashboardUser, 'email')){
               searchedUsers.push(dashboardUser);
             }
             break;
           case dashboardUser.last_name.toLowerCase().substring(0, evtLength):
-            // console.log(dashboardUser.first_name); 
             if(funcCheckToAddNewCardUser(dashboardUser, 'last_name')){
               searchedUsers.push(dashboardUser);
             }
             break;
           case dashboardUser.username.toLowerCase().substring(0, evtLength):
-            // console.log(dashboardUser.first_name); 
             if(funcCheckToAddNewCardUser(dashboardUser, 'username')){
               searchedUsers.push(dashboardUser);
             }
@@ -184,7 +167,6 @@ export default function SidebarMembersWindow(props){
         }
       });
     }
-    // console.log(searchedUsers.length, evtLength);
 
     if(searchedUsers.length === 0 && evtLength > 0){
       setShowNoResult(true);
@@ -192,7 +174,6 @@ export default function SidebarMembersWindow(props){
     }
     setShowNoResult(false);
     dispatch(setSearchNewCardUser(searchedUsers));
-    // console.log(searchNewCardUser);
   }
 
   const search_new_card_user_item = (

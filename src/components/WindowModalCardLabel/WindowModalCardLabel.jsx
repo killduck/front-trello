@@ -8,11 +8,9 @@ import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 export default function WindowModalCardLabel(props){
 
   let task = props.task; //это прилетает из дашборда
-  // let onRemoving_onFrames = props.onRemoving_onFrames; 
 
   const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
   const cardLabelStatus = useSelector((state) => state.modalCardLabelState.cardLabelStatus); 
-  // console.log(showLabelsWindow);
 
   const dispatch = useDispatch();
 

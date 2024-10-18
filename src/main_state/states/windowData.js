@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const windowData = createSlice(
   {
-    name: 'window_data',
+    name: 'window_data', 
     initialState: {
       value: {},
     },
@@ -15,7 +15,6 @@ export const windowData = createSlice(
   }
 )
 
-// Action creators are generated for each case reducer function
 export const { setWindowData } = windowData.actions
 
 export default windowData.reducer

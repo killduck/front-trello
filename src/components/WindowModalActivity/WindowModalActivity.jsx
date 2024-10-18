@@ -15,8 +15,6 @@ import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalActivity(props){
 
-  // let onRemoving_onFrames = props.onRemoving_onFrames;
-
   const windowData = useSelector((state) => state.windowData.value);
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const authUserData = useSelector((state) => state.cardUsersState.authUserData); 
@@ -38,14 +36,11 @@ export default function WindowModalActivity(props){
   editorRef = useFocusAndSetRef(editorRef);
 
   function onUserCard(id_user = null) {
-    console.log('tut', id_user);
     dispatch(onRemoving_onFrames());
 
     showUserCard === id_user ?
-      // setShowUserCard(null);
       dispatch(setShowUserCard(null))
       :
-      // setShowUserCard(id_user)
       dispatch(setShowUserCard(id_user))
   }
 
@@ -59,7 +54,6 @@ export default function WindowModalActivity(props){
   }
 
   function onDelActivityReactQuillComment(comment_data){
-    // console.log(comment_id);
     setDelWindow(false);
     setProcessActivity(comment_data.date);
     request({
@@ -119,6 +113,7 @@ export default function WindowModalActivity(props){
 
   function funcActivityDetailsShow(){
     dispatch(onRemoving_onFrames());
+    
     if(activityDetailsShow){
       setActivityDetailsShow(false);
     }
@@ -129,6 +124,7 @@ export default function WindowModalActivity(props){
 
   function funcActivityEditorShow(comment_id = null, commentStartValue){
     dispatch(onRemoving_onFrames());
+
     if(activityEditorShow === comment_id){
       dispatch(setActivityEditorShow(null));
     }

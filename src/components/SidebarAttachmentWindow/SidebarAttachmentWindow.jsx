@@ -5,11 +5,7 @@ import styles from "./SidebarAttachmentWindow.module.scss";
 import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
-
-
 export default function SidebarAttachmentWindow(props){
-
-  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
@@ -21,33 +17,26 @@ export default function SidebarAttachmentWindow(props){
   const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
   const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
 
-
   const dispatch = useDispatch();
 
   const newLinkDescHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){ 
-      console.log(newLinkDesc, startLink.description);
-      
       handleAddFilesSubmit();
     }
   }
 
   function writeNewLinkDesc(evt) { 
-    console.log(evt);
     dispatch(setNewLinkDesc(evt));
-    console.log(newLinkDesc);
   }
 
   const newLinkHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){
-      
       handleAddFilesSubmit();
     }
   }
 
   const handleChangeAddFiles = (evt) => {
     evt.preventDefault();
-    console.log(evt, addFiles);
     if(evt.target.files && evt.target.files[0]){
       dispatch(setAddFiles(evt.target.files));
     }
@@ -58,19 +47,15 @@ export default function SidebarAttachmentWindow(props){
   }
 
   function funcAttachmentWindow(){ 
-    console.log('SidebarAttachmentWindow');
     dispatch(onRemoving_onFrames());
+
     if(attachmentWindow){
-    
-      console.log('tut', attachmentWindow);
       dispatch(setNewLink('')); 
       dispatch(setNewLinkDesc(''));
-      
       dispatch(setAddFiles([]));
       dispatch(setAttachmentWindow(false));
     }
     else{
-      console.log('tut', attachmentWindow);
       dispatch(setAttachmentWindow(true));
     }
   }
@@ -151,24 +136,12 @@ export default function SidebarAttachmentWindow(props){
                 <input 
                   disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
                   className={styles.attachmentLinkInput} 
-                  // aria-describedby="search-recent-links-field-description" 
-                  // aria-labelledby="url-uid3-label" 
                   id="url-uid3" 
-                  // autoComplete="off" 
-                  // aria-readonly="false" 
-                  // role="combobox" 
-                  // aria-expanded="true" 
-                  // aria-autocomplete="list" 
-                  // aria-controls="link-picker-search-list" 
-                  // aria-activedescendant="" 
-                  // data-ds--text-field--input="true" 
-                  // data-testid="link-url" 
                   name="url" 
                   placeholder="Выполните поиск недавних ссылок или вставьте новую" 
                   value={newLink} 
-                  
                   autoFocus
-                  onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
+                  onFocus={(evt) => evt.target.selectionStart = evt.target.value.length } 
                   onChange={(evt) => writeNewLink(evt.target.value)}
                   onKeyDown={newLinkHandleKeyPress}
                   onBlur={newLinkHandleKeyPress}
@@ -179,17 +152,11 @@ export default function SidebarAttachmentWindow(props){
               <div className={styles.attachmentLinkInputWrap} role="presentation" data-ds--text-field--container="true" data-testid="link-text-container">
                 <input 
                   disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
-                  // aria-describedby="displayText-uid15-helper" 
-                  // aria-labelledby="displayText-uid15-label" 
                   id="displayText-uid15" 
-                  // autoComplete="off" 
-                  // data-ds--text-field--input="true" 
-                  // data-testid="link-text" 
                   name="displayText" 
                   placeholder="Текст для отображения" 
                   className={styles.attachmentLinkInput} 
                   value={newLinkDesc}
-
                   onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
                   onChange={(evt) => writeNewLinkDesc(evt.target.value)}
                   onKeyDown={newLinkDescHandleKeyPress}
@@ -201,20 +168,17 @@ export default function SidebarAttachmentWindow(props){
 
           <div className={styles.cardEditorButtonWrap}>
             <Button
-              className={'attachmentSave'} //attachmentSave
-              // actionVariable={'no'}
+              className={'attachmentSave'}
               clickAction = {handleAddFilesSubmit}
               disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Сохранить</Button>
             <Button
-              className={'attachmentReset'} //attachmentReset
-              // actionVariable={'no'}
+              className={'attachmentReset'} 
               clickAction = {handleAddFilesReset}
               disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Сброс</Button>
             <Button
-              className={'attachmentCancel'} // attachmentCancel
-              // actionVariable={null}
+              className={'attachmentCancel'} 
               clickAction = {funcAttachmentWindow}
               disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Отмена</Button>

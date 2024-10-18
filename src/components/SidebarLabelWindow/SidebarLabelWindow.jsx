@@ -4,29 +4,24 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarLabelWindow.module.scss";
 import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
-import { setCardLabelStatus, setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { 
+  setCardLabelStatus, 
+  setShowLabelsWindow, 
+  setShowPreloderLabel } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
-
 export default function SidebarLabelWindow(props){
-  console.log(props);
+  // console.log(props);
   
-  // let labelsWindow = props.labelsWindow;
   let updateCardLabel = props.updateCardLabel; //это прилетает из дашборда
-  // let setCardLabel = props.setCardLabel;
-  let showPreloderLabel = props.showPreloderLabel; //это прилетает из дашборда
-  let setShowPreloderLabel = props.setShowPreloderLabel; //это прилетает из дашборда
-
-  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
   const [coloredLabel_id, setColoredLabel_id] = useState(Number);
   
   const windowData = useSelector((state) => state.windowData.value);
-  console.log(windowData);
   const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
-  // const cardLabelStatus = useSelector((state) => state.modalCardLabelState.cardLabelStatus); 
+  const showPreloderLabel = useSelector((state) => state.modalCardLabelState.showPreloderLabel); 
 
   const dispatch = useDispatch();
 
@@ -63,19 +58,19 @@ export default function SidebarLabelWindow(props){
   }
 
   function onTakeColor(label){
-    // console.log(label);
     if(showPreloderLabel){
       return;
     }
     
-    setShowPreloderLabel(label.id);
+    dispatch(setShowPreloderLabel(label.id));
+
     if(!checkbox){
-      setCheckbox(true);
-      setColoredLabel_id(label.id);
+      // setCheckbox(true);
+      // setColoredLabel_id(label.id);
       updateCardLabel(windowData.id, label);
     }
     else{
-      setCheckbox(false);
+      // setCheckbox(false);
       updateCardLabel(windowData.id, {'id': 'null'});
       dispatch(setCardLabelStatus(false));
     }
@@ -112,7 +107,6 @@ export default function SidebarLabelWindow(props){
                 <span className={styles.labelItemCheckboxWrap}>
                   <span 
                     className={`${styles.labelItemCheckbox} ${(checkbox && coloredLabel_id === coloredLabel.id) ? styles.checked : "" }`}
-                    // onClick={onTakeColor}
                     onClick={() => onTakeColor(coloredLabel)}
                   >
                     <Icons 
@@ -128,9 +122,7 @@ export default function SidebarLabelWindow(props){
                     <span 
                       className={styles.labelItemColorSpan}
                       style={(showPreloderLabel === coloredLabel.id) ? {} : {backgroundColor: coloredLabel.color_hex}} 
-                      // onClick={onTakeColor}
                       onClick={() => onTakeColor(coloredLabel)}
-
                     ></span>
                   </div>
                 </span>

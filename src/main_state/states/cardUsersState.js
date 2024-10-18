@@ -14,7 +14,6 @@ export const cardUsersState = createSlice(
     reducers: {
       setCardUsers: (state, action) => {
         state.cardUsers = action.payload;
-        // console.log('state =>', state.showUserCard, 'action =>', action.payload);
       },
       setAuthUser: (state, action) => {
         state.authUser = action.payload;
@@ -39,7 +38,6 @@ export const {
   setAuthUserData,
   setMatchSearch,
   setSearchNewCardUser,
-
 } = cardUsersState.actions
 
 export default cardUsersState.reducer

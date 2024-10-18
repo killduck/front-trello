@@ -9,7 +9,6 @@ export const modalCardDelState = createSlice(
     reducers: {
       setShowCardDel: (state, action) => {
         state.showCardDel = action.payload;
-        console.log('state =>', state.showCardDel, 'action =>', action.payload);
       }
     },
   }

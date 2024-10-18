@@ -22,8 +22,6 @@ export default function ColumnContainer(props) {
   let updateTask = props.updateTask;
   let updateCardLabel = props.updateCardLabel;
   let showPreloderCard = props.showPreloderCard;
-  let showPreloderLabel = props.showPreloderLabel;
-  let setShowPreloderLabel = props.setShowPreloderLabel;
   let setShowPreloder = props.setShowPreloder;
 
   const [editMode, setEditMode] = useState(false);
@@ -231,8 +229,6 @@ export default function ColumnContainer(props) {
               deleteCard={deleteCard}
               updateCardLabel={updateCardLabel}
               showPreloderCard={showPreloderCard}
-              showPreloderLabel={showPreloderLabel}
-              setShowPreloderLabel={setShowPreloderLabel}
             />
           ))}
           {!showForm &&

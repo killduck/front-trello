@@ -11,23 +11,16 @@ import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalAttachment(props){
   // console.log(props);
-  // let onRemoving_onFrames = props.onRemoving_onFrames;
 
   const windowData = useSelector((state) => state.windowData.value);
-
   const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow); 
   const showCardOptions = useSelector((state) => state.modalAttachmentState.showCardOptions); 
-
   const cardFiles = useSelector((state) => state.modalAttachmentState.cardFiles); 
   const showPreloderFile = useSelector((state) => state.modalAttachmentState.showPreloderFile);
   const showCardOptionsFileDel = useSelector((state) => state.modalAttachmentState.showCardOptionsFileDel);
-  
   const cardLinks = useSelector((state) => state.modalAttachmentState.cardLinks);
   const showPreloderLink = useSelector((state) => state.modalAttachmentState.showPreloderLink);
   const showCardOptionsLinkDel = useSelector((state) => state.modalAttachmentState.showCardOptionsLinkDel);
-  const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
-  const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
-
 
   const dispatch = useDispatch();
 
@@ -40,6 +33,7 @@ export default function WindowModalAttachment(props){
 
   function funcAttachmentWindow(){ 
     dispatch(onRemoving_onFrames());
+
     if(attachmentWindow){
       dispatch(setNewLink('')); 
       dispatch(setNewLinkDesc(''));
@@ -53,35 +47,26 @@ export default function WindowModalAttachment(props){
 
   function funcShowAttachmentContentCardOptions(elem_id){
     dispatch(onRemoving_onFrames());
+
     if(showCardOptions){ 
       dispatch(setShowCardOptions(false));
     }
     else{
       dispatch(setShowCardOptions(elem_id));
     }
-    // setShowCardOptions(showCardOptions = elem_id);
   }
 
   function funcShowUpdateCardLink(link_all){
-    console.log(link_all);
     dispatch(onRemoving_onFrames());
+
     if(attachmentWindow){
       dispatch(setAttachmentWindow(false));
     }
     else{
       dispatch(setStartLink(link_all)); 
-
-      // setNewLink(newLink = link_all.text); 
       dispatch(setNewLink(link_all.text)); 
-      // setNewLinkDesc(newLinkDesc = link_all.description); 
       dispatch(setNewLinkDesc(link_all.description)); 
-
-
-      // writeNewLink(link_all.text);
-      // writeNewLinkDesc(link_all.description);
-      // setAttachmentWindow(attachmentWindow = 'link');
       dispatch(setAttachmentWindow('link'));
-
     }
   }
 
@@ -97,12 +82,10 @@ export default function WindowModalAttachment(props){
       url: 'del-link-from-card/',
       callback: (response) => {
         if (response.status === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           dispatch(setShowPreloderLink(false));
           dispatch(setCardLinks(response.data.card_link));
           funcShowAttachmentContentCardOptions(false);
-          // setUpdateValue(true);//пока нужно
-          // dispatch(setWindowModalReloadState(true));
         }
       },
       data: {'card_id': windowData.id, 'link_id': link_id},
@@ -112,6 +95,7 @@ export default function WindowModalAttachment(props){
 
   function funcShowDeleteCardLink(link_id){
     dispatch(onRemoving_onFrames());
+
     if(showCardOptionsLinkDel){
       dispatch(setShowCardOptionsLinkDel(false));
     }
@@ -125,7 +109,6 @@ export default function WindowModalAttachment(props){
       return;
     }
     dispatch(setShowPreloderFile(file.id)); 
-
     dispatch(onRemoving_onFrames());
 
     request({
@@ -148,8 +131,6 @@ export default function WindowModalAttachment(props){
           URL.revokeObjectURL(href);
 
           funcShowAttachmentContentCardOptions(false);
-          // setUpdateValue(true);//пока нужно
-          // dispatch(setWindowModalReloadState(true));
         }
       },
       data: {'card_id': windowData.id, 'file_id': file.id},
@@ -160,6 +141,7 @@ export default function WindowModalAttachment(props){
 
   function funcShowDeleteCardFile(file_id){
     dispatch(onRemoving_onFrames());
+    
     if(showCardOptionsFileDel){
       dispatch(setShowCardOptionsFileDel(false)); 
     }
@@ -172,20 +154,19 @@ export default function WindowModalAttachment(props){
     if(showPreloderFile){ 
       return;
     }
+
     dispatch(setShowPreloderFile(file_id));
     dispatch(onRemoving_onFrames());
+
     request({
       method: 'POST',
       url: 'del-file-from-card/',
       callback: (response) => {
         if (response.status === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           dispatch(setShowPreloderFile(false));
-
           dispatch(setCardFiles(response.data.card_file));
           funcShowAttachmentContentCardOptions(false);
-          // setUpdateValue(true);//пока нужно
-          // dispatch(setWindowModalReloadState(true));
         }
       },
       data: {'card_id': windowData.id, 'file_id': file_id},

@@ -24,8 +24,6 @@ export default function WindowPortal(props){
     let deleteFunc = props.deleteFunc;
     let updateCardLabel = props.updateCardLabel;
     let setDNDIsOn = props.setDNDIsOn;
-    let showPreloderLabel = props.showPreloderLabel;
-    let setShowPreloderLabel = props.setShowPreloderLabel;
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -64,8 +62,6 @@ export default function WindowPortal(props){
                 deleteFunc = {deleteFunc}
                 updateCardLabel={updateCardLabel}
                 closeModal={closeModal}
-                showPreloderLabel={showPreloderLabel}
-                setShowPreloderLabel={setShowPreloderLabel}
             >
                 <Button
                     className={'btnWindowModal'}

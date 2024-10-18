@@ -9,13 +9,11 @@ export const subscribeState = createSlice(
     reducers: {
       setSubscribeState: (state, action) => {
         state.value = action.payload;
-        // console.log('state =>', state.value, 'action =>', action.payload);
       }
     },
   }
 )
 
-// Action creators are generated for each case reducer function
 export const { setSubscribeState } = subscribeState.actions
 
 export default subscribeState.reducer

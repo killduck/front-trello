@@ -7,14 +7,12 @@ import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalSubscribe(props){
 
-  // let subscribe = props.subscribe;
-  // let onRemoving_onFrames = props.onRemoving_onFrames;
-
   const subscribeState = useSelector((state) => state.subscribeState.value); 
   const dispatch = useDispatch();
 
   function funcSubscribe(){
     dispatch(onRemoving_onFrames());
+    
     if(subscribeState){
       dispatch(setSubscribeState(false));
     }
@@ -28,14 +26,12 @@ export default function WindowModalSubscribe(props){
       <h3  className={styles.cardDetailsTitle}>
         Уведомления
       </h3>
-      
       { (!subscribeState) ? (
         <Button
           className = {'BtnCardSubscribe'}
           ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
           clickAction = {funcSubscribe}
         >
-          
           <Icons
             name={'eye-open'}
             class_name={'iconCardSubscribe'}

@@ -4,29 +4,24 @@ export const modalAttachmentState = createSlice(
   {
     name: 'modal_attachment_state',
     initialState: {
-      attachmentWindow : false, //
-      showPreloderAttachmentWindow: false,
-
-      showCardOptions: false,
-
-      addFiles: [],
-      cardFiles: [],
-      showPreloderFile: false,
-      showCardOptionsFileDel: false,
-      
-      cardLinks: [],
-      startLink: '',
-      showPreloderLink: false,
-      showCardOptionsLinkUpdate: false,
-      showCardOptionsLinkDel: false,
-      newLink: '',
-      newLinkDesc : '',
-        
+      attachmentWindow : false, 
+      showPreloderAttachmentWindow: false, 
+      showCardOptions: false, 
+      addFiles: [], 
+      cardFiles: [], 
+      showPreloderFile: false, 
+      showCardOptionsFileDel: false, 
+      cardLinks: [], 
+      startLink: '', 
+      showPreloderLink: false, 
+      showCardOptionsLinkUpdate: false, 
+      showCardOptionsLinkDel: false, 
+      newLink: '', 
+      newLinkDesc : '', 
     },
     reducers: {
       setAttachmentWindow: (state, action) => { //
         state.attachmentWindow = action.payload; 
-        // console.log('state =>', state.attachmentWindow, 'action =>', action.payload);
       },
       setShowPreloderAttachmentWindow: (state, action) => { 
         state.showPreloderAttachmentWindow = action.payload; 
@@ -35,9 +30,7 @@ export const modalAttachmentState = createSlice(
         state.showCardOptions = action.payload; 
       },
       setAddFiles: (state, action) => { 
-        console.log('state =>', state.addFiles, 'action =>', action.payload);
         state.addFiles = action.payload; 
-        console.log('state =>', state.addFiles, 'action =>', action.payload);
       },
       setCardFiles: (state, action) => { 
         state.cardFiles = action.payload; 
@@ -69,7 +62,6 @@ export const modalAttachmentState = createSlice(
       setNewLinkDesc: (state, action) => { 
         state.newLinkDesc = action.payload; 
       },
-
     },
   }
 )
@@ -89,7 +81,6 @@ export const {
   setShowCardOptionsLinkDel,
   setNewLink,
   setNewLinkDesc,
-
 } = modalAttachmentState.actions
 
 export default modalAttachmentState.reducer
