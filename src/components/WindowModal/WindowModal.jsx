@@ -37,12 +37,7 @@ import {
   setAddFiles, 
   setAttachmentWindow, 
   setCardFiles, 
-  setCardLinks, 
-  setNewLink, 
-  setNewLinkDesc, 
-  setShowPreloderAttachmentWindow, 
-  setShowPreloderLink, 
-  setStartLink } from "../../main_state/states/modalAttachment/modalAttachment";
+  setCardLinks } from "../../main_state/states/modalAttachment/modalAttachment";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
@@ -62,13 +57,8 @@ export default function WindowModal(props){
 
   const windowModalReloadState = useSelector((state) => state.windowModalReloadState.value); 
   const windowModalReloadBlur = useSelector((state) => state.windowModalReloadState.blur); 
-  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
-  const addFiles = useSelector((state) => state.modalAttachmentState.addFiles);
   const cardFiles = useSelector((state) => state.modalAttachmentState.cardFiles); 
   const cardLinks = useSelector((state) => state.modalAttachmentState.cardLinks); 
-  const startLink = useSelector((state) => state.modalAttachmentState.startLink); 
-  const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
-  const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
 
   const dispatch = useDispatch();
 
@@ -134,79 +124,6 @@ export default function WindowModal(props){
     }
   }
 
-  const handleAddFilesReset = (evt) => {
-    dispatch(setNewLink('')); 
-    dispatch(setNewLinkDesc(''));
-    dispatch(setAddFiles([]));
-  }
-
-  const handleAddFilesSubmit = () => {
-    if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
-      funcAttachmentWindow();
-      return;
-    }
-
-    if(newLink === startLink.text && newLinkDesc === startLink.description){
-      return;
-    }
-
-    if(attachmentWindow !== 'link'){
-      dispatch(setStartLink(''));
-    }
-
-    const formData = new FormData();
-    formData.append("card_id", idElem);
-    formData.append('link_id', startLink.hasOwnProperty('id') ? startLink.id : startLink);
-    formData.append('link', newLink);
-    formData.append('linkDesc', newLinkDesc);
-
-    if(addFiles.length > 0){
-      Array.from(addFiles).forEach((file) => {
-        formData.append('file', file);
-      });
-    }
-    else{
-      formData.append('file', addFiles);
-    }
-
-    dispatch(setShowPreloderLink(startLink.id));
-    dispatch(setShowPreloderAttachmentWindow(true));
-
-    request({
-      method: 'POST',
-      url: 'add-file-and-link-to-card/',
-      callback: (response) => {
-        if (response.status === 200) {
-          dispatch(setShowPreloderLink(false));
-          dispatch(setShowPreloderAttachmentWindow(false));
-          funcAttachmentWindow();
-          dispatch(setNewLink(''));
-          dispatch(setNewLinkDesc(''));
-          dispatch(setStartLink(''));
-          dispatch(setCardLinks(response.data.card_link));
-          dispatch(setCardFiles(response.data.card_file));
-        }
-      },
-      data: formData,
-      status: 200,
-      content_type: "multipart/form-data",
-    });
-  }
-
-  function funcAttachmentWindow(){ 
-    dispatch(onRemoving_onFrames());
-    if(attachmentWindow){
-      dispatch(setNewLink('')); 
-      dispatch(setNewLinkDesc(''));
-
-      dispatch(setAddFiles([]));
-      dispatch(setAttachmentWindow(false));
-    }
-    else{
-      dispatch(setAttachmentWindow(true));
-    }
-  }
-
   return (
     <>
     {windowModalReloadState ? (
@@ -223,8 +140,8 @@ export default function WindowModal(props){
         onDragOver={handleDragAddFiles}
         onDragLeave={handleDragLeaveAddFiles}
         onDrop={handleDragDropAddFiles}
-        onReset={handleAddFilesReset}
-        onSubmit={handleAddFilesSubmit}
+        // onReset={handleAddFilesReset}
+        // onSubmit={handleAddFilesSubmit}
       >
           {props.children}
 
@@ -269,12 +186,9 @@ export default function WindowModal(props){
 
           <Sidebar
             deleteFunc={deleteFunc} //это прилетает из дашборда
-            closeModal={closeModal} //это прилетает из дашборда
             dashboardUsers={dashboardUsers} //это прилетает из дашборда
             updateSetCardLabel={updateSetCardLabel} //это прилетает из дашборда
-
-            handleAddFilesReset={handleAddFilesReset} // пока тут
-            handleAddFilesSubmit={handleAddFilesSubmit} // пока тут
+            closeModal={closeModal} //это прилетает из WindowPortal
           />
 
       </div>)

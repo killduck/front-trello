@@ -2,13 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarAttachmentWindow.module.scss";
-import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
+import { setAddFiles, setAttachmentWindow, setCardFiles, setCardLinks, setNewLink, setNewLinkDesc, setShowPreloderAttachmentWindow, setShowPreloderLink, setStartLink } from "../../main_state/states/modalAttachment/modalAttachment";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import request from "../../api/request";
 
 export default function SidebarAttachmentWindow(props){
 
-  let handleAddFilesReset = props.handleAddFilesReset;
-  let handleAddFilesSubmit = props.handleAddFilesSubmit;
+  // let handleAddFilesSubmit = props.handleAddFilesSubmit;
 
   const showPreloderAttachmentWindow = useSelector((state) => state.modalAttachmentState.showPreloderAttachmentWindow);
   const addFiles = useSelector((state) => state.modalAttachmentState.addFiles);
@@ -16,8 +16,68 @@ export default function SidebarAttachmentWindow(props){
   const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
   const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
   const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
+  const windowData = useSelector((state) => state.windowData.value);
 
   const dispatch = useDispatch();
+
+  const handleAddFilesSubmit = () => {
+    if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
+      funcAttachmentWindow();
+      return;
+    }
+
+    if(newLink === startLink.text && newLinkDesc === startLink.description){
+      return;
+    }
+
+    if(attachmentWindow !== 'link'){
+      dispatch(setStartLink(''));
+    }
+
+    const formData = new FormData();
+    formData.append("card_id", windowData.id);
+    formData.append('link_id', startLink.hasOwnProperty('id') ? startLink.id : startLink);
+    formData.append('link', newLink);
+    formData.append('linkDesc', newLinkDesc);
+
+    if(addFiles.length > 0){
+      Array.from(addFiles).forEach((file) => {
+        formData.append('file', file);
+      });
+    }
+    else{
+      formData.append('file', addFiles);
+    }
+
+    dispatch(setShowPreloderLink(startLink.id));
+    dispatch(setShowPreloderAttachmentWindow(true));
+
+    request({
+      method: 'POST',
+      url: 'add-file-and-link-to-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          dispatch(setShowPreloderLink(false));
+          dispatch(setShowPreloderAttachmentWindow(false));
+          funcAttachmentWindow();
+          dispatch(setNewLink(''));
+          dispatch(setNewLinkDesc(''));
+          dispatch(setStartLink(''));
+          dispatch(setCardLinks(response.data.card_link));
+          dispatch(setCardFiles(response.data.card_file));
+        }
+      },
+      data: formData,
+      status: 200,
+      content_type: "multipart/form-data",
+    });
+  }
+
+  const handleAddFilesReset = () => {
+    dispatch(setNewLink('')); 
+    dispatch(setNewLinkDesc(''));
+    dispatch(setAddFiles([]));
+  }
 
   const newLinkDescHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey){ 
