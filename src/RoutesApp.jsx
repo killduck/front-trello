@@ -9,6 +9,7 @@ import Templates from './pages/Templates/Templates';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
 import Login from './pages/Login/Login';
 import { useEffect } from 'react';
+import InviteUserBoard from './pages/InviteUserBoard/InviteUserBoard';
 
 
 
@@ -62,6 +63,9 @@ export default function RoutesApp(props) {
                 } />
                 <Route path='/:alias' element={
                     <StatusCodes404 />
+                } />
+                <Route path='/invit-board-confirm/:alias' element={
+                    <InviteUserBoard/>
                 } />
 
             </Routes>
