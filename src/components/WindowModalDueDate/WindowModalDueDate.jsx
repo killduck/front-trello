@@ -3,8 +3,7 @@ import styles from "./WindowModalDueDate.module.scss";
 import Button from "../ui/Button/Button";
 import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
-import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
-import { setDueDateCheckbox, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setDueDateCheckbox, setDueDatePreloder, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 export default function WindowModalDueDate(props){
@@ -12,6 +11,7 @@ export default function WindowModalDueDate(props){
   const windowData = useSelector((state) => state.windowData.value);
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
   const dueDateCheckbox = useSelector((state) => state.modalDueDateState.dueDateCheckbox);
+  const dueDatePreloder = useSelector((state) => state.modalDueDateState.dueDatePreloder);
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ export default function WindowModalDueDate(props){
   }
 
   function sendExecute(card_execute){
-    dispatch(setWindowModalReloadState(true));
+    dispatch(setDueDatePreloder(true));
 
     request({
       method:'POST',
@@ -35,7 +35,8 @@ export default function WindowModalDueDate(props){
       callback:(response) => { 
         if (response.status === 200) {
           if(response.data){
-            dispatch(setWindowModalReloadState(false));
+            dispatch(setDueDateCheckbox(response.data[0]['execute']));
+            dispatch(setDueDatePreloder(false));
           }
         }
       },
@@ -44,22 +45,12 @@ export default function WindowModalDueDate(props){
     });
   } 
 
-  function onDeteWindow(){
-    if(dueDateCheckbox){
-      dispatch(setDueDateCheckbox(false));
-    }
-    else{
-      dispatch(setDueDateCheckbox(true));
-    }
-    sendExecute(dueDateCheckbox);
-  }
-
   return (
     <>
     {windowData.date_end ?
       <div className={styles.cardDetailNotifications}>
         <h3 className={styles.cardDetailsTitle}>Срок</h3>
-        <div className={styles.dueDateItemWrap}>
+        <div className={ dueDatePreloder ? `${styles.cardDueDateWindowGradient} ${styles.dueDateItemWrap}` : styles.dueDateItemWrap}>
           
           <label className={styles.dueDateItem}>
             <input className={styles.dueDateItemInput} type="checkbox" />
@@ -67,7 +58,7 @@ export default function WindowModalDueDate(props){
             <span className={styles.dueDateItemCheckboxWrap}>
               <span 
                 className={`${styles.dueDateItemCheckbox} ${dueDateCheckbox ? styles.checked : "" }`}
-                onClick={onDeteWindow}
+                onClick={dueDatePreloder ? null : ()=>{ sendExecute(dueDateCheckbox ? false : true) } }
               >
                 <Icons 
                   name={'selected_label'}
@@ -86,7 +77,7 @@ export default function WindowModalDueDate(props){
             <Button
               className = {'BtnCardSubscribe'}
               ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
-              clickAction={funcDueDateWindow}
+              clickAction={ dueDatePreloder ? null : funcDueDateWindow }
             >
               <span>
                 {new Date(windowData.date_end).toLocaleString("ru", {month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'})}

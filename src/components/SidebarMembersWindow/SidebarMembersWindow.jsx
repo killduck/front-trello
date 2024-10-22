@@ -71,8 +71,11 @@ export default function SidebarMembersWindow(props){
           if (response.status === 200) {
             if(response.data){
               dispatch(setShowPreloderAddMember(false));
-              dispatch(setCardUsers([...cardUsers, response.data]));
-              dispatch(setSubscribeState(cardUsers.filter((cardUser) => cardUser.id === authUser).length));
+
+              let newCardUsersArr = [...cardUsers, response.data];
+              dispatch(setCardUsers(newCardUsersArr));
+              dispatch(setSubscribeState(newCardUsersArr.filter((cardUser) => cardUser.id === authUser).length));
+              
               dispatch(setSearchNewCardUser(searchNewCardUser.filter((elem) => elem.id !==  user_id)));
               dispatch(setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch));
             }

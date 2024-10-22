@@ -85,7 +85,7 @@ export default function WindowModalHeaderSection(props){
       </div>
       <div className={styles.columnTitle}>
         <p className={styles.columnTitleName}>В колонке "{column.name}".</p>
-        {subscribeState &&
+        {subscribeState ?
           (<span>
             <Icons
               name={'eye-open'}
@@ -93,7 +93,8 @@ export default function WindowModalHeaderSection(props){
               sizeWidth={"14"}
               sizeHeight={"14"}
             /> 
-          </span>)
+          </span>
+          ):("")
         } 
       </div>
     </div>

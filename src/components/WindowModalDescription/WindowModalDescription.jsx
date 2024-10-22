@@ -8,8 +8,7 @@ import { useFocusAndSetRef } from "../../hooks/useFocusAndSetRef";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
-import { setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
+import { setDescriptionPreloder, setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
@@ -18,8 +17,9 @@ export default function WindowModalDescription(props){
   const windowData = useSelector((state) => state.windowData.value);
   let cardDescriptionState_newValue = useSelector((state) => state.cardDescriptionState.newValue);
   const cardDescriptionState_startValue = useSelector((state) => state.cardDescriptionState.startValue);
+  const descriptionPreloder = useSelector((state) => state.cardDescriptionState.descriptionPreloder);
   const showReactQuillState = useSelector((state) => state.showReactQuillState.value);
-
+  
   const dispatch = useDispatch();
 
   let editorRef;
@@ -48,7 +48,7 @@ export default function WindowModalDescription(props){
     }
 
     if(cardDescriptionState_newValue !== cardDescriptionState_startValue){
-      dispatch(setWindowModalReloadState(true));
+      dispatch(setDescriptionPreloder(true)); 
 
       request({
         method:'POST',
@@ -58,7 +58,7 @@ export default function WindowModalDescription(props){
             if(response.data){
               dispatch(setStartCardDescriptionState(response.data[0].description));
               dispatch(setNewCardDescriptionState(response.data[0].description));
-              dispatch(setWindowModalReloadState(false));
+              dispatch(setDescriptionPreloder(false));
             }
           }
         },
@@ -149,7 +149,12 @@ export default function WindowModalDescription(props){
           {cardDescriptionState_newValue ? 
             (
               <div 
-                className={styles.cardDescriptionStub}
+                className={
+                  descriptionPreloder ? 
+                  `${styles.cardDescriptionGradient} ${styles.cardDescriptionStub}` 
+                  : 
+                  styles.cardDescriptionStub
+                }
                 onClick={funcShowReactQuill} 
               >
                 <Interweave content={cardDescriptionState_newValue}></Interweave>

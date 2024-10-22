@@ -6,6 +6,7 @@ export const cardDescriptionState = createSlice(
     initialState: {
       startValue: '',
       newValue: '',
+      descriptionPreloder: false,
       modules: {
         toolbar: [
           [{ header: []}],
@@ -24,6 +25,9 @@ export const cardDescriptionState = createSlice(
       setNewCardDescriptionState: (state, action) => {
         state.newValue = action.payload;
       },
+      setDescriptionPreloder: (state, action) => {  
+        state.descriptionPreloder = action.payload; 
+      },
     },
   }
 )
@@ -31,6 +35,7 @@ export const cardDescriptionState = createSlice(
 export const { 
   setNewCardDescriptionState, 
   setStartCardDescriptionState, 
+  setDescriptionPreloder, 
 } = cardDescriptionState.actions
 
 export default cardDescriptionState.reducer

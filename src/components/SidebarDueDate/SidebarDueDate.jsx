@@ -9,8 +9,7 @@ import styles from "./SidebarDueDate.module.scss";
 import { useState } from "react";
 import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
-import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
-import { setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+import { setDueDatePreloder, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { setWindowData } from "../../main_state/states/windowData";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
@@ -18,6 +17,7 @@ export default function SidebarDueDate(props){
 
   const windowData = useSelector((state) => state.windowData.value);
   const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
+  const dueDatePreloder = useSelector((state) => state.modalDueDateState.dueDatePreloder);
   let windowData_date_end = windowData.date_end;
 
   const dispatch = useDispatch();
@@ -111,7 +111,7 @@ export default function SidebarDueDate(props){
 
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
 
-    dispatch(setWindowModalReloadState(true));
+    dispatch(setDueDatePreloder(true));
 
     request({
       method:'POST',
@@ -121,7 +121,7 @@ export default function SidebarDueDate(props){
           if(response.data){
             setStartDate(new Date(response.data[0].date_end));
             dispatch(setWindowData(response.data[0]));
-            dispatch(setWindowModalReloadState(false));
+            dispatch(setDueDatePreloder(false));
 
             funcDueDateWindow();
           }
@@ -133,7 +133,7 @@ export default function SidebarDueDate(props){
   }
 
   function onDelDueDate(){
-    dispatch(setWindowModalReloadState(true));
+    dispatch(setDueDatePreloder(true));
 
     request({
       method:'POST',
@@ -144,7 +144,7 @@ export default function SidebarDueDate(props){
             setCheckbox(false);
             setStartDate(new Date());
             dispatch(setWindowData(response.data[0]));
-            dispatch(setWindowModalReloadState(false));
+            dispatch(setDueDatePreloder(false));
           }
         }
       },
@@ -154,7 +154,7 @@ export default function SidebarDueDate(props){
   }
 
   return (
-    <div className={styles.smallWindowWrap}>
+    <div className={dueDatePreloder ? `${styles.cardDueDateWindowGradient} ${styles.smallWindowWrap}` : styles.smallWindowWrap}>
       <header className={styles.itemHeader}>
         <h2 className={styles.itemHeaderTitle} title="Метки">Даты</h2>
         <div className={styles.iconWrap}>

@@ -6,6 +6,7 @@ export const  modalDueDateState = createSlice(
     initialState: {
         dueDateWindow: false, 
         dueDateCheckbox: false, 
+        dueDatePreloder: false,
     },
     reducers: {
       setDueDateWindow: (state, action) => { 
@@ -14,6 +15,9 @@ export const  modalDueDateState = createSlice(
       setDueDateCheckbox: (state, action) => {  
         state.dueDateCheckbox = action.payload; 
       },
+      setDueDatePreloder: (state, action) => {  
+        state.dueDatePreloder = action.payload; 
+      },
     },
   }
 )
@@ -21,6 +25,7 @@ export const  modalDueDateState = createSlice(
 export const { 
     setDueDateWindow,
     setDueDateCheckbox,
+    setDueDatePreloder,
 } = modalDueDateState.actions
 
 export default modalDueDateState.reducer
