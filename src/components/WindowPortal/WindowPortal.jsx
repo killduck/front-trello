@@ -68,7 +68,6 @@ export default function WindowPortal(props){
         </div>
     );
 
-    console.log(idElem);
     return (
         <div>
             <div className={styles.wrapPortal} onClick={()=>openModal()}>{props.children}</div>

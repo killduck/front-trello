@@ -99,7 +99,7 @@ export default function TaskCard(props) {
       </div>
     );
   }
-  console.log(DNDIsOn, task);
+  
   return (
     <>
       {String(showPreloderCard) !== task.id ? 
