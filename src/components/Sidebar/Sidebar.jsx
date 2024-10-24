@@ -12,13 +12,14 @@ import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueD
 import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
 import { setShowCardDel } from "../../main_state/states/modalCardDel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import { setModalIsOpen } from "../../main_state/states/windowModalState";
+import { setDNDIsOn } from "../../main_state/states/taskCardState";
 
 export default function Sidebar(props){
 
   let deleteFunc = props.deleteFunc; //это прилетает из дашборда
   let dashboardUsers = props.dashboardUsers; //это прилетает из дашборда
   let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
-  let closeModal = props.closeModal; //это прилетает из дашборда
 
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
@@ -91,7 +92,8 @@ export default function Sidebar(props){
   }
 
   function onDeleteCard(window_id){
-    closeModal();
+    dispatch(setModalIsOpen(false));
+    dispatch(setDNDIsOn(true));
     deleteFunc(window_id);
   }
 

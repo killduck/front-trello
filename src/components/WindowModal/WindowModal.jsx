@@ -19,7 +19,7 @@ import { setWindowData } from "../../main_state/states/windowData";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 import { 
   setWindowModalReloadBlur, 
-  setWindowModalReloadState } from "../../main_state/states/windowModalReload";
+  setWindowModalReloadState } from "../../main_state/states/windowModalState";
 import { 
   setNewCardDescriptionState, 
   setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
@@ -51,12 +51,11 @@ export default function WindowModal(props){
   let updateFunc = props.updateFunc; //это прилетает из дашборда
   let deleteFunc = props.deleteFunc; //это прилетает из дашборда
   let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
-  let closeModal = props.closeModal; // это прилетает из WindowPortal
   
   const [dragActive, setDragActive] = useState(false);
 
-  const windowModalReloadState = useSelector((state) => state.windowModalReloadState.value); 
-  const windowModalReloadBlur = useSelector((state) => state.windowModalReloadState.blur); 
+  const windowModalReloadState = useSelector((state) => state.windowModalState.windowModalReloadState); 
+  const windowModalReloadBlur = useSelector((state) => state.windowModalState.windowModalReloadBlur); 
   const cardFiles = useSelector((state) => state.modalAttachmentState.cardFiles); 
   const cardLinks = useSelector((state) => state.modalAttachmentState.cardLinks); 
 
@@ -188,7 +187,6 @@ export default function WindowModal(props){
             deleteFunc={deleteFunc} //это прилетает из дашборда
             dashboardUsers={dashboardUsers} //это прилетает из дашборда
             updateSetCardLabel={updateSetCardLabel} //это прилетает из дашборда
-            closeModal={closeModal} //это прилетает из WindowPortal
           />
 
       </div>)

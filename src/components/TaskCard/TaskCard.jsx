@@ -5,6 +5,8 @@ import styles from './TaskCard.module.scss';
 import Icons from "../ui/Icons/Icons";
 import WindowPortal from "../WindowPortal/WindowPortal";
 import Button from "../ui/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { setDNDIsOn } from "../../main_state/states/taskCardState";
 
 export default function TaskCard(props) {
 
@@ -19,7 +21,9 @@ export default function TaskCard(props) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
-  const [DNDIsOn, setDNDIsOn] = useState(true);
+
+  const DNDIsOn = useSelector((state) => state.taskCardState.DNDIsOn); 
+  const dispatch = useDispatch();
 
   const {
     setNodeRef,
@@ -95,7 +99,7 @@ export default function TaskCard(props) {
       </div>
     );
   }
-
+  console.log(DNDIsOn, task);
   return (
     <>
       {String(showPreloderCard) !== task.id ? 
@@ -113,7 +117,7 @@ export default function TaskCard(props) {
               setMouseIsOver(false);
             }}
             className={styles.TaskCard}
-            onClick={() => setDNDIsOn(false)}
+            onClick={() => dispatch(setDNDIsOn(false))}
           >
             <WindowPortal
               typeElem = {'card'}
@@ -169,7 +173,6 @@ export default function TaskCard(props) {
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
               updateSetCardLabel={updateSetCardLabel}
-              setDNDIsOn={setDNDIsOn}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>

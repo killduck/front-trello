@@ -1,14 +1,11 @@
-
-
-import { useState } from 'react';
 import Modal from 'react-modal';
 import WindowModal from '../WindowModal/WindowModal';
-
 import styles from "./WindowPortal.module.scss";
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
-import { useDispatch } from 'react-redux';
-import { setWindowModalReloadBlur } from '../../main_state/states/windowModalReload';
+import { useDispatch, useSelector } from 'react-redux';
+import { setModalIsOpen, setWindowModalReloadBlur } from '../../main_state/states/windowModalState';
+import { setDNDIsOn } from '../../main_state/states/taskCardState';
 
 export default function WindowPortal(props){
 
@@ -20,19 +17,18 @@ export default function WindowPortal(props){
     let updateFunc = props.updateFunc;
     let deleteFunc = props.deleteFunc;
     let updateSetCardLabel = props.updateSetCardLabel;
-    let setDNDIsOn = props.setDNDIsOn;
     
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const modalIsOpen = useSelector((state) => state.windowModalState.modalIsOpen); 
 
     const dispatch = useDispatch();
 
     const openModal = () => {
-        setModalIsOpen(true);
+      dispatch(setModalIsOpen(idElem));
     };
 
     const closeModal = () => {
-        setModalIsOpen(false);
-        setDNDIsOn(true);
+      dispatch(setModalIsOpen(false));
+      dispatch(setDNDIsOn(true));
     };
 
     const closeModalHandle = (evt) => {
@@ -56,7 +52,6 @@ export default function WindowPortal(props){
                 updateFunc = {updateFunc}
                 deleteFunc = {deleteFunc}
                 updateSetCardLabel={updateSetCardLabel}
-                closeModal={closeModal}
             >
                 <Button
                     className={'btnWindowModal'}
@@ -73,12 +68,12 @@ export default function WindowPortal(props){
         </div>
     );
 
-
+    console.log(idElem);
     return (
         <div>
-            <div className={styles.wrapPortal} onClick={openModal}>{props.children}</div>
+            <div className={styles.wrapPortal} onClick={()=>openModal()}>{props.children}</div>
             <Modal 
-                isOpen={modalIsOpen} 
+                isOpen={modalIsOpen === idElem ? true : false} 
                 onRequestClose={closeModal}
                 parentSelector={() => document.querySelector('#root')}
                 ariaHideApp={false}
