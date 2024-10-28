@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useParams, useLocation } from 'react-router-dom';
 
@@ -10,20 +10,32 @@ export default function InviteUserBoard(props) {
 
   let { alias } = useParams();
 
-  const URL = window.location;
+  let [statusConfirm, setStatusConfirm] = useState(false);
 
-  console.log('link>>>', alias);
+  let [data, setData] = useState({});
 
   const location = useLocation();
-  console.log('location>>>', `${URL.protocol}//${URL.hostname}/${location.pathname}`);
 
-  useEffect(() => {
+  const URL = window.location;
+
+  const FULL_URL = `${URL.protocol}${URL.hostname}${location.pathname}`;
+
+   useEffect(() => {
 
     request({
       method: 'POST',
       url: 'invit-board/pending-confirmations/',
       callback: (response) => {
         console.log('pending_confirmation>>>', response);
+        if (response.data.status) {
+
+          setStatusConfirm(true);
+
+          setData({
+            board_name: response.data.board_name,
+          });
+
+        }
       },
       data: { alias },
       status: 200,
@@ -36,9 +48,22 @@ export default function InviteUserBoard(props) {
   return (
     <div className={styles.InviteUserBoard}>
       <div className={styles.Wrap}>
-        <div className={styles.Title}>
-          Ваше приглашение на доску
-        </div>
+
+        {
+          statusConfirm ?
+            <div className={styles.Title}>
+              <div>Ваше приглашение на доску</div>
+              <div className={styles.Link}>"{data.board_name}"</div>
+              <div>подтверждено!!!</div>
+            </div>
+            :
+            <div className={styles.Title}>
+              <div>Ваше приглашение на доску</div>
+              <div className={styles.Link}>{FULL_URL}</div>
+              <div>протухло</div>
+
+            </div>
+        }
       </div>
     </div>
   )
