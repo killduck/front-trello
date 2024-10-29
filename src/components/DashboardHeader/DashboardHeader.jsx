@@ -87,7 +87,7 @@ export default function DashboardHeader(props) {
       status: 200,
     });
 
-    // onShareDashboard();
+    onShareDashboard();
     setSelectedOption(null);
   }
 

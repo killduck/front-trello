@@ -15,7 +15,7 @@
     justify-content: center;
     align-items: center;
     background-color: antiquewhite;
-    color: red;
+    color: #000;
     .Title {
       margin-top: 20px;
       font-size: 26px;
@@ -29,8 +29,14 @@
 
 
       .Link{
-        color: blue;
+        color: red;
         font-size: 18px;
+      }
+
+      .LoginLink {
+        margin-top: 15px;
+        color: blue;
+        font-size: 22px;
       }
     }
   }

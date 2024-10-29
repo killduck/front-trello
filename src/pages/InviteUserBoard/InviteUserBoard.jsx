@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react'
 
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, NavLink } from 'react-router-dom';
 
 import request from "../../api/request";
 
 import styles from "./InviteUserBoard.module.scss";
+import Preloader from '../../components/Preloader/Preloader';
+import Login from '../Login/Login';
 
 export default function InviteUserBoard(props) {
 
   let { alias } = useParams();
+
+  let [showPreloder, setShowPreloder] = useState(true);
 
   let [statusConfirm, setStatusConfirm] = useState(false);
 
@@ -20,13 +24,15 @@ export default function InviteUserBoard(props) {
 
   const FULL_URL = `${URL.protocol}${URL.hostname}${location.pathname}`;
 
-   useEffect(() => {
+  useEffect(() => {
 
     request({
       method: 'POST',
       url: 'invit-board/pending-confirmations/',
       callback: (response) => {
-        console.log('pending_confirmation>>>', response);
+
+        setShowPreloder(false);
+
         if (response.data.status) {
 
           setStatusConfirm(true);
@@ -42,29 +48,42 @@ export default function InviteUserBoard(props) {
     });
   }, []);
 
-
-
-
   return (
-    <div className={styles.InviteUserBoard}>
-      <div className={styles.Wrap}>
+    <>
+      {
+        showPreloder ?
+          <Preloader
+            style={
+              { backgroundColor: "black", }
+            }
+          />
+          :
+          ""
+      }
 
-        {
-          statusConfirm ?
-            <div className={styles.Title}>
-              <div>Ваше приглашение на доску</div>
-              <div className={styles.Link}>"{data.board_name}"</div>
-              <div>подтверждено!!!</div>
-            </div>
-            :
-            <div className={styles.Title}>
-              <div>Ваше приглашение на доску</div>
-              <div className={styles.Link}>{FULL_URL}</div>
-              <div>протухло</div>
+      <div className={styles.InviteUserBoard}>
+        <div className={styles.Wrap}>
+          {
+            statusConfirm ?
+              <div className={styles.Title}>
+                <div>Ваше приглашение на доску</div>
+                <div className={styles.Link}>"{data.board_name}"</div>
+                <div>подтверждено!!!</div>
 
-            </div>
-        }
+                <NavLink to='/login' className={styles.LoginLink}>
+                  <span>Можете войти на дашборд</span>
+                </NavLink>
+
+              </div>
+              :
+              <div className={styles.Title}>
+                <div>Ваше приглашение на доску</div>
+                <div className={styles.Link}>{FULL_URL}</div>
+                <div>протухло</div>
+              </div>
+          }
+        </div>
       </div>
-    </div>
+    </>
   )
 };
