@@ -3,6 +3,7 @@ import Icons from "../ui/Icons/Icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setNewNameField, setNewWindowName } from "../../main_state/states/modalHeader/windowName";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalHeaderSection(props){
 
@@ -20,13 +21,19 @@ export default function WindowModalHeaderSection(props){
 
   function showTextarea() {
     dispatch(onRemoving_onFrames());
-    
-    if(!newNameField){
-      dispatch(setNewNameField(true));
-    }
-    else{
-      dispatch(setNewNameField(false));
-    }
+    openCloseFrameFunction({
+      variable: newNameField, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setNewNameField, 
+      dispatch: dispatch,
+    });
+    // if(newNameField){
+    //   dispatch(setNewNameField(false));
+    // }
+    // else{
+    //   dispatch(setNewNameField(true));
+    // }
   }
 
   function writeNewText(evt) {

@@ -10,6 +10,7 @@ import request from "../../api/request";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 import { setCardUsers } from "../../main_state/states/cardUsersState";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalCardMember(props){
 
@@ -24,13 +25,20 @@ export default function WindowModalCardMember(props){
 
   function funcMembersWindow(){
     dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: membersWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setMembersWindow, 
+      dispatch: dispatch,
+    });
 
-    if(membersWindow){
-      dispatch(setMembersWindow(false));
-    }
-    else{
-      dispatch(setMembersWindow(true));
-    }
+    // if(membersWindow){
+    //   dispatch(setMembersWindow(false));
+    // }
+    // else{
+    //   dispatch(setMembersWindow(true));
+    // }
   }
 
   function onUserCard(id_user = null) {

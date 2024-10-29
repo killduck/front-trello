@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDueDatePreloder, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { setWindowData } from "../../main_state/states/windowData";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function SidebarDueDate(props){
 
@@ -31,12 +32,19 @@ export default function SidebarDueDate(props){
 
   function funcDueDateWindow(){
     dispatch(onRemoving_onFrames());
-    if(dueDateWindow){
-      dispatch(setDueDateWindow(false));
-    }
-    else{
-      dispatch(setDueDateWindow(true));
-    }
+    openCloseFrameFunction({
+      variable: dueDateWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setDueDateWindow, 
+      dispatch: dispatch,
+    });
+    // if(dueDateWindow){
+    //   dispatch(setDueDateWindow(false));
+    // }
+    // else{
+    //   dispatch(setDueDateWindow(true));
+    // }
   }
 
   function takeDate(){

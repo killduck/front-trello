@@ -9,6 +9,7 @@ import {
   setShowLabelsWindow, 
   setShowPreloderLabel } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function SidebarLabelWindow(props){
   
@@ -47,12 +48,19 @@ export default function SidebarLabelWindow(props){
 
   function funcLabelsWindow() {
     dispatch(onRemoving_onFrames());
-    if(showLabelsWindow){
-      dispatch(setShowLabelsWindow(false));
-    }
-    else{
-      dispatch(setShowLabelsWindow(true));
-    }
+    openCloseFrameFunction({
+      variable: showLabelsWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setShowLabelsWindow, 
+      dispatch: dispatch,
+    });
+    // if(showLabelsWindow){
+    //   dispatch(setShowLabelsWindow(false));
+    // }
+    // else{
+    //   dispatch(setShowLabelsWindow(true));
+    // }
   }
 
   function onTakeColor(label){

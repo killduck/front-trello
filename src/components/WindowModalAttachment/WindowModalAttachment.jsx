@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAddFiles, setAttachmentWindow, setCardFiles, setCardLinks, setNewLink, setNewLinkDesc, setShowCardOptions, setShowCardOptionsFileDel, setShowCardOptionsLinkDel, setShowPreloderFile, setShowPreloderLink, setStartLink } from "../../main_state/states/modalAttachment/modalAttachment";
 import request from "../../api/request";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalAttachment(props){
 
@@ -46,13 +47,19 @@ export default function WindowModalAttachment(props){
 
   function funcShowAttachmentContentCardOptions(elem_id){
     dispatch(onRemoving_onFrames());
-
-    if(showCardOptions){ 
-      dispatch(setShowCardOptions(false));
-    }
-    else{
-      dispatch(setShowCardOptions(elem_id));
-    }
+    openCloseFrameFunction({
+      variable: showCardOptions, 
+      ifVariableTrue: false, 
+      ifVariableFalse: elem_id, 
+      method: setShowCardOptions, 
+      dispatch: dispatch,
+    });
+    // if(showCardOptions){ 
+    //   dispatch(setShowCardOptions(false));
+    // }
+    // else{
+    //   dispatch(setShowCardOptions(elem_id));
+    // }
   }
 
   function funcShowUpdateCardLink(link_all){
@@ -93,13 +100,19 @@ export default function WindowModalAttachment(props){
 
   function funcShowDeleteCardLink(link_id){
     dispatch(onRemoving_onFrames());
-
-    if(showCardOptionsLinkDel){
-      dispatch(setShowCardOptionsLinkDel(false));
-    }
-    else{
-      dispatch(setShowCardOptionsLinkDel(link_id));
-    }
+    openCloseFrameFunction({
+      variable: showCardOptionsLinkDel, 
+      ifVariableTrue: false, 
+      ifVariableFalse: link_id, 
+      method: setShowCardOptionsLinkDel, 
+      dispatch: dispatch,
+    });
+    // if(showCardOptionsLinkDel){
+    //   dispatch(setShowCardOptionsLinkDel(false));
+    // }
+    // else{
+    //   dispatch(setShowCardOptionsLinkDel(link_id));
+    // }
   }
 
   function onDownloadCardFile(file){
@@ -138,13 +151,19 @@ export default function WindowModalAttachment(props){
 
   function funcShowDeleteCardFile(file_id){
     dispatch(onRemoving_onFrames());
-    
-    if(showCardOptionsFileDel){
-      dispatch(setShowCardOptionsFileDel(false)); 
-    }
-    else{
-      dispatch(setShowCardOptionsFileDel(file_id));
-    }
+    openCloseFrameFunction({
+      variable: showCardOptionsFileDel, 
+      ifVariableTrue: false, 
+      ifVariableFalse: file_id, 
+      method: setShowCardOptionsFileDel, 
+      dispatch: dispatch,
+    });
+    // if(showCardOptionsFileDel){
+    //   dispatch(setShowCardOptionsFileDel(false)); 
+    // }
+    // else{
+    //   dispatch(setShowCardOptionsFileDel(file_id));
+    // }
   }
 
   function onDeleteCardFile(file_id){

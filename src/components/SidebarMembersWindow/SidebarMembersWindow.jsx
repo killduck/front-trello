@@ -11,6 +11,7 @@ import { setCardUsers, setMatchSearch, setSearchNewCardUser } from "../../main_s
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 import request from "../../api/request";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function SidebarMembersWindow(props){
 
@@ -33,13 +34,19 @@ export default function SidebarMembersWindow(props){
     dispatch(onRemoving_onFrames()); 
     dispatch(setMatchSearch(''));
     dispatch(setSearchNewCardUser([]));
-
-    if(membersWindow){
-      dispatch(setMembersWindow(false));
-    }
-    else{
-      dispatch(setMembersWindow(true));
-    }
+    openCloseFrameFunction({
+      variable: membersWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setMembersWindow, 
+      dispatch: dispatch,
+    });
+    // if(membersWindow){
+    //   dispatch(setMembersWindow(false));
+    // }
+    // else{
+    //   dispatch(setMembersWindow(true));
+    // }
   }
 
   function chechUserToAdd(user_id){

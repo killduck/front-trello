@@ -14,6 +14,7 @@ import { setShowCardDel } from "../../main_state/states/modalCardDel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 import { setModalIsOpen } from "../../main_state/states/windowModalState";
 import { setDNDIsOn } from "../../main_state/states/taskCardState";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function Sidebar(props){
 
@@ -49,46 +50,74 @@ export default function Sidebar(props){
 
   function funcMembersWindow(){
     dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: membersWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setMembersWindow, 
+      dispatch: dispatch,
+    });
 
-    if(membersWindow){
-      dispatch(setMembersWindow(false));
-    }
-    else{
-      dispatch(setMembersWindow(true));
-    }
+    // if(membersWindow){
+    //   dispatch(setMembersWindow(false));
+    // }
+    // else{
+    //   dispatch(setMembersWindow(true));
+    // }
   }
 
   function funcLabelsWindow() {
     dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: showLabelsWindow,
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setShowLabelsWindow, 
+      dispatch: dispatch,
+    });
 
-    if(showLabelsWindow){
-      dispatch(setShowLabelsWindow(false));
-    }
-    else{
-      dispatch(setShowLabelsWindow(true));
-    }
+    // if(showLabelsWindow){
+    //   dispatch(setShowLabelsWindow(false));
+    // }
+    // else{
+    //   dispatch(setShowLabelsWindow(true));
+    // }
   }
 
   function funcDueDateWindow(){
     dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: dueDateWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setDueDateWindow,
+      dispatch: dispatch
+    });
 
-    if(dueDateWindow){
-      dispatch(setDueDateWindow(false));
-    }
-    else{
-      dispatch(setDueDateWindow(true));
-    }
+    // if(dueDateWindow){
+    //   dispatch(setDueDateWindow(false));
+    // }
+    // else{
+    //   dispatch(setDueDateWindow(true));
+    // }
   }
   
   function funkShowCardDel(window_id){
-    
     dispatch(onRemoving_onFrames());
-    if(showCardDel){
-      dispatch(setShowCardDel(false));
-    }
-    else{
-      dispatch(setShowCardDel(window_id));
-    }
+    openCloseFrameFunction({
+      variable: showCardDel, 
+      ifVariableTrue: false, 
+      ifVariableFalse: window_id, 
+      method: setShowCardDel, 
+      dispatch: dispatch,
+    });
+
+    // if(showCardDel){
+    //   dispatch(setShowCardDel(false));
+    // }
+    // else{
+    //   dispatch(setShowCardDel(window_id));
+    // }
   }
 
   function onDeleteCard(window_id){

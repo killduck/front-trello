@@ -4,6 +4,7 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalCardLabel.module.scss";
 import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalCardLabel(props){
 
@@ -17,12 +18,19 @@ export default function WindowModalCardLabel(props){
 
   function funcLabelsWindow() {
     dispatch(onRemoving_onFrames());
-    if(showLabelsWindow){
-      dispatch(setShowLabelsWindow(false));
-    }
-    else{
-      dispatch(setShowLabelsWindow(true));
-    }
+    openCloseFrameFunction({
+      variable: showLabelsWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setShowLabelsWindow, 
+      dispatch: dispatch,
+    });
+    // if(showLabelsWindow){
+    //   dispatch(setShowLabelsWindow(false));
+    // }
+    // else{
+    //   dispatch(setShowLabelsWindow(true));
+    // }
   }
 
   return (

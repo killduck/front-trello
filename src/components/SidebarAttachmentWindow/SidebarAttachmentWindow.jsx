@@ -108,7 +108,6 @@ export default function SidebarAttachmentWindow(props){
 
   function funcAttachmentWindow(){ 
     dispatch(onRemoving_onFrames());
-
     if(attachmentWindow){
       dispatch(setNewLink('')); 
       dispatch(setNewLinkDesc(''));

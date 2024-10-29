@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDescriptionPreloder, setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalDescription(props){
 
@@ -71,12 +72,19 @@ export default function WindowModalDescription(props){
 
   function funcShowReactQuill(){
     dispatch(onRemoving_onFrames());
-    if(showReactQuillState){
-      dispatch(setShowReactQuillState(false));
-    }
-    else{
-      dispatch(setShowReactQuillState(true));
-    }
+    openCloseFrameFunction({
+      variable: showReactQuillState, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setShowReactQuillState, 
+      dispatch: dispatch,
+    });
+    // if(showReactQuillState){
+    //   dispatch(setShowReactQuillState(false));
+    // }
+    // else{
+    //   dispatch(setShowReactQuillState(true));
+    // }
   }
 
   function showReactQuillHandleKeyPress(evt){

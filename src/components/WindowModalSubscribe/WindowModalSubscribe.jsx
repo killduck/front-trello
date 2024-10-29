@@ -4,6 +4,7 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalSubscribe.module.scss";
 import { setSubscribeState } from "../../main_state/states/subscribeState";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalSubscribe(props){
 
@@ -12,13 +13,19 @@ export default function WindowModalSubscribe(props){
 
   function funcSubscribe(){
     dispatch(onRemoving_onFrames());
-    
-    if(subscribeState){
-      dispatch(setSubscribeState(false));
-    }
-    else{
-      dispatch(setSubscribeState(true)); 
-    }
+    openCloseFrameFunction({
+      variable: subscribeState, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setSubscribeState, 
+      dispatch: dispatch,
+    });
+    // if(subscribeState){
+    //   dispatch(setSubscribeState(false));
+    // }
+    // else{
+    //   dispatch(setSubscribeState(true)); 
+    // }
   }
 
   return (

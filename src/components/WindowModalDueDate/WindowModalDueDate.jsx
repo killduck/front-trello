@@ -5,6 +5,7 @@ import request from "../../api/request";
 import { useDispatch, useSelector } from "react-redux";
 import { setDueDateCheckbox, setDueDatePreloder, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalDueDate(props){
 
@@ -17,13 +18,19 @@ export default function WindowModalDueDate(props){
 
   function funcDueDateWindow(){
     dispatch(onRemoving_onFrames());
-
-    if(dueDateWindow){
-      dispatch(setDueDateWindow(false));
-    }
-    else{
-      dispatch(setDueDateWindow(true));
-    }
+    openCloseFrameFunction({
+      variable: dueDateWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setDueDateWindow, 
+      dispatch: dispatch,
+    });
+    // if(dueDateWindow){
+    //   dispatch(setDueDateWindow(false));
+    // }
+    // else{
+    //   dispatch(setDueDateWindow(true));
+    // }
   }
 
   function sendExecute(card_execute){
