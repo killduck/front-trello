@@ -341,7 +341,6 @@ export default function Header(props) {
               clickAction={funkMemberMenu}
               user={authorized_user}
             >
-              {/* <img src={'/img/no_name.png'} alt="" /> */}
             </Notification>
 
             <MemberMenu

@@ -3,8 +3,16 @@ import { URL_API, URL_ENDPOINT } from './config'
 import { redirect, redirect_status404 } from './redirect'
 
 export default function request(
-  params = { method: 'GET', url: '', callback: '', data: null, status: 200 }
-) {
+  params = {
+    method: 'GET', 
+    url: '', 
+    callback: '', 
+    data: null, 
+    status: 200, 
+    content_type: 'text/html', 
+    response_type: 'json' }
+  ){
+
   let token = ''
 
   if (localStorage.getItem('trello_auth')) {
@@ -13,10 +21,12 @@ export default function request(
 
   if (params.method === 'GET') {
     axios
-      .get(URL_API + URL_ENDPOINT + params.url, {
+      .get(URL_API + URL_ENDPOINT + `/` + params.url, {
         headers: {
           Authorization: token,
+          "Content-Type": params.content_type,
         },
+        responseType: params.response_type,
       })
       .then((response) => {
         if (response.status === params.status) {
@@ -38,10 +48,12 @@ export default function request(
 
   if (params.method === 'POST') {
     axios
-      .post(URL_API + URL_ENDPOINT + params.url, params.data, {
+      .post(URL_API + URL_ENDPOINT + `/` + params.url, params.data, {
         headers: {
           Authorization: token,
+          "Content-Type": params.content_type,
         },
+        responseType: params.response_type,
       })
       .then((response) => {
         if (response.status === params.status) {

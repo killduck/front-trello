@@ -3,6 +3,7 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
+import { URL_API } from "../../api/config";
 
 
 export default function WindowModalActivity(props){
@@ -22,6 +23,10 @@ export default function WindowModalActivity(props){
   let onSaveActivityReactQuillComment = props.onSaveActivityReactQuillComment;
   let onDelActivityReactQuillComment= props.onDelActivityReactQuillComment;
   let onUserCard = props.onUserCard;
+  let onDelWindow = props.onDelWindow;
+  let delWindow = props.delWindow; 
+  // let setDelWindow = props.setDelWindow; 
+
 
   return (
     
@@ -29,7 +34,7 @@ export default function WindowModalActivity(props){
       <div className={styles.cardActivityWrap} data-testid="card-back-activity">
         <div className={styles.cardActivityHeader}>
           <Icons
-            name={'icon-description'}
+            name={'card-activity'}
             class_name={'IconWindowModalMainColActivity'}
           />
           <h3 className={styles.cardActivityHeaderTitle}>Действия</h3>
@@ -53,7 +58,7 @@ export default function WindowModalActivity(props){
             {authUserData.img ?(
               <img 
                 className={styles.cardActivityMemberAvatarImg} 
-                src={authUserData.img ? `/img/users/${authUserData.img}` : '/img/no_photo1.png'}
+                src={`${URL_API + authUserData.img}`}
                 alt={`${authUserData.first_name} (${authUserData.username})`}
                 title={`${authUserData.first_name} (${authUserData.username})`}
                 // onClick={()=> onUserCard(authUserData.id)}
@@ -134,7 +139,7 @@ export default function WindowModalActivity(props){
                         {comment.author.img ?(
                           <img 
                             className={styles.cardActivityMemberAvatarImg} 
-                            src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
+                            src={`${URL_API + comment.author.img}`}
                             alt={`${comment.author.first_name} (${comment.author.username})`}
                             title={`${comment.author.first_name} (${comment.author.username})`}
                             onClick={()=> onUserCard(comment.author.id)}
@@ -159,7 +164,7 @@ export default function WindowModalActivity(props){
                           data-date={comment.date} 
                           title={comment.date} 
                         >
-                          {comment.date}
+                          {new Date(comment.date).toLocaleString("ru", {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})}
                         </p>
                       </div>
                     </div>
@@ -176,7 +181,7 @@ export default function WindowModalActivity(props){
                   {comment.author.img ?(
                     <img 
                       className={styles.cardActivityMemberAvatarImg} 
-                      src={comment.author.img ? `/img/users/${comment.author.img}` : '/img/no_photo1.png'}
+                      src={`${URL_API + comment.author.img}`}
                       alt={`${comment.author.first_name} (${comment.author.username})`}
                       title={`${comment.author.first_name} (${comment.author.username})`}
                       onClick={()=> onUserCard(comment.author.id)}
@@ -197,20 +202,9 @@ export default function WindowModalActivity(props){
                     data-date={comment.date} 
                     title={comment.date} 
                   >
-                    {comment.date}
+                    {new Date(comment.date).toLocaleString("ru", {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})}
                   </span>
                   {(activityEditorShow !== comment.id) ? (
-                    // <input 
-                    //   className={styles.cardActivityNewCommentInput} 
-                    //   type="text" 
-                    //   // placeholder={comment.comment} 
-                    //   // aria-label={comment.comment} 
-                    //   placeholder={<Interweave content={comment.comment}></Interweave>}
-                    //   aria-label={<Interweave content={comment.comment}></Interweave>}
-                    //   readOnly 
-                    //   value={""} 
-                    //   onClick={ ()=>funcActivityEditorShow(comment.id, comment.comment) }
-                    // />
                     <div
                       className={
                         processActivity !== comment.date ? 
@@ -269,8 +263,8 @@ export default function WindowModalActivity(props){
                           • 
                           <Button
                               className={'cardActivityCommentDelete'}
-                              actionVariable={comment}
-                              clickAction = {onDelActivityReactQuillComment}
+                              actionVariable={comment.id}
+                              clickAction = {onDelWindow}
                           >Удалить</Button>
                         </span>
                         )
@@ -278,15 +272,44 @@ export default function WindowModalActivity(props){
                     </div>):("")
                   }
                 </div>
+                {delWindow === comment.id ? 
+                  (<div className={styles.smallWindowWrap}>
+                    <header className={styles.itemHeader}>
+                      <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удаление комментария</h2>
+                      
+                      <div className={styles.iconWrap}>
+                        <Button
+                            className={'btnSmallWindow'}
+                            type="button"
+                            ariaLabel="Закрыть окно"
+                            clickAction={onDelWindow} //onDelActivityReactQuillComment
+                        >
+                          <Icons
+                              class_name={'btnModalCloseIcon'}
+                              name={'CloseIcon'}
+                          />
+                        </Button>
+                      </div>
+                    </header>
+                    <div className={styles.delButtonWrap}>
+                      <p className={styles.delButtonWrapText}>
+                          Комментарий удаляется навсегда. Отмена невозможна.
+                      </p>
+                      <Button
+                        className={'btnDelComment'}
+                        type="button"
+                        ariaLabel="Удалить комментарий"
+                        actionVariable={comment}
+                        clickAction={onDelActivityReactQuillComment} 
+                      >Удалить комментарий</Button>
+                    </div>
+                  </div>):("")
+                }
               </div>
             )
           }
           </div>
         )}
-        {/* <div className="spinner loading js-loading-card-actions" style={{display: "none"}}></div>
-        <p>
-          <button className="nch-button hide js-show-all-actions" >Показать все действия…</button>
-        </p> */}
       </div>
     </div>
 

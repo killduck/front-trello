@@ -4,9 +4,10 @@ import styles from "./SidebarMembersWindow.module.scss";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import { useState } from "react";
+import { URL_API } from "../../api/config";
 
 export default function SidebarMembersWindow(props){
-  // console.log(props);
+  console.log(props);
   let dashboardUsers = props.dashboardUsers;
   let cardUsers = props.cardUsers;
   let funcAddUserToCard = props.funcAddUserToCard;
@@ -16,6 +17,8 @@ export default function SidebarMembersWindow(props){
   let setMatchSearch = props.setMatchSearch;
   let searchNewCardUser = props.searchNewCardUser;
   let setSearchNewCardUser = props.setSearchNewCardUser;
+  let showPreloderAddMember = props.showPreloderAddMember;
+  let showPreloderDelMember = props.showPreloderDelMember;
 
   // const [searchNewCardUser, setSearchNewCardUser]=useState([]);
   const [showNoResult, setShowNoResult]=useState(false);
@@ -97,18 +100,29 @@ export default function SidebarMembersWindow(props){
           <ul>
           {searchNewCardUser.map(
             (user)=> 
-              <li key={user.id} >
+              <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardActivityNewCommentInputGradient: ""}>
                 <Button
                   className={'addUserToCard'}
-                  type="dutton"
+                  type="button"
                   ariaLabel="Добавить пользователя к карточке"
                   actionVariable = {user.id}
                   clickAction = {funcAddUserToCard}
+                  disabled={showPreloderAddMember === user.id ? "disabled" : ""}
                 >
                   <div 
                     className={styles.itemContentDashboardMemberImg} 
                   >
-                    <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
+                    {user.img ?
+                      (<span 
+                        title={`${user.first_name} (${user.username})`}
+                        style={{ backgroundImage: `url(${URL_API + user.img})`}} />
+                      )
+                      :
+                      (<span 
+                        title={`${user.first_name} (${user.username})`}
+                      >{user.first_letter}</span>
+                      )
+                    }
                   </div>
                   <div title={ user.username }>
                     <span>
@@ -148,18 +162,30 @@ export default function SidebarMembersWindow(props){
             <ul>
               { cardUsers.map(
                 (cardUser) => 
-                  <li key={cardUser.id}>
+                  <li key={cardUser.id} className={showPreloderDelMember === cardUser.id ? styles.cardActivityNewCommentInputGradient: ""}>
                     <Button
                       className={'delUserFromCard'}
-                      type="dutton"
+                      type={showPreloderDelMember ? "text" : "button"}
                       ariaLabel="Удалить пользователя из карточки"
-                      actionVariable={ cardUser.id }
-                      clickAction={ funcDelCardUser }
+                      actionVariable={cardUser.id}
+                      clickAction={funcDelCardUser}
+                      disabled={showPreloderDelMember === cardUser.id ? "disabled" : ""}
                     >
                       <div className={styles.itemContentDashboardMemberInfo} >
 
                         <div className={styles.itemContentDashboardMemberImg} >
-                          <span style={{ backgroundImage: cardUser.img ? `url(/img/users/${cardUser.img})` : 'url(/img/no_photo1.png)' }} />
+                          {cardUser.img ?
+                            (<span 
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                              style={{ backgroundImage: `url(${URL_API + cardUser.img})`}} />
+                            )
+                            :
+                            (<span 
+                              // className={styles.memberAvatarSpan} 
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                            >{cardUser.first_letter}</span>
+                            )
+                          }
                         </div>
                         <div className={styles.itemContentDashboardMemberName} title={ cardUser.username }>
                           <span>
@@ -204,18 +230,29 @@ export default function SidebarMembersWindow(props){
         <ul>
         {dashboardUsers.map(
           (user)=> 
-            <li key={user.id} >
+            <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardActivityNewCommentInputGradient: ""}>
               <Button
                 className={'addUserToCard'}
-                type="dutton"
+                type={showPreloderAddMember ? "text" : "button"}
                 ariaLabel="Добавить пользователя к карточке"
-                actionVariable = {user.id}
-                clickAction = { funcAddUserToCard }
+                actionVariable={user.id}
+                clickAction={funcAddUserToCard}
+                disabled={showPreloderAddMember === user.id ? "disabled" : ""}
               >
                 <div 
                   className={styles.itemContentDashboardMemberImg} 
                 >
-                  <span style={{ backgroundImage: user.img ? `url(/img/users/${user.img})` : 'url(/img/no_photo1.png)' }} />
+                  {user.img ?
+                    (<span 
+                      title={`${user.first_name} (${user.username})`}
+                      style={{ backgroundImage: `url(${URL_API + user.img})`}} />
+                    )
+                    :
+                    (<span 
+                      title={`${user.first_name} (${user.username})`}
+                    >{user.first_letter}</span>
+                    )
+                  }
                 </div>
                 <div title={ user.username }>
                   <span>
@@ -251,7 +288,7 @@ export default function SidebarMembersWindow(props){
         <div className={styles.iconWrap}>
           <Button
               className={'btnSmallWindow'}
-              type="dutton"
+              type="button"
               ariaLabel="Закрыть окно"
               clickAction={ funcMembersWindow }
           >

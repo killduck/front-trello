@@ -1,22 +1,17 @@
-
 import styles from "./WindowModal.module.scss";
-
 import { useCallback, useEffect, useState } from 'react';
-
-// import ReactQuill from 'react-quill'; // старый, нужно будет стереть, но пусть пока будет.
-// import ReactQuill from 'react-quill-new';
 import 'react-quill/dist/quill.snow.css';
 import "./windowQuill.css";
-
 import request from "../../api/request";
 import Sidebar from "../Sidebar/Sidebar";
-// import { Interweave } from "interweave";
 import WindowModalDescription from "../WindowModalDescription/WindowModalDescription";
 import WindowModalActivity from "../WindowModalActivity/WindowModalActivity";
 import WindowModalSubscribe from "../WindowModalSubscribe/WindowModalSubscribe";
 import WindowModalHeaderSection from "../WindowModalHeaderSection/WindowModalHeaderSection";
 import WindowModalCardLabel from "../WindowModalCardLabel/WindowModalCardLabel";
 import WindowModalCardMember from "../WindowModalCardMember/WindowModalCardMember";
+import WindowModalDueDate from "../WindowModalDueDate/WindowModalDueDate";
+import WindowModalAttachment from "../WindowModalAttachment/WindowModalAttachment";
 
 export default function WindowModal(props){
   // console.log(props);
@@ -30,6 +25,8 @@ export default function WindowModal(props){
   let deleteFunc = props.deleteFunc;
   let updateCardLabel = props.updateCardLabel;
   let closeModal = props.closeModal;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
 
   const [authUser, setAuthUser] = useState(Number);
   const [authUserData, setAuthUserData] = useState(Number);
@@ -42,6 +39,8 @@ export default function WindowModal(props){
   let [cardUsers, setCardUsers] = useState([]);
   const [matchSearch, setMatchSearch]=useState('');
   let [searchNewCardUser, setSearchNewCardUser]=useState([]);
+  const [showPreloderAddMember, setShowPreloderAddMember] = useState(false);
+  const [showPreloderDelMember, setShowPreloderDelMember] = useState(false);
 
   let [subscribe, setSubscribe] = useState(false);
   let [showUserCard, setShowUserCard] = useState(null);
@@ -53,23 +52,41 @@ export default function WindowModal(props){
   let [valueDescription, setValueDescription] = useState('');
   const [cardDescription, setCardDescription] = useState('');
 
-  let [activityDetailsShow, setActivityDetailsShow] = useState(false);
+  let [activityDetailsShow, setActivityDetailsShow] = useState(true);
   let [activityEditorShow, setActivityEditorShow] = useState(null);
   let [cardActivityComments, setCardActivityComments] = useState([]);
   let [valueEditor, setValueEditor] = useState('');
   const [cardActivity, setCardActivity] = useState('<p><br></p>');
   const [processActivity, setProcessActivity] = useState(false);
+  const [delWindow, setDelWindow] = useState(false); 
+
+  let [dueDateWindow, setDueDateWindow] = useState(false);
+  let [dueDateCheckbox, setDueDateCheckbox] = useState(false);
+
+  let [attachmentWindow, setAttachmentWindow] = useState(false); 
+  const [showPreloderAttachmentWindow, setShowPreloderAttachmentWindow] = useState(false);
 
   let [updateValue, setUpdateValue] = useState(false);
+  
+  const [addFiles, setAddFiles] = useState([]);
+  const [cardFiles, setCardFiles] = useState(task.card_file);
+  const [showPreloderFile, setShowPreloderFile] = useState(false);
 
-  function onRemoving_onFrames(){
-    setNewNameField(false); 
-    setMembersWindow(false); 
-    setLabelsWindow(false); 
-    setShowReactQuill(false); 
-    setShowUserCard(null); 
-    setActivityEditorShow(null); 
-  }
+  let [showCardOptions, setShowCardOptions] = useState(false);
+  const [cardLinks, setCardLinks] = useState(task.card_link);
+  let [newLink, setNewLink] = useState('');
+  let [startLink, setStartLink] = useState('');
+  let [newLinkDesc, setNewLinkDesc] = useState('');
+  // let [startLinkDesc, setStartLinkDesc] = useState(''); 
+  const [showPreloderLink, setShowPreloderLink] = useState(false);
+
+  let [showCardOptionsFileDel, setShowCardOptionsFileDel] = useState(false);
+  let [showCardOptionsLinkDel, setShowCardOptionsLinkDel] = useState(false);
+  let [showCardOptionsLinkUpdate, setShowCardOptionsLinkUpdate] = useState(false);
+
+  const [showCardDel, setShowCardDel] = useState(false);
+  
+  const [dragActive, setDragActive] = useState(false);
 
   const modules = {
     toolbar: [
@@ -88,8 +105,9 @@ export default function WindowModal(props){
       url:`take-data-card/`,
       callback:(response) => { 
         if (response.status === 200) {
+          // console.log(response);
           if(response.data){
-            // console.log(response.data);
+            console.log(response.data);
             setAuthUser(response.data.auth_user);
             setWindowData(response.data.card[0]);
             setWindowName(response.data.card[0]['name']);
@@ -100,7 +118,9 @@ export default function WindowModal(props){
             setCardDescription(response.data.card[0]['description']); 
             setAuthUserData((dashboardUsers.filter((cardUser) => cardUser.id === response.data.auth_user))[0]);
             setCardActivityComments(response.data.card[0].activity.reverse());
-            // console.log(response.data.card[0].activity);
+            setDueDateCheckbox(response.data.card[0]['execute']);
+            setCardFiles(response.data.card[0]['card_file']);
+            setCardLinks(response.data.card[0]['card_link']);
             setUpdateValue(false);
           }
           if(task.label){
@@ -111,12 +131,262 @@ export default function WindowModal(props){
       data: {'id': idElem},
       status:200,
     });
-
   },[typeElem, idElem, task, dashboardUsers, updateValue]);
+
+  function onRemoving_onFrames(){
+    setNewNameField(false); 
+    setMembersWindow(false); 
+    setLabelsWindow(false); 
+    setDueDateWindow(false); 
+    setShowReactQuill(false); 
+    setShowUserCard(null); 
+    setActivityEditorShow(null); 
+    setAttachmentWindow(false);
+    setShowCardOptions(false);
+    setShowCardOptionsFileDel(false);
+    setShowCardOptionsLinkUpdate(false);
+    setShowCardOptionsLinkDel(false);
+    setShowCardDel(false);
+  }
+
+  const handleChangeAddFiles = (evt) => {
+    evt.preventDefault();
+    console.log(evt, addFiles);
+    if(evt.target.files && evt.target.files[0]){
+      setAddFiles(evt.target.files);
+    }
+  }
+
+  const handleDragAddFiles = (evt) => {
+    evt.preventDefault();
+    setDragActive(true);
+  }
+  const handleDragLeaveAddFiles = (evt) => {
+    evt.preventDefault();
+    setDragActive(false);
+  }
+  const handleDragDropAddFiles = (evt) => {
+    evt.preventDefault();
+    setAttachmentWindow(true);
+    setDragActive(false);
+    if(evt.dataTransfer.files && evt.dataTransfer.files[0]){
+      setAddFiles(evt.dataTransfer.files);
+    }
+  }
+
+  const handleAddFilesReset = (evt) => {
+    // evt.preventDefault();
+    console.log('проверка сброса >>> setAddFiles');
+    setNewLink(''); 
+    setNewLinkDesc('');
+    setAddFiles([]);
+  }
+
+  const handleAddFilesSubmit = () => {
+    console.log(newLink, newLinkDesc, startLink);
+
+    if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
+      console.log('return');
+      funcAttachmentWindow();
+      return;
+    }
+
+    console.log(`'201', 'newLink =>' ${newLink}, 'newLinkDesc =>' ${newLinkDesc}, 'startLink =>' ${startLink.id}`);
+    // console.log(startLink.hasOwnProperty('id'));
+
+    // funcAttachmentWindow();
+    if(newLink === startLink.text && newLinkDesc === startLink.description){
+      // console.log(newLink, newLinkDesc, startLink);
+      // funcAttachmentWindow();
+      return;
+    }
+
+    if(attachmentWindow !== 'link'){
+      // setAttachmentWindow(false);
+      setStartLink('');
+    }
+
+    const formData = new FormData();
+
+    formData.append("card_id", idElem);
+
+    formData.append('link_id', startLink.hasOwnProperty('id') ? startLink.id : startLink);
+    formData.append('link', newLink);
+    formData.append('linkDesc', newLinkDesc);
+
+    if(addFiles.length > 0){
+      Array.from(addFiles).forEach((file) => {
+        formData.append('file', file);
+      });
+    }
+    else{
+      formData.append('file', addFiles);
+    }
+
+    setShowPreloderLink(startLink.id);
+    setShowPreloderAttachmentWindow(true);
+
+    request({
+      method: 'POST',
+      url: 'add-file-and-link-to-card/',
+      callback: (response) => {
+        setTimeout(() => {
+          if (response.status === 200) {
+            console.log(response.data);
+            setShowPreloderLink(false);
+            setShowPreloderAttachmentWindow(false);
+            funcAttachmentWindow();
+            setNewLink('');
+            setNewLinkDesc('');
+            setStartLink('');
+            setCardFiles(response.data.card_file);
+            setUpdateValue(true);
+          }
+        }, 1000);
+      },
+      data: formData,
+      status: 200,
+      content_type: "multipart/form-data",
+    });
+  }
+
+  function onDownloadCardFile(file){
+    if(showPreloderFile){ 
+      return;
+    }
+    setShowPreloderFile(file.id); 
+    onRemoving_onFrames();
+
+    request({
+      method: 'POST',
+      url: 'download-file-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          // console.log(response.data);
+          setShowPreloderFile(false);
+          // create file link in browser's memory
+          const href = URL.createObjectURL(response.data);
+          // create "a" HTML element with href to file & click
+          const link = document.createElement('a');
+          link.href = href;
+          link.setAttribute('download', file.name); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+          // clean up "a" element & remove ObjectURL
+          document.body.removeChild(link);
+          URL.revokeObjectURL(href);
+
+          funcShowAttachmentContentCardOptions(false);
+          setUpdateValue(true);
+        }
+      },
+      data: {'card_id': idElem, 'file_id': file.id},
+      status: 200,
+      response_type: 'blob',
+    });
+  }
+
+  function onDeleteCardFile(file_id){
+    if(showPreloderFile){ 
+      return;
+    }
+    setShowPreloderFile(file_id);
+    onRemoving_onFrames();
+    request({
+      method: 'POST',
+      url: 'del-file-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setShowPreloderFile(false);
+
+          setCardFiles(response.data.card_file);
+          funcShowAttachmentContentCardOptions(false);
+          setUpdateValue(true);
+        }
+      },
+      data: {'card_id': idElem, 'file_id': file_id},
+      status: 200,
+    });
+  }
+
+  function funcShowDeleteCardFile(file_id){
+    onRemoving_onFrames();
+    if(showCardOptionsFileDel){
+      setShowCardOptionsFileDel(false); 
+    }
+    else{
+      setShowCardOptionsFileDel(showCardOptionsFileDel = file_id);
+    }
+  }
+  
+
+  function onDeleteCardLink(link_id){
+    if(showPreloderLink){ 
+      return;
+    }
+    setShowPreloderLink(link_id);
+    onRemoving_onFrames();
+
+    request({
+      method: 'POST',
+      url: 'del-link-from-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          setShowPreloderLink(false);
+          setCardLinks(response.data.card_link);
+          funcShowAttachmentContentCardOptions(false);
+          setUpdateValue(true);
+        }
+      },
+      data: {'card_id': idElem, 'link_id': link_id},
+      status: 200,
+    });
+  }
+  
+  function funcShowAttachmentContentCardOptions(elem_id){
+    onRemoving_onFrames();
+    if(showCardOptions){ 
+      setShowCardOptions(false);
+    }
+    else{
+      setShowCardOptions(showCardOptions = elem_id);
+    }
+    // setShowCardOptions(showCardOptions = elem_id);
+
+  }
+
+  function funcShowDeleteCardLink(link_id){
+    onRemoving_onFrames();
+    if(showCardOptionsLinkDel){
+      setShowCardOptionsLinkDel(false);
+    }
+    else{
+      setShowCardOptionsLinkDel(showCardOptionsLinkDel = link_id);
+    }
+  }
+
+  function funcShowUpdateCardLink(link_all){
+    console.log(link_all);
+    onRemoving_onFrames();
+    if(attachmentWindow){
+      setAttachmentWindow(false);
+    }
+    else{
+      setStartLink(startLink = link_all); 
+
+      setNewLink(newLink = link_all.text); 
+      setNewLinkDesc(newLinkDesc = link_all.description); 
+
+      // writeNewLink(link_all.text);
+      // writeNewLinkDesc(link_all.description);
+      setAttachmentWindow(attachmentWindow = 'link');
+    }
+  }
 
   function showTextarea() {
     onRemoving_onFrames();
-
     if(!newName){
       setNewNameField(newName = true);
     }
@@ -127,7 +397,6 @@ export default function WindowModal(props){
 
   function funcShowReactQuill(){
     onRemoving_onFrames();
-
     if(showReactQuill){
       setShowReactQuill(false);
     }
@@ -185,7 +454,6 @@ export default function WindowModal(props){
       if(windowName !== startWindowName){
         updateFunc(windowData.id, windowName);
         setStartWindowName(windowName);
-
         setUpdateValue(true);
       }
     }
@@ -193,18 +461,16 @@ export default function WindowModal(props){
 
   function funcSubscribe(){
     onRemoving_onFrames();
-
     if(subscribe){
       setSubscribe(false);
     }
     else{
-      setSubscribe(true);
+      setSubscribe(true); 
     }
   }
 
   function funcMembersWindow(){
     onRemoving_onFrames();
-
     if(membersWindow){
       setMembersWindow(false);
     }
@@ -215,7 +481,6 @@ export default function WindowModal(props){
 
   function funcLabelsWindow() {
     onRemoving_onFrames();
-
     if(labelsWindow){
       setLabelsWindow(false);
     }
@@ -241,6 +506,10 @@ export default function WindowModal(props){
   }
 
   function funcAddUserToCard(user_id){
+    if(showPreloderAddMember){ 
+      return;
+    }
+    setShowPreloderAddMember(user_id);
     if(chechUserToAdd(user_id)){
       request({
         method:'POST',
@@ -248,6 +517,8 @@ export default function WindowModal(props){
         callback:(response) => { 
           if (response.status === 200) {
             if(response.data){
+              setShowPreloderAddMember(false);
+              
               setCardUsers((cardUsers) = cardUsers = [...cardUsers, response.data]);
               setSubscribe(cardUsers.filter((cardUser) => cardUser.id === authUser).length);
               
@@ -265,6 +536,10 @@ export default function WindowModal(props){
   }
 
   function funcDelCardUser(user_id){
+    if(showPreloderDelMember){
+      return;
+    } 
+    setShowPreloderDelMember(user_id);
     cardUsers.forEach(cardUser => {
       if (user_id === cardUser.id){
         request({
@@ -273,6 +548,8 @@ export default function WindowModal(props){
           callback:(response) => { 
             if (response.status === 200) {
               if(response.data){
+                setShowPreloderDelMember(false);
+
                 let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
                 setCardUsers(filteredCardUsers);
                 setSubscribe(filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length);
@@ -287,8 +564,9 @@ export default function WindowModal(props){
       }
     });
   }
-  // console.log(updateValue);
+
   function onUserCard(id_user = null) {
+    console.log('tut', id_user);
     onRemoving_onFrames();
 
     showUserCard === id_user ?
@@ -315,8 +593,18 @@ export default function WindowModal(props){
   let editorRef;
   editorRef = useFocusAndSetRef(editorRef);
 
+  function onDelWindow(comment_id){ 
+    if(delWindow){
+      setDelWindow(false);
+    }
+    else{
+      setDelWindow(comment_id);
+    }
+  }
+
   function onDelActivityReactQuillComment(comment_data){
     // console.log(comment_id);
+    setDelWindow(false);
     setProcessActivity(comment_data.date);
     request({
       method:'POST',
@@ -333,21 +621,17 @@ export default function WindowModal(props){
   }
 
   function onSaveActivityReactQuillComment(date){
-    // console.log(onSaveActivityReactQuillComment.name, date);
     if(valueEditor === '<p><br></p>'){
       setValueEditor(valueEditor = null);
-      // console.log(valueEditor);
     } 
 
     if(cardActivity === valueEditor){
-      // console.log(valueEditor, cardActivity);
       setValueEditor(valueEditor = null)
       funcActivityEditorShow();
       return;
     }
 
     if(valueEditor !== cardActivity){
-      // console.log(valueEditor, cardActivity);
       setProcessActivity(date);
       request({
         method:'POST',
@@ -370,7 +654,6 @@ export default function WindowModal(props){
   }
 
   function showActivityReactQuillHandleKeyPress(evt, date){
-    // console.log(evt, date);
     if(evt.key === 'Enter' && evt.shiftKey){
       setValueEditor(valueEditor = valueEditor.trim().slice(0, -11));
       onSaveActivityReactQuillComment(date);
@@ -379,7 +662,6 @@ export default function WindowModal(props){
 
   function funcActivityDetailsShow(){
     onRemoving_onFrames();
-
     if(activityDetailsShow){
       setActivityDetailsShow(false);
     }
@@ -390,7 +672,6 @@ export default function WindowModal(props){
 
   function funcActivityEditorShow(comment_id = null, commentStartValue){
     onRemoving_onFrames();
-    // console.log('asd', comment_id)
     if(activityEditorShow === comment_id){
       setActivityEditorShow(null);
     }
@@ -401,12 +682,72 @@ export default function WindowModal(props){
     }
   }
 
-  const columnDueDate = (
-    "дата"
-  )
+  function funcDueDateWindow(){
+    onRemoving_onFrames();
+
+    if(dueDateWindow){
+      setDueDateWindow(false);
+    }
+    else{
+      setDueDateWindow(dueDateWindow = true);
+    }
+  }
+
+  function writeNewLinkDesc(evt) {
+    console.log(evt);
+    setNewLinkDesc(newLinkDesc = evt);
+    console.log(newLinkDesc);
+  }
+
+  const newLinkDescHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){ 
+      console.log(newLinkDesc, startLink.description);
+      // if(newLinkDesc === startLink.description){
+      //   funcAttachmentWindow();
+      //   return;
+      // }
+      handleAddFilesSubmit();
+    }
+  }
+
+  function writeNewLink(evt) {
+    setNewLink(newLink = evt);
+  }
+
+  const newLinkHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){
+      // funcAttachmentWindow();
+      // if(newLink === startLink.text){
+      //   funcAttachmentWindow();
+      //   return;
+      // }
+      handleAddFilesSubmit();
+    }
+  }
+
+  function funcAttachmentWindow(){ 
+    onRemoving_onFrames();
+    if(attachmentWindow){
+      setNewLink(''); 
+      setNewLinkDesc('');
+      setAddFiles([]);
+      setAttachmentWindow(false);
+    }
+    else{
+      setAttachmentWindow(attachmentWindow = true);
+    }
+  }
 
   return (
-    <div className={styles.wrap} >
+    <div 
+      className={`${styles.wrap} ${dragActive ? styles.dragging : ""}`} 
+      onDragEnter={handleDragAddFiles}
+      onDragOver={handleDragAddFiles}
+      onDragLeave={handleDragLeaveAddFiles}
+      onDrop={handleDragDropAddFiles}
+      onReset={handleAddFilesReset}
+      onSubmit={handleAddFilesSubmit}
+    >
         {props.children}
 
         {/* header */}
@@ -432,6 +773,7 @@ export default function WindowModal(props){
                 funcMembersWindow={funcMembersWindow}
                 funcDelCardUser={funcDelCardUser}
                 onUserCard={onUserCard}
+                onRemoving_onFrames={onRemoving_onFrames}
               />
             </div>
 
@@ -447,15 +789,22 @@ export default function WindowModal(props){
               <WindowModalSubscribe
                 subscribe={subscribe}
                 funcSubscribe={funcSubscribe}
-              ></WindowModalSubscribe>
+              />
             </div>
 
             <div className={styles.cardDetailItem}>
-              {columnDueDate}
+              <WindowModalDueDate
+                windowData={windowData} 
+                dueDateWindow={dueDateWindow} 
+                dueDateCheckbox={dueDateCheckbox}
+                setDueDateCheckbox={setDueDateCheckbox}
+                funcDueDateWindow={funcDueDateWindow} 
+                setUpdateValue={setUpdateValue}
+              />
             </div>
             
           </div>
-          
+
           <WindowModalDescription 
             showReactQuill={showReactQuill}
             funcShowReactQuill={funcShowReactQuill}
@@ -467,6 +816,35 @@ export default function WindowModal(props){
             saveNewReactQuillText={saveNewReactQuillText}
             cardDescription={cardDescription}
           />
+
+          {(cardFiles.length > 0 || cardLinks.length > 0) &&
+            <WindowModalAttachment 
+              funcAttachmentWindow={funcAttachmentWindow}
+              handleChangeAddFiles={handleChangeAddFiles}
+              showCardOptions={showCardOptions}
+              setShowCardOptions={setShowCardOptions}
+              addFiles={addFiles}
+              cardFiles={cardFiles}
+              setCardFiles={setCardFiles}
+              onDeleteCardFile={onDeleteCardFile}
+              showPreloderFile={showPreloderFile}
+              funcShowDeleteCardFile={funcShowDeleteCardFile}
+              showCardOptionsFileDel={showCardOptionsFileDel}
+              onDownloadCardFile={onDownloadCardFile}
+
+              funcShowAttachmentContentCardOptions={funcShowAttachmentContentCardOptions}
+              cardLinks={cardLinks}
+              funcShowDeleteCardLink={funcShowDeleteCardLink}
+              funcShowUpdateCardLink={funcShowUpdateCardLink}
+              showCardOptionsLinkDel={showCardOptionsLinkDel}
+              showCardOptionsLinkUpdate={showCardOptionsLinkUpdate}
+              onDeleteCardLink={onDeleteCardLink}
+              showPreloderLink={showPreloderLink}
+              // writeNewLink={writeNewLink}
+              // newLinkHandleKeyPress={newLinkHandleKeyPress}
+              setStartLink={setStartLink}
+            />
+          }
 
           <WindowModalActivity
             authUserData={authUserData}
@@ -484,8 +862,10 @@ export default function WindowModal(props){
             onSaveActivityReactQuillComment={onSaveActivityReactQuillComment}
             onDelActivityReactQuillComment={onDelActivityReactQuillComment}
             onUserCard={onUserCard}
+            onDelWindow={onDelWindow} 
+            delWindow={delWindow} 
+            setDelWindow={setDelWindow} 
           />
-
         </div>
 
         <Sidebar
@@ -507,8 +887,34 @@ export default function WindowModal(props){
           searchNewCardUser={searchNewCardUser}
           setSearchNewCardUser={setSearchNewCardUser}
           closeModal={closeModal}
-        ></Sidebar>
+          funcDueDateWindow={funcDueDateWindow} 
+          dueDateWindow={dueDateWindow}
+          setUpdateValue={setUpdateValue}
+          showPreloderAddMember={showPreloderAddMember}
+          showPreloderDelMember={showPreloderDelMember}
+          showPreloderLabel={showPreloderLabel}
+          setShowPreloderLabel={setShowPreloderLabel}
+          attachmentWindow={attachmentWindow} 
+          funcAttachmentWindow={funcAttachmentWindow}
 
+          showPreloderAttachmentWindow={showPreloderAttachmentWindow}
+          handleChangeAddFiles={handleChangeAddFiles}
+          addFiles={addFiles}
+          handleAddFilesReset={handleAddFilesReset}
+          handleAddFilesSubmit={handleAddFilesSubmit}
+
+          newLink={newLink}
+          newLinkDesc={newLinkDesc}
+          writeNewLink={writeNewLink}
+          newLinkHandleKeyPress={newLinkHandleKeyPress}
+          writeNewLinkDesc={writeNewLinkDesc}
+          newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
+          // setStartLink={setStartLink}
+          startLink={startLink}
+          onRemoving_onFrames={onRemoving_onFrames}
+          showCardDel={showCardDel}
+          setShowCardDel={setShowCardDel}
+        ></Sidebar>
     </div>
   )
 };

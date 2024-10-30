@@ -1,7 +1,10 @@
+import { useRef } from "react";
+import { URL_API } from "../../api/config";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import UserCard from "../UserCard/UserCard";
 import styles from "./WindowModalCardMember.module.scss";
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 
 export default function WindowModalCardMember(props){
@@ -12,6 +15,18 @@ export default function WindowModalCardMember(props){
   let funcMembersWindow = props.funcMembersWindow;
   let funcDelCardUser = props.funcDelCardUser;
   let onUserCard = props.onUserCard;
+  let onRemoving_onFrames= props.onRemoving_onFrames;
+
+
+  const userCardWindow = useRef(null);
+  useClickOutside(userCardWindow, () => {
+    if(showUserCard !== null){
+      setTimeout(() => {
+        // onUserCard();
+        // onRemoving_onFrames();
+      }, 100);
+    }
+  });
 
   return (
     <>
@@ -30,7 +45,7 @@ export default function WindowModalCardMember(props){
                     {cardUser.img ?
                     (<img 
                       className={styles.memberAvatar} 
-                      src={cardUser.img ? `/img/users/${cardUser.img}` : '/img/no_photo.png'}
+                      src={`${URL_API + cardUser.img}`}
                       alt={`${cardUser.first_name} (${cardUser.username})`}
                       title={`${cardUser.first_name} (${cardUser.username})`}
                       onClick={()=> onUserCard(cardUser.id)}
@@ -43,13 +58,15 @@ export default function WindowModalCardMember(props){
                     >{cardUser.first_letter}</span>)
                     }
                     {(showUserCard === cardUser.id) ? 
-                      <UserCard
-                        authUser={authUser}
-                        user={cardUser}
-                        clickAction={onUserCard}
-                        funcDelCardUser = {funcDelCardUser}
-                        class_name={'UserCard'}
-                      />
+                      <span ref={userCardWindow}>
+                        <UserCard
+                          authUser={authUser}
+                          user={cardUser}
+                          clickAction={onUserCard}
+                          funcDelCardUser = {funcDelCardUser}
+                          class_name={'UserCard'}
+                        />
+                      </span>
                       :
                       ""
                     }

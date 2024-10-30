@@ -162,3 +162,23 @@ $text: #172b4d;
   top: 10px;
   color: #fff;
 }
+
+.cardGradient {
+  background: linear-gradient(45deg, #22272b, #616161, #22272b);
+  background-size: 200% 800%;
+  animation: cardGradient 2s ease infinite;
+  border-radius: 8px;
+  cursor: default;
+  z-index: 1;
+}
+@keyframes cardGradient {
+  0% {
+      background-position: 50% 0%;
+  }
+  50% {
+      background-position: 50% 100%;
+  }
+  100% {
+      background-position: 50% 0%;
+  }
+}

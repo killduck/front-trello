@@ -117,8 +117,6 @@ export default function Login(props) {
 
         <LoginLayout>
             <section role="main" className={styles._qj62pw} >
-                admin@mail.ru
-                admin
                 <div data-testid="header" id="ProductHeading" className={styles._146wmq} >
                     <span aria-label="Trello" role="img" className={styles._a3l9jr} >
                         <svg viewBox="0 0 94 32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -227,24 +225,6 @@ export default function Login(props) {
                         >
                             <span className={styles._178ag6o} >{(formAuth.username && formAuth.username.length > 3) ? "Войти" : "Продолжить"}</span>
                         </Button>
-                        {/* <div className={`${styles._hidden} ${styles._cnfgt3}`} >
-                            <button id="passwordless-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
-                                <span className={styles._1ti50tg} >
-                                    <span role="img" aria-label="email" className={styles._snhnyn} >
-                                        <svg width="24" height="24" viewBox="0 0 24 24" role="presentation">
-                                            <g fill="currentColor" fillRule="evenodd">
-                                                <path d="M5 7v10h14V7H5zm14-2c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h14z" fillRule="nonzero"></path>
-                                                <path d="M5.498 6.5H3.124c.149.44.399.854.75 1.205l5.882 5.881a3.117 3.117 0 004.41 0l5.882-5.881c.35-.351.6-.765.749-1.205h-2.373l-5.672 5.672a1.119 1.119 0 01-1.583 0L5.498 6.5z"></path>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </span>
-                                <span className={styles._178ag6o} >Войти с помощью электронной почты</span>
-                                <span className={styles._1yrfxm9} >
-                                    <span style={{ width: "24px" }}></span>
-                                </span>
-                            </button>
-                        </div> */}
                     </form>
                 </div>
                 <div data-i18n-or="или" data-i18n-continue="Или продолжить с помощью:" className={styles._1n7nx3r} data-testid="social-login-wrapper">
@@ -252,7 +232,6 @@ export default function Login(props) {
                         <div className={styles._1vymulm} >
                             <button id="google-auth-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >
-                                    {/* <img src="assets/svg/google-logo.5867462c.svg" alt="logo" /> */}
                                     <Icons name={'google-logo'} class_name={'google_logo'} sizeWidth={"18px"} sizeHeight={"18px"} />
                                 </span>
                                 <span className={styles._178ag6o} >Google</span>
@@ -261,7 +240,6 @@ export default function Login(props) {
                         <div className={styles._1vymulm}>
                             <button id="microsoft-auth-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >
-                                    {/* <img src="assets/svg/microsoft-logo.c73d8dca.svg" alt="logo" /> */}
                                     <Icons name={'microsoft-logo'} class_name={'microsoft_logo'} sizeWidth={"21px"} sizeHeight={"21px"} />
                                 </span>
                                 <span className={styles._178ag6o} >Microsoft</span>
@@ -272,7 +250,6 @@ export default function Login(props) {
                         <div className={styles._1vymulm} >
                             <button id="apple-auth-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >
-                                    {/* <img src="assets/svg/apple-logo.54e0d711.svg" alt="logo" /> */}
                                     <Icons name={'apple-logo'} class_name={'apple_logo'} sizeWidth={"18px"} sizeHeight={"18px"} />
                                 </span>
                                 <span className={styles._178ag6o} >Apple</span>
@@ -281,7 +258,6 @@ export default function Login(props) {
                         <div className={styles._1vymulm} >
                             <button id="slack-auth-button" className={`${styles._8x8i7r} ${styles._q2jxx8}`} tabIndex="0" type="button">
                                 <span className={styles._1ti50tg} >
-                                    {/* <img src="assets/svg/slack-logo.5d730c10.svg" alt="logo" /> */}
                                     <Icons name={'slack-logo'} class_name={'slack_logo'} sizeWidth={"18px"} sizeHeight={"18px"} />
                                 </span>
                                 <span className={styles._178ag6o} >Slack</span>
@@ -360,7 +336,6 @@ export default function Login(props) {
                 </div>
             </section>
         </LoginLayout>
-
 
     )
 };

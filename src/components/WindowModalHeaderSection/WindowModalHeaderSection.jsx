@@ -14,9 +14,11 @@ export default function WindowModalHeaderSection(props){
   return (
     <div className={styles.header}>
       <span className={styles.headerIcon}>
-        <Icons
-          name={'icon-description'}
-          class_name={'IconWindowModalMainColAddLabel'}
+         <Icons
+          sizeWidth={"24px"}
+          sizeHeight={"24px"}
+          name={'card-icon'}
+          class_name={'IconWindowModalHeaderIcon'}
         />
       </span>
       <div className={styles.headerTitle}>
@@ -31,7 +33,7 @@ export default function WindowModalHeaderSection(props){
         (
         <textarea 
           autoFocus
-          onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
+          onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }
           onChange={(evt) => writeNewText(evt.target.value)}
           onKeyDown={windowNameHandleKeyPress}
           onBlur={windowNameHandleKeyPress}
@@ -48,7 +50,7 @@ export default function WindowModalHeaderSection(props){
         }
 
       </div>
-      <div className={styles.columnTitle}> {/* "window-header-inline-content quiet js-current-list" */}
+      <div className={styles.columnTitle}>
         <p className={styles.columnTitleName}>В колонке "{column.name}".</p>
         {subscribe ?
         (<span>

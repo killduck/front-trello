@@ -1,3 +1,4 @@
+import { URL_API } from '../../api/config';
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
 
@@ -42,7 +43,7 @@ export default function UserCard(props) {
             {user.img ?
             (<img
               className={styles.memberAvatar} 
-              src={user.img ? `/img/users/${user.img}` : user.first_letter} 
+              src={`${URL_API + user.img}`}
               alt={`${user.first_name} (${user.username})`} 
               title={`${user.first_name} (${user.username})`} 
             />)

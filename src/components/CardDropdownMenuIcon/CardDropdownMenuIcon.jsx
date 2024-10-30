@@ -1,4 +1,5 @@
 
+import { URL_API } from '../../api/config';
 import QuickLabelled from '../ui/QuickLabelled/QuickLabelled'
 
 import styles from './CardDropdownMenuIcon.module.scss'
@@ -16,7 +17,8 @@ export default function CardDropdownMenuIcon(props) {
     <div className={styles.CardDropdownMenuIcon}>
       
         <div className={styles.Image}>
-          <img className={styles.ImageBackground} src={`../img/${card.cardImg}`} alt="" />
+          {/* <img className={styles.ImageBackground} src={`../img/${card.cardImg}`} alt="" /> */}
+          <img className={styles.ImageBackground} src={`${URL_API + '/media_backend/img/' + card.cardImg}`} alt="" />
         </div>
         <div className={styles.CardText}>
           <div className={styles.CardTheme}>

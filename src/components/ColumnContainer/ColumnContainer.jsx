@@ -1,15 +1,11 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
 import { useMemo, useState } from "react";
-
 import request from "../../api/request";
-
 import Button from "../ui/Button/Button";
 import CreateNewBoardItem from "../ui/CreateNewBoardItem/CreateNewBoardItem";
 import Icons from "../ui/Icons/Icons";
 import TaskCard from "../TaskCard/TaskCard";
-
 import styles from './ColumnContainer.module.scss';
 
 export default function ColumnContainer(props) {
@@ -25,12 +21,14 @@ export default function ColumnContainer(props) {
   let deleteCard = props.deleteCard;
   let updateTask = props.updateTask;
   let updateCardLabel = props.updateCardLabel;
-
+  let showPreloderCard = props.showPreloderCard;
+  let showPreloderLabel = props.showPreloderLabel;
+  let setShowPreloderLabel = props.setShowPreloderLabel;
+  let setShowPreloder = props.setShowPreloder;
 
   const [editMode, setEditMode] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showColumnOptions, setShowColumnOptions] = useState(false);
-
   const [newColName, setNewColName] = useState('');
 
   const tasksIds = useMemo(() => {
@@ -79,10 +77,17 @@ export default function ColumnContainer(props) {
       column: columnId,
     };
 
+    setShowPreloder(true);
+
     request({
       method: "POST",
       url: 'create-card/',
-      callback: (request) => { requestSuccessCreateTask(request) },
+      callback: (response) => { 
+        if(response.status === 200){
+          setShowPreloder(false);
+          requestSuccessCreateTask(response);
+        }
+      },
       data: newTask,
       status: 200,
     });
@@ -111,6 +116,14 @@ export default function ColumnContainer(props) {
     }
     else{
       setShowColumnOptions(true);
+    }
+  }
+
+  const boardItemCardHandleKeyPress = (evt) => {
+    // console.log(evt.key);
+    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+      // setShowForm(true);
+      createNewTask(column.id);
     }
   }
 
@@ -169,7 +182,7 @@ export default function ColumnContainer(props) {
               <span className={styles.ColumnOptionWindowHeaderIcon} onBlur={funcShowColumnOptions}>
                 <Button
                 className={'btnSmallWindow'}
-                type="dutton"
+                type="button"
                 ariaLabel="Закрыть окно"
                 clickAction={funcShowColumnOptions}
                 >
@@ -190,7 +203,7 @@ export default function ColumnContainer(props) {
                   <span>Удалить колонку</span>
                   <Icons
                     name={'Trash'}
-                    class_name={'IconDeletColumnn'}
+                    class_name={'IconDeleteColumnn'}
                   />
                 </li>
               </ul>
@@ -217,27 +230,32 @@ export default function ColumnContainer(props) {
               updateTask={updateTask}
               deleteCard={deleteCard}
               updateCardLabel={updateCardLabel}
+              showPreloderCard={showPreloderCard}
+              showPreloderLabel={showPreloderLabel}
+              setShowPreloderLabel={setShowPreloderLabel}
             />
           ))}
-          <CreateNewBoardItem
-            className={showForm ? styles.none : styles.FormCreateCard}
-            buttonText={'Добавить карточку'}
-            spellCheck="false"
-            dir="auto"
-            maxLength="512"
-            autoComplete="off"
-            name="Ввести заголовок карточки"
-            placeholder="Ввести заголовок карточки"
-            aria-label="Ввести заголовок карточки"
-            data-testid="list-name-textarea"
-            autoFocus
-            hideElAction={setShowForm}
-            showFlag={true}
-            changeAction={setNewTextTask}
-            newText={newTextTask}
-            addColumnAction={createNewTask}
-            newColName={column.id}
-          />
+          {!showForm &&
+            <CreateNewBoardItem
+              className={showForm ? styles.none : styles.FormCreateCard}
+              buttonText={'Добавить карточку'}
+              spellCheck="false"
+              dir="auto"
+              maxLength="512"
+              autoComplete="off"
+              name="Ввести заголовок карточки"
+              placeholder="Ввести заголовок карточки"
+              aria-label="Ввести заголовок карточки"
+              data-testid="list-name-textarea"
+              hideElAction={setShowForm}
+              showFlag={true}
+              changeAction={setNewTextTask}
+              newText={newTextTask}
+              addColumnAction={createNewTask}
+              newColName={column.id}
+              boardItemHandleKeyPress={boardItemCardHandleKeyPress}
+            />
+          }
         </SortableContext>
       </div>
       {/* Column footer */}

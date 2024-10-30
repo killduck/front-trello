@@ -1,0 +1,231 @@
+.smallWindowWrap{
+    background-color: #282e32;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px 1px #39424a, 0px 8px 12px #0304045C, 0px 0px 1px 1px #03040480;
+    overflow: hidden;
+    position: absolute;
+    width: 304px;
+    // height: max-content;
+    height: max-content;
+    min-height: 30px;
+    cursor: default;
+    top: -30px;
+    right: 200px;
+    padding: 12px;
+
+    .itemHeader{
+        align-items: center;
+        display: grid;
+        grid-template-columns: 32px 1fr 32px;
+        padding: 4px 8px;
+        position: relative;
+        text-align: center;
+        
+        .itemHeaderTitle{
+            box-sizing: border-box;
+            color: #9fadbc;
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            grid-column: 1 / span 3;
+            grid-row: 1;
+            height: 40px;
+            letter-spacing: -.003em;
+            line-height: 16px;
+            line-height: 40px;
+            margin: 0;
+            overflow: hidden;
+            padding: 0 32px;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            z-index: 1;
+        }
+        .iconWrap{
+            width: fit-content;
+            height: fit-content;
+            border-radius: 8px;
+            color: #626f86;
+            grid-column: 3;
+            grid-row: 1;
+            padding: 3px;
+            z-index: 2;
+            display: flex;
+        }
+    }
+
+    .dueDateWrap{
+        max-height: 648px;
+        min-height: 300px;
+        padding-top: 0;
+        -webkit-overflow-scrolling: touch;
+        // padding: 12px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        
+        // .DatePicker{
+        //     color: red;
+        // }
+    }
+}
+
+.dueDateTextInput{
+    width: 95px;
+    margin: 0;
+    padding: 6px 10px;
+
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    color: #b6c2cf;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    // line-height: 20px;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 85ms;
+    transition-timing-function: ease;
+    border-radius: 3px;
+    background-color: #22272b;
+    box-shadow: inset 0 0 0 1px #738496;
+    height: 34px;
+
+    &:disabled{
+        cursor: no-drop;
+    }
+}
+
+// .iconWrap{
+//     width: fit-content;
+//     height: fit-content;
+  
+//     &:hover {
+//       border: none;
+//       background-color: #a6c5e229;
+//       box-shadow: none;
+//       color: #b6c2cf;
+//       text-decoration: none;
+//       border-radius: 8px;
+//       display: flex;
+//       justify-content: center;
+//     }
+// }
+
+.cardEditorButtonWrap{
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dueDateItem{
+    box-sizing: border-box;
+    // width: 100%;
+    margin-right: 8px;
+    // padding: 0 0 4px 4px;
+    cursor: pointer;
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    
+    .dueDateItemInput{
+        // -webkit-appearance: checkbox;
+        display: inline;
+        margin-right: 4px;
+
+        box-sizing: border-box;
+
+        width: 1px;
+        height: 1px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        border: 0;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    .dueDateItemCheckboxWrap{
+        position: relative;
+        flex-shrink: 0;
+        width: 16px;
+        height: 16px;
+        overflow: hidden;
+        transition: all 0.2s ease-in-out;
+        border-radius: 2px;
+        white-space: nowrap;
+        background-color: #22272b;
+        box-shadow: inset 0 0 0 1px #738496;
+
+        // &:checked{
+        //     background-color: #579dff;
+        //     box-shadow: inset 0 0 0 1px #579dff;
+        // }
+
+        .dueDateItemCheckbox{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            opacity: 0;
+        }
+    }
+}
+.checked{
+    background-color: #579dff!important;
+    box-shadow: inset 0 0 0 1px #579dff!important;
+    opacity: 1!important;
+}
+
+.dueDateItemWrap{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+.dueDateItemTittle{
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+
+.actionDeleteCard{
+    background-color: #a1bdd914;
+    border: none;
+    border-radius: 3px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #b6c2cf;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    height: 32px;
+    margin-top: 8px;
+    max-width: 300px;
+    padding: 6px 12px;
+    font-size: 14px;
+
+    &:active,
+    &:hover {
+        border: none;
+        box-shadow: none;
+        color: #b6c2cf;
+    }
+    &:hover {
+        background-color: #a6c5e229;
+        text-decoration: none;
+        color: #ff6f6f;
+    }
+    &:active{
+        background-color: #bfdbf847;
+        outline: 0;
+        color: #b6c2cf;
+    }
+
+    .actionDeleteCardText{
+        margin-right: 8px;
+    }
+}
