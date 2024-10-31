@@ -21,6 +21,8 @@ import TaskCard from "../../components/TaskCard/TaskCard";
 import styles from "./KanbanBoard.module.scss";
 import Preloader from "../../components/Preloader/Preloader";
 import { URL_API } from "../../api/config";
+import { useDispatch } from "react-redux";
+import { setPreloaderWindowName } from "../../main_state/states/modalHeader/windowName";
 
 export default function KanbanBoard(props) {
 
@@ -35,13 +37,14 @@ export default function KanbanBoard(props) {
   const [showForm, setShowForm] = useState(true);
   const [newName, setText] = useState('Новая колонка');
   const [newTextTask, setNewTextTask] = useState('Новая задача');
-  const [showPreloderLabel, setShowPreloderLabel] = useState(false);
 
   let [backGroundImage, setBackGroundImage] = useState('');
   let [name_dashboard, setNameDashboard] = useState('');
   let [updateComponent, setUpdateComponent] = useState(false);
   let [users, setUsers] = useState([]);
   let { dashboardId } = useParams();
+
+  const dispatch = useDispatch();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -56,7 +59,6 @@ export default function KanbanBoard(props) {
       method: 'POST',
       url: 'dashboards/',
       callback: (response) => {
-        // setShowPreloder(true);
         if (response.status === 200) {
           setShowPreloder(false);
           let dashboard = response.data; //нужный дашборд
@@ -354,12 +356,16 @@ export default function KanbanBoard(props) {
   }
 
   function updateTask(id, name) {
+
+    dispatch(setPreloaderWindowName(true)); 
+
     request({
       method: "POST",
       url: `new-data-card/`,
       callback: (response) => {
         if (response.status === 200) {
           name = response.data[0]['name'];
+          dispatch(setPreloaderWindowName(false)); 
           updateSetTasks(id, name);
         }
       },
@@ -432,27 +438,6 @@ export default function KanbanBoard(props) {
     setTasks(newTasks);
   }
 
-  function updateCardLabel(card_id, label) {
-    // console.log(card_id, label);
-    if(showPreloderLabel){
-      return;
-    }
-    request({
-      method: "POST",
-      url: 'add-label-to-card/',
-      callback: (response) => {
-        if (response.status === 200) {
-          let new_card_id = response.data[0]['id'];
-          let new_label = response.data[0]['label'];
-          updateSetCardLabel(new_card_id, new_label);
-          setShowPreloderLabel(false);
-        }
-      },
-      data: { "card_id": card_id, "label_id": label.id },
-      status: 200,
-    });
-  }
-
   const boardItemColumnHandleKeyPress = (evt) => {
     if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
       createNewColumn();
@@ -498,12 +483,10 @@ export default function KanbanBoard(props) {
                     updateColumn={updateColumn}
                     deleteCard={deleteCard}
                     updateTask={updateTask}
-                    updateCardLabel={updateCardLabel}
+                    updateSetCardLabel={updateSetCardLabel}
                     tasks={tasks.filter((task) => task.column === column.id)}
                     dashboardUsers={users}
                     showPreloderCard={showPreloderCard}
-                    showPreloderLabel={showPreloderLabel}
-                    setShowPreloderLabel={setShowPreloderLabel}
                     setShowPreloder={setShowPreloder}
                   />
                 ))}
@@ -567,12 +550,10 @@ export default function KanbanBoard(props) {
                   updateColumn={updateColumn}
                   deleteCard={deleteCard}
                   updateTask={updateTask}
-                  updateCardLabel={updateCardLabel}
+                  updateSetCardLabel={updateSetCardLabel}
                   tasks={tasks.filter((task) => task.column === activeColumn.id)}
                   dashboardUsers={users}
                   showPreloderCard={showPreloderCard}
-                  showPreloderLabel={showPreloderLabel}
-                  setShowPreloderLabel={setShowPreloderLabel}
                   setShowPreloder={setShowPreloder}
                 />
               )}

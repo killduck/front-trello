@@ -1,12 +1,14 @@
 .wrap{
     position: relative;
     width: 768px;
-    min-height: 200px;
-    margin: 0 auto;
+    min-height: 400px;
+    // margin: 0 auto;
+    margin: 40px auto;
     background: transparent;
     background-color: #323940;
     border-radius: 8px;
     display: grid;
+    cursor: default;
 }
 .dragging{
     border: 2px solid #9fadbc;
@@ -286,5 +288,25 @@
       border-radius: 8px;
       display: flex;
       justify-content: center;
+    }
+}
+
+.wimdowModalGradient {
+    background: linear-gradient(45deg, #22272b, #616161, #22272b);
+    background-size: 200% 800%;
+    animation: wimdowModalGradient 2s ease infinite;
+    border-radius: 3px;
+    cursor: default;
+}
+
+@keyframes wimdowModalGradient {
+    0% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 50% 100%;
+    }
+    100% {
+        background-position: 50% 0%;
     }
 }

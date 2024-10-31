@@ -3,22 +3,27 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarLabelWindow.module.scss";
 import request from "../../api/request";
-
+import { useDispatch, useSelector } from "react-redux";
+import { 
+  setCardLabelStatus, 
+  setShowLabelsWindow, 
+  setShowPreloderLabel } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function SidebarLabelWindow(props){
-  // console.log(props);
-  let windowData = props.windowData;
-  let funcLabelsWindow = props.funcLabelsWindow;
-  let labelsWindow = props.labelsWindow;
-  let updateCardLabel = props.updateCardLabel;
-  let setCardLabel = props.setCardLabel;
-  let showPreloderLabel = props.showPreloderLabel;
-  let setShowPreloderLabel = props.setShowPreloderLabel;
+  
+  let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
   const [coloredLabel_id, setColoredLabel_id] = useState(Number);
+  
+  const windowData = useSelector((state) => state.windowData.value);
+  const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
+  const showPreloderLabel = useSelector((state) => state.modalCardLabelState.showPreloderLabel); 
 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     request({
@@ -29,34 +34,73 @@ export default function SidebarLabelWindow(props){
           if(response.data){
             setColoredLabels(response.data);
           }
-          if(labelsWindow && windowData.label){
-            onTakeColor(windowData.label);
+          if(showLabelsWindow && windowData.label){
+            setCheckbox(true);
+            setColoredLabel_id(windowData.label.id);
           }
         }
       },
       data: {},
       status:200,
     });
-  },[]);
+  },[showLabelsWindow, windowData]);
 
+
+  function funcLabelsWindow() {
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: showLabelsWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setShowLabelsWindow, 
+      dispatch: dispatch,
+    });
+    // if(showLabelsWindow){
+    //   dispatch(setShowLabelsWindow(false));
+    // }
+    // else{
+    //   dispatch(setShowLabelsWindow(true));
+    // }
+  }
 
   function onTakeColor(label){
-    // console.log(label);
     if(showPreloderLabel){
       return;
     }
     
-    setShowPreloderLabel(label.id);
+    dispatch(setShowPreloderLabel(label.id));
+
     if(!checkbox){
-      setCheckbox(true);
-      setColoredLabel_id(label.id);
+      // setCheckbox(true);
+      // setColoredLabel_id(label.id);
       updateCardLabel(windowData.id, label);
     }
     else{
-      setCheckbox(false);
+      // setCheckbox(false);
       updateCardLabel(windowData.id, {'id': 'null'});
-      setCardLabel(false);
+      dispatch(setCardLabelStatus(false));
     }
+  }
+
+  function updateCardLabel(card_id, label) {
+    if(showPreloderLabel){
+      return;
+    }
+    
+    request({
+      method: "POST",
+      url: 'add-label-to-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          let new_card_id = response.data[0]['id'];
+          let new_label = response.data[0]['label'];
+          updateSetCardLabel(new_card_id, new_label);
+          dispatch(setShowPreloderLabel(false)); 
+        }
+      },
+      data: { "card_id": card_id, "label_id": label.id },
+      status: 200,
+    });
   }
 
   return (
@@ -84,13 +128,12 @@ export default function SidebarLabelWindow(props){
               <label className={
                 `${styles.labelItem} 
                 ${showPreloderLabel ? styles.labelItemWait : ""} 
-                ${showPreloderLabel === coloredLabel.id ? styles.cardActivityNewCommentInputGradient: ""}` 
+                ${showPreloderLabel === coloredLabel.id ? styles.cardLabelWindowInputGradient: ""}` 
               }>
                 <input className={styles.labelItemInput} type="checkbox"/>
                 <span className={styles.labelItemCheckboxWrap}>
                   <span 
                     className={`${styles.labelItemCheckbox} ${(checkbox && coloredLabel_id === coloredLabel.id) ? styles.checked : "" }`}
-                    // onClick={onTakeColor}
                     onClick={() => onTakeColor(coloredLabel)}
                   >
                     <Icons 
@@ -106,9 +149,7 @@ export default function SidebarLabelWindow(props){
                     <span 
                       className={styles.labelItemColorSpan}
                       style={(showPreloderLabel === coloredLabel.id) ? {} : {backgroundColor: coloredLabel.color_hex}} 
-                      // onClick={onTakeColor}
                       onClick={() => onTakeColor(coloredLabel)}
-
                     ></span>
                   </div>
                 </span>

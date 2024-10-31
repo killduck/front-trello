@@ -11,8 +11,6 @@ import Login from './pages/Login/Login';
 import { useEffect } from 'react';
 import InviteUserBoard from './pages/InviteUserBoard/InviteUserBoard';
 
-
-
 export default function RoutesApp(props) {
 
     const navigate = useNavigate();
@@ -30,6 +28,7 @@ export default function RoutesApp(props) {
         <div>
 
             <Routes>
+              
                 <Route path='/login' element={
                     <Login />
                 } />

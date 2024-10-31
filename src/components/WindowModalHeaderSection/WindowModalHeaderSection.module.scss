@@ -29,10 +29,10 @@
     }
 
     .headerTitle{
-        padding: 12px 0 0;
+        padding: 12px 0 0 6px;
         width: 95%;
 
-        h2{
+        .title{
             margin-right: 4px;
             cursor: pointer;
             font-weight: 600;
@@ -87,5 +87,25 @@
             margin: 4px 8px 4px 2px;
             color: #9fadbc;
         }
+    }
+}
+
+.cardHeaderTitleGradient {
+    background: linear-gradient(45deg, #22272b, #616161, #22272b);
+    background-size: 200% 800%;
+    animation: newCommentGradient 2s ease infinite;
+    border-radius: 3px;
+    cursor: no-drop!important;
+}
+
+@keyframes newCommentGradient {
+    0% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 50% 100%;
+    }
+    100% {
+        background-position: 50% 0%;
     }
 }

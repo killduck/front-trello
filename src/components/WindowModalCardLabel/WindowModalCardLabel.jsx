@@ -1,17 +1,42 @@
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalCardLabel.module.scss";
+import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalCardLabel(props){
 
-  let task = props.task;
-  let cardLabel = props.cardLabel;
-  let funcLabelsWindow = props.funcLabelsWindow;
+  let task = props.task; //это прилетает из дашборда
+
+  const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
+  const cardLabelStatus = useSelector((state) => state.modalCardLabelState.cardLabelStatus); 
+
+  const dispatch = useDispatch();
+
+
+  function funcLabelsWindow() {
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: showLabelsWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setShowLabelsWindow, 
+      dispatch: dispatch,
+    });
+    // if(showLabelsWindow){
+    //   dispatch(setShowLabelsWindow(false));
+    // }
+    // else{
+    //   dispatch(setShowLabelsWindow(true));
+    // }
+  }
 
   return (
     <>
-    {(cardLabel) ?
-      (<div className={styles.cardDetailNotifications}>
+    {cardLabelStatus && (
+      <div className={styles.cardDetailNotifications}>
         <h3 className={styles.cardDetailsTitle}>Метки</h3>
         <div className={styles.labelsList} data-testid="card-back-labels-container">
           <span 
@@ -32,7 +57,7 @@ export default function WindowModalCardLabel(props){
             />
           </Button>
         </div>
-      </div>):""
+      </div>)
     }
     </> 
   )

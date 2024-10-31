@@ -4,29 +4,87 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import UserCard from "../UserCard/UserCard";
 import styles from "./WindowModalCardMember.module.scss";
-import { useClickOutside } from "../../hooks/useClickOutside";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setMembersWindow, setShowPreloderDelMember, setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
+import request from "../../api/request";
+import { setSubscribeState } from "../../main_state/states/subscribeState";
+import { setCardUsers } from "../../main_state/states/cardUsersState";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalCardMember(props){
 
-  let cardUsers = props.cardUsers;
-  let authUser = props.authUser;
-  let showUserCard = props.showUserCard;
-  let funcMembersWindow = props.funcMembersWindow;
-  let funcDelCardUser = props.funcDelCardUser;
-  let onUserCard = props.onUserCard;
-  let onRemoving_onFrames= props.onRemoving_onFrames;
+  const authUser = useSelector((state) => state.cardUsersState.authUser); 
+  const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
+  const windowData = useSelector((state) => state.windowData.value);
+  const showUserCard = useSelector((state) => state.modalCardMemberState.showUserCard);
+  const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
+  const showPreloderDelMember = useSelector((state) => state.modalCardMemberState.showPreloderDelMember);
 
+  const dispatch = useDispatch();
+
+  function funcMembersWindow(){
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: membersWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setMembersWindow, 
+      dispatch: dispatch,
+    });
+
+    // if(membersWindow){
+    //   dispatch(setMembersWindow(false));
+    // }
+    // else{
+    //   dispatch(setMembersWindow(true));
+    // }
+  }
+
+  function onUserCard(id_user = null) {
+    dispatch(onRemoving_onFrames());
+
+    if(showUserCard === id_user){
+      dispatch(setShowUserCard(null));
+    }
+    else{
+      dispatch(setShowUserCard(id_user));
+    }
+  }
+
+  function funcDelCardUser(user_id){
+    if(showPreloderDelMember){
+      return;
+    } 
+
+    dispatch(setShowPreloderDelMember(user_id));
+    
+    cardUsers.forEach(cardUser => {
+      if (user_id === cardUser.id){
+        request({
+          method:'POST',
+          url:`card-user-delete/`,
+          callback:(response) => { 
+            if (response.status === 200) {
+              if(response.data){
+                dispatch(setShowPreloderDelMember(false));
+
+                let filteredCardUsers = cardUsers.filter((cardUser) => cardUser.id !== user_id);
+                dispatch(setCardUsers(filteredCardUsers));
+
+                let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
+                dispatch(setSubscribeState(filteredCardSubscribedUsers));
+              }
+            }
+          },
+          data: {'auth_user': authUser, 'user_id': cardUser.id, 'card_id': windowData.id},
+          status:200,
+        });
+      }
+    });
+  }
 
   const userCardWindow = useRef(null);
-  useClickOutside(userCardWindow, () => {
-    if(showUserCard !== null){
-      setTimeout(() => {
-        // onUserCard();
-        // onRemoving_onFrames();
-      }, 100);
-    }
-  });
 
   return (
     <>
@@ -62,7 +120,7 @@ export default function WindowModalCardMember(props){
                         <UserCard
                           authUser={authUser}
                           user={cardUser}
-                          clickAction={onUserCard}
+                          onUserCard={onUserCard}
                           funcDelCardUser = {funcDelCardUser}
                           class_name={'UserCard'}
                         />
@@ -70,8 +128,6 @@ export default function WindowModalCardMember(props){
                       :
                       ""
                     }
-                    
-  
                   </div>
                 )
               }   

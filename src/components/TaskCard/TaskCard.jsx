@@ -5,24 +5,25 @@ import styles from './TaskCard.module.scss';
 import Icons from "../ui/Icons/Icons";
 import WindowPortal from "../WindowPortal/WindowPortal";
 import Button from "../ui/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { setDNDIsOn } from "../../main_state/states/taskCardState";
 
 export default function TaskCard(props) {
-  // console.log(props)
+
   let dashboardUsers = props.dashboardUsers; 
-  //  это пока не нужно было
   let task = props.task;
   let column = props.column;
   let updateTask = props.updateTask;
   let deleteCard = props.deleteCard;
-  let updateCardLabel = props.updateCardLabel;
+  let updateSetCardLabel = props.updateSetCardLabel;
   let showPreloderCard = props.showPreloderCard;
-  let showPreloderLabel = props.showPreloderLabel;
-  let setShowPreloderLabel = props.setShowPreloderLabel;
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
-  const [DNDIsOn, setDNDIsOn] = useState(true);
+
+  const DNDIsOn = useSelector((state) => state.taskCardState.DNDIsOn); 
+  const dispatch = useDispatch();
 
   const {
     setNodeRef,
@@ -98,7 +99,7 @@ export default function TaskCard(props) {
       </div>
     );
   }
-
+  
   return (
     <>
       {String(showPreloderCard) !== task.id ? 
@@ -116,7 +117,7 @@ export default function TaskCard(props) {
               setMouseIsOver(false);
             }}
             className={styles.TaskCard}
-            onClick={() => setDNDIsOn(false)}
+            onClick={() => dispatch(setDNDIsOn(false))}
           >
             <WindowPortal
               typeElem = {'card'}
@@ -126,9 +127,7 @@ export default function TaskCard(props) {
               dashboardUsers={dashboardUsers}
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
-              updateCardLabel={updateCardLabel}
-              showPreloderLabel={showPreloderLabel}
-              setShowPreloderLabel={setShowPreloderLabel}
+              updateSetCardLabel={updateSetCardLabel}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>
@@ -173,10 +172,7 @@ export default function TaskCard(props) {
               dashboardUsers={dashboardUsers}
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
-              updateCardLabel={updateCardLabel}
-              setDNDIsOn={setDNDIsOn}
-              showPreloderLabel={showPreloderLabel}
-              setShowPreloderLabel={setShowPreloderLabel}
+              updateSetCardLabel={updateSetCardLabel}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>

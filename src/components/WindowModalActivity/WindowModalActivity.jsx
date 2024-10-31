@@ -4,29 +4,135 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalActivity.module.scss";
 import { Interweave } from "interweave";
 import { URL_API } from "../../api/config";
+import { useFocusAndSetRef } from "../../hooks/useFocusAndSetRef";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowUserCard } from "../../main_state/states/modalCardMember/modalCardMember";
+import { useState } from "react";
+import request from "../../api/request";
+import { setActivityEditorShow, setCardActivityComments } from "../../main_state/states/modalActivity/modalActivity";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 
 
 export default function WindowModalActivity(props){
 
-  let authUserData = props.authUserData;
-  let activityDetailsShow = props.activityDetailsShow;
-  let activityEditorShow = props.activityEditorShow;
-  let processActivity = props.processActivity;
-  let valueEditor = props.valueEditor;
-  let setValueEditor = props.setValueEditor;
-  let cardActivityComments = props.cardActivityComments;
-  let modules = props.modules;
-  let editorRef = props.editorRef;
-  let funcActivityDetailsShow = props.funcActivityDetailsShow;
-  let funcActivityEditorShow = props.funcActivityEditorShow;
-  let showActivityReactQuillHandleKeyPress = props.showActivityReactQuillHandleKeyPress;
-  let onSaveActivityReactQuillComment = props.onSaveActivityReactQuillComment;
-  let onDelActivityReactQuillComment= props.onDelActivityReactQuillComment;
-  let onUserCard = props.onUserCard;
-  let onDelWindow = props.onDelWindow;
-  let delWindow = props.delWindow; 
-  // let setDelWindow = props.setDelWindow; 
+  const windowData = useSelector((state) => state.windowData.value);
+  const authUser = useSelector((state) => state.cardUsersState.authUser); 
+  const authUserData = useSelector((state) => state.cardUsersState.authUserData); 
+  const activityEditorShow = useSelector((state) => state.modalActivityState.activityEditorShow);
+  const cardActivityComments = useSelector((state) => state.modalActivityState.cardActivityComments);
+  const cardActivitymodules = useSelector((state) => state.modalActivityState.cardActivitymodules);
+  const showUserCard = useSelector((state) => state.modalCardMemberState.showUserCard);
 
+  const dispatch = useDispatch();
+
+  const [delWindow, setDelWindow] = useState(false); 
+  const [processActivity, setProcessActivity] = useState(false);
+  const [cardActivity, setCardActivity] = useState('<p><br></p>');
+  let [activityDetailsShow, setActivityDetailsShow] = useState(true);
+  let [valueEditor, setValueEditor] = useState('');
+
+
+  let editorRef;
+  editorRef = useFocusAndSetRef(editorRef);
+
+  function onUserCard(id_user = null) {
+    dispatch(onRemoving_onFrames());
+
+    showUserCard === id_user ?
+      dispatch(setShowUserCard(null))
+      :
+      dispatch(setShowUserCard(id_user))
+  }
+
+    function onDelWindow(comment_id){ 
+    if(delWindow){
+      setDelWindow(false);
+    }
+    else{
+      setDelWindow(comment_id);
+    }
+  }
+
+  function onDelActivityReactQuillComment(comment_data){
+    setDelWindow(false);
+    setProcessActivity(comment_data.date);
+    request({
+      method:'POST',
+      url:'del-card-activity/',
+      callback:(response) => { 
+        if (response.status === 200) {
+          setProcessActivity(false);
+          dispatch(setCardActivityComments(cardActivityComments.filter((comment) => comment.id !== comment_data.id)));
+        }
+      },
+      data: {'comment_id': comment_data.id},
+      status:200,
+    });
+  }
+
+  function onSaveActivityReactQuillComment(date){
+    if(valueEditor === '<p><br></p>'){
+      setValueEditor(valueEditor = null);
+    } 
+
+    if(cardActivity === valueEditor){
+      setValueEditor(valueEditor = null)
+      funcActivityEditorShow();
+      return;
+    }
+
+    if(valueEditor !== cardActivity){
+      setProcessActivity(date);
+      
+      request({
+        method:'POST',
+        url:'add-card-activity/',
+        callback:(response) => { 
+          if (response.status === 200) {
+            setProcessActivity(false);
+            if(response.data){
+              dispatch(setCardActivityComments(response.data));
+              setValueEditor('');
+            }
+          }
+        },
+        data: {'find_by_date': date, 'card_id': windowData.id, 'author_id': authUser, 'comment': valueEditor.trim(),}, //valueEditor.trim().slice(0, -11)
+        status:200,
+      });
+    }
+    funcActivityEditorShow();
+  }
+
+  function showActivityReactQuillHandleKeyPress(evt, date){
+    if(evt.key === 'Enter' && evt.shiftKey){
+      setValueEditor(valueEditor = valueEditor.trim().slice(0, -11));
+      onSaveActivityReactQuillComment(date);
+    }
+  }
+
+  function funcActivityDetailsShow(){
+    dispatch(onRemoving_onFrames());
+    
+    if(activityDetailsShow){
+      setActivityDetailsShow(false);
+    }
+    else{
+      setActivityDetailsShow(true);
+    }
+  }
+
+  function funcActivityEditorShow(comment_id = null, commentStartValue){
+    dispatch(onRemoving_onFrames());
+
+    if(activityEditorShow === comment_id){
+      dispatch(setActivityEditorShow(null));
+    }
+    else{
+      dispatch(setActivityEditorShow(comment_id));
+      setCardActivity(commentStartValue);
+      setValueEditor(commentStartValue);
+    }
+  }
 
   return (
     
@@ -106,7 +212,7 @@ export default function WindowModalActivity(props){
                 value={valueEditor ? valueEditor : ''} 
                 onChange={setValueEditor} 
                 placeholder={"Напишите комментарий..."}
-                modules={modules}
+                modules={cardActivitymodules}
                 onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
                 onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, 'no')}
                 ref={editorRef}
@@ -226,7 +332,7 @@ export default function WindowModalActivity(props){
                         value={valueEditor ? valueEditor : comment.comment} 
                         onChange={setValueEditor} 
                         placeholder={"Напишите комментарий..."}
-                        modules={modules}
+                        modules={cardActivitymodules}
                         onKeyDown={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
                         onBlur={(evt)=>showActivityReactQuillHandleKeyPress(evt, comment.date)}
                         ref={editorRef}

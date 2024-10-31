@@ -184,17 +184,17 @@
     cursor: wait!important;
 }
 
-.cardActivityNewCommentInputGradient {
+.cardLabelWindowInputGradient {
     background: linear-gradient(45deg, #22272b, #616161, #22272b);
     background-size: 200% 800%;
-    animation: newCommentGradient 2s ease infinite;
+    animation: labelGradient 2s ease infinite;
     border-radius: 3px;
     cursor: default;
     z-index: 9;
     position: relative;
 }
 
-@keyframes newCommentGradient {
+@keyframes labelGradient {
     0% {
         background-position: 50% 0%;
     }

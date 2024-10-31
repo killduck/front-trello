@@ -8,29 +8,49 @@ import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarDueDate.module.scss";
 import { useState } from "react";
 import request from "../../api/request";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setDueDatePreloder, setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setWindowData } from "../../main_state/states/windowData";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function SidebarDueDate(props){
-  // console.log(props);
-  let windowData = props.windowData;
+
+  const windowData = useSelector((state) => state.windowData.value);
+  const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
+  const dueDatePreloder = useSelector((state) => state.modalDueDateState.dueDatePreloder);
   let windowData_date_end = windowData.date_end;
-  let funcDueDateWindow = props.funcDueDateWindow; 
-  let setUpdateValue = props.setUpdateValue;
+
+  const dispatch = useDispatch();
 
   const [checkbox, setCheckbox] = useState(true);
-  // const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState(windowData_date_end ? new Date(windowData_date_end) : new Date());
   let [arrDate, setArrDate] = useState([]);
   let [newDate, setNewDate] = useState(String);
 
   registerLocale('ru', ru);
 
+  function funcDueDateWindow(){
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: dueDateWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setDueDateWindow, 
+      dispatch: dispatch,
+    });
+    // if(dueDateWindow){
+    //   dispatch(setDueDateWindow(false));
+    // }
+    // else{
+    //   dispatch(setDueDateWindow(true));
+    // }
+  }
+
   function takeDate(){
     let date = startDate.getDate();
     let month = startDate.getMonth();
     let year = startDate.getFullYear();
-    // let hours = startDate.getHours();
-    // let Minutes = startDate.getMinutes();
     
     return `${date}.${month+1}.${year}`;
   }
@@ -67,7 +87,6 @@ export default function SidebarDueDate(props){
       }
     }
   }
-  
 
   function funcEraseDates(){
     setStartDate(new Date());
@@ -99,7 +118,9 @@ export default function SidebarDueDate(props){
     let end_minutes = startDate.getMinutes();
 
     sendind_end_date = `${end_day}-${end_month}-${end_year} ${end_hours}:${end_minutes}:00`;
-    
+
+    dispatch(setDueDatePreloder(true));
+
     request({
       method:'POST',
       url:'add-card-due-date/',
@@ -107,7 +128,9 @@ export default function SidebarDueDate(props){
         if (response.status === 200) {
           if(response.data){
             setStartDate(new Date(response.data[0].date_end));
-            setUpdateValue(true);
+            dispatch(setWindowData(response.data[0]));
+            dispatch(setDueDatePreloder(false));
+
             funcDueDateWindow();
           }
         }
@@ -118,6 +141,8 @@ export default function SidebarDueDate(props){
   }
 
   function onDelDueDate(){
+    dispatch(setDueDatePreloder(true));
+
     request({
       method:'POST',
       url:'del-card-due-date/',
@@ -125,8 +150,9 @@ export default function SidebarDueDate(props){
         if (response.status === 200) {
           if(response.data){
             setCheckbox(false);
-            setUpdateValue(true);
             setStartDate(new Date());
+            dispatch(setWindowData(response.data[0]));
+            dispatch(setDueDatePreloder(false));
           }
         }
       },
@@ -136,7 +162,7 @@ export default function SidebarDueDate(props){
   }
 
   return (
-    <div className={styles.smallWindowWrap}>
+    <div className={dueDatePreloder ? `${styles.cardDueDateWindowGradient} ${styles.smallWindowWrap}` : styles.smallWindowWrap}>
       <header className={styles.itemHeader}>
         <h2 className={styles.itemHeaderTitle} title="Метки">Даты</h2>
         <div className={styles.iconWrap}>
@@ -235,4 +261,3 @@ export default function SidebarDueDate(props){
     </div>
   )
 };
-

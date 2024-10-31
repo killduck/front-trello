@@ -1,17 +1,13 @@
-
-
-import { useState } from 'react';
 import Modal from 'react-modal';
 import WindowModal from '../WindowModal/WindowModal';
-
 import styles from "./WindowPortal.module.scss";
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { setModalIsOpen, setWindowModalReloadBlur } from '../../main_state/states/windowModalState';
+import { setDNDIsOn } from '../../main_state/states/taskCardState';
 
 export default function WindowPortal(props){
-
-    // console.log(props.children.props.children.owner);
-    // console.log(props);
 
     let dashboardUsers = props.dashboardUsers;
     let idElem = props.idElem;
@@ -20,26 +16,24 @@ export default function WindowPortal(props){
     let column = props.column;
     let updateFunc = props.updateFunc;
     let deleteFunc = props.deleteFunc;
-    let updateCardLabel = props.updateCardLabel;
-    let setDNDIsOn = props.setDNDIsOn;
-    let showPreloderLabel = props.showPreloderLabel;
-    let setShowPreloderLabel = props.setShowPreloderLabel;
+    let updateSetCardLabel = props.updateSetCardLabel;
     
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const modalIsOpen = useSelector((state) => state.windowModalState.modalIsOpen); 
+
+    const dispatch = useDispatch();
 
     const openModal = () => {
-        setModalIsOpen(true);
+      dispatch(setModalIsOpen(idElem));
     };
 
     const closeModal = () => {
-        setModalIsOpen(false);
-        setDNDIsOn(true);
+      dispatch(setModalIsOpen(false));
+      dispatch(setDNDIsOn(true));
     };
 
     const closeModalHandle = (evt) => {
-        // console.log(evt);
         if(evt.target.className === "WindowPortal_wrap__DtBsC"){
-          console.log('"windowNameHandleKeyPress", ура!');
+          dispatch(setWindowModalReloadBlur(true));
           closeModal();
         }
     }
@@ -57,10 +51,7 @@ export default function WindowPortal(props){
                 dashboardUsers={dashboardUsers}
                 updateFunc = {updateFunc}
                 deleteFunc = {deleteFunc}
-                updateCardLabel={updateCardLabel}
-                closeModal={closeModal}
-                showPreloderLabel={showPreloderLabel}
-                setShowPreloderLabel={setShowPreloderLabel}
+                updateSetCardLabel={updateSetCardLabel}
             >
                 <Button
                     className={'btnWindowModal'}
@@ -77,12 +68,11 @@ export default function WindowPortal(props){
         </div>
     );
 
-
     return (
         <div>
-            <div className={styles.wrapPortal} onClick={openModal}>{props.children}</div>
+            <div className={styles.wrapPortal} onClick={()=>openModal()}>{props.children}</div>
             <Modal 
-                isOpen={modalIsOpen} 
+                isOpen={modalIsOpen === idElem ? true : false} 
                 onRequestClose={closeModal}
                 parentSelector={() => document.querySelector('#root')}
                 ariaHideApp={false}

@@ -1,32 +1,123 @@
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./SidebarAttachmentWindow.module.scss";
-
-
+import { setAddFiles, setAttachmentWindow, setCardFiles, setCardLinks, setNewLink, setNewLinkDesc, setShowPreloderAttachmentWindow, setShowPreloderLink, setStartLink } from "../../main_state/states/modalAttachment/modalAttachment";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import request from "../../api/request";
 
 export default function SidebarAttachmentWindow(props){
 
-  let windowData = props.windowData; 
-  let attachmentWindow = props.attachmentWindow; 
-  let funcAttachmentWindow = props.funcAttachmentWindow; 
-  let setUpdateValue = props.setUpdateValue; 
+  // let handleAddFilesSubmit = props.handleAddFilesSubmit;
 
-  let showPreloderAttachmentWindow = props.showPreloderAttachmentWindow;
+  const showPreloderAttachmentWindow = useSelector((state) => state.modalAttachmentState.showPreloderAttachmentWindow);
+  const addFiles = useSelector((state) => state.modalAttachmentState.addFiles);
+  const startLink = useSelector((state) => state.modalAttachmentState.startLink);
+  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
+  const newLink = useSelector((state) => state.modalAttachmentState.newLink); 
+  const newLinkDesc = useSelector((state) => state.modalAttachmentState.newLinkDesc); 
+  const windowData = useSelector((state) => state.windowData.value);
 
-  let handleChangeAddFiles = props.handleChangeAddFiles;
-  let addFiles = props.addFiles;
-  let handleAddFilesReset = props.handleAddFilesReset;
-  let handleAddFilesSubmit = props.handleAddFilesSubmit;
-  
-  let newLink = props.newLink;
-  let newLinkDesc = props.newLinkDesc;
-  let writeNewLink = props.writeNewLink;
-  let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
-  // let setStartLink = props.setStartLink;
-  let startLink = props.startLink;
+  const dispatch = useDispatch();
 
-  let writeNewLinkDesc = props.writeNewLinkDesc;
-  let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
+  const handleAddFilesSubmit = () => {
+    if(addFiles.length === 0 && newLink.length === 0 && newLinkDesc.length === 0){
+      funcAttachmentWindow();
+      return;
+    }
+
+    if(newLink === startLink.text && newLinkDesc === startLink.description){
+      return;
+    }
+
+    if(attachmentWindow !== 'link'){
+      dispatch(setStartLink(''));
+    }
+
+    const formData = new FormData();
+    formData.append("card_id", windowData.id);
+    formData.append('link_id', startLink.hasOwnProperty('id') ? startLink.id : startLink);
+    formData.append('link', newLink);
+    formData.append('linkDesc', newLinkDesc);
+
+    if(addFiles.length > 0){
+      Array.from(addFiles).forEach((file) => {
+        formData.append('file', file);
+      });
+    }
+    else{
+      formData.append('file', addFiles);
+    }
+
+    dispatch(setShowPreloderLink(startLink.id));
+    dispatch(setShowPreloderAttachmentWindow(true));
+
+    request({
+      method: 'POST',
+      url: 'add-file-and-link-to-card/',
+      callback: (response) => {
+        if (response.status === 200) {
+          dispatch(setShowPreloderLink(false));
+          dispatch(setShowPreloderAttachmentWindow(false));
+          funcAttachmentWindow();
+          dispatch(setNewLink(''));
+          dispatch(setNewLinkDesc(''));
+          dispatch(setStartLink(''));
+          dispatch(setCardLinks(response.data.card_link));
+          dispatch(setCardFiles(response.data.card_file));
+        }
+      },
+      data: formData,
+      status: 200,
+      content_type: "multipart/form-data",
+    });
+  }
+
+  const handleAddFilesReset = () => {
+    dispatch(setNewLink('')); 
+    dispatch(setNewLinkDesc(''));
+    dispatch(setAddFiles([]));
+  }
+
+  const newLinkDescHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){ 
+      handleAddFilesSubmit();
+    }
+  }
+
+  function writeNewLinkDesc(evt) { 
+    dispatch(setNewLinkDesc(evt));
+  }
+
+  const newLinkHandleKeyPress = (evt) => {
+    if(evt.key === 'Enter' && evt.shiftKey){
+      handleAddFilesSubmit();
+    }
+  }
+
+  const handleChangeAddFiles = (evt) => {
+    evt.preventDefault();
+    if(evt.target.files && evt.target.files[0]){
+      dispatch(setAddFiles(evt.target.files));
+    }
+  }
+
+  function writeNewLink(evt) {
+    dispatch(setNewLink(evt));
+  }
+
+  function funcAttachmentWindow(){ 
+    dispatch(onRemoving_onFrames());
+    if(attachmentWindow){
+      dispatch(setNewLink('')); 
+      dispatch(setNewLinkDesc(''));
+      dispatch(setAddFiles([]));
+      dispatch(setAttachmentWindow(false));
+    }
+    else{
+      dispatch(setAttachmentWindow(true));
+    }
+  }
 
   return (
     <>
@@ -104,24 +195,12 @@ export default function SidebarAttachmentWindow(props){
                 <input 
                   disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
                   className={styles.attachmentLinkInput} 
-                  // aria-describedby="search-recent-links-field-description" 
-                  // aria-labelledby="url-uid3-label" 
                   id="url-uid3" 
-                  // autoComplete="off" 
-                  // aria-readonly="false" 
-                  // role="combobox" 
-                  // aria-expanded="true" 
-                  // aria-autocomplete="list" 
-                  // aria-controls="link-picker-search-list" 
-                  // aria-activedescendant="" 
-                  // data-ds--text-field--input="true" 
-                  // data-testid="link-url" 
                   name="url" 
                   placeholder="Выполните поиск недавних ссылок или вставьте новую" 
                   value={newLink} 
-                  
                   autoFocus
-                  onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
+                  onFocus={(evt) => evt.target.selectionStart = evt.target.value.length } 
                   onChange={(evt) => writeNewLink(evt.target.value)}
                   onKeyDown={newLinkHandleKeyPress}
                   onBlur={newLinkHandleKeyPress}
@@ -132,17 +211,11 @@ export default function SidebarAttachmentWindow(props){
               <div className={styles.attachmentLinkInputWrap} role="presentation" data-ds--text-field--container="true" data-testid="link-text-container">
                 <input 
                   disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
-                  // aria-describedby="displayText-uid15-helper" 
-                  // aria-labelledby="displayText-uid15-label" 
                   id="displayText-uid15" 
-                  // autoComplete="off" 
-                  // data-ds--text-field--input="true" 
-                  // data-testid="link-text" 
                   name="displayText" 
                   placeholder="Текст для отображения" 
                   className={styles.attachmentLinkInput} 
                   value={newLinkDesc}
-
                   onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
                   onChange={(evt) => writeNewLinkDesc(evt.target.value)}
                   onKeyDown={newLinkDescHandleKeyPress}
@@ -154,20 +227,17 @@ export default function SidebarAttachmentWindow(props){
 
           <div className={styles.cardEditorButtonWrap}>
             <Button
-              className={'attachmentSave'} //attachmentSave
-              // actionVariable={'no'}
+              className={'attachmentSave'}
               clickAction = {handleAddFilesSubmit}
               disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Сохранить</Button>
             <Button
-              className={'attachmentReset'} //attachmentReset
-              // actionVariable={'no'}
+              className={'attachmentReset'} 
               clickAction = {handleAddFilesReset}
               disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Сброс</Button>
             <Button
-              className={'attachmentCancel'} // attachmentCancel
-              // actionVariable={null}
+              className={'attachmentCancel'} 
               clickAction = {funcAttachmentWindow}
               disabled={showPreloderAttachmentWindow ? 'disabled' : ""}
             >Отмена</Button>

@@ -1,25 +1,44 @@
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import styles from "./WindowModalSubscribe.module.scss";
+import { setSubscribeState } from "../../main_state/states/subscribeState";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalSubscribe(props){
 
-  let subscribe = props.subscribe;
-  let funcSubscribe = props.funcSubscribe;
+  const subscribeState = useSelector((state) => state.subscribeState.value); 
+  const dispatch = useDispatch();
+
+  function funcSubscribe(){
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: subscribeState, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setSubscribeState, 
+      dispatch: dispatch,
+    });
+    // if(subscribeState){
+    //   dispatch(setSubscribeState(false));
+    // }
+    // else{
+    //   dispatch(setSubscribeState(true)); 
+    // }
+  }
 
   return (
     <div className={styles.cardDetailNotifications} >
       <h3  className={styles.cardDetailsTitle}>
         Уведомления
       </h3>
-      
-      { (!subscribe) ? (
+      { (!subscribeState) ? (
         <Button
           className = {'BtnCardSubscribe'}
           ariaLabel = "Подпишитесь на уведомления об обновлениях этой карточки"
           clickAction = {funcSubscribe}
         >
-          
           <Icons
             name={'eye-open'}
             class_name={'iconCardSubscribe'}

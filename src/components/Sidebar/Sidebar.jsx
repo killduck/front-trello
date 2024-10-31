@@ -5,70 +5,124 @@ import Icons from "../ui/Icons/Icons";
 import SidebarLabelWindow from "../SidebarLabelWindow/SidebarLabelWindow";
 import SidebarDueDate from "../SidebarDueDate/SidebarDueDate";
 import SidebarAttachmentWindow from "../SidebarAttachmentWindow/SidebarAttachmentWindow";
+import { useDispatch, useSelector } from "react-redux";
+import { setMembersWindow } from "../../main_state/states/modalCardMember/modalCardMember";
+import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
+import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
+import { setShowCardDel } from "../../main_state/states/modalCardDel";
+import { onRemoving_onFrames } from "../../main_state/states/offFrames";
+import { setModalIsOpen } from "../../main_state/states/windowModalState";
+import { setDNDIsOn } from "../../main_state/states/taskCardState";
+import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function Sidebar(props){
-  // console.log(props);
-  let typeElem = props.typeElem;
-  let windowData = props.windowData;
-  let deleteFunc = props.deleteFunc;
-  let funcAddUserToCard = props.funcAddUserToCard;
-  let dashboardUsers = props.dashboardUsers;
-  let funcDelCardUser = props.funcDelCardUser;
-  let cardUsers = props.cardUsers;
-  let funcMembersWindow = props.funcMembersWindow;
-  let membersWindow = props.membersWindow;
-  let showPreloderAddMember = props.showPreloderAddMember;
-  let showPreloderDelMember = props.showPreloderDelMember;
-  let funcLabelsWindow = props.funcLabelsWindow;
-  let labelsWindow = props.labelsWindow;
-  let updateCardLabel = props.updateCardLabel;
-  let setCardLabel = props.setCardLabel;
-  let showPreloderLabel = props.showPreloderLabel;
-  let setShowPreloderLabel = props.setShowPreloderLabel;
-  let matchSearch = props.matchSearch;
-  let setMatchSearch = props.setMatchSearch;
-  let searchNewCardUser = props.searchNewCardUser;
-  let setSearchNewCardUser = props.setSearchNewCardUser;
-  let closeModal = props.closeModal;
 
-  let funcDueDateWindow = props.funcDueDateWindow; 
-  let dueDateWindow = props.dueDateWindow; 
+  let deleteFunc = props.deleteFunc; //это прилетает из дашборда
+  let dashboardUsers = props.dashboardUsers; //это прилетает из дашборда
+  let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
 
-  let attachmentWindow = props.attachmentWindow;
-  let funcAttachmentWindow = props.funcAttachmentWindow;
-
-  let showPreloderAttachmentWindow = props.showPreloderAttachmentWindow;
-  let handleChangeAddFiles = props.handleChangeAddFiles;
-  let addFiles = props.addFiles;
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
 
-  let newLink = props.newLink;
-  let newLinkDesc = props.newLinkDesc;
-  let writeNewLink = props.writeNewLink;
-  let newLinkHandleKeyPress = props.newLinkHandleKeyPress;
-  // let setStartLink = props.setStartLink;
-  let startLink = props.startLink;
-  let writeNewLinkDesc = props.writeNewLinkDesc;
-  let newLinkDescHandleKeyPress = props.newLinkDescHandleKeyPress;
-  let showCardDel = props.showCardDel;
-  let setShowCardDel = props.setShowCardDel;
-  let onRemoving_onFrames = props.onRemoving_onFrames;
+  const windowData = useSelector((state) => state.windowData.value);
+  const membersWindow = useSelector((state) => state.modalCardMemberState.membersWindow);
+  const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
+  const dueDateWindow = useSelector((state) => state.modalDueDateState.dueDateWindow);
+  const attachmentWindow = useSelector((state) => state.modalAttachmentState.attachmentWindow);
+  const showCardDel = useSelector((state) => state.modalCardDelState.showCardDel);
 
-  let setUpdateValue = props.setUpdateValue;
-  
-  function funkShowCardDel(window_id){
-    onRemoving_onFrames();
-    if(showCardDel){
-      setShowCardDel(false);
+  const dispatch = useDispatch();
+
+  function funcAttachmentWindow(){ 
+    dispatch(onRemoving_onFrames());
+
+    if(attachmentWindow){
+      dispatch(setNewLink('')); 
+      dispatch(setNewLinkDesc(''));
+      dispatch(setAddFiles([]));
+      dispatch(setAttachmentWindow(false));
     }
     else{
-      setShowCardDel(window_id);
+      dispatch(setAttachmentWindow(true));
     }
   }
 
+  function funcMembersWindow(){
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: membersWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setMembersWindow, 
+      dispatch: dispatch,
+    });
+
+    // if(membersWindow){
+    //   dispatch(setMembersWindow(false));
+    // }
+    // else{
+    //   dispatch(setMembersWindow(true));
+    // }
+  }
+
+  function funcLabelsWindow() {
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: showLabelsWindow,
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setShowLabelsWindow, 
+      dispatch: dispatch,
+    });
+
+    // if(showLabelsWindow){
+    //   dispatch(setShowLabelsWindow(false));
+    // }
+    // else{
+    //   dispatch(setShowLabelsWindow(true));
+    // }
+  }
+
+  function funcDueDateWindow(){
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: dueDateWindow, 
+      ifVariableTrue: false, 
+      ifVariableFalse: true, 
+      method: setDueDateWindow,
+      dispatch: dispatch
+    });
+
+    // if(dueDateWindow){
+    //   dispatch(setDueDateWindow(false));
+    // }
+    // else{
+    //   dispatch(setDueDateWindow(true));
+    // }
+  }
+  
+  function funkShowCardDel(window_id){
+    dispatch(onRemoving_onFrames());
+    openCloseFrameFunction({
+      variable: showCardDel, 
+      ifVariableTrue: false, 
+      ifVariableFalse: window_id, 
+      method: setShowCardDel, 
+      dispatch: dispatch,
+    });
+
+    // if(showCardDel){
+    //   dispatch(setShowCardDel(false));
+    // }
+    // else{
+    //   dispatch(setShowCardDel(window_id));
+    // }
+  }
+
   function onDeleteCard(window_id){
-    closeModal();
+    dispatch(setModalIsOpen(false));
+    dispatch(setDNDIsOn(true));
     deleteFunc(window_id);
   }
 
@@ -91,26 +145,11 @@ export default function Sidebar(props){
             <span>Участники</span>
           </div>
           
-          {(membersWindow) ?
-          (<SidebarMembersWindow
-              typeElem = {typeElem}
-              windowData = {windowData}
-              dashboardUsers = {dashboardUsers}
-              cardUsers = {cardUsers}
-              membersWindow = {membersWindow}
-              funcAddUserToCard = {funcAddUserToCard}
-              funcDelCardUser = {funcDelCardUser}
-              funcMembersWindow = {funcMembersWindow}
-              showPreloderAddMember={showPreloderAddMember}
-              showPreloderDelMember={showPreloderDelMember}
-              // deleteFunc = {deleteFunc}
-              matchSearch={matchSearch}
-              setMatchSearch={setMatchSearch}
-              searchNewCardUser={searchNewCardUser}
-              setSearchNewCardUser={setSearchNewCardUser}
-            />):("")
+          {(membersWindow) && (
+            <SidebarMembersWindow
+              dashboardUsers = {dashboardUsers} //это прилетает из дашборда
+            />)
           }
-          
 
           <div 
             className={styles.itemLabels}
@@ -122,16 +161,10 @@ export default function Sidebar(props){
             />
             <span>Метки</span>
           </div>
-          {(labelsWindow) ? 
-          (<SidebarLabelWindow
-            funcLabelsWindow={funcLabelsWindow}
-            labelsWindow={labelsWindow}
-            updateCardLabel={updateCardLabel}
-            windowData={windowData}
-            setCardLabel={setCardLabel}
-            showPreloderLabel={showPreloderLabel}
-            setShowPreloderLabel={setShowPreloderLabel}
-          />):("")
+          {showLabelsWindow && (
+            <SidebarLabelWindow
+              updateSetCardLabel={updateSetCardLabel} //это прилетает из дашборда
+            />)
           }
 
           <div 
@@ -144,14 +177,7 @@ export default function Sidebar(props){
             />
             <span>Даты</span>
           </div>
-          {(dueDateWindow) ? 
-          (<SidebarDueDate
-            windowData={windowData}
-            funcDueDateWindow={funcDueDateWindow}
-            dueDateWindow={dueDateWindow}
-            setUpdateValue={setUpdateValue}
-          />):("")
-          }
+          { dueDateWindow && <SidebarDueDate /> }
 
           <div 
             className={styles.itemAttachment} 
@@ -163,40 +189,20 @@ export default function Sidebar(props){
             />
             <span>Вложение</span>
           </div>
-          {(attachmentWindow) ? 
-          (<SidebarAttachmentWindow
-            windowData={windowData}
-            funcAttachmentWindow={funcAttachmentWindow}
-            attachmentWindow={attachmentWindow}
 
-            showPreloderAttachmentWindow={showPreloderAttachmentWindow}
-            setUpdateValue={setUpdateValue}
-            handleChangeAddFiles={handleChangeAddFiles}
-            addFiles={addFiles}
-            handleAddFilesReset={handleAddFilesReset}
-            handleAddFilesSubmit={handleAddFilesSubmit}
-
-            newLink={newLink}
-            newLinkDesc={newLinkDesc}
-            writeNewLink={writeNewLink}
-            newLinkHandleKeyPress={newLinkHandleKeyPress}
-            // setStartLink={setStartLink}
-            startLink={startLink}
-            writeNewLinkDesc={writeNewLinkDesc}
-            newLinkDescHandleKeyPress={newLinkDescHandleKeyPress}
-            
-          />):("")
+          {attachmentWindow && (
+            <SidebarAttachmentWindow
+              handleAddFilesReset={handleAddFilesReset}
+              handleAddFilesSubmit={handleAddFilesSubmit}
+            />)
           }
-
         </div>
-
       </div>
 
       <div className={styles.actionsWrap}>
         <h3 className={styles.actionsTitle}>Действия:</h3>
         <div className={styles.actionsWrap}>
           <div className={styles.actionDeleteCard}>
-            
             <Button
                 actionVariable={windowData.id}
                 clickAction={funkShowCardDel}
@@ -213,42 +219,41 @@ export default function Sidebar(props){
           </div>
         </div>
       </div>
-      {(showCardDel === windowData.id) &&
-      (<div className={styles.smallWindowWrap}>
-        <header className={styles.itemHeader}>
-          <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить карточку?</h2>
-          
-          <div className={styles.iconWrap}>
+      
+      {(showCardDel === windowData.id) &&(
+        <div className={styles.smallWindowWrap}>
+          <header className={styles.itemHeader}>
+            <h2 className={styles.itemHeaderTitle} title="Удаление комментария">Удалить карточку?</h2>
+            <div className={styles.iconWrap}>
+              <Button
+                className={'btnSmallWindow'}
+                type="button"
+                ariaLabel="Закрыть окно"
+                clickAction={funkShowCardDel} 
+              >
+                <Icons
+                  class_name={'btnModalCloseIcon'}
+                  name={'CloseIcon'}
+                />
+              </Button>
+            </div>
+          </header>
+          <div className={styles.delButtonWrap}>
+            <p className={styles.delButtonWrapText}>
+              Удалить эту карточку? Отмена невозможна.
+            </p>
             <Button
-              className={'btnSmallWindow'}
+              className={'btnDelCard'}
               type="button"
-              ariaLabel="Закрыть окно"
-              clickAction={funkShowCardDel} 
-            >
-              <Icons
-                class_name={'btnModalCloseIcon'}
-                name={'CloseIcon'}
-              />
-            </Button>
+              ariaLabel="Удалить карточку"
+              actionVariable={windowData.id}
+              clickAction={onDeleteCard} 
+            >Удалить</Button>
           </div>
-        </header>
-        <div className={styles.delButtonWrap}>
-          <p className={styles.delButtonWrapText}>
-            Удалить эту карточку? Отмена невозможна.
-          </p>
-          <Button
-            className={'btnDelCard'}
-            type="button"
-            ariaLabel="Удалить карточку"
-            actionVariable={windowData.id}
-            clickAction={onDeleteCard} 
-          >Удалить</Button>
-        </div>
-      </div>)}
+        </div>)
+      }
 
     </div>
-
   )
 };
-  
   

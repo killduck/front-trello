@@ -4,7 +4,7 @@ import Input from '../ui/Input/Input';
 import Icons from '../ui/Icons/Icons';
 
 export default function Search(props) {
-    // console.log(props);
+
     return (
         <div className={styles.Search}>
 

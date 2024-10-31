@@ -229,3 +229,23 @@
         margin-right: 8px;
     }
 }
+
+.cardDueDateWindowGradient {
+    background: linear-gradient(45deg, #22272b, #616161, #22272b);
+    background-size: 200% 800%;
+    animation: dueDateWindowGradient 2s ease infinite;
+    border-radius: 3px;
+    cursor: default;
+}
+
+@keyframes dueDateWindowGradient {
+    0% {
+        background-position: 50% 0%;
+    }
+    50% {
+        background-position: 50% 100%;
+    }
+    100% {
+        background-position: 50% 0%;
+    }
+}
