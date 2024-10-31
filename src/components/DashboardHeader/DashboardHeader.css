@@ -1,0 +1,60 @@
+.css-b62m3t-container {
+  & .css-13cymwt-control {
+    width: 250px;
+    min-height: 40px;
+    background-color: #ffffff00;
+    color: #9fadbc;
+
+    & .css-1p3m7a8-multiValue {
+      background-color: #a1bdd914;
+      & .css-9jq23d {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      & .css-v7duua {
+
+        & .css-tj5bde-Svg {
+          width: 18px;
+          height: 18px;
+          stroke-width: 1;
+
+        }
+      }
+    }
+  }
+
+
+  & .css-t3ipsp-control {
+    width: 250px;
+    min-height: 40px;
+    background-color: #ffffff00;
+    color: #9fadbc;
+
+    & .css-1p3m7a8-multiValue {
+      background-color: #a1bdd914;
+      & .css-9jq23d {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      & .css-v7duua {
+
+        & .css-tj5bde-Svg {
+          width: 18px;
+          height: 18px;
+          stroke-width: 1;
+
+        }
+      }
+    }
+
+    & .css-1cfo1cf {
+      color: #fff;
+    }
+  }
+
+  & .css-19bb58m {
+    color: #9fadbc;
+  }
+}

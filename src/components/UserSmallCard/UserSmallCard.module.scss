@@ -1,0 +1,19 @@
+.UserSmallCard {
+  margin: 10px 0;
+
+  display: flex;
+  flex-direction: column;
+
+  .UserName {
+    display: flex;
+    align-items: center;
+
+    .PointSeparator {
+      width: 5px;
+      height: 5px;
+      background-color: aliceblue;
+      border-radius: 50%;
+      margin: 0 5px;
+    }
+  }
+}
