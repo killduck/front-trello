@@ -1,15 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
 import Notification from '../ui/NotificateBTN/Notification';
 import styles from './DashboardHeader.module.scss';
+import './DashboardHeader.css';
 import UserDashboard from '../UserDashboard/UserDashboard';
+
+import Select from 'react-select';
+
+import request from "../../api/request";
+import ListUsers from '../ListUsers/ListUsers';
 
 
 export default function DashboardHeader(props) {
 
   let name_dashboard = props.name_dashboard;
+
+  let dashboardId = props.dashboardId;
 
   let dashboardUsers = props.dashboardUsers;
 
@@ -21,7 +29,15 @@ export default function DashboardHeader(props) {
 
   let [showFormShare, setShowFormShare] = useState(false);
 
-  let [fieldEmailData, setFieldEmailData] = useState("");
+  let [fieldData, setFieldData] = useState("");
+
+  let [selectedOption, setSelectedOption] = useState(null);
+
+  let [optionList, setOptionList] = useState([]);
+
+  const components = {
+    DropdownIndicator: null,
+  };
 
 
   function onUserDashboard(id_user = null) {
@@ -34,19 +50,45 @@ export default function DashboardHeader(props) {
 
   function onShareDashboard() {
 
+    setSelectedOption(null);
+
     showFormShare ?
       setShowFormShare(false)
       :
       setShowFormShare(true)
   }
 
+
+  useEffect(() => {
+    request({
+      method: 'POST',
+      url: 'invit-board/select-users/',
+      callback: (response) => {
+        setOptionList(response.data);
+      },
+      data: { fieldData, dashboardId },
+      status: 200,
+    });
+  }, [fieldData]);
+
   function writeEmail(evt) {
-    setFieldEmailData((fieldEmailData) => (fieldEmailData = evt));
+    setFieldData((fieldData) => (fieldData = evt));
   }
 
+
   function SubmitFormShare() {
-    console.log('Проверка выполения функции =>', SubmitFormShare.name);
-    console.log('email>>>', fieldEmailData);
+
+    request({
+      method: 'POST',
+      url: 'invit-board/invit-users/',
+      callback: (response) => {
+      },
+      data: { selectedOption, dashboardId },
+      status: 200,
+    });
+
+    onShareDashboard();
+    setSelectedOption(null);
   }
 
 
@@ -54,6 +96,10 @@ export default function DashboardHeader(props) {
   //   console.log('Проверка выполения функции =>', onRemoving_all_menu.name, event);
 
   // }
+
+  function handleSelect(data) {
+    setSelectedOption(data);
+  }
 
 
   return (
@@ -104,6 +150,7 @@ export default function DashboardHeader(props) {
               ))
             }
           </div>
+
           <div className={styles.ButtonShare}>
             <Button
               className={"BtnShare"}
@@ -116,12 +163,14 @@ export default function DashboardHeader(props) {
               Поделиться
             </Button>
 
-            <div className={
-              showFormShare ?
-                `${styles.FormShare}`
-                :
-                styles.DisplayNone
-            }>
+            <div
+              className={
+                showFormShare ?
+                  `${styles.FormShare}`
+                  :
+                  styles.DisplayNone
+              }
+            >
               <div className={styles.FormShareTitle}>
                 <span>Поделиться доской</span>
                 <Button
@@ -136,11 +185,20 @@ export default function DashboardHeader(props) {
                 </Button>
               </div>
               <form id="form-sharedashboard" className={styles.FormShareInput}>
-                <input
-                  type="email"
-                  value={(fieldEmailData) ? fieldEmailData : ""}
-                  onChange={(evt) => writeEmail(evt.target.value)}
-                />
+                <div onChange={(evt) => writeEmail(evt.target.value)}>
+                  <Select
+                    placeholder="поиск пользователя"
+                    components={components}
+                    options={optionList}
+                    value={selectedOption}
+                    onChange={handleSelect}
+                    openMenuOnClick={false}
+                    isMulti
+                    getOptionValue={option => option.username}
+                    getOptionLabel={option => option.email}
+                    noOptionsMessage={() => "Пользователи не найдены"}
+                  />
+                </div>
                 <Button
                   id="form-sharedashboard"
                   type="button"
@@ -150,6 +208,16 @@ export default function DashboardHeader(props) {
                   Поделиться
                 </Button>
               </form>
+
+              <div className={styles.LineSeparator} />
+
+              <div className={styles.Title_ListUsers}>
+                Приглашенные пользователи
+              </div >
+              <ListUsers
+                dashboardId={dashboardId}
+                SubmitFormShare={SubmitFormShare}
+              />
 
             </div>
           </div>

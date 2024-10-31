@@ -137,10 +137,10 @@ export default function KanbanBoard(props) {
       request({
         method: "POST",
         url: 'swap-columns/',
-        callback: (response) => { 
-          if(response.status === 200){ 
-            setUpdateComponent(true); 
-          } 
+        callback: (response) => {
+          if(response.status === 200){
+            setUpdateComponent(true);
+          }
         },
         data: { columns, dashboardId },
         status: 200,
@@ -153,19 +153,19 @@ export default function KanbanBoard(props) {
       console.log(tasks);
       console.log(order_cards);
 
-      request({ 
-        method: "POST", 
-        url: 'swap-cards/', 
-        callback: (response) => { 
-          if(response.status === 200){ 
-            setUpdateComponent(true); 
-          } 
-        }, 
-        data: {order_cards, dashboardId, 'card_id': active.id}, 
-        status: 200, 
-      }); 
-    } 
-  } 
+      request({
+        method: "POST",
+        url: 'swap-cards/',
+        callback: (response) => {
+          if(response.status === 200){
+            setUpdateComponent(true);
+          }
+        },
+        data: {order_cards, dashboardId, 'card_id': active.id},
+        status: 200,
+      });
+    }
+  }
 
   function editOrderColumns(active, over) {
     const activeColumnIndex = columns.findIndex((column) => column.id === active.id);
@@ -295,14 +295,14 @@ export default function KanbanBoard(props) {
     }
 
     setShowPreloder(true);
-    
+
     request({
       method: "POST",
       url: 'create-column/',
-      callback: (response) => { 
+      callback: (response) => {
         if(response.status === 200){
           setShowPreloder(false);
-          requestSuccessCreateColumn(response) 
+          requestSuccessCreateColumn(response)
         }
       },
       data: columnToAdd,
@@ -420,7 +420,7 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           requestSuccessDeletCard(response, id);
           setShowPreloderCard(false);
-          setUpdateComponent(true); 
+          setUpdateComponent(true);
         }
       },
       data: idCardDeleted,
@@ -446,18 +446,19 @@ export default function KanbanBoard(props) {
 
   return (
     <>
-    {showPreloder ? 
+    {showPreloder ?
     (<Preloader />) : (
     <Default
       backGroundImage={{ backgroundImage: `url(${URL_API + backGroundImage})` }}
     >
       <DashboardHeader
         dashboardUsers={users}
+        dashboardId={dashboardId}
         name_dashboard={name_dashboard}
         updateComponent={updateComponent}
         setUpdateComponent={setUpdateComponent}
       />
-      
+
       {/* <WorkspaceMenu /> */}
       <div
         className={styles.KanbanBoard}

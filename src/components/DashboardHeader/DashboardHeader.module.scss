@@ -85,7 +85,7 @@
       .FormShare {
         // display: none;
         width: 450px;
-        height: 150px;
+        min-height: 180px;
         position: absolute;
         top: -3px;
         right: 3px;
@@ -103,20 +103,31 @@
         .FormShareInput {
           display: flex;
           flex-wrap: nowrap;
-          input {
-            width: 285px;
-            height: 40px;
-            border-radius: 3px;
-            padding: 6px 4px 6px 12px;
-            border: none;
-            background-color: #22272b;
-            box-shadow: inset 0 0 0 1px #738496;
-            &:focus {
-              background-color: #22272b;
-              border: #0000;
-              box-shadow: inset 0 0 0 1px #388bff;
-            }
-          }
+          // input {
+          //   width: 285px;
+          //   height: 40px;
+          //   border-radius: 3px;
+          //   padding: 6px 4px 6px 12px;
+          //   border: none;
+          //   background-color: #22272b;
+          //   box-shadow: inset 0 0 0 1px #738496;
+          //   &:focus {
+          //     background-color: #22272b;
+          //     border: #0000;
+          //     box-shadow: inset 0 0 0 1px #388bff;
+          //   }
+          // }
+        }
+        .LineSeparator {
+           width: calc(100% - 24px);
+           height: 4px;
+           background-color: #0052CC;
+           margin: 20px 0 10px 0;
+        }
+        .Title_ListUsers {
+          font-weight: 600;
+          color: #fff;
+
         }
       }
     }
