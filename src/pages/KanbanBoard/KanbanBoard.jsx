@@ -35,8 +35,8 @@ export default function KanbanBoard(props) {
   const [activeColumn, setActiveColumn] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
   const [showForm, setShowForm] = useState(true);
-  const [newName, setText] = useState('Новая колонка');
-  const [newTextTask, setNewTextTask] = useState('Новая задача');
+  const [newName, setText] = useState('');
+  const [newTextTask, setNewTextTask] = useState('');
 
   let [backGroundImage, setBackGroundImage] = useState('');
   let [name_dashboard, setNameDashboard] = useState('');
@@ -275,23 +275,26 @@ export default function KanbanBoard(props) {
 
   // Интерфейсы для работы с колонками и карточками
   function requestSuccessCreateColumn(response) {
-
     if (response) {
       const columnToAdd = response.data;
-
       setColumns([...columns, columnToAdd]);
       setShowForm(true);
-      setText('Новая колонка');
-
+      setText('');
     }
   }
 
   function createNewColumn() {
 
+    if(Number(newName.trim().length) === Number(0)){
+      setShowForm(true);
+      setText('');
+      return;
+    }
+
     let columnToAdd = {
       nameNewColumn: newName,
       idWorkSpace: 1, //TODO переделать на конкретное рабочее пространство
-      idDashboard: Number(dashboardId)
+      idDashboard: Number(dashboardId),
     }
 
     setShowPreloder(true);
@@ -302,7 +305,7 @@ export default function KanbanBoard(props) {
       callback: (response) => {
         if(response.status === 200){
           setShowPreloder(false);
-          requestSuccessCreateColumn(response)
+          requestSuccessCreateColumn(response);
         }
       },
       data: columnToAdd,
@@ -315,7 +318,7 @@ export default function KanbanBoard(props) {
     if (response) {
       const cardToAdd = response.data;
       setTasks([...tasks, cardToAdd]);
-      setNewTextTask('Новая задача');
+      setNewTextTask('');
       setUpdateComponent(true);
     }
   }
@@ -428,12 +431,13 @@ export default function KanbanBoard(props) {
     });
   }
 
-  function updateSetCardLabel(id, label) {
+  function updateSetCardLabel(id, label, label_text) {
     const newTasks = tasks.map((task) => {
       if (task.id !== String(id)) {
         return task;
       }
-      return { ...task, label };
+      console.log(task);
+      return { ...task, label, label_text };
     });
     setTasks(newTasks);
   }
@@ -512,7 +516,7 @@ export default function KanbanBoard(props) {
                 newText={newName}
                 addColumnAction={createNewColumn}
                 newColName={columns}
-                boardItemHandleKeyPress={boardItemColumnHandleKeyPress}
+                boardItemHandleKeyPress={boardItemColumnHandleKeyPress} 
               />
               }
             </div>

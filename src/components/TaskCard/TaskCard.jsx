@@ -18,12 +18,12 @@ export default function TaskCard(props) {
   let updateSetCardLabel = props.updateSetCardLabel;
   let showPreloderCard = props.showPreloderCard;
 
+  const DNDIsOn = useSelector((state) => state.taskCardState.DNDIsOn); 
+  const dispatch = useDispatch();
+
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [newTaskName, setNewTaskName] = useState('');
-
-  const DNDIsOn = useSelector((state) => state.taskCardState.DNDIsOn); 
-  const dispatch = useDispatch();
 
   const {
     setNodeRef,
@@ -136,6 +136,7 @@ export default function TaskCard(props) {
                       className={styles.ColorLabelWrap}
                       style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
                     >
+                      {task.label_text}
                     </div>
                   </div>
                   
@@ -180,7 +181,9 @@ export default function TaskCard(props) {
                     <div
                       className={styles.ColorLabelWrap}
                       style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
-                    />
+                    >
+                      {task.label_text}
+                    </div>
                   </div>
                   <span className={styles.CardText} title={task.name}>
                     {task.name}

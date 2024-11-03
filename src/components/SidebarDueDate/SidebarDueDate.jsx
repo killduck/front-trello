@@ -39,12 +39,6 @@ export default function SidebarDueDate(props){
       method: setDueDateWindow, 
       dispatch: dispatch,
     });
-    // if(dueDateWindow){
-    //   dispatch(setDueDateWindow(false));
-    // }
-    // else{
-    //   dispatch(setDueDateWindow(true));
-    // }
   }
 
   function takeDate(){

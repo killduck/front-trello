@@ -54,12 +54,6 @@ export default function WindowModalAttachment(props){
       method: setShowCardOptions, 
       dispatch: dispatch,
     });
-    // if(showCardOptions){ 
-    //   dispatch(setShowCardOptions(false));
-    // }
-    // else{
-    //   dispatch(setShowCardOptions(elem_id));
-    // }
   }
 
   function funcShowUpdateCardLink(link_all){
@@ -107,12 +101,6 @@ export default function WindowModalAttachment(props){
       method: setShowCardOptionsLinkDel, 
       dispatch: dispatch,
     });
-    // if(showCardOptionsLinkDel){
-    //   dispatch(setShowCardOptionsLinkDel(false));
-    // }
-    // else{
-    //   dispatch(setShowCardOptionsLinkDel(link_id));
-    // }
   }
 
   function onDownloadCardFile(file){
@@ -158,12 +146,6 @@ export default function WindowModalAttachment(props){
       method: setShowCardOptionsFileDel, 
       dispatch: dispatch,
     });
-    // if(showCardOptionsFileDel){
-    //   dispatch(setShowCardOptionsFileDel(false)); 
-    // }
-    // else{
-    //   dispatch(setShowCardOptionsFileDel(file_id));
-    // }
   }
 
   function onDeleteCardFile(file_id){
@@ -216,7 +198,6 @@ export default function WindowModalAttachment(props){
                 
                   {cardLinks.map(
                     (link) => 
-                    
                       <li key={link.id} className={showPreloderLink === link.id ? `${styles.contentLinkWrap} ${styles.cardAttachmentGradient}` : styles.contentLinkWrap} draggable="false" data-drop-target-for-element="false">
                         <div className={styles.contentLinkContent} data-smart-link-container="true" data-testid="smart-links-container">
                           <a 
@@ -354,7 +335,6 @@ export default function WindowModalAttachment(props){
                             </div>):("")
                           }
                         </div>
-                        
                       </li>
                     )
                   }
@@ -508,12 +488,9 @@ export default function WindowModalAttachment(props){
                 }
               </ul>
             </div>}
-           
           </div>
-        
         </div>
       </div>
     </div>
   )
 };
-

@@ -22,7 +22,7 @@ export default function ListUsers(props) {
       method: 'POST',
       url: 'invit-board/list-invited-users/',
       callback: (response) => {
-        console.log('list-invited-users>>>', response.data);
+        // console.log('list-invited-users>>>', response.data);
         setInvitedUsers(response.data);
       },
       data: { dashboardId },

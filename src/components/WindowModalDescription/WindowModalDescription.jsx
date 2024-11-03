@@ -5,10 +5,11 @@ import Button from "../ui/Button/Button";
 import Icons from "../ui/Icons/Icons";
 import request from "../../api/request";
 import { useFocusAndSetRef } from "../../hooks/useFocusAndSetRef";
-
 import { useDispatch, useSelector } from "react-redux";
-
-import { setDescriptionPreloder, setNewCardDescriptionState, setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
+import { 
+  setDescriptionPreloder, 
+  setNewCardDescriptionState, 
+  setStartCardDescriptionState } from "../../main_state/states/description/cardDescriptionState";
 import { setShowReactQuillState } from "../../main_state/states/description/showReactQuillState";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
@@ -79,12 +80,6 @@ export default function WindowModalDescription(props){
       method: setShowReactQuillState, 
       dispatch: dispatch,
     });
-    // if(showReactQuillState){
-    //   dispatch(setShowReactQuillState(false));
-    // }
-    // else{
-    //   dispatch(setShowReactQuillState(true));
-    // }
   }
 
   function showReactQuillHandleKeyPress(evt){
@@ -182,4 +177,3 @@ export default function WindowModalDescription(props){
 
   )
 };
-

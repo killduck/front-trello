@@ -30,7 +30,7 @@ import {
   setAuthUser, 
   setAuthUserData, 
   setCardUsers } from "../../main_state/states/cardUsersState";
-import { setCardLabelStatus } from "../../main_state/states/modalCardLabel/modalCardLabel";
+import { setCardLabelStatus, setLabelWindowText } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { setDueDateCheckbox } from "../../main_state/states/modalDueDate/modalDueDate";
 import { setCardActivityComments } from "../../main_state/states/modalActivity/modalActivity";
 import { 
@@ -91,8 +91,11 @@ export default function WindowModal(props){
             dispatch(setCardLinks(response.data.card[0]['card_link']));
             dispatch(setWindowModalReloadState(false));
           }
-          if(task.label){
+          if(response.data.card[0]['label']){
             dispatch(setCardLabelStatus(true));
+          }
+          if(response.data.card[0]['label_text']){
+            dispatch(setLabelWindowText(response.data.card[0]['label_text']));
           }
           if(windowModalReloadBlur){
             dispatch(onRemoving_onFrames());
@@ -194,4 +197,3 @@ export default function WindowModal(props){
     </>
   )
 };
-

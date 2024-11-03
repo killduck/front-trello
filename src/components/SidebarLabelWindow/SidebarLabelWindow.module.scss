@@ -141,7 +141,7 @@
                                 padding: 0 12px;
                                 overflow: hidden;
                                 border-radius: 3px;
-                                color: #baf3db;
+                                color: #22272b; // #baf3db;
                                 font-size: 14px;
                                 font-weight: 500;
                                 line-height: 32px;
@@ -155,6 +155,14 @@
             }
         }
     }
+}
+
+.labelListLi{
+    margin: 4px 0 8px;
+    border: 1px solid #738496;
+    border-radius: 3px;
+    padding: 12px 8px 0px;
+    background-color: #323940;
 }
 
 .checked{
@@ -203,5 +211,52 @@
     }
     100% {
         background-position: 50% 0%;
+    }
+}
+
+.labeTextButtonWrap{
+    margin: 4px 0px 12px 32px;
+}
+
+.labeTextInputWrap{
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: #22272b;
+    border-color: #738496;
+    color: #b6c2cf;
+    cursor: text;
+    border-radius: 3px;
+    border-width: 1px;
+    padding: 1px 0;
+    border-style: solid;
+    box-sizing: border-box;
+    display: flex;
+    flex: 1 1 100%;
+    // font: var(--ds-font-body, normal 400 14px / 20px ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, system-ui, "Helvetica Neue", sans-serif);
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    max-width: 100%;
+    overflow: hidden;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    overflow-wrap: break-word;
+    vertical-align: top;
+    pointer-events: auto;
+    margin-bottom: 8px;
+
+    .labeTextInput{
+        padding: 4px 6px;
+        margin: unset;
+        box-shadow: unset;
+        text-overflow: ellipsis;
+
+        background-color: #00000000;
+        border: 0px;
+        box-sizing: border-box;
+        color: inherit;
+        cursor: inherit;
+        font: normal 400 14px / 20px ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, system-ui, "Helvetica Neue", sans-serif;
+        min-width: 0px;
+        outline: none;
+        width: 100%;
     }
 }

@@ -23,7 +23,7 @@ $text: #172b4d;
   width: 100%;
 
   .TaskCard__Wrap {
-    min-height: 40px;
+    min-height: 50px;
     position: relative;
     background-color: $background;
     border-radius: 8px;
@@ -58,9 +58,10 @@ $text: #172b4d;
           min-width: 40px;
           min-height: 8px;
           position: relative;
+          color: #101204;
+          padding: 0 8px;
 
           &:hover {
-            color: #000000;
             opacity: 0.5;
             cursor: pointer;
           }
