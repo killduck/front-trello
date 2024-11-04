@@ -1,15 +1,17 @@
+import { useEffect } from 'react';
 
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Workspace from './pages/Workspace/Workspace';
-import Recent from './pages/Recent/Recent';
-import Favourites from './pages/Favourites/Favourites';
-import StatusCodes404 from './pages/StatusCodes404/StatusCodes404';
-import Templates from './pages/Templates/Templates';
 
+import Favourites from './pages/Favourites/Favourites';
+import InviteUserBoard from './pages/InviteUserBoard/InviteUserBoard';
 import KanbanBoard from './pages/KanbanBoard/KanbanBoard';
 import Login from './pages/Login/Login';
-import { useEffect } from 'react';
-import InviteUserBoard from './pages/InviteUserBoard/InviteUserBoard';
+import Recent from './pages/Recent/Recent';
+import Signup from './pages/Singup/Signup';
+import StatusCodes404 from './pages/StatusCodes404/StatusCodes404';
+import Templates from './pages/Templates/Templates';
+import Workspace from './pages/Workspace/Workspace';
+
 
 export default function RoutesApp(props) {
 
@@ -28,9 +30,12 @@ export default function RoutesApp(props) {
         <div>
 
             <Routes>
-              
+
                 <Route path='/login' element={
                     <Login />
+                } />
+                <Route path='/signup' element={
+                    <Signup/>
                 } />
                 <Route path="/" element={
                     <Workspace
