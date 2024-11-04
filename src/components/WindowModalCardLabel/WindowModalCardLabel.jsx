@@ -12,6 +12,7 @@ export default function WindowModalCardLabel(props){
 
   const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
   const cardLabelStatus = useSelector((state) => state.modalCardLabelState.cardLabelStatus); 
+  const labelWindowText = useSelector((state) => state.modalCardLabelState.labelWindowText); 
 
   const dispatch = useDispatch();
 
@@ -25,12 +26,6 @@ export default function WindowModalCardLabel(props){
       method: setShowLabelsWindow, 
       dispatch: dispatch,
     });
-    // if(showLabelsWindow){
-    //   dispatch(setShowLabelsWindow(false));
-    // }
-    // else{
-    //   dispatch(setShowLabelsWindow(true));
-    // }
   }
 
   return (
@@ -46,7 +41,9 @@ export default function WindowModalCardLabel(props){
             aria-label={task.label ? `Цвет: ${task.label.name}, название: «без цвета»`: ""}
             data-color={task.label ? task.label.name : ""}
             onClick={funcLabelsWindow}
-          />
+          >
+            {labelWindowText}
+          </span>
           <Button
             clickAction={funcLabelsWindow}
             className={'btnWindowModalMainColAddLabel'}

@@ -41,12 +41,6 @@ export default function SidebarMembersWindow(props){
       method: setMembersWindow, 
       dispatch: dispatch,
     });
-    // if(membersWindow){
-    //   dispatch(setMembersWindow(false));
-    // }
-    // else{
-    //   dispatch(setMembersWindow(true));
-    // }
   }
 
   function chechUserToAdd(user_id){

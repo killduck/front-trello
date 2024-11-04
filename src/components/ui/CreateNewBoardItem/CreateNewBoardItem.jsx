@@ -3,7 +3,7 @@ import Icons from "../Icons/Icons";
 import styles from "./CreateNewBoardItem.module.scss";
 
 export default function CreateNewBoardItem(props) {
-    // console.log(props);
+    console.log(props);
     let addColumnAction = props.addColumnAction;
     let spellCheck = props.spellCheck;
     let dir = props.dir;

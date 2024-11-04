@@ -20,12 +20,6 @@ export default function WindowModalSubscribe(props){
       method: setSubscribeState, 
       dispatch: dispatch,
     });
-    // if(subscribeState){
-    //   dispatch(setSubscribeState(false));
-    // }
-    // else{
-    //   dispatch(setSubscribeState(true)); 
-    // }
   }
 
   return (

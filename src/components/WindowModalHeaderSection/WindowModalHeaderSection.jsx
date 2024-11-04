@@ -28,12 +28,6 @@ export default function WindowModalHeaderSection(props){
       method: setNewNameField, 
       dispatch: dispatch,
     });
-    // if(newNameField){
-    //   dispatch(setNewNameField(false));
-    // }
-    // else{
-    //   dispatch(setNewNameField(true));
-    // }
   }
 
   function writeNewText(evt) {

@@ -8,8 +8,6 @@ import request from "../../api/request";
 
 export default function SidebarAttachmentWindow(props){
 
-  // let handleAddFilesSubmit = props.handleAddFilesSubmit;
-
   const showPreloderAttachmentWindow = useSelector((state) => state.modalAttachmentState.showPreloderAttachmentWindow);
   const addFiles = useSelector((state) => state.modalAttachmentState.addFiles);
   const startLink = useSelector((state) => state.modalAttachmentState.startLink);
@@ -248,4 +246,3 @@ export default function SidebarAttachmentWindow(props){
     </>
   )
 };
-

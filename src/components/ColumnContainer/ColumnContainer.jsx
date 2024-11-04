@@ -70,6 +70,12 @@ export default function ColumnContainer(props) {
 
   function createNewTask(columnId) {
 
+    if(Number(newTextTask.trim().length) === Number(0)){
+      setShowForm(true);
+      setNewTextTask('');
+      return;
+    }
+
     let newTask = {
       name: newTextTask,
       column: columnId,
@@ -118,7 +124,7 @@ export default function ColumnContainer(props) {
   }
 
   const boardItemCardHandleKeyPress = (evt) => {
-    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){
+    if(evt.key === 'Enter' && evt.shiftKey || evt.type === "blur"){ 
       createNewTask(column.id);
     }
   }

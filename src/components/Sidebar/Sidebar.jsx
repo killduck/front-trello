@@ -9,7 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMembersWindow } from "../../main_state/states/modalCardMember/modalCardMember";
 import { setShowLabelsWindow } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { setDueDateWindow } from "../../main_state/states/modalDueDate/modalDueDate";
-import { setAddFiles, setAttachmentWindow, setNewLink, setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
+import { 
+  setAddFiles, 
+  setAttachmentWindow, 
+  setNewLink, 
+  setNewLinkDesc } from "../../main_state/states/modalAttachment/modalAttachment";
 import { setShowCardDel } from "../../main_state/states/modalCardDel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 import { setModalIsOpen } from "../../main_state/states/windowModalState";
@@ -57,13 +61,6 @@ export default function Sidebar(props){
       method: setMembersWindow, 
       dispatch: dispatch,
     });
-
-    // if(membersWindow){
-    //   dispatch(setMembersWindow(false));
-    // }
-    // else{
-    //   dispatch(setMembersWindow(true));
-    // }
   }
 
   function funcLabelsWindow() {
@@ -75,13 +72,6 @@ export default function Sidebar(props){
       method: setShowLabelsWindow, 
       dispatch: dispatch,
     });
-
-    // if(showLabelsWindow){
-    //   dispatch(setShowLabelsWindow(false));
-    // }
-    // else{
-    //   dispatch(setShowLabelsWindow(true));
-    // }
   }
 
   function funcDueDateWindow(){
@@ -93,13 +83,6 @@ export default function Sidebar(props){
       method: setDueDateWindow,
       dispatch: dispatch
     });
-
-    // if(dueDateWindow){
-    //   dispatch(setDueDateWindow(false));
-    // }
-    // else{
-    //   dispatch(setDueDateWindow(true));
-    // }
   }
   
   function funkShowCardDel(window_id){
@@ -111,13 +94,6 @@ export default function Sidebar(props){
       method: setShowCardDel, 
       dispatch: dispatch,
     });
-
-    // if(showCardDel){
-    //   dispatch(setShowCardDel(false));
-    // }
-    // else{
-    //   dispatch(setShowCardDel(window_id));
-    // }
   }
 
   function onDeleteCard(window_id){
