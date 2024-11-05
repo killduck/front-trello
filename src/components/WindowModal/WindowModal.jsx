@@ -94,9 +94,14 @@ export default function WindowModal(props){
           if(response.data.card[0]['label']){
             dispatch(setCardLabelStatus(true));
           }
+          
           if(response.data.card[0]['label_text']){
             dispatch(setLabelWindowText(response.data.card[0]['label_text']));
           }
+          else{
+            dispatch(setLabelWindowText(''));
+          }
+          
           if(windowModalReloadBlur){
             dispatch(onRemoving_onFrames());
             dispatch(setWindowModalReloadBlur(false));
