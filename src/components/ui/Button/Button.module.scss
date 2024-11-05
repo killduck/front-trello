@@ -487,7 +487,8 @@
 
 .cardEditorSave,
 .cardDescriptionSave,
-.attachmentSave {
+.attachmentSave,
+.cardLabeTextSave {
   margin: 0 6px 0 0;
   border: none;
   background-color: #579dff;
@@ -703,5 +704,50 @@
     border-radius: 8px;
     display: flex;
     justify-content: center;
+  }
+}
+
+.BtnLabelText{
+  padding: 8px;
+  cursor: pointer;
+
+  &:hover {
+    //   border: none;
+    background-color: #a6c5e229;
+    color: #b6c2cf;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+  }
+  &:active {
+    background-color: #bfdbf847;
+    color: #b6c2cf;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.cardLabeTextCancel {
+  margin: 0 6px 0 0;
+  border: none;
+  background-color: #f87168;
+  color: #1d2125;
+  box-shadow: none;
+  font-size: 14px;
+
+  &:hover {
+    border: none;
+    background-color: #fd9891;
+    box-shadow: none;
+    color: #1d2125;
+    text-decoration: none;
+  }
+  &:active {
+    border: none;
+    outline: 0;
+    background-color: #ffd5d2;
+    box-shadow: none;
+    color: #1d2125;
   }
 }

@@ -25,12 +25,6 @@ export default function WindowModalDueDate(props){
       method: setDueDateWindow, 
       dispatch: dispatch,
     });
-    // if(dueDateWindow){
-    //   dispatch(setDueDateWindow(false));
-    // }
-    // else{
-    //   dispatch(setDueDateWindow(true));
-    // }
   }
 
   function sendExecute(card_execute){

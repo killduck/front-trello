@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { 
   setCardLabelStatus, 
   setShowLabelsWindow, 
+  setShowLabelsWindowText, 
   setShowPreloderLabel } from "../../main_state/states/modalCardLabel/modalCardLabel";
 import { onRemoving_onFrames } from "../../main_state/states/offFrames";
 import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
@@ -14,14 +15,17 @@ import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 export default function SidebarLabelWindow(props){
   
   let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
+  
+  const windowData = useSelector((state) => state.windowData.value);
+  const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
+  const showLabelsWindowText = useSelector((state) => state.modalCardLabelState.showLabelsWindowText); 
+  const showPreloderLabel = useSelector((state) => state.modalCardLabelState.showPreloderLabel); 
+  const labelWindowText = useSelector((state) => state.modalCardLabelState.labelWindowText); 
 
   const [checkbox, setCheckbox] = useState(false);
   const [coloredLabels, setColoredLabels] = useState([]);
   const [coloredLabel_id, setColoredLabel_id] = useState(Number);
-  
-  const windowData = useSelector((state) => state.windowData.value);
-  const showLabelsWindow = useSelector((state) => state.modalCardLabelState.showLabelsWindow); 
-  const showPreloderLabel = useSelector((state) => state.modalCardLabelState.showPreloderLabel); 
+  const [labelWindowTextNew, setLabelWindowTextNew] = useState(labelWindowText ? labelWindowText : '');
 
   const dispatch = useDispatch();
 
@@ -38,6 +42,7 @@ export default function SidebarLabelWindow(props){
             setCheckbox(true);
             setColoredLabel_id(windowData.label.id);
           }
+          dispatch(setShowLabelsWindowText(false));
         }
       },
       data: {},
@@ -55,12 +60,6 @@ export default function SidebarLabelWindow(props){
       method: setShowLabelsWindow, 
       dispatch: dispatch,
     });
-    // if(showLabelsWindow){
-    //   dispatch(setShowLabelsWindow(false));
-    // }
-    // else{
-    //   dispatch(setShowLabelsWindow(true));
-    // }
   }
 
   function onTakeColor(label){
@@ -71,18 +70,15 @@ export default function SidebarLabelWindow(props){
     dispatch(setShowPreloderLabel(label.id));
 
     if(!checkbox){
-      // setCheckbox(true);
-      // setColoredLabel_id(label.id);
-      updateCardLabel(windowData.id, label);
+      updateCardLabel(label, labelWindowTextNew !== '' ? labelWindowTextNew : 'null' );
     }
     else{
-      // setCheckbox(false);
-      updateCardLabel(windowData.id, {'id': 'null'});
+      updateCardLabel({'id': 'null'}, 'null');
       dispatch(setCardLabelStatus(false));
     }
   }
 
-  function updateCardLabel(card_id, label) {
+  function updateCardLabel(label, labelText) {
     if(showPreloderLabel){
       return;
     }
@@ -94,12 +90,48 @@ export default function SidebarLabelWindow(props){
         if (response.status === 200) {
           let new_card_id = response.data[0]['id'];
           let new_label = response.data[0]['label'];
-          updateSetCardLabel(new_card_id, new_label);
+          let new_label_text = response.data[0]['label_text'];
+          updateSetCardLabel(new_card_id, new_label, new_label_text);
           dispatch(setShowPreloderLabel(false)); 
         }
       },
-      data: { "card_id": card_id, "label_id": label.id },
+      data: { "card_id": windowData.id, "label_id": label.id, "label_text": labelText},
       status: 200,
+    });
+  }
+
+  function onTakeLabelText(label){
+    if(showPreloderLabel){
+      return;
+    }
+    
+    dispatch(setShowPreloderLabel(label.id));
+
+    if(labelWindowTextNew !== labelWindowText){
+      updateCardLabel(label, labelWindowTextNew !== '' ? labelWindowTextNew : 'null');
+      funkLabelText();
+    }
+    else{
+      setLabelWindowTextNew(labelWindowText ? labelWindowText : ''); 
+      dispatch(setCardLabelStatus(false));
+      dispatch(setShowPreloderLabel(false));
+      funkLabelText();
+    }
+  }
+
+  function labelTextHandleKeyPress(evt, label){
+    if(evt.key === 'Enter' && evt.shiftKey){
+      onTakeLabelText(label);
+    }
+  }
+
+  function funkLabelText(){
+    openCloseFrameFunction({
+      variable: showLabelsWindowText, 
+      ifVariableTrue: false, 
+      ifVariableFalse: windowData.label.id, 
+      method: setShowLabelsWindowText, 
+      dispatch: dispatch,
     });
   }
 
@@ -123,8 +155,8 @@ export default function SidebarLabelWindow(props){
       </header>
       <div className={styles.labelWrap}>
         <ul className={styles.labelList}>
-        {coloredLabels.map((coloredLabel) => (
-            <li key={coloredLabel.id}>
+          {coloredLabels.map((coloredLabel) => (
+            <li key={coloredLabel.id} className={showLabelsWindowText === coloredLabel.id ? styles.labelListLi : ""}>
               <label className={
                 `${styles.labelItem} 
                 ${showPreloderLabel ? styles.labelItemWait : ""} 
@@ -150,16 +182,56 @@ export default function SidebarLabelWindow(props){
                       className={styles.labelItemColorSpan}
                       style={(showPreloderLabel === coloredLabel.id) ? {} : {backgroundColor: coloredLabel.color_hex}} 
                       onClick={() => onTakeColor(coloredLabel)}
-                    ></span>
+                    >{checkbox && coloredLabel_id === coloredLabel.id && labelWindowText}</span>
+
+                    {checkbox && coloredLabel_id === coloredLabel.id && (
+                      <Button
+                        clickAction={funkLabelText}
+                        className={'BtnLabelText'}
+                      >
+                        <Icons
+                          name={'icon-editIcon'}
+                          class_name={'iconSelectedLabel'}
+                        />
+                      </Button>)
+                    }
                   </div>
                 </span>
               </label>
+              
+              {showLabelsWindowText === coloredLabel.id && (
+                <div className={styles.labeTextButtonWrap}>
+                  <div className={styles.labeTextInputWrap}>
+                    <input 
+                      disabled={showPreloderLabel ? 'disabled' : ""}
+                      id="labelText" 
+                      name="labelText" 
+                      placeholder="Текст для метки" 
+                      className={styles.labeTextInput} 
+                      value={labelWindowTextNew}
+                      autoFocus={true}
+                      // onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }
+                      onChange={(evt) => setLabelWindowTextNew(evt.target.value)}
+                      onKeyDown={(evt)=>labelTextHandleKeyPress(evt, coloredLabel)}
+                      onBlur={(evt)=>labelTextHandleKeyPress(evt, coloredLabel)}
+                    />
+                  </div>
+                  <Button
+                    className={'cardLabeTextSave'}
+                    clickAction = {showPreloderLabel ? null : () => onTakeLabelText(coloredLabel)}
+                  >Сохранить</Button>
+                  <Button
+                    className={'cardLabeTextCancel'} 
+                    actionVariable={false}
+                    clickAction = {showPreloderLabel ? null : funkLabelText}
+                  >Отмена</Button>
+                </div>
+              )}
             </li>
-          )
-        )}
+            )
+          )}
         </ul>
       </div>
     </div>
   )
 };
-

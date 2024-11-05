@@ -32,13 +32,6 @@ export default function WindowModalCardMember(props){
       method: setMembersWindow, 
       dispatch: dispatch,
     });
-
-    // if(membersWindow){
-    //   dispatch(setMembersWindow(false));
-    // }
-    // else{
-    //   dispatch(setMembersWindow(true));
-    // }
   }
 
   function onUserCard(id_user = null) {
@@ -149,4 +142,3 @@ export default function WindowModalCardMember(props){
     </>
   )
 };
-
