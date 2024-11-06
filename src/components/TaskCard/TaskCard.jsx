@@ -19,6 +19,7 @@ export default function TaskCard(props) {
   let showPreloderCard = props.showPreloderCard;
 
   const DNDIsOn = useSelector((state) => state.taskCardState.DNDIsOn); 
+  const modalIsOpen = useSelector((state) => state.windowModalState.modalIsOpen); 
   const dispatch = useDispatch();
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
@@ -46,9 +47,21 @@ export default function TaskCard(props) {
     transform: CSS.Transform.toString(transform),
   };
 
-  function toggleEditMode() {
-    setEditMode((prev) => !prev);
-    setMouseIsOver(false);
+  function toggleEditMode(task_id) {
+    if(editMode){
+      setEditMode(false);
+    }
+    else{
+      setEditMode(task_id);
+    }
+    if(mouseIsOver){
+      setMouseIsOver(false);
+    }
+    else{
+      setMouseIsOver(task_id); 
+    }
+    // setEditMode((prev) => !prev);
+    // setMouseIsOver((prev) => !prev);
   };
 
   function writeNewText(evt) {
@@ -60,10 +73,11 @@ export default function TaskCard(props) {
 
       if(newTaskName !== '' && newTaskName !== task.name){
         updateTask(task.id, newTaskName);
-        task.name = newTaskName;
+        dispatch(setDNDIsOn(false));
+        // task.name = newTaskName;
       }
 
-      toggleEditMode();
+      toggleEditMode(false);
     }
   }
 
@@ -77,8 +91,8 @@ export default function TaskCard(props) {
     );
   }
 
-  if (editMode) {
-    return (
+  const editNewText = (
+    <>
       <div
         ref={setNodeRef}
         style={style}
@@ -97,27 +111,27 @@ export default function TaskCard(props) {
           onChange={(evt) => writeNewText(evt.target.value)}
         />
       </div>
-    );
-  }
+    </>
+  );
   
   return (
     <>
-      {String(showPreloderCard) !== task.id ? 
+      {String(showPreloderCard) !== task.id || modalIsOpen ? 
       <>
-        {DNDIsOn ? (
+        {DNDIsOn !== task.id ? (
           <div
             ref={setNodeRef}
             style={style}
             {...attributes}
             {...listeners}
             onMouseEnter={() => {
-              setMouseIsOver(true);
+              setMouseIsOver(task.id);
             }}
             onMouseLeave={() => {
               setMouseIsOver(false);
             }}
             className={styles.TaskCard}
-            onClick={() => dispatch(setDNDIsOn(false))}
+            onClick={() => dispatch(setDNDIsOn(task.id))}
           >
             <WindowPortal
               typeElem = {'card'}
@@ -139,29 +153,39 @@ export default function TaskCard(props) {
                       {task.label_text}
                     </div>
                   </div>
-                  
-                  <span className={styles.CardText} title={`карточка: "${task.name}"`}>
-                    {task.name}
-                  </span>
-                  <div className={styles.cardIcon}>
-                    {mouseIsOver && (
-                      <Button
-                        type={"button"}
-                        ariaLabel={"Изменить карточку"}
-                        className={"BtnCardNameEdit"}
-                        clickAction={toggleEditMode}
-                        disabled={showPreloderCard ? 'disabled' : ""}
-                      >
-                        <Icons
-                          name={'pencil-colorless'}
-                          class_name={'CardTextPencilLogo'}
-                        />   
-                      </Button>
-                    )}
-                  </div>
+
+                  {editMode === task.id ? (
+                    <>
+                      {editNewText}
+                    </>
+                    ):(  
+                    <span className={styles.CardText} title={`карточка: "${task.name}"`}>
+                      {task.name}
+                    </span>
+                    )
+                  }
+                 
                 </div>
               </div>
             </WindowPortal>
+
+            <div className={styles.cardIcon} title={`изменить имя карточки: "${task.name}"`}>
+              {mouseIsOver === task.id && (
+                <Button
+                  type={"button"}
+                  ariaLabel={"Изменить карточку"}
+                  className={"BtnCardNameEdit"}
+                  clickAction={() => toggleEditMode(task.id)}
+                  disabled={showPreloderCard ? 'disabled' : ""}
+                >
+                  <Icons
+                    name={'pencil-colorless'}
+                    class_name={'CardTextPencilLogo'}
+                  />   
+                </Button>
+              )}
+            </div>
+            
           </div>
         ):(
           <div className={styles.TaskCard}>
@@ -185,28 +209,38 @@ export default function TaskCard(props) {
                       {task.label_text}
                     </div>
                   </div>
-                  <span className={styles.CardText} title={task.name}>
-                    {task.name}
-                  </span>
-                  <div className={styles.cardIcon}>
-                    {mouseIsOver && (
-                      <Button
-                        type={"button"}
-                        ariaLabel={"Изменить карточку"}
-                        className={"BtnCardNameEdit"}
-                        clickAction={toggleEditMode}
-                        disabled={showPreloderCard ? 'disabled' : ""}
-                      >
-                        <Icons
-                          name={'pencil-colorless'}
-                          class_name={'CardTextPencilLogo'}
-                        />   
-                      </Button>
-                    )}
-                  </div>
+
+                  {editMode === task.id ? (
+                    <>
+                      {editNewText}
+                    </>
+                    ):(  
+                    <span className={styles.CardText} title={`карточка: "${task.name}"`}>
+                      {task.name}
+                    </span>
+                    )
+                  }
                 </div>
               </div>
             </WindowPortal>
+
+            <div className={styles.cardIcon} title={`изменить имя карточки: "${task.name}"`}>
+              {mouseIsOver === task.id && (
+                <Button
+                  type={"button"}
+                  ariaLabel={"Изменить карточку"}
+                  className={"BtnCardNameEdit"}
+                  clickAction={() => toggleEditMode(task.id)}
+                  disabled={showPreloderCard ? 'disabled' : ""}
+                >
+                  <Icons
+                    name={'pencil-colorless'}
+                    class_name={'CardTextPencilLogo'}
+                  />   
+                </Button>
+              )}
+            </div>
+
           </div>
         )}
       </>

@@ -52,14 +52,20 @@ $text: #172b4d;
         margin-bottom: 4px;
         cursor: pointer;
         .ColorLabelWrap {
-          display: inline-flex;
-          max-width: calc(100% - 4px);
-          border-radius: 4px;
+          // display: inline-flex;
+          display: block;
+          max-width: calc(100% - 50px);
           min-width: 40px;
-          min-height: 8px;
+          min-height: 18px;
           position: relative;
           color: #101204;
           padding: 0 8px;
+          border-radius: 4px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow-x: hidden;
+          overflow-y: auto;
+          font-size: 12px;
 
           &:hover {
             opacity: 0.5;
@@ -134,8 +140,10 @@ $text: #172b4d;
     resize: none;
     border-style: none;
     border-radius: 4px;
-    background-color: transparent;
+    background-color: #22272b;
     border: 1px solid red;
+    padding: 0 10px;
+    font-size: 14px;
     &:focus {
       outline: 2px solid transparent;
       outline-offset: 2px;

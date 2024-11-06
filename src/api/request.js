@@ -75,7 +75,7 @@ export default function request(
         catch(error){
           console.log('Ошибка', error)
         }
-        redirect_status404();
+        // redirect_status404();
       })
   }
 }

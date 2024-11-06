@@ -150,8 +150,6 @@ export default function KanbanBoard(props) {
     if (active_order_element === "Task") {
       // console.log('Сортируем карточки');
       let order_cards = editOrderCards(tasks);
-      console.log(tasks);
-      console.log(order_cards);
 
       request({
         method: "POST",
@@ -361,15 +359,19 @@ export default function KanbanBoard(props) {
   function updateTask(id, name) {
 
     dispatch(setPreloaderWindowName(true)); 
+    setShowPreloderCard(id);
 
     request({
       method: "POST",
       url: `new-data-card/`,
       callback: (response) => {
         if (response.status === 200) {
-          name = response.data[0]['name'];
-          dispatch(setPreloaderWindowName(false)); 
-          updateSetTasks(id, name);
+          setTimeout(()=>{
+            name = response.data[0]['name'];
+            dispatch(setPreloaderWindowName(false)); 
+            setShowPreloderCard(false);
+            updateSetTasks(id, name);
+          }, 2000)
         }
       },
       data: { id: id, name: name },
@@ -436,7 +438,6 @@ export default function KanbanBoard(props) {
       if (task.id !== String(id)) {
         return task;
       }
-      console.log(task);
       return { ...task, label, label_text };
     });
     setTasks(newTasks);

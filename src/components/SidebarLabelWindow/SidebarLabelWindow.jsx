@@ -108,7 +108,7 @@ export default function SidebarLabelWindow(props){
     dispatch(setShowPreloderLabel(label.id));
 
     if(labelWindowTextNew !== labelWindowText){
-      updateCardLabel(label, labelWindowTextNew);
+      updateCardLabel(label, labelWindowTextNew !== '' ? labelWindowTextNew : 'null');
       funkLabelText();
     }
     else{

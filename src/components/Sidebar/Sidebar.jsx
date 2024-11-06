@@ -98,7 +98,7 @@ export default function Sidebar(props){
 
   function onDeleteCard(window_id){
     dispatch(setModalIsOpen(false));
-    dispatch(setDNDIsOn(true));
+    dispatch(setDNDIsOn(false));
     deleteFunc(window_id);
   }
 

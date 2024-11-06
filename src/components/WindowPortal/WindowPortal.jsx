@@ -6,6 +6,7 @@ import Icons from '../ui/Icons/Icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalIsOpen, setWindowModalReloadBlur } from '../../main_state/states/windowModalState';
 import { setDNDIsOn } from '../../main_state/states/taskCardState';
+import { setCardLabelStatus, setLabelWindowText } from '../../main_state/states/modalCardLabel/modalCardLabel';
 
 export default function WindowPortal(props){
 
@@ -28,7 +29,9 @@ export default function WindowPortal(props){
 
     const closeModal = () => {
       dispatch(setModalIsOpen(false));
-      dispatch(setDNDIsOn(true));
+      dispatch(setDNDIsOn(false));
+      dispatch(setLabelWindowText(''));
+      dispatch(setCardLabelStatus(false));
     };
 
     const closeModalHandle = (evt) => {
