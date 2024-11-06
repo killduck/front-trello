@@ -25,7 +25,6 @@ export default function WindowPortal(props){
   const dispatch = useDispatch();
 
   const openModal = () => {
-    console.log('1')
     dispatch(setModalIsOpen(idElem));
   };
 

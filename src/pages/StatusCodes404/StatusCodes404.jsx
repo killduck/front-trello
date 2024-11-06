@@ -27,26 +27,6 @@ export default function StatusCodes404(props) {
     "404_11.png",
   ];
 
-  // const [listSlides, setListSlides] = useState([]);
-
-  // useEffect(() => {
-  //   request({
-  //     method:'GET',
-  //     url:`get-404-images/`,
-  //     callback:(response) => { 
-  //       if (response.status === 200) {
-  //         console.log(response);
-  //         if(response.data){
-  //           console.log(response.data);
-  //           setListSlides();
-  //         }
-  //       }
-  //     },
-  //     data: {},
-  //     status:200,
-  //   });
-  // },[]);
-
   function onRedirectWorkspace() {
     navigate("/");
   }

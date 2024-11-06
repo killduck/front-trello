@@ -311,7 +311,6 @@ export default function KanbanBoard(props) {
   }
 
   function requestSuccessCreateTask(response) {
-    // console.log(response);
     if (response) {
       const cardToAdd = response.data;
       setTasks([...tasks, cardToAdd]);

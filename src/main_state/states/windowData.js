@@ -9,7 +9,6 @@ export const windowData = createSlice(
     reducers: {
       setWindowData: (state, action) => {
         state.value = action.payload;
-        // console.log('state =>', state.value, 'action =>', action.payload);
       }
     },
   }

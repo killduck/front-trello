@@ -21,7 +21,6 @@ export default function Login(props) {
             setFormAuth(formAuth = { username: fieldEmailData, password: null });
         }
         else {
-            // console.log('ne username');
             setFieldEmailData("");
         }
     }
@@ -30,7 +29,6 @@ export default function Login(props) {
             setFormAuth(formAuth = { username: fieldEmailData, password: fieldPasswordData });
         }
         else {
-            // console.log('ne pass');
             setFieldPasswordData("");
         }
     }
@@ -108,7 +106,6 @@ export default function Login(props) {
 
     const handleKeyPress = (evt) => {
         if (evt.key === 'Enter') {
-            console.log('Нажата клавиша Enter, ура!');
             login();
         }
     };
@@ -336,6 +333,5 @@ export default function Login(props) {
                 </div>
             </section>
         </LoginLayout>
-
     )
 };
