@@ -12,7 +12,6 @@ export default function Default(props) {
       <Header />
       <main className={`${styles.Content} ${styles.bgc}`} style={backGroundImage}>
         <div className={styles.main_wrap}>
-          {/* <WorkspaceMenu /> */}
           {props.children}
         </div>
       </main>

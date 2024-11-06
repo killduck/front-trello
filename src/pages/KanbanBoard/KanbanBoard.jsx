@@ -103,7 +103,6 @@ export default function KanbanBoard(props) {
     });
   }, [updateComponent]); //TODO ES Lint просит добавить dashboardId
 
-
   // Библиотека @dnd kit
   function onDragStart(event) {
     // console.log('onDragStart');

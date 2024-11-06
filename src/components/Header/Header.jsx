@@ -338,7 +338,7 @@ export default function Header(props) {
 
           <div className={styles.blockNotification}>
             <Notification
-              clickAction={funkMemberMenu}
+              funkMemberMenu={funkMemberMenu}
               user={authorized_user}
             >
             </Notification>

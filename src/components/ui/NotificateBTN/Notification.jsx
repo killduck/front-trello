@@ -1,23 +1,35 @@
+import { URL_API } from "../../../api/config";
 import styles from "../NotificateBTN/Notification.module.scss";
 
 
 export default function Notification(props) {
 
-    let user = props.user;
-    let class_name = props.class_name;
-    let clickAction = props.clickAction ?? Function.prototype;
-    let actionVariable = props.actionVariable;
+  let user = props.user;
+  let funkMemberMenu = props.funkMemberMenu ?? Function.prototype;
 
-    return (
-        <button
-            className={`${styles.Notificate} ${styles[class_name]} `}
-            onClick={() => clickAction(actionVariable)}
-            title={`${user.last_name} ${user.first_name} (${user.username})`}
-        >
-            {props.children}
-            <div className={styles.NotificateUserName}>
-                {user.first_letter}
-            </div>
-        </button>
-    )
+  return (
+    <div
+      className={styles.Notificate}
+      title={`${user.last_name} ${user.first_name} (${user.username})`}
+    >      
+      {user.img ?
+        (<img 
+          className={styles.memberAvatar} 
+          src={`${URL_API + user.img}`}
+          alt={`${user.first_name} (${user.username})`}
+          title={`${user.first_name} (${user.username})`}
+          onClick={() => funkMemberMenu()}
+        />)
+        :
+        (<span 
+          className={styles.memberAvatarSpan} 
+          title={`${user.first_name} (${user.username})`}
+          onClick={() => funkMemberMenu()}
+        >{user.first_letter}</span>)
+      }
+
+      {props.children}
+
+    </div>
+  )
 };

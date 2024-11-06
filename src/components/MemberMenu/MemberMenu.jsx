@@ -5,12 +5,12 @@ import request from '../../api/request';
 import Button from '../ui/Button/Button';
 
 import styles from './MemberMenu.module.scss';
+import { URL_API } from '../../api/config';
 
 
 export default function MemberMenu(props) {
 
     let authorized_user = props.authorized_user;
-
     let swowMenu = props.swowMenu;
 
     const navigate = useNavigate();
@@ -33,9 +33,29 @@ export default function MemberMenu(props) {
                             <h2>Учетная запись</h2>
                             <div className={styles.TyNFo3ay3iQKOz}>
                                 <div className={styles.fG5A960F7Q3GJJ}>
-                                    <div className={styles.B1uWdim9Jd0dJ9} title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`}>
-                                        <span aria-label={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} role="img" title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} className={`${styles.DweEFaF5owOe02} ${styles.S7RWiPL9Qgl9P9} ${styles.kFZ3hS99jGmKWk}`} style={{ backgroundImage: "", height: "40px", width: "40px", lineHeight: "40px" }}>
-                                            {authorized_user.first_letter}
+                                    <div 
+                                        className={styles.B1uWdim9Jd0dJ9} 
+                                        title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`}
+                                    >
+                                        <span 
+                                            aria-label={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} 
+                                            role="img" title={`${authorized_user.last_name} ${authorized_user.first_name} (${authorized_user.username})`} 
+                                            className={`${styles.DweEFaF5owOe02} ${styles.S7RWiPL9Qgl9P9} ${styles.kFZ3hS99jGmKWk}`} 
+                                            style={{ backgroundImage: "", height: "40px", width: "40px", lineHeight: "40px" }}
+                                        >
+                                            {authorized_user.img ? (
+                                                <img 
+                                                    className={styles.memberAvatar} 
+                                                    src={`${URL_API + authorized_user.img}`}
+                                                    alt={`${authorized_user.first_name} (${authorized_user.username})`}
+                                                    title={`${authorized_user.first_name} (${authorized_user.username})`}
+                                                />
+                                                ):(
+                                                <span 
+                                                    className={styles.memberAvatarSpan} 
+                                                    title={`${authorized_user.first_name} (${authorized_user.username})`}
+                                                >{authorized_user.first_letter}</span>)
+                                            }
                                         </span>
                                     </div>
                                 </div>
@@ -192,15 +212,6 @@ export default function MemberMenu(props) {
                                                 <span className={styles.BmRHtH7FIX0jcL}>Выйти</span>
                                             </span>
                                         </Button>
-                                        {/* <button
-                                            className={styles.gJDsPins_eYkBM}
-                                            data-testid="account-menu-logout"
-                                            onClick={handleLogout}
-                                        >
-                                            <span className={styles.LCeoUSr_PkZrP2}>
-                                                <span className={styles.BmRHtH7FIX0jcL}>Выйти</span>
-                                            </span>
-                                        </button> */}
                                     </li>
                                 </ul>
                             </nav>
