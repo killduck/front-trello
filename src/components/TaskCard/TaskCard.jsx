@@ -24,7 +24,7 @@ export default function TaskCard(props) {
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [newTaskName, setNewTaskName] = useState('');
+  const [newTaskName, setNewTaskName] = useState(task.name ? task.name : '');
 
   const {
     setNodeRef,
@@ -54,29 +54,27 @@ export default function TaskCard(props) {
     else{
       setEditMode(task_id);
     }
+
     if(mouseIsOver){
       setMouseIsOver(false);
     }
     else{
       setMouseIsOver(task_id); 
     }
-    // setEditMode((prev) => !prev);
-    // setMouseIsOver((prev) => !prev);
   };
 
   function writeNewText(evt) {
-    setNewTaskName((newTaskName) => (newTaskName = evt));
+    setNewTaskName((newTaskName) => newTaskName = evt);
   }
 
   const closeUpdate =  (evt) => {
     if (evt.key === "Enter" && evt.shiftKey || evt.type === "blur") {
 
-      if(newTaskName !== '' && newTaskName !== task.name){
-        updateTask(task.id, newTaskName);
-        dispatch(setDNDIsOn(false));
-        // task.name = newTaskName;
+      if(newTaskName.trim() !== '' && newTaskName.trim() !== task.name){
+        updateTask(task.id, newTaskName.trim());
       }
-
+      
+      dispatch(setDNDIsOn(false));
       toggleEditMode(false);
     }
   }
@@ -100,9 +98,9 @@ export default function TaskCard(props) {
         {...listeners}
         className={styles.CardEditData}
       >
-        <textarea
+        <input
           className={styles.EditFocus}
-          value={ newTaskName === '' ? task.name : newTaskName }
+          value={ newTaskName }
           autoFocus
           onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
           placeholder="Введите имя карточки"
@@ -113,7 +111,7 @@ export default function TaskCard(props) {
       </div>
     </>
   );
-  
+
   return (
     <>
       {String(showPreloderCard) !== task.id || modalIsOpen ? 
@@ -142,6 +140,7 @@ export default function TaskCard(props) {
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
               updateSetCardLabel={updateSetCardLabel}
+              editMode={editMode}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>
@@ -198,6 +197,7 @@ export default function TaskCard(props) {
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
               updateSetCardLabel={updateSetCardLabel}
+              editMode={editMode}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>
