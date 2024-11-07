@@ -3,7 +3,7 @@ import Icons from "../../components/ui/Icons/Icons";
 import LoginLayout from "../../layouts/login/Login";
 import request from "../../api/request";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button/Button";
 
 export default function Login(props) {
@@ -271,9 +271,9 @@ export default function Login(props) {
                         </li>
                         <p className={styles._1x34ed1} >•</p>
                         <li>
-                            <a id="signup" className={styles} href="/signup?prompt=none&amp;login_hint=kildushev%40gmail.com&amp;continue=https%3A%2F%2Fid.atlassian.com%2Fmanage-profile&amp;application=trello">
+                            <NavLink to='/signup'>
                                 Создать аккаунт
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </div>
