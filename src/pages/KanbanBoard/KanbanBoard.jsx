@@ -60,13 +60,17 @@ export default function KanbanBoard(props) {
       url: 'dashboards/',
       callback: (response) => {
         if (response.status === 200) {
+
           setShowPreloder(false);
           let dashboard = response.data; //нужный дашборд
 
           setNameDashboard(dashboard.name);
           setBackGroundImage(dashboard.img);
           setColumns(dashboard.column);
-          setcolumnBug(dashboard.column[0].id); // ищем 1ую колонку
+
+          if(dashboard.column && dashboard.column.length > 0){
+            setcolumnBug(dashboard.column[0].id); // ищем 1ую колонку
+          }
 
           let data_card = [];
           dashboard.column.map((column) => (
@@ -78,13 +82,11 @@ export default function KanbanBoard(props) {
           );
 
           setTasks(data_card);
-
           setUpdateComponent(false);
-
         }
-        else {
-          console.log("редирект");
-        }
+        // else {
+        //   console.log("редирект");
+        // }
       },
       data: { 'dashboardId': dashboardId },
       status: 200,
@@ -303,6 +305,7 @@ export default function KanbanBoard(props) {
         if(response.status === 200){
           setShowPreloder(false);
           requestSuccessCreateColumn(response);
+          setUpdateComponent(true);
         }
       },
       data: columnToAdd,
@@ -337,6 +340,7 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           name = response.data[0]['name'];
           updateSetColumns(id, name);
+          setUpdateComponent(true);
         }
       },
       data: { id: id, name: name },
@@ -364,12 +368,11 @@ export default function KanbanBoard(props) {
       url: `new-data-card/`,
       callback: (response) => {
         if (response.status === 200) {
-          setTimeout(()=>{
-            name = response.data[0]['name'];
-            dispatch(setPreloaderWindowName(false)); 
-            setShowPreloderCard(false);
-            updateSetTasks(id, name);
-          }, 2000)
+          name = response.data[0]['name'];
+          dispatch(setPreloaderWindowName(false)); 
+          setShowPreloderCard(false);
+          updateSetTasks(id, name);
+          setUpdateComponent(true);
         }
       },
       data: { id: id, name: name },
@@ -398,6 +401,7 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           requestSuccessDeletColumn(response, id);
           setShowPreloder(false);
+          setUpdateComponent(true);
         }
       },
       data: idColumnDeleted,
