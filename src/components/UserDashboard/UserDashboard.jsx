@@ -1,83 +1,63 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
 import request from "../../api/request";
-
 import Button from '../ui/Button/Button';
 import Icons from '../ui/Icons/Icons';
-
 import styles from './UserDashboard.module.scss';
-
 
 export default function UserDashboard(props) {
 
   const navigate = useNavigate();
 
   let updateComponent = props.updateComponent;
-
   let setUpdateComponent = props.setUpdateComponent;
-
   let user = props.user;
-
   let clickAction = props.clickAction;
 
   let { dashboardId } = useParams();
 
   let [roleData, setRoleData] = useState({});
 
-
   useEffect(() => {
     request({
       method: 'POST',
       url: 'search-role-board/',
       callback: (response) => {
-
         if (response.status === 200) {
           setRoleData(response.data)
           setUpdateComponent(false);
         }
-
       },
       data: { 'user_id': user['id'], 'dashboard_id': dashboardId },
       status: 200,
     });
   }, [updateComponent]);
 
-
   function onСhangeRole(action) {
-
     request({
       method: 'POST',
       url: 'change-role-board/',
       callback: (response) => {
-
         if (response.status === 200) {
-
           setUpdateComponent(true);
-
           if (action === 'del_user') {
             DelUserCard(user['id'], dashboardId)
-
             if (user['id'] === roleData['user_auth_id']) {
               navigate("/")
             }
-
           };
         }
       },
       data: { 'user_id': user['id'], 'dashboard_id': dashboardId, 'action': action },
       status: 200,
     });
-
   }
 
   function DelUserCard(user_id, dashboard_id) {
-
     request({
       method: 'POST',
       url: 'card-user-delete/',
       callback: (response) => {
-
         if (response.status === 200) {
           setUpdateComponent(true);
         }
@@ -90,33 +70,26 @@ export default function UserDashboard(props) {
     });
   }
 
-
   function СheckBtnAddAdmin() {
-
     if (
       roleData['role_card_user'] !== 'admin' &&
       roleData['role_auth_user'] === 'admin'
     ) return true;
-
     return false;
   }
 
   function СheckBtnDelAdmin() {
-
     if (
       roleData['role_auth_user'] === 'admin' &&
       roleData['count_admin_on_board'] > 1 &&
       roleData['role_card_user'] === 'admin'
     ) return true;
-
     return false;
   }
-
 
   return (
     <div className={styles.UserDashboard}>
       <div className={styles.UserDashboardWrap}>
-
         <div className={styles.UserDashboardButton}>
           <Button
             clickAction={clickAction}
@@ -133,14 +106,11 @@ export default function UserDashboard(props) {
         <div className={styles.UserDashboardInfoUser}>
           <div className={styles.Logo}>
             <span>{user.first_letter}</span>
-            {
-              roleData['role_card_user'] === 'admin' ?
-                <Icons
-                  name={'ArrowsUp'}
-                  class_name={'IconAdmin'}
-                />
-                :
-                <></>
+            {roleData['role_card_user'] === 'admin' && (
+              <Icons
+                name={'ArrowsUp'}
+                class_name={'IconAdmin'}
+              />)
             }
           </div>
 

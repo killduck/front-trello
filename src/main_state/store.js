@@ -14,6 +14,7 @@ import modalActivityState from './states/modalActivity/modalActivity.js';
 import modalAttachmentState from './states/modalAttachment/modalAttachment.js';
 import modalCardDelState from './states/modalCardDel.js';
 import taskCardState from './states/taskCardState.js';
+import userState from './states/userState.js';
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
     modalAttachmentState: modalAttachmentState,
     modalCardDelState: modalCardDelState,
     taskCardState: taskCardState,
+    userState: userState,
   },
 
   middleware: (getDefaultMiddleware) =>
