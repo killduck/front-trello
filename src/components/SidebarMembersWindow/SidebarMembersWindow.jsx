@@ -16,6 +16,7 @@ import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 export default function SidebarMembersWindow(props){
 
   let dashboardUsers = props.dashboardUsers;
+  let setUpdateComponent = props.setUpdateComponent;
 
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
@@ -79,6 +80,8 @@ export default function SidebarMembersWindow(props){
               
               dispatch(setSearchNewCardUser(searchNewCardUser.filter((elem) => elem.id !==  user_id)));
               dispatch(setMatchSearch((searchNewCardUser.length === 0) ? '' : matchSearch));
+
+              setUpdateComponent(true);
             }
           }
         },
@@ -108,6 +111,8 @@ export default function SidebarMembersWindow(props){
 
                 let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
                 dispatch(setSubscribeState(filteredCardSubscribedUsers));
+
+                setUpdateComponent(true);
               }
             }
           },

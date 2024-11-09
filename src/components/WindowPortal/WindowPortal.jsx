@@ -19,6 +19,7 @@ export default function WindowPortal(props){
   let deleteFunc = props.deleteFunc;
   let updateSetCardLabel = props.updateSetCardLabel;
   let editMode = props.editMode;
+  let setUpdateComponent = props.setUpdateComponent;
   
   const modalIsOpen = useSelector((state) => state.windowModalState.modalIsOpen); 
 
@@ -56,6 +57,7 @@ export default function WindowPortal(props){
         updateFunc = {updateFunc}
         deleteFunc = {deleteFunc}
         updateSetCardLabel={updateSetCardLabel}
+        setUpdateComponent={setUpdateComponent}
       >
         <Button
           className={'btnWindowModal'}

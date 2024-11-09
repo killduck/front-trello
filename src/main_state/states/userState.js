@@ -6,6 +6,7 @@ export const userState = createSlice(
     initialState: {
         authorized_user: {},
         authorized_user_id: '',
+        usersOfCards: [],
     },
     reducers: {
       setAuthorizedUser: (state, action) => {
@@ -13,6 +14,9 @@ export const userState = createSlice(
       },
       setAuthorizedUserId: (state, action) => {
         state.authorized_user_id = action.payload;
+      },
+      setUsersOfCards: (state, action) => {
+        state.usersOfCards = action.payload;
       }
     },
   }
@@ -21,6 +25,7 @@ export const userState = createSlice(
 export const { 
   setAuthorizedUser,
   setAuthorizedUserId,
+  setUsersOfCards,
 } = userState.actions
 
 export default userState.reducer

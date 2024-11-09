@@ -7,6 +7,7 @@ import WindowPortal from "../WindowPortal/WindowPortal";
 import Button from "../ui/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { setDNDIsOn } from "../../main_state/states/taskCardState";
+import { URL_API } from "../../api/config";
 
 export default function TaskCard(props) {
 
@@ -17,9 +18,13 @@ export default function TaskCard(props) {
   let deleteCard = props.deleteCard;
   let updateSetCardLabel = props.updateSetCardLabel;
   let showPreloderCard = props.showPreloderCard;
+  let setUpdateComponent = props.setUpdateComponent;
 
   const DNDIsOn = useSelector((state) => state.taskCardState.DNDIsOn); 
   const modalIsOpen = useSelector((state) => state.windowModalState.modalIsOpen); 
+  const usersOfCard = useSelector((state) => state.userState.usersOfCards);
+  const user_of_card = usersOfCard.filter((elem) =>  elem.card_id === Number(task.id));
+  
   const dispatch = useDispatch();
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
@@ -141,6 +146,7 @@ export default function TaskCard(props) {
               deleteFunc={deleteCard}
               updateSetCardLabel={updateSetCardLabel}
               editMode={editMode}
+              setUpdateComponent={setUpdateComponent}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>
@@ -163,6 +169,28 @@ export default function TaskCard(props) {
                     </span>
                     )
                   }
+
+                  <div className={styles.membersList}>
+                    {user_of_card.length > 0 && user_of_card[0].card_users.map(
+                      (cardUser, index) => ( index < 5 &&
+                        <div key={cardUser.id} className={styles.memberMenu}>
+                          {cardUser.img ? (
+                            <img 
+                              className={styles.memberAvatar} 
+                              src={`${URL_API + cardUser.img}`}
+                              alt={`${cardUser.first_name} (${cardUser.username})`}
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                            />)
+                            :
+                            (<span 
+                              className={styles.memberAvatarSpan} 
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                            >{cardUser.first_letter}</span>
+                          )}
+                        </div> 
+                      ) 
+                    )}
+                  </div>
                  
                 </div>
               </div>
@@ -183,8 +211,7 @@ export default function TaskCard(props) {
                   />   
                 </Button>
               )}
-            </div>
-            
+            </div>            
           </div>
         ):(
           <div className={styles.TaskCard}>
@@ -198,6 +225,7 @@ export default function TaskCard(props) {
               deleteFunc={deleteCard}
               updateSetCardLabel={updateSetCardLabel}
               editMode={editMode}
+              setUpdateComponent={setUpdateComponent}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>

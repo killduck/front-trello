@@ -23,6 +23,7 @@ import Preloader from "../../components/Preloader/Preloader";
 import { URL_API } from "../../api/config";
 import { useDispatch } from "react-redux";
 import { setPreloaderWindowName } from "../../main_state/states/modalHeader/windowName";
+import { setUsersOfCards } from "../../main_state/states/userState";
 
 export default function KanbanBoard(props) {
 
@@ -97,7 +98,12 @@ export default function KanbanBoard(props) {
       url: 'dashboard-user/',
       callback: (response) => {
         if (response.status === 200) {
-          setUsers(response.data);
+
+          setUsers(response.data.dashboard_users_data);
+          if(response.data.dashboard_cards_and_users.length > 0){
+            dispatch(setUsersOfCards(response.data.dashboard_cards_and_users));
+          }
+          
         }
       },
       data: { 'dashboardId': dashboardId },
@@ -495,6 +501,7 @@ export default function KanbanBoard(props) {
                     dashboardUsers={users}
                     showPreloderCard={showPreloderCard}
                     setShowPreloder={setShowPreloder}
+                    setUpdateComponent={setUpdateComponent}
                   />
                 ))}
               </SortableContext>
@@ -562,6 +569,7 @@ export default function KanbanBoard(props) {
                   dashboardUsers={users}
                   showPreloderCard={showPreloderCard}
                   setShowPreloder={setShowPreloder}
+                  setUpdateComponent={setUpdateComponent}
                 />
               )}
               {activeTask && (
