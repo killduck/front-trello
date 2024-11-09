@@ -9,7 +9,6 @@ export default function LoginLayout(props) {
                     <div className={styles._xxwux} >
                         <div className={styles._tw4vmx} ></div>
                         <div className={styles._auqgo3} >
-                            {/* <div className={styles._d69kqk} > */}
                             <div className={styles._11jwunr} >
                                 <div id="WhiteboxContainer" className={styles._1iefl20} >
 

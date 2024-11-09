@@ -5,6 +5,8 @@ import request from "../../api/request";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthorizedUserId } from "../../main_state/states/userState";
 
 export default function Login(props) {
 
@@ -13,8 +15,9 @@ export default function Login(props) {
     let [formAuth, setFormAuth] = useState({ username: null, password: null });
     let [fieldEmailData, setFieldEmailData] = useState("");
     let [fieldPasswordData, setFieldPasswordData] = useState("");
-
     let [hidePass, setHidePass] = useState(true);
+    
+    const dispatch = useDispatch();
 
     function check_email(re_email) {
         if (re_email.test(fieldEmailData) && fieldEmailData.length > 5) {
@@ -65,7 +68,8 @@ export default function Login(props) {
 
     function responseLogin(response) {
         if (response.status === 200 && response.data['token']) {
-            localStorage.setItem("trello_auth", response.data['token']);
+            localStorage.setItem("trello_auth", response.data['token']); 
+            dispatch(setAuthorizedUserId(response.data.user_id)); 
             navigate("/");
         }
     }

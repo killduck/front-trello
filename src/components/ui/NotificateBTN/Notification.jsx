@@ -4,7 +4,7 @@ import Icons from "../Icons/Icons";
 import styles from "../NotificateBTN/Notification.module.scss";
 
 export default function Notification(props) {
-  console.log(props.user, props.class_name);
+
   let user = props.user;
   let class_name = props.class_name;
   let clickAction = props.clickAction ?? Function.prototype;
