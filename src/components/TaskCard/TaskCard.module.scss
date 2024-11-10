@@ -51,6 +51,7 @@ $text: #172b4d;
         gap: 4px;
         margin-bottom: 4px;
         cursor: pointer;
+
         .ColorLabelWrap {
           // display: inline-flex;
           display: block;
@@ -71,9 +72,11 @@ $text: #172b4d;
             opacity: 0.5;
             cursor: pointer;
           }
+
           .Label {
             display: none;
           }
+
           .LabelActive {
             display: inline-block;
             position: relative;
@@ -92,6 +95,11 @@ $text: #172b4d;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+          }
+
+          .ColorLabeltext{
+            mix-blend-mode:difference;
+            color:white;
           }
         }
       }

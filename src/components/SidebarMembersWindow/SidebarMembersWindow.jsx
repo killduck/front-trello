@@ -44,7 +44,7 @@ export default function SidebarMembersWindow(props){
     });
   }
 
-  function chechUserToAdd(user_id){
+  function checkUserToAdd(user_id){
     if(cardUsers.length === 0){
       return true;
     }
@@ -65,7 +65,7 @@ export default function SidebarMembersWindow(props){
       return;
     }
     dispatch(setShowPreloderAddMember(user_id));
-    if(chechUserToAdd(user_id)){
+    if(checkUserToAdd(user_id)){
       request({
         method:'POST',
         url:`card-user-update/`,
@@ -311,6 +311,17 @@ export default function SidebarMembersWindow(props){
       ("")
   )
 
+  function matchingUsers(user){
+    if(cardUsers.filter((cardUser) => cardUser.id === user.id).length > 0){ 
+      // console.log(user.id === cardUsers.filter((cardUser) => cardUser.id === user.id)[0].id);
+      return false;
+    }
+    else{
+      // console.log(cardUsers.filter((cardUser) => cardUser.id === user.id).length);
+      return true;
+    }
+  }
+
   const dashboard_users_item = (
     <div className={styles.itemContentDashboardMembers} >
       <div className={styles.itemContentDashboardMembersTitle} >
@@ -319,7 +330,7 @@ export default function SidebarMembersWindow(props){
       <div className={styles.itemContentDashboardMember}>
         <ul>
         {dashboardUsers.map(
-          (user)=> 
+          (user)=> matchingUsers(user) && (
             <li key={user.id} className={showPreloderAddMember === user.id ? styles.cardMembersWindowGradient: ""}>
               <Button
                 className={'addUserToCard'}
@@ -359,11 +370,10 @@ export default function SidebarMembersWindow(props){
                     }
                   </span>
                 </div>
-              </Button>
-              
+              </Button>  
             </li>
           )
-        }
+        )}
         </ul>
       </div>
     </div>
@@ -404,29 +414,16 @@ export default function SidebarMembersWindow(props){
             onChange={(evt) => funcSearchNewCardUser(evt.target.value.trim().toLowerCase())}
           />
         </label>
-        {(showNoResult)?
-            (<p className={styles.noResult}>Нет результатов</p>)
-          :
-            ("")
-        }
-        {(!showNoResult)?
-            (search_new_card_user_item)
-          :
-            ("")
-        }
-        {(!showNoResult)?
-            (card_users_item)
-          :
-            ("")
-        }
-        {(!showNoResult)?
-            (dashboard_users_item)
-          :
-            ("")
-        }
+        
+        {(showNoResult) && (<p className={styles.noResult}>Нет результатов</p>)}
+
+        {(!showNoResult) && (search_new_card_user_item)}
+
+        {(!showNoResult) && (card_users_item)}
+
+        {(!showNoResult) && (dashboardUsers.length !== cardUsers.length) && (dashboard_users_item)}
 
       </div>
     </div>
   )
 };
-

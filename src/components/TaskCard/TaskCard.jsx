@@ -156,6 +156,9 @@ export default function TaskCard(props) {
                       style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
                     >
                       {task.label_text}
+                      {/* <span className={styles.ColorLabeltext}>
+                        {task.label_text}
+                      </span> */}
                     </div>
                   </div>
 
