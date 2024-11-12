@@ -51,6 +51,7 @@ export default function WindowModal(props){
   let updateFunc = props.updateFunc; //это прилетает из дашборда
   let deleteFunc = props.deleteFunc; //это прилетает из дашборда
   let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
+  let setUpdateComponent = props.setUpdateComponent;
   
   const [dragActive, setDragActive] = useState(false);
 
@@ -101,7 +102,6 @@ export default function WindowModal(props){
           else{
             dispatch(setLabelWindowText(''));
           }
-          
           if(windowModalReloadBlur){
             dispatch(onRemoving_onFrames());
             dispatch(setWindowModalReloadBlur(false));
@@ -163,7 +163,9 @@ export default function WindowModal(props){
             <div className={styles.cardDetails} >
               
               <div className={styles.cardDetailItem}>
-                <WindowModalCardMember />
+                <WindowModalCardMember
+                  setUpdateComponent={setUpdateComponent}
+                />
               </div>
 
               <div className={styles.cardDetailItem}>
@@ -195,6 +197,7 @@ export default function WindowModal(props){
             deleteFunc={deleteFunc} //это прилетает из дашборда
             dashboardUsers={dashboardUsers} //это прилетает из дашборда
             updateSetCardLabel={updateSetCardLabel} //это прилетает из дашборда
+            setUpdateComponent={setUpdateComponent}
           />
 
       </div>)

@@ -12,33 +12,23 @@ import Select from 'react-select';
 import request from "../../api/request";
 import ListUsers from '../ListUsers/ListUsers';
 
-
 export default function DashboardHeader(props) {
 
   let name_dashboard = props.name_dashboard;
-
   let dashboardId = props.dashboardId;
-
   let dashboardUsers = props.dashboardUsers;
-
   let updateComponent = props.updateComponent;
-
   let setUpdateComponent = props.setUpdateComponent;
 
   let [showUserDashboard, setShowUserDashboard] = useState(null);
-
   let [showFormShare, setShowFormShare] = useState(false);
-
   let [fieldData, setFieldData] = useState("");
-
   let [selectedOption, setSelectedOption] = useState(null);
-
   let [optionList, setOptionList] = useState([]);
 
   const components = {
     DropdownIndicator: null,
   };
-
 
   function onUserDashboard(id_user = null) {
 
@@ -74,7 +64,6 @@ export default function DashboardHeader(props) {
   function writeEmail(evt) {
     setFieldData((fieldData) => (fieldData = evt));
   }
-
 
   function SubmitFormShare() {
 
@@ -222,8 +211,6 @@ export default function DashboardHeader(props) {
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   )

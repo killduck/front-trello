@@ -14,6 +14,8 @@ import openCloseFrameFunction from "../../helpers/openCloseWindowFunction";
 
 export default function WindowModalCardMember(props){
 
+  let setUpdateComponent = props.setUpdateComponent; 
+
   const authUser = useSelector((state) => state.cardUsersState.authUser); 
   const cardUsers = useSelector((state) => state.cardUsersState.cardUsers);
   const windowData = useSelector((state) => state.windowData.value);
@@ -67,6 +69,8 @@ export default function WindowModalCardMember(props){
 
                 let filteredCardSubscribedUsers = filteredCardUsers.filter((cardUser) => cardUser.id === authUser).length
                 dispatch(setSubscribeState(filteredCardSubscribedUsers));
+
+                setUpdateComponent(true);
               }
             }
           },

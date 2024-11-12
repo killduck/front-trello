@@ -17,10 +17,13 @@ import styles from './Header.module.scss';
 
 import { NavLink } from 'react-router-dom';
 import MemberMenu from '../MemberMenu/MemberMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthorizedUser } from '../../main_state/states/userState';
 
 export default function Header(props) {
 
-  let [authorized_user, setAuthorizedUser] = useState({});
+  const authorized_user = useSelector((state) => state.userState.authorized_user); 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     request({
@@ -28,7 +31,7 @@ export default function Header(props) {
       url: 'user/',
       callback: (response) => {
         if (response.status === 200) {
-          setAuthorizedUser(response.data);
+          dispatch(setAuthorizedUser(response.data));
         }
       },
       data: null,
@@ -344,7 +347,6 @@ export default function Header(props) {
             </Notification>
 
             <MemberMenu
-              authorized_user={authorized_user}
               swowMenu={showMemberMenu}
             />
 

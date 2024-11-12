@@ -8,13 +8,10 @@ $color6: #85B8FF;
 
 .Notificate {
   display: block;
-  padding: 4px;
   flex-shrink: 0;
   border-style: none;
   line-height: 1;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
   background-color: $color4;
   position: relative;
 
@@ -33,11 +30,48 @@ $color6: #85B8FF;
     color: #fff;
     position: relative;
   }
+  .memberAvatar{
+    border-radius: 50%;
+    height: 32px;
+    object-fit: cover;
+    width: 32px;
+    background-color: #2c5683;
+    border: 1px solid #282e33;
+
+    &:hover {
+        opacity: .8;
+    }
+    &:active {
+        opacity: .7;
+    }
+  }
+    
+  .memberAvatarSpan{border-radius: 50%;
+    border-radius: 50%;
+    height: 32px;
+    object-fit: fill;
+    width: 32px;
+    background-color: #2121ff;
+    border: 1px solid #282e33;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: #d7d7d7;
+
+    &:hover {
+        opacity: .8;
+    }
+    &:active {
+        opacity: .7;
+    }
+  }
 }
 
 .HeaderUsers {
-  width: 28px;
-  height: 28px;
+  width: 28px!important;
+  height: 28px!important;
 }
 
 .adminLabel{

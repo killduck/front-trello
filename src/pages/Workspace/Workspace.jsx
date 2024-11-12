@@ -11,15 +11,9 @@ import Preloader from "../../components/Preloader/Preloader";
 import { URL_API } from "../../api/config";
 
 export default function Workspace(props) {
-  // console.log(`props => ${props.cardName}`);
-  // console.log(props);
-
-  let htmlClick = props.htmlClick;
 
   let [showDashboards, setShowDashboards] = useState(false);
-
   let [dashboards, setDashboards] = useState([]);
-
   let [ShowForm, setShowForm] = useState(false);
 
   useEffect(() => {
@@ -45,7 +39,6 @@ export default function Workspace(props) {
     console.log('Проверка выполения функции =>', onInvite_users_workspace.name);
   }
 
-
   function onEdite_name_workspace() {
     console.log('Проверка выполения функции =>', onEdite_name_workspace.name);
   }
@@ -61,7 +54,6 @@ export default function Workspace(props) {
   function onCreate_new_dashboard() {
     console.log('Проверка выполения функции =>', onCreate_new_dashboard.name);
   }
-
 
   return (
     <>

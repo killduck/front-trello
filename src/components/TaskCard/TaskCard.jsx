@@ -7,6 +7,7 @@ import WindowPortal from "../WindowPortal/WindowPortal";
 import Button from "../ui/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { setDNDIsOn } from "../../main_state/states/taskCardState";
+import { URL_API } from "../../api/config";
 
 export default function TaskCard(props) {
 
@@ -17,13 +18,18 @@ export default function TaskCard(props) {
   let deleteCard = props.deleteCard;
   let updateSetCardLabel = props.updateSetCardLabel;
   let showPreloderCard = props.showPreloderCard;
+  let setUpdateComponent = props.setUpdateComponent;
 
   const DNDIsOn = useSelector((state) => state.taskCardState.DNDIsOn); 
+  const modalIsOpen = useSelector((state) => state.windowModalState.modalIsOpen); 
+  const usersOfCard = useSelector((state) => state.userState.usersOfCards);
+  const user_of_card = usersOfCard.filter((elem) =>  elem.card_id === Number(task.id));
+  
   const dispatch = useDispatch();
 
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [newTaskName, setNewTaskName] = useState('');
+  const [newTaskName, setNewTaskName] = useState(task.name ? task.name : '');
 
   const {
     setNodeRef,
@@ -46,24 +52,35 @@ export default function TaskCard(props) {
     transform: CSS.Transform.toString(transform),
   };
 
-  function toggleEditMode() {
-    setEditMode((prev) => !prev);
-    setMouseIsOver(false);
+  function toggleEditMode(task_id) {
+    if(editMode){
+      setEditMode(false);
+    }
+    else{
+      setEditMode(task_id);
+    }
+
+    if(mouseIsOver){
+      setMouseIsOver(false);
+    }
+    else{
+      setMouseIsOver(task_id); 
+    }
   };
 
   function writeNewText(evt) {
-    setNewTaskName((newTaskName) => (newTaskName = evt));
+    setNewTaskName((newTaskName) => newTaskName = evt);
   }
 
   const closeUpdate =  (evt) => {
     if (evt.key === "Enter" && evt.shiftKey || evt.type === "blur") {
 
-      if(newTaskName !== '' && newTaskName !== task.name){
-        updateTask(task.id, newTaskName);
-        task.name = newTaskName;
+      if(newTaskName.trim() !== '' && newTaskName.trim() !== task.name){
+        updateTask(task.id, newTaskName.trim());
       }
-
-      toggleEditMode();
+      
+      dispatch(setDNDIsOn(false));
+      toggleEditMode(false);
     }
   }
 
@@ -77,8 +94,8 @@ export default function TaskCard(props) {
     );
   }
 
-  if (editMode) {
-    return (
+  const editNewText = (
+    <>
       <div
         ref={setNodeRef}
         style={style}
@@ -86,9 +103,9 @@ export default function TaskCard(props) {
         {...listeners}
         className={styles.CardEditData}
       >
-        <textarea
+        <input
           className={styles.EditFocus}
-          value={ newTaskName === '' ? task.name : newTaskName }
+          value={ newTaskName }
           autoFocus
           onFocus={(evt) => evt.target.selectionStart = evt.target.value.length }// evt.currentTarget.select(evt);
           placeholder="Введите имя карточки"
@@ -97,27 +114,27 @@ export default function TaskCard(props) {
           onChange={(evt) => writeNewText(evt.target.value)}
         />
       </div>
-    );
-  }
-  
+    </>
+  );
+
   return (
     <>
-      {String(showPreloderCard) !== task.id ? 
+      {String(showPreloderCard) !== task.id || modalIsOpen ? 
       <>
-        {DNDIsOn ? (
+        {DNDIsOn !== task.id ? (
           <div
             ref={setNodeRef}
             style={style}
             {...attributes}
             {...listeners}
             onMouseEnter={() => {
-              setMouseIsOver(true);
+              setMouseIsOver(task.id);
             }}
             onMouseLeave={() => {
               setMouseIsOver(false);
             }}
             className={styles.TaskCard}
-            onClick={() => dispatch(setDNDIsOn(false))}
+            onClick={() => dispatch(setDNDIsOn(task.id))}
           >
             <WindowPortal
               typeElem = {'card'}
@@ -128,6 +145,8 @@ export default function TaskCard(props) {
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
               updateSetCardLabel={updateSetCardLabel}
+              editMode={editMode}
+              setUpdateComponent={setUpdateComponent}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>
@@ -137,31 +156,65 @@ export default function TaskCard(props) {
                       style={{backgroundColor: task.label ? task.label.color_hex : "grey"}}
                     >
                       {task.label_text}
+                      {/* <span className={styles.ColorLabeltext}>
+                        {task.label_text}
+                      </span> */}
                     </div>
                   </div>
-                  
-                  <span className={styles.CardText} title={`карточка: "${task.name}"`}>
-                    {task.name}
-                  </span>
-                  <div className={styles.cardIcon}>
-                    {mouseIsOver && (
-                      <Button
-                        type={"button"}
-                        ariaLabel={"Изменить карточку"}
-                        className={"BtnCardNameEdit"}
-                        clickAction={toggleEditMode}
-                        disabled={showPreloderCard ? 'disabled' : ""}
-                      >
-                        <Icons
-                          name={'pencil-colorless'}
-                          class_name={'CardTextPencilLogo'}
-                        />   
-                      </Button>
+
+                  {editMode === task.id ? (
+                    <>
+                      {editNewText}
+                    </>
+                    ):(  
+                    <span className={styles.CardText} title={`карточка: "${task.name}"`}>
+                      {task.name}
+                    </span>
+                    )
+                  }
+
+                  <div className={styles.membersList}>
+                    {user_of_card.length > 0 && user_of_card[0].card_users.map(
+                      (cardUser, index) => ( index < 5 &&
+                        <div key={cardUser.id} className={styles.memberMenu}>
+                          {cardUser.img ? (
+                            <img 
+                              className={styles.memberAvatar} 
+                              src={`${URL_API + cardUser.img}`}
+                              alt={`${cardUser.first_name} (${cardUser.username})`}
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                            />)
+                            :
+                            (<span 
+                              className={styles.memberAvatarSpan} 
+                              title={`${cardUser.first_name} (${cardUser.username})`}
+                            >{cardUser.first_letter}</span>
+                          )}
+                        </div> 
+                      ) 
                     )}
                   </div>
+                 
                 </div>
               </div>
             </WindowPortal>
+
+            <div className={styles.cardIcon} title={`изменить имя карточки: "${task.name}"`}>
+              {mouseIsOver === task.id && (
+                <Button
+                  type={"button"}
+                  ariaLabel={"Изменить карточку"}
+                  className={"BtnCardNameEdit"}
+                  clickAction={() => toggleEditMode(task.id)}
+                  disabled={showPreloderCard ? 'disabled' : ""}
+                >
+                  <Icons
+                    name={'pencil-colorless'}
+                    class_name={'CardTextPencilLogo'}
+                  />   
+                </Button>
+              )}
+            </div>            
           </div>
         ):(
           <div className={styles.TaskCard}>
@@ -174,6 +227,8 @@ export default function TaskCard(props) {
               updateFunc = {updateTask}
               deleteFunc={deleteCard}
               updateSetCardLabel={updateSetCardLabel}
+              editMode={editMode}
+              setUpdateComponent={setUpdateComponent}
             >
               <div className={styles.TaskCard__Wrap}>
                 <div className={styles.CardView}>
@@ -185,28 +240,38 @@ export default function TaskCard(props) {
                       {task.label_text}
                     </div>
                   </div>
-                  <span className={styles.CardText} title={task.name}>
-                    {task.name}
-                  </span>
-                  <div className={styles.cardIcon}>
-                    {mouseIsOver && (
-                      <Button
-                        type={"button"}
-                        ariaLabel={"Изменить карточку"}
-                        className={"BtnCardNameEdit"}
-                        clickAction={toggleEditMode}
-                        disabled={showPreloderCard ? 'disabled' : ""}
-                      >
-                        <Icons
-                          name={'pencil-colorless'}
-                          class_name={'CardTextPencilLogo'}
-                        />   
-                      </Button>
-                    )}
-                  </div>
+
+                  {editMode === task.id ? (
+                    <>
+                      {editNewText}
+                    </>
+                    ):(  
+                    <span className={styles.CardText} title={`карточка: "${task.name}"`}>
+                      {task.name}
+                    </span>
+                    )
+                  }
                 </div>
               </div>
             </WindowPortal>
+
+            <div className={styles.cardIcon} title={`изменить имя карточки: "${task.name}"`}>
+              {mouseIsOver === task.id && (
+                <Button
+                  type={"button"}
+                  ariaLabel={"Изменить карточку"}
+                  className={"BtnCardNameEdit"}
+                  clickAction={() => toggleEditMode(task.id)}
+                  disabled={showPreloderCard ? 'disabled' : ""}
+                >
+                  <Icons
+                    name={'pencil-colorless'}
+                    class_name={'CardTextPencilLogo'}
+                  />   
+                </Button>
+              )}
+            </div>
+
           </div>
         )}
       </>

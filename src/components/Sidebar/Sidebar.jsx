@@ -25,6 +25,7 @@ export default function Sidebar(props){
   let deleteFunc = props.deleteFunc; //это прилетает из дашборда
   let dashboardUsers = props.dashboardUsers; //это прилетает из дашборда
   let updateSetCardLabel = props.updateSetCardLabel; //это прилетает из дашборда
+  let setUpdateComponent = props.setUpdateComponent;
 
   let handleAddFilesReset = props.handleAddFilesReset;
   let handleAddFilesSubmit = props.handleAddFilesSubmit;
@@ -98,7 +99,7 @@ export default function Sidebar(props){
 
   function onDeleteCard(window_id){
     dispatch(setModalIsOpen(false));
-    dispatch(setDNDIsOn(true));
+    dispatch(setDNDIsOn(false));
     deleteFunc(window_id);
   }
 
@@ -124,6 +125,7 @@ export default function Sidebar(props){
           {(membersWindow) && (
             <SidebarMembersWindow
               dashboardUsers = {dashboardUsers} //это прилетает из дашборда
+              setUpdateComponent ={setUpdateComponent}
             />)
           }
 

@@ -4,7 +4,7 @@ export const taskCardState = createSlice(
   {
     name: 'task_card_state', 
     initialState: {
-      DNDIsOn: true,
+      DNDIsOn: false,
     },
     reducers: {
       setDNDIsOn: (state, action) => {

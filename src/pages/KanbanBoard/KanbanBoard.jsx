@@ -23,6 +23,7 @@ import Preloader from "../../components/Preloader/Preloader";
 import { URL_API } from "../../api/config";
 import { useDispatch } from "react-redux";
 import { setPreloaderWindowName } from "../../main_state/states/modalHeader/windowName";
+import { setUsersOfCards } from "../../main_state/states/userState";
 
 export default function KanbanBoard(props) {
 
@@ -60,13 +61,17 @@ export default function KanbanBoard(props) {
       url: 'dashboards/',
       callback: (response) => {
         if (response.status === 200) {
+
           setShowPreloder(false);
           let dashboard = response.data; //нужный дашборд
 
           setNameDashboard(dashboard.name);
           setBackGroundImage(dashboard.img);
           setColumns(dashboard.column);
-          setcolumnBug(dashboard.column[0].id); // ищем 1ую колонку
+
+          if(dashboard.column && dashboard.column.length > 0){
+            setcolumnBug(dashboard.column[0].id); // ищем 1ую колонку
+          }
 
           let data_card = [];
           dashboard.column.map((column) => (
@@ -78,13 +83,11 @@ export default function KanbanBoard(props) {
           );
 
           setTasks(data_card);
-
           setUpdateComponent(false);
-
         }
-        else {
-          console.log("редирект");
-        }
+        // else {
+        //   console.log("редирект");
+        // }
       },
       data: { 'dashboardId': dashboardId },
       status: 200,
@@ -95,14 +98,18 @@ export default function KanbanBoard(props) {
       url: 'dashboard-user/',
       callback: (response) => {
         if (response.status === 200) {
-          setUsers(response.data);
+
+          setUsers(response.data.dashboard_users_data);
+          if(response.data.dashboard_cards_and_users.length > 0){
+            dispatch(setUsersOfCards(response.data.dashboard_cards_and_users));
+          }
+          
         }
       },
       data: { 'dashboardId': dashboardId },
       status: 200,
     });
   }, [updateComponent]); //TODO ES Lint просит добавить dashboardId
-
 
   // Библиотека @dnd kit
   function onDragStart(event) {
@@ -150,8 +157,6 @@ export default function KanbanBoard(props) {
     if (active_order_element === "Task") {
       // console.log('Сортируем карточки');
       let order_cards = editOrderCards(tasks);
-      console.log(tasks);
-      console.log(order_cards);
 
       request({
         method: "POST",
@@ -306,6 +311,7 @@ export default function KanbanBoard(props) {
         if(response.status === 200){
           setShowPreloder(false);
           requestSuccessCreateColumn(response);
+          setUpdateComponent(true);
         }
       },
       data: columnToAdd,
@@ -314,7 +320,6 @@ export default function KanbanBoard(props) {
   }
 
   function requestSuccessCreateTask(response) {
-    // console.log(response);
     if (response) {
       const cardToAdd = response.data;
       setTasks([...tasks, cardToAdd]);
@@ -341,6 +346,7 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           name = response.data[0]['name'];
           updateSetColumns(id, name);
+          setUpdateComponent(true);
         }
       },
       data: { id: id, name: name },
@@ -361,6 +367,7 @@ export default function KanbanBoard(props) {
   function updateTask(id, name) {
 
     dispatch(setPreloaderWindowName(true)); 
+    setShowPreloderCard(id);
 
     request({
       method: "POST",
@@ -369,7 +376,9 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           name = response.data[0]['name'];
           dispatch(setPreloaderWindowName(false)); 
+          setShowPreloderCard(false);
           updateSetTasks(id, name);
+          setUpdateComponent(true);
         }
       },
       data: { id: id, name: name },
@@ -398,6 +407,7 @@ export default function KanbanBoard(props) {
         if (response.status === 200) {
           requestSuccessDeletColumn(response, id);
           setShowPreloder(false);
+          setUpdateComponent(true);
         }
       },
       data: idColumnDeleted,
@@ -436,7 +446,6 @@ export default function KanbanBoard(props) {
       if (task.id !== String(id)) {
         return task;
       }
-      console.log(task);
       return { ...task, label, label_text };
     });
     setTasks(newTasks);
@@ -492,6 +501,7 @@ export default function KanbanBoard(props) {
                     dashboardUsers={users}
                     showPreloderCard={showPreloderCard}
                     setShowPreloder={setShowPreloder}
+                    setUpdateComponent={setUpdateComponent}
                   />
                 ))}
               </SortableContext>
@@ -559,6 +569,7 @@ export default function KanbanBoard(props) {
                   dashboardUsers={users}
                   showPreloderCard={showPreloderCard}
                   setShowPreloder={setShowPreloder}
+                  setUpdateComponent={setUpdateComponent}
                 />
               )}
               {activeTask && (
